@@ -7,7 +7,7 @@ import Settings from "./Pages/Settings"
 import Reports from "./Pages/Reports"
 import Internship_invoice from "./Pages/Internship_invoice"
 import Service_invoice from "./Pages/Service_invoice"
-import Sidebar from "./Components/Sidebar"
+import Sidebar from "./Components/Nav/Sidebar"
 
 function App() {
 
