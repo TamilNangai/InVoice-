@@ -1,10 +1,10 @@
-import React from 'react'
-import Radiogroup from '../Components/Nav/Radiogroup'
+import Radiogroup from "@/Components/Nav/Radiogroup"
+
 
 const Reports = () => {
   return (
     <div>
-      <Radiogroup />
+        <Radiogroup />
     </div>
   )
 }
