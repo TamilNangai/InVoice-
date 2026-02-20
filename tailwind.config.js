@@ -5,7 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+       fontFamily: {
+        aldrich: ['Aldrich', 'sans-serif'],
+        iceberg:['Iceberg', 'sans-serif'],
+        inter:['Inter','sans-serif'],
+        wallpoet:['Wallpoet','sans-serif'],
+        sanchez:['Sanchez','serif']
+      },
+    },
   },
   plugins: [],
 }
