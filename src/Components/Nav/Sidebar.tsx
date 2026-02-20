@@ -1,16 +1,16 @@
 import { useState } from "react"; 
-import deslogo from '../assets/sidebar/deslogo.png'
-import expand from '../assets/sidebar/expand.png'
-import icon1 from '../assets/sidebar/1.png'
-import icon2 from '../assets/sidebar/2.png'
-import icon3 from '../assets/sidebar/3.png'
-import icon4 from '../assets/sidebar/4.png'
-import icon5 from '../assets/sidebar/5.png'
-import icon6 from '../assets/sidebar/6.png'
-import icon7 from '../assets/sidebar/7.png'
-import icon8 from '../assets/sidebar/8.png'
-import Avatar from '../assets/sidebar/Avatar.png'
-import footerarrow from '../assets/sidebar/footerarror.png'
+import deslogo from '../../assets/sidebar/deslogo.png'
+import expand from '../../assets/sidebar/expand.png'
+import icon1 from '../../assets/sidebar/1.png'
+import icon2 from '../../assets/sidebar/2.png'
+import icon3 from '../../assets/sidebar/3.png'
+import icon4 from '../../assets/sidebar/4.png'
+import icon5 from '../../assets/sidebar/5.png'
+import icon6 from '../../assets/sidebar/6.png'
+import icon7 from '../../assets/sidebar/7.png'
+import icon8 from '../../assets/sidebar/8.png'
+import Avatar from '../../assets/sidebar/Avatar.png'
+import footerarrow from '../../assets/sidebar/footerarror.png'
 import { Link } from "react-router-dom";
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -29,17 +29,17 @@ const Sidebar = () => {
                     </header>
                     <main>
                         <ul className='flex flex-col justify-center items-center'>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/Dashboard" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon1} alt={icon1} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Dashboard </p></Link></li>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/Products" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon2} alt={icon2} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Products</p></Link></li>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/InvoicePage" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon3} alt={icon3} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Invoice</p></Link></li>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/Clients" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon4} alt={icon4} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Clients</p></Link></li>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-3 "><Link to="/Reports" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon5} alt={icon5} /><p className={`w-[164px] h-[35px] text-white poppins-medium ${isExpanded ? "block" : "hidden"}`}>Reports</p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon1} alt={icon1} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Dashboard </p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/products" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon2} alt={icon2} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Products</p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/invoice-page" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon3} alt={icon3} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Invoice</p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/clients" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon4} alt={icon4} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Clients</p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-3 "><Link to="/reports" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon5} alt={icon5} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium  ${isExpanded ? "block" : "hidden"}`}>Reports</p></Link></li>
                         </ul>
-                        <div className={`w-[276px] border hidden   ${isExpanded ? 'md:block' : 'hidden'} border-[#E2E8F0] p-0`}></div>
+                        <div className={`w-[270px] border hidden   ${isExpanded ? 'md:block' : 'hidden'} border-[#E2E8F0] p-0`}></div>
                         <ul className='flex flex-col justify-center items-center'>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/Notifications" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon6} alt={icon6} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Notifications </p></Link></li>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/Settings" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon7} alt={icon7} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Settings </p></Link></li>
-                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/Support" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon8} alt={icon8} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Support</p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/notifications" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon6} alt={icon6} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Notifications </p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/settings" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon7} alt={icon7} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Settings </p></Link></li>
+                            <li className="w-[228px] h-[44px] rounded-[99px] px-[16px] py-[12px] gap-[12px] mb-2 "><Link to="/support" className=" flex justify-center items-center gap-[10px]"><img className='w-[20px] h-[20px] ' src={icon8} alt={icon8} /><p className={`w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center text-[#64748B] poppins-medium ${isExpanded ? "block" : "hidden"}`}>Support</p></Link></li>
                         </ul>
                     </main>
                 </div>

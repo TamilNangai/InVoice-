@@ -1,8 +1,11 @@
 import React from 'react'
+import Radiogroup from '../Components/Nav/Radiogroup'
 
 const Reports = () => {
   return (
-    <div>Reports</div>
+    <div>
+      <Radiogroup />
+    </div>
   )
 }
 

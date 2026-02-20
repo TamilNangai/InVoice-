@@ -17,14 +17,14 @@ function App() {
         <div className="flex">
         <Sidebar />
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/Products" element={<Products />} />
-          <Route path="/InvoicePage" element={<InvoicePage />} />
-          <Route path="/Internship_invoice" element={<Internship_invoice />} />
-          <Route path="/Product_invoice" element={<Product_invoice />} />
-          <Route path="/Service_invoice" element={<Service_invoice />} />
-          <Route path="/Reports" element={<Reports />} />
-          <Route path="/Settings" element={<Settings />} /> 
+            <Route path="/" element={<Dashboard />} />
+            <Route path="products" element={<Products />} />
+            <Route path="invoice-page" element={<InvoicePage />} />
+            <Route path="internship-invoice" element={<Internship_invoice />} />
+            <Route path="product-invoice" element={<Product_invoice />} />
+            <Route path="service-invoice" element={<Service_invoice />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="settings" element={<Settings />} />
         </Routes>
         </div>
       </HashRouter>
