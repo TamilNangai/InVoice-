@@ -31,12 +31,12 @@ function App() {
       <Header h1="Products & Inverntory"
         h2="Manage Your product catalog and service offerings."
       />
-      <Popup
+      <Create
         popup1={Popup1}
         popup2={Popup2}
         popup3={Popup3}
         popup4={Popup4}
-
+src1={vectorw}
         h1="Select Invoice Type"
         para1="Choose the type of invoice you want to create. "
         para6="This will customize the form fields for your needs. "
@@ -51,7 +51,8 @@ billing and shipping"
 billing and shipping"
         h5="Other Invoice"
         para5="Customer or miscellaneous
-service billing"/>
+service billing"
+/>
     </>
   )
 }

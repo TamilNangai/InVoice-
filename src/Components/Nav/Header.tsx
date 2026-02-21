@@ -42,8 +42,8 @@ billing and shipping"
 billing and shipping"
         h5="Other Invoice"
         para5="Customer or miscellaneous
-service billing" 
-h6="Add Product"/>
+service billing"
+        h6="Add Product" />
     </div >
   )
 }
