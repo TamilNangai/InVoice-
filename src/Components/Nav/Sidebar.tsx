@@ -20,7 +20,7 @@ const Sidebar = () => {
     };
     return (
         <>
-            <div className={`sticky  flex flex-col justify-between items-center h-screen rounded-tr-[16px] rounded-br-[16px] border-[2.5px] border-[#000000] bg-[#FFFFFF] shadow-[0px_16px_44px_#00000012] gap-[24px] transition-all duration-300 ${isExpanded ? "w-[276px]" : "w-[64px]"
+            <div className={`sticky  flex flex-col justify-between items-center h-screen rounded-tr-[16px] rounded-br-[16px] border-[2.5px] border-[#000000] bg-[#FFFFFF] shadow-[0px_16px_44px_rgba(0,0,0,0.07)] gap-6 transition-all duration-300 ${isExpanded ? "w-[276px]" : "w-[64px]"
                 }`}>
                 <div className='flex flex-col items-center justify-center'>
                     <header className=" text-2xl font-bold my-4 flex items-center justify-between">
