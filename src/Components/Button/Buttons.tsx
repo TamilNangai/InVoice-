@@ -1,6 +1,6 @@
 type Buttonprops={
   h1:string;
-  src:string;
+  src?:string;
 }
 function Button(props:Buttonprops) {
   return (

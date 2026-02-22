@@ -1,8 +1,10 @@
-import React from 'react'
+import Bill from '@/Components/Invoice/Bill'
 
 const InvoicePage = () => {
   return (
-    <div>InvoicePage</div>
+    <div>
+      <Bill />
+    </div>
   )
 }
 

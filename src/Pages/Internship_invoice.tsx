@@ -1,8 +1,10 @@
-import React from 'react'
+import Bill from '@/Components/Invoice/Bill'
 
 const Internship_invoice = () => {
   return (
-    <div>Internship_invoice</div>
+    <div>
+      <Bill/>
+      </div>
   )
 }
 
