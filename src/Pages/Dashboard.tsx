@@ -1,33 +1,54 @@
 import Header from "@/Components/Nav/Header"
-import Add  from "@/Components/Form/Add"
-import Stdform from "@/Components/Form/Stdform"
- import DashCards from "@/Components/Cards/DashCards"
 import Cards from "@/Components/Cards/Cards"
+import Create from "@/Components/Cards/Create"
+import Popup1 from "@/assets/Popup1.png"
+import Popup2 from "@/assets/Popup2.png"
+import Popup3 from "@/assets/Popup3.png"
+import Popup4 from "@/assets/Popup4.png"
+import src from '@/assets/Vector.png'
+import vectorw from '@/assets/Vectorw.png'
 function Dashboard() {
   return (
     <div>
-      <Header  h1="Dashboard"
-        h2=""
+      <Header h1="Dashboard"
+        para=""
       />
-            <Add
-        h1="Add Products"
-        h2="Details"
-        h3="Product & Service Details"
-        h4="Product or Service Name"
-        h5="Product or Service ID"
-        h6="Price Details"
-        h7="Price"
-        para1="Manage your product catalog and service offerings."
-        src="" />
-        <div className="w-full max-h-40 gap-[2%] flex justify-center items-center">
-      < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-      < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-      < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
-      < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+      
+      <div className="w-full max-h-40 gap-[2%] flex justify-center items-center mt-10">
+        < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+        < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+        < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
+        < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
-    </div>
+      </div>
+       <div className="absolute right-10 top-4">
+        <Create popup1={Popup1}
+        popup2={Popup2}
+        popup3={Popup3}
+        popup4={Popup4}
+        src1={vectorw}
+        src2={src}
+
+        h1="Select Invoice Type"
+        para1="Choose the type of invoice you want to create. "
+        para6="This will customize the form fields for your needs. "
+        h2="Student Internship"
+        para2="Internship fees, training
+programs, certifications"
+        h3="Product Invoice"
+        para3="Physical or digital product
+billing and shipping"
+        h4="Service Invoice"
+        para4="Physical or digital product
+billing and shipping"
+        h5="Other Invoice"
+        para5="Customer or miscellaneous
+service billing"
+        h6="Create Invoice" />
         </div>
-)}
+    </div>
+  )
+}
 
 
 export default Dashboard

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from "electron";
+import { app, BrowserWindow, Menu, globalShortcut } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -18,6 +18,11 @@ function createWindow() {
     }
   });
   Menu.setApplicationMenu(null);
+  app.whenReady().then(() => {
+    globalShortcut.register("Control+Shift+I", () => {
+      win == null ? void 0 : win.webContents.openDevTools();
+    });
+  });
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });

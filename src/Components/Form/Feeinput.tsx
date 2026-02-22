@@ -18,17 +18,19 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
 }) => {
   return (
-    <div className="flex flex-col gap-1 mb-4">
-      <label className="font-semibold text-sm">{label}</label>
+    <div className="mb-4">
+      <label className="font-medium font-iceberg text-lg ">{label}</label>
       <input
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="rounded-lg px-3 py-2 outline-none  border-b-2 border-black"
+        className=" py-2 outline-none border-0 border-b border-black bg-transparent"
       />
+      
     </div>
+    
   );
 };
 

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import InputField from "./Stdinput";
+import InputField from "./Priinput";
 type stdform = {
-  studentName: string;
-  college: string;
-  email: string;
-  phone: string;
+ total:string;
+ due:string;
+ paid:string;
+ duedate:string;
+ paymentMethod:string;
 };
 const StudentForm = (Props:stdform) => {
   const [formData, setFormData] = useState<stdform>({
-    studentName: Props.studentName,
-    college: Props.college,
-    email: Props.email,
-    phone: Props.phone,
+    total: Props.total,
+    due: Props.due,
+    paid: Props.paid,
+    duedate: Props.duedate,
+    paymentMethod: Props.paymentMethod
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,41 +29,48 @@ const StudentForm = (Props:stdform) => {
       <section className="grid grid-cols-2 gap-10 font-sanchez">
         <div className="text-sm">
           <InputField
-            label={Props.studentName}
-            name="studentName"
-            value={formData.studentName}
+            label={Props.total}
+            name="total"
+            value={formData.total}
             onChange={handleChange}
-            placeholder="Sweatha"
+            placeholder="110000"
 
           />
 
           <InputField
-            label={Props.college}
-            name="college"
-            value={formData.college}
+            label={Props.due}
+            name="due"
+            value={formData.due}
             onChange={handleChange}
-            placeholder="kings college of engineering"
+            placeholder="10000"
           />
         </div>
         <div className="text-sm">
            <InputField
-            label={Props.phone}
+            label={Props.paid}
             type="tel"
-            name="phone"
-            value={formData.phone}
+            name="paid"
+            value={formData.paid}
             onChange={handleChange}
             placeholder="+91 1234567890"
           />
           <InputField
-            label={Props.email}
-            type="email"
-            name="email"
-            value={formData.email}
+            label={Props.duedate}
+            type="date"
+            name="duedate"
+            value={formData.duedate}
             onChange={handleChange}
             placeholder="sweatha@gmail.com"
           />
         </div>
       </section>
+      <InputField
+            label={Props.paymentMethod}
+            name="paymentMethod"
+            value={formData.paymentMethod}
+            onChange={handleChange}
+            placeholder="+91 1234567890"
+          />
 
     </div>
    

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import InputField from "./Stdinput";
+import InputField from "./Feeinput";
 type stdform = {
-  studentName: string;
-  college: string;
-  email: string;
-  phone: string;
+ internship: string;
+ batch: string;
+ start:string;
+ tranier:string;
+ enddate:string;
 };
 const StudentForm = (Props:stdform) => {
   const [formData, setFormData] = useState<stdform>({
-    studentName: Props.studentName,
-    college: Props.college,
-    email: Props.email,
-    phone: Props.phone,
+   internship: Props.internship,
+   batch: Props.batch,
+   start: Props.start,
+   tranier: Props.tranier,
+   enddate: Props.enddate,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,39 +29,48 @@ const StudentForm = (Props:stdform) => {
       <section className="grid grid-cols-2 gap-10 font-sanchez">
         <div className="text-sm">
           <InputField
-            label={Props.studentName}
-            name="studentName"
-            value={formData.studentName}
+            label={Props.internship}
+            name="internship"
+            value={formData.internship}
             onChange={handleChange}
             placeholder="Sweatha"
 
           />
 
           <InputField
-            label={Props.college}
-            name="college"
-            value={formData.college}
+            label={Props.batch}
+            name="batch"
+            value={formData.batch}
             onChange={handleChange}
             placeholder="kings college of engineering"
           />
+              <InputField
+            label={Props.start}
+            type="date"
+            name="start"
+            value={formData.start}
+            onChange={handleChange}
+            placeholder="Start Date"
+          />
         </div>
         <div className="text-sm">
-           <InputField
-            label={Props.phone}
-            type="tel"
-            name="phone"
-            value={formData.phone}
+       
+          <InputField
+            label={Props.tranier}
+            name="tranier"
+            value={formData.tranier}
+            onChange={handleChange}
+            placeholder="Trainer Name"
+          />
+          <InputField
+            label={Props.enddate}
+            type="date"
+            name="enddate"
+            value={formData.enddate}
             onChange={handleChange}
             placeholder="+91 1234567890"
           />
-          <InputField
-            label={Props.email}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="sweatha@gmail.com"
-          />
+         
         </div>
       </section>
 

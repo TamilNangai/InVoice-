@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Buttons from "../Button/Buttons"
 
-type Createprops = {
+type CreateProps = {
     h1: string;
     h2: string;
     h3: string;
@@ -21,17 +21,17 @@ type Createprops = {
     src1: string
     src2: string
 }
-function Create(props: Createprops) {
+function Create(props: CreateProps) {
     const [Show, setShow] = useState(false);
 
     return (
-        <div className="flex align-items-center justify-end pr-10">
+        <div className="flex align-items-center justify-center">
             <div>
             <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-5 py-2 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h6}</button>
            </div>
             {Show && (
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <section className='  border-2 border-[#136CEDCC] w-[970px] h-auto rounded-lg'>
+  <div className="fixed inset-0 bg-white  flex items-center justify-center z-50">        
+              <section className='  border-2 border-[#136CEDCC] w-[970px] h-[410px] rounded-lg bg-white'>
                         <h1 className="font-iceberg text-2xl pl-10 mt-5 h-12 font-extralight border-b border-black ">{props.h1}</h1>
                         <p className="text-center text-[17px] font-sanchez mt-3">{props.para1}</p>
                         <p className="text-center text-[17px] font-sanchez">{props.para6}</p>
