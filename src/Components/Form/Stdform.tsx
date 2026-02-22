@@ -16,7 +16,7 @@ const StudentForm = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 border rounded-xl shadow-lg">
+    <div className="max-w-xl mx-auto m-2 p-6 border rounded-xl shadow-lg">
       <h2 className="text-xl font-bold mb-4">Student Details</h2>
 <section className="flex gap-10">
     <div>
