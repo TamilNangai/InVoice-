@@ -18,21 +18,3 @@ const Cards = ({ head, amount, para, cardhead, cardamount, cardpara, symbol }:Ca
 }
 
 export default Cards
-
-
-
-// sanchez - regular text - [#000000]       w-[250px]         iceberg - regular    text-[#666666]
-
-
-
-// text - [32px]         text-[30px]
-
-
-
-// text - [18px] text - [#000000]       
-
-
-
-
-// text-[14px] 
-// text - [#34C759]  text - [#FFCC00] text - [#FF383C]

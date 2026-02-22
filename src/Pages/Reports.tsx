@@ -1,3 +1,4 @@
+import Header from "@/Components/Nav/Header"
 
 import Radiogroup from "@/Components/Nav/Radiogroup"
 import Cards from "@/Components/Cards/Cards"
@@ -6,6 +7,10 @@ import Revenue from "@/Components/Cards/Revenue"
 
 const Reports = () => {
   return (
+    
+    <div>
+       <Header h1="Products & Inverntory"
+        h2="Manage Your product catalog and service offerings."/>
     <div className="w-full">
         <Radiogroup />
       <div className="w-full flex justify-center items-center ">
@@ -17,6 +22,7 @@ const Reports = () => {
       </div>
         <div className="w-[50%] mr-10"><Revenue/></div>
       </div>
+    </div>
     </div>
   )
 }
