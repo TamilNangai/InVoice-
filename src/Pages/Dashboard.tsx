@@ -1,7 +1,8 @@
-<<<<<<< HEAD
 import Header from "@/Components/Nav/Header"
 import Add  from "@/Components/Form/Add"
 import Stdform from "@/Components/Form/Stdform"
+ import DashCards from "@/Components/Cards/DashCards"
+import Cards from "@/Components/Cards/Cards"
 function Dashboard() {
   return (
     <div>
@@ -18,23 +19,16 @@ function Dashboard() {
         h7="Price"
         para1="Manage your product catalog and service offerings."
         src="" />
-        
-=======
-// import DashCards from "@/Components/Cards/DashCards"
-import Cards from "@/Components/Cards/Cards"
-
-
-function Dashboard() {
-  return (
-    <div className="w-full max-h-40 gap-[2%] flex justify-center items-center">
+        <div className="w-full max-h-40 gap-[2%] flex justify-center items-center">
       < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
       < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
       < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
       < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
->>>>>>> bdeb4206696a2e21bb6cf1a10dc7f7f8b4b26ad7
+
     </div>
-  )
-}
+        </div>
+)}
+
 
 export default Dashboard
 
