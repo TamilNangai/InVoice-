@@ -1,7 +1,11 @@
+import Header from "@/Components/Nav/Header"
 const Internship_invoice = () => {
   return (
-    <div>Internship_invoice</div>
-   
+    <>
+    <Header h1="Products & Inverntory"
+        h2="Manage Your product catalog and service offerings."/>
+      
+        </>
   )
 }
 

@@ -1,9 +1,6 @@
 type Headerprops = {
   h1: string
   h2: string
-  h3: string
-  src: string
-
 }
 
 import Create from "../Form/Create"
@@ -16,12 +13,15 @@ import vectorw from '../../assets/Vectorw.png'
 
 function Header(props: Headerprops) {
   return (
-    <div className="flex bg-[#DFDFDF99] h-20 w-full pl-10">
+    <section className="flex items-center justify-between">
+    <div className=" bg-[#DFDFDF99] pl-10 w-[1260px] h-20">
       <div className=" ">
-        <h1 className="text-black font-iceberg text-2xl font-extralight">{props.h1}</h1>
+        <h1 className="text-black font-iceberg text-2xl font-extralight absolute left-90 top-7">{props.h1}</h1>
         <p className="font-sanchez">{props.h2}</p>
+        
       </div>
-      <Create popup1={Popup1}
+      <div className="absolute right-10 top-4">
+        <Create popup1={Popup1}
         popup2={Popup2}
         popup3={Popup3}
         popup4={Popup4}
@@ -44,7 +44,10 @@ billing and shipping"
         para5="Customer or miscellaneous
 service billing"
         h6="Add Product" />
-    </div >
+        </div>
+      </div>
+      </section>
+    
   )
 }
 

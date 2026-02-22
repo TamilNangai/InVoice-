@@ -7,7 +7,7 @@ type Createprops = {
     h3: string;
     h4: string;
     h5: string;
-    h6: string
+    h6:String
     para1: string;
     para2: string;
     para3: string;
@@ -22,14 +22,16 @@ type Createprops = {
     src2: string
 }
 function Create(props: Createprops) {
-    const [ShowModel, setShowModel] = useState(false);
+    const [Show, setShow] = useState(false);
 
     return (
-        <div>
-            <div onClick={() => setShowModel(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-5 py-2 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h6}</div>
-            {ShowModel && (
-                <div>
-                    <section className='border-2 border-[#136CEDCC] w-[970px] h-[400px] rounded-lg'>
+        <div className="flex align-items-center justify-end pr-10">
+            <div>
+            <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-5 py-2 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h6}</button>
+           </div>
+            {Show && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <section className='  border-2 border-[#136CEDCC] w-[970px] h-auto rounded-lg'>
                         <h1 className="font-iceberg text-2xl pl-10 mt-5 h-12 font-extralight border-b border-black ">{props.h1}</h1>
                         <p className="text-center text-[17px] font-sanchez mt-3">{props.para1}</p>
                         <p className="text-center text-[17px] font-sanchez">{props.para6}</p>
@@ -64,11 +66,13 @@ function Create(props: Createprops) {
                                 <p className="text-center font-sanchez text-[13px] px-1">{props.para5}</p>
                             </section>
                         </div>
-                        <div className="absolute left-1/2 mt-5">
+                        <div className="flex gap-3 items-center justify-end mt-5 mr-10">
+                        {/* < className="absolute bottom-5 -right-10 transform -translate-x-1/2"> */}
+                            <button onClick={() => setShow(false)} className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-gray-400">Cancel</button>
                             <Buttons h1="Continue" src={props.src2} />
-                        </div>
-                        <div className="flex items-end justify-end pr-56 mt-5">
-                            <button onClick={() => setShowModel(false)} className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-gray-400">Cancel</button>
+                        
+                        {/* <div className="absolute right-1/3 mt-5"> */}
+                        {/* </div> */}
                         </div>
                     </section>
                 </div>

@@ -1,46 +1,65 @@
-// function Stdform() {
-//   return (
-//     <div className="border border-black rounded-lg p-4">
-//       <h1>Student Details</h1>
-//       <label>Student Name</label>
-//     </div>
-//   )
-// }
+import React, { useState } from "react";
+import InputField from "./InputField";
+const StudentForm = () => {
+  const [formData, setFormData] = useState({
+    studentName: "",
+    college: "",
+    email: "",
+    phone: "",
+  });
 
-// export default Stdform
-// import { HashRouter,Routes,Route } from "react-router-dom"
-// import Dashboard from "./Pages/Dashboard"
-// import Products from "./Pages/Products"
-// import InvoicePage from "./Pages/InvoicePage"
-// import Product_invoice from "./Pages/Product_invoice"
-// import Settings from "./Pages/Settings"
-// import Reports from "./Pages/Reports"
-// import Internship_invoice from "./Pages/Internship_invoice"
-// import Service_invoice from "./Pages/Service_invoice"
-// import Sidebar from "./Components/Nav/Sidebar"
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-// function App() {
+  return (
+    <div className="max-w-xl mx-auto p-6 border rounded-xl shadow-lg">
+      <h2 className="text-xl font-bold mb-4">Student Details</h2>
+<section className="flex gap-10">
+    <div>
+      <InputField
+        label="Student Name"
+        name="studentName"
+        value={formData.studentName}
+        onChange={handleChange}
+        placeholder="Enter your name"
+      />
 
-//   return (
-//     <>
-//       <HashRouter>
-//         <div className="flex">
-//         <Sidebar />
-//         <Routes>
-//             <Route path="/" element={<Dashboard />} />
-//             <Route path="products" element={<Products />} />
-//             <Route path="invoice-page" element={<InvoicePage />} />
-//             <Route path="internship-invoice" element={<Internship_invoice />} />
-//             <Route path="product-invoice" element={<Product_invoice />} />
-//             <Route path="service-invoice" element={<Service_invoice />} />
-//             <Route path="reports" element={<Reports />} />
-//             <Route path="settings" element={<Settings />} />
-//         </Routes>
-//         </div>
-//       </HashRouter>
-      
-//     </>
-//   )
-// }
+      <InputField
+         label="College / Institution"
+        name="college"
+        value={formData.college}
+        onChange={handleChange}
+        placeholder="Enter college name"
+      />
+      </div>
+<div>
+      <InputField
+        label="Email Address"
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="Enter email"
+      />
 
-// export default App
+      <InputField
+        label="Phone Number"
+        type="tel"
+        name="phone"
+        value={formData.phone}
+        onChange={handleChange}
+        placeholder="Enter phone number"
+      />
+      </div>
+</section>
+     
+    </div>
+  );
+};
+
+export default StudentForm;
+
