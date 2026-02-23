@@ -7,11 +7,10 @@ import ex from "@/assets/ex.png"
 const Reports = () => {
   return (
     <div>
-      <Header h1="Reports & Analytics"
-        para="Track revenue, Growth, and Invoice Performance." />
+      <Header h1="Products & Inverntory"
+        para="Manage Your product catalog and service offerings." />
       <div className="absolute right-10 top-4">
         <button className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-black"><img className="h-8" src={ex} />Export Data</button>
-
       </div>
       <div className="w-full">
         <Radiogroup />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "./Priinput";
+import InputField from "./Priceinput";
 type stdform = {
  total:string;
  due:string;
@@ -24,8 +24,8 @@ const StudentForm = (Props:stdform) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
-      <h2 className="text-xl font-semibold mb-4">Student Details</h2>
+    <div className="w-[550px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
+      <h2 className="text-xl font-semibold mb-4">Price Details</h2>
       <section className="grid grid-cols-2 gap-10 font-sanchez">
         <div className="text-sm">
           <InputField
@@ -64,6 +64,7 @@ const StudentForm = (Props:stdform) => {
           />
         </div>
       </section>
+      <div className="flex justify-center">
       <InputField
             label={Props.paymentMethod}
             name="paymentMethod"
@@ -71,7 +72,7 @@ const StudentForm = (Props:stdform) => {
             onChange={handleChange}
             placeholder="+91 1234567890"
           />
-
+</div>
     </div>
    
   );

@@ -1,4 +1,3 @@
-import Stdform from "@/Components/Form/Stdform"
 import Header from "@/Components/Nav/Header"
 import Create from "@/Components/Cards/Create"
 import Popup1 from "@/assets/Popup1.png"
@@ -7,9 +6,7 @@ import Popup3 from "@/assets/Popup3.png"
 import Popup4 from "@/assets/Popup4.png"
 import src from '@/assets/Vector.png'
 import vectorw from '@/assets/Vectorw.png'
-import Feeform from "@/Components/Form/Feeform"
-import ProForm from "@/Components/Form/Proform"
-import Priform from "@/Components/Form/Priform"
+
 const InvoicePage = () => {
   return (
     <div>
@@ -33,6 +30,7 @@ programs, certifications"
             para3="Physical or digital product
 billing and shipping"
             h4="Service Invoice"
+
             para4="Physical or digital product
 billing and shipping"
             h5="Other Invoice"
@@ -41,11 +39,9 @@ service billing"
             h6="Create Invoice" />
         </div>
       </section>
-      <Stdform studentName="Student Name" college="College / Institution" email="Email Address" phone="Phone Number" />
-      <Feeform internship="Internship Program Name" batch="Batch Name" start="Start Date" tranier="Trainer Name(Optional)" enddate="End Date" />
-      <ProForm tranining="Training Fee" certificate="Certificate Fee" tax="Tax Rate(%)" intership="Internship Fee" discount="Discount Amount" />
-      <Priform total="Total Amount" due="Due Amount" paid="Paid Amount" duedate="Due Date" paymentMethod="Payment Type"/>
+      
     </div>
+
   )
 }
 

@@ -11,7 +11,7 @@ interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
-  type = "text",
+  type = "number",
   name,
   value,
   onChange,
