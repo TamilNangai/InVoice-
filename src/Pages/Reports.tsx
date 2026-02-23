@@ -8,10 +8,10 @@ import Revenue from "@/Components/Cards/Revenue"
 const Reports = () => {
   return (
     
-    <div>
+    <div className="w-full">
        <Header h1="Products & Inverntory"
         h2="Manage Your product catalog and service offerings."/>
-    <div className="w-full">
+    <div className=" w-full ">
         <Radiogroup />
       <div className="w-full flex justify-center items-center ">
         <div className="w-[50%] m-5  grid grid-cols-2 gap-[30px]  place-items-center">
