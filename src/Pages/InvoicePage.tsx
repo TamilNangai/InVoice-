@@ -4,12 +4,11 @@ import Popup1 from "@/assets/Popup1.png"
 import Popup2 from "@/assets/Popup2.png"
 import Popup3 from "@/assets/Popup3.png"
 import Popup4 from "@/assets/Popup4.png"
-import src from '@/assets/Vector.png'
-import vectorw from '@/assets/Vectorw.png'
+import src1 from '@/assets/Vectorw.png'
+import src2 from '@/assets/Vector.png'
 
 const InvoicePage = () => {
   return (
-    <div>
       <section>
         <Header h1="Invoice Page" para="Manage your invoices here." />
         <div className="absolute right-10 top-4">
@@ -17,8 +16,8 @@ const InvoicePage = () => {
             popup2={Popup2}
             popup3={Popup3}
             popup4={Popup4}
-            src1={vectorw}
-            src2={src}
+            src1={src1}
+            src2={src2}
 
             h1="Select Invoice Type"
             para1="Choose the type of invoice you want to create. "
@@ -39,8 +38,8 @@ service billing"
             h6="Create Invoice" />
         </div>
       </section>
-      
-    </div>
+
+  
 
   )
 }

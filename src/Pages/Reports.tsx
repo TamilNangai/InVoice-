@@ -3,6 +3,7 @@ import Radiogroup from "@/Components/Nav/Radiogroup"
 import Cards from "@/Components/Cards/Cards"
 import Revenue from "@/Components/Cards/Revenue"
 import ex from "@/assets/ex.png"
+import Reporttable from "@/Components/Table/Reporttable"
 
 const Reports = () => {
   return (
@@ -24,6 +25,7 @@ const Reports = () => {
           <div className="w-[50%] mr-10"><Revenue /></div>
         </div>
       </div>
+      <Reporttable />
     </div>
   )
 }

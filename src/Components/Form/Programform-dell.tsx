@@ -63,6 +63,7 @@ const StudentForm = (Props:stdform) => {
             onChange={handleChange}
             placeholder="Trainer Name"
           />
+          <div className="mx-2">
           <InputField
             label={Props.enddate}
             type="date"
@@ -71,7 +72,7 @@ const StudentForm = (Props:stdform) => {
             onChange={handleChange}
             placeholder="+91 1234567890"
           />
-         
+         </div>
         </div>
       </section>
 

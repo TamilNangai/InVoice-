@@ -5,19 +5,20 @@ import Popup1 from "@/assets/Popup1.png"
 import Popup2 from "@/assets/Popup2.png"
 import Popup3 from "@/assets/Popup3.png"
 import Popup4 from "@/assets/Popup4.png"
-import src from '@/assets/Vectorw.png'
-import src1 from '@/assets/Vector.png'
-import Search from "@/Components/Filter/Search"
-import Filter from "@/Components/Filter/Filter"
-import circle from "@/assets/filter/circle.svg"
-import date from "@/assets/filter/date.svg"
-import filter from "@/assets/filter/filter.svg"
-import dropdown from "@/assets/filter/dropdown.svg"
+import src1 from '@/assets/Vectorw.png'
+import src2 from '@/assets/Vector.png'
+import Invoicetable from "@/Components/Table/Invoicetable"
+// import Search from "@/Components/Filter/Search"
+// import Filter from "@/Components/Filter/Filter"
+// import circle from "@/assets/filter/circle.svg"
+// import date from "@/assets/filter/date.svg"
+// import filter from "@/assets/filter/filter.svg"
+// import dropdown from "@/assets/filter/dropdown.svg"
 
 
 function Dashboard() {
         return (
-                <>
+          
                         <div>
                                 <Header h1="Dashboard"
                                         para=""
@@ -27,8 +28,8 @@ function Dashboard() {
                                                 popup2={Popup2}
                                                 popup3={Popup3}
                                                 popup4={Popup4}
-                                                src1={src}
-                                                src2={src1}
+                                                src1={src1}
+                                                src2={src2}
 
                                                 h1="Select Invoice Type"
                                                 para1="Choose the type of invoice you want to create. "
@@ -48,15 +49,18 @@ billing and shipping"
 service billing"
                                                 h6="Create Invoice" />
                                 </div>
-                        </div>
-                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center">
+                      
+                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16">
                                 < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
                                 < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
-                </>
+                                                        <Invoicetable/>
+
+                          </div>
+               
         )
 }
 export default Dashboard;

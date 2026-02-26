@@ -62,7 +62,7 @@ address: string;
           />
            
         </div>
-        <div>
+        <div className="mt-20">
         <InputField
             label={Props.address}  
             name="address"

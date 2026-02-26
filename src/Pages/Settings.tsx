@@ -2,6 +2,9 @@ import Buttons from '@/Components/Button/Buttons'
 import Header from '@/Components/Nav/Header'
 import Companyform from '@/Components/Form/Companyform'
 import Banner from '@/Components/Cards/Banner'
+import cap from"@/assets/settings/cap.png"
+import pro from "@/assets/settings/pro.png"
+import other from "@/assets/settings/other.png"
 const Settings = () => {
   return (
     <div>
@@ -20,7 +23,10 @@ const Settings = () => {
           para4="Flexible billing for misc services" 
           h5='Configure Template'
           h6='Configure Template'
-          h7='Configure Template'/>
+          h7='Configure Template'
+          src1={cap}
+          src2={pro}
+          src3={other}/>
       </div>
       <div className="absolute right-10 top-4">
         <Buttons src="" h1="Save Settings" />

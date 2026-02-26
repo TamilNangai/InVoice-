@@ -5,22 +5,28 @@ import ProForm from "@/Components/Form/Feeform"
 import Priform from "@/Components/Form/Priceform"
 import Stdform from "@/Components/Form/Stdform"
 import Buttons from '@/Components/Button/Buttons'
+import vectora from "@/assets/Vectora.png"
 
 const Internship_invoice = () => {
   return (
     <div>
-      <Header h1="Products & Inverntory"
+      <div className='w-[1200px]'>
+      <Header h1="New Internship Invoice"
 
-        para="Manage Your product catalog and service offerings." />
-      <section className="flex">
-        <div className="space-y-7">
+        para="#INV-2026-001" />
+         <div className="absolute right-10 top-4">
+        <Buttons h1="Issue Invoice" h2="Save Draft" src={vectora} />
+        </div>
+        </div>
+      <section className="flex gap-5">
+        <div className="w-[50%] space-y-7">
           <Stdform studentName="Student Name" college="College / Institution" email="Email Address" phone="Phone Number" />
           <Feeform internship="Internship Program Name" batch="Batch Name" start="Start Date" tranier="Trainer Name(Optional)" enddate="End Date" />
           <ProForm tranining="Training Fee" certificate="Certificate Fee" tax="Tax Rate(%)" intership="Internship Fee" discount="Discount Amount" />
           <Priform total="Total Amount" due="Due Amount" paid="Paid Amount" duedate="Due Date" paymentMethod="Payment Type" />
         </div>
-<div className='w-[50%] flex justify-end items-center'>
-          <Bill button={<Buttons h1="Service Invoice" />} name="Akash " email="akash@gmail.com" phone={8525913433} college="State University of Technology" invoiceid="INV-2026-001" date="JAN 24, 2026" duedate="Feb 24, 2026" boxinvoicedate='Jan 20,2026' boxduedate='Feb 20,2026' boxref='Po-12345' detailhead='Service Details' head11="Static Website" head12="Srv:0010" amount1={10000.00} head21="Dynamic Website" head22="Srv:0011" amount2={20000.00} subamount11={30000.00} subamount12={0.00} subamount13={50.00} subamount21={30050.00} subamount22={50.00} subamount23={500.00} conditionPara="Thank you for your business. Please remit payment within 30 das" />
+        <div className='w-[50%] flex justify-end items-center -mt-72'>
+          <Bill button={<Buttons h1="Service Invoice" h2=""/>} name="Akash " email="akash@gmail.com" phone={8525913433} college="State University of Technology" invoiceid="INV-2026-001" date="JAN 24, 2026" duedate="Feb 24, 2026" boxinvoicedate='Jan 20,2026' boxduedate='Feb 20,2026' boxref='Po-12345' detailhead='Service Details' head11="Static Website" head12="Srv:0010" amount1={10000.00} head21="Dynamic Website" head22="Srv:0011" amount2={20000.00} subamount11={30000.00} subamount12={0.00} subamount13={50.00} subamount21={30050.00} subamount22={50.00} subamount23={500.00} conditionPara="Thank you for your business. Please remit payment within 30 das" />
         </div>
       </section>
 

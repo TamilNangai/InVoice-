@@ -23,7 +23,6 @@ function Add(props: AddProps) {
             </div>
             {show && (
                   <div className="fixed inset-0 flex items-center justify-center z-50">        
-
                 <div className="border border-black rounded-xl w-2/5 space-y-3 absolute right-72 h-[500px]" >
                     <h1 className="font-iceberg text-2xl pl-10 mt-3">{props.h1}</h1>
                     <p className="font-sanchez text-sm pl-10">{props.para1}</p>
@@ -32,7 +31,7 @@ function Add(props: AddProps) {
                         <h1 className="font-iceberg ">{props.h3}</h1>
                         <h1 className="font-iceberg ">{props.h6}</h1>
                     </aside>
-                    <section className="flex gap-20 pl-10">
+                    <section className="flex gap-20 pl-10 font-sanchez">
                         <div className="gap-5 flex flex-col">
                             <aside className="">
                                 <label className="text-sm">{props.h4}</label>
@@ -55,7 +54,7 @@ function Add(props: AddProps) {
                         <div className="gap-5 flex flex-col ">
                             <aside>
                                 <label className="text-sm">{props.h7}</label>
-                                <input className="flex border-none bg-[#E3EBFF] rounded-[4px] mt-1 w-40 h-9 " type="number"></input>
+                                <input className="flex border border-black rounded-[4px] mt-1 w-40 h-9 " type="number"></input>
                             </aside>
 
                         </div>
@@ -63,7 +62,7 @@ function Add(props: AddProps) {
                     </section>
                     <div className="flex gap-5 items-center justify-center  ">
                         <button onClick={() => setShow(false)} className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-gray-400 ">Cancel</button>
-                        <Buttons h1="Save Changes" src={props.src2} />
+                        <Buttons h1="Save Changes" h2="" src={props.src2} />
                     </div>
                     </div>
                 </div>

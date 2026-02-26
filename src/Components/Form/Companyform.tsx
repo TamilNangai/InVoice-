@@ -24,7 +24,7 @@ const StudentForm = (Props:CompanyProps) => {
   };
 
   return (
-    <div className="w-[1170px] mx-11 mt-40 h-72 p-6 rounded-xl font-iceberg border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
+    <div className="w-[1170px] mx-11 mt-10 h-72 p-6 rounded-xl font-iceberg border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
       <h2 className="text-xl font-semibold mb-4">Company Details</h2>
       <p className="text-md font-sanchez">{Props.companypara}</p>
       <section className="grid grid-cols-2 gap-96 font-sanchez">

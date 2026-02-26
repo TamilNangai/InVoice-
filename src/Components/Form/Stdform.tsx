@@ -22,7 +22,7 @@ const StudentForm = (Props:stdform) => {
   };
 
   return (
-    <div className="w-[550px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
+    <div className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
       <h2 className="text-xl font-semibold mb-4">Student Details</h2>
       <section className="grid grid-cols-2 gap-10 font-sanchez">
         <div className="text-sm">

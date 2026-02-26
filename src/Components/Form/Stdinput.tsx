@@ -19,14 +19,14 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <div className="mb-4">
-      <label className="font-medium font-iceberg text-lg ">{label}</label>
+      <label className="font-medium font-iceberg text-lg">{label}</label>
       <input
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className=" py-2 outline-none border-0 border-b border-black bg-transparent"
+        className="py-2 outline-none border-0 border-b border-black bg-transparent"
       />
       
     </div>
