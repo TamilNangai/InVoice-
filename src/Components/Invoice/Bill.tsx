@@ -36,9 +36,46 @@ type BillProps = {
     boxref?: string;
     detailhead: string;
     button: ReactNode;
+    // onPrint: () => void;
 }
 
-const Bill = ({ head11, head12, amount1, head21, head22, amount2, head31, head32, amount3, subamount11, subamount12, subamount13, subamount21, subamount22, subamount23, conditionPara, name, email, phone, college, invoiceid, date, duedate, boxhead, boxprogram, batch, duration, count1, count2, boxinvoicedate, boxduedate, boxref, detailhead, button }: BillProps) => {
+const Bill: React.FC<BillProps> = ({
+//   onPrint,
+  head11,
+  head12,
+  amount1,
+  head21,
+  head22,
+  amount2,
+  head31,
+  head32,
+  amount3,
+  subamount11,
+  subamount12,
+  subamount13,
+  subamount21,
+  subamount22,
+  subamount23,
+  conditionPara,
+  name,
+  email,
+  phone,
+  college,
+  invoiceid,
+  date,
+  duedate,
+  boxhead,
+  boxprogram,
+  batch,
+  duration,
+  count1,
+  count2,
+  boxinvoicedate,
+  boxduedate,
+  boxref,
+  detailhead,
+  button
+})  => {
     return (
         <div className="w-full  h-fit p-4 flex flex-col justify-around items-center rounded-[12px] border border-[#000000] bg-[#FFFFFF] shadow-[0px_4px_4px_rgba(0, 0, 0, 0.25)]">
             <header className="w-full ps-4 flex justify-between border-b border-[#000000] ">
