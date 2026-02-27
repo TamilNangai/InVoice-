@@ -38,21 +38,25 @@ function Create(props: CreateProps) {
                         <p className="text-center text-[17px] font-sanchez">{props.para6}</p>
 
                         <div className="flex space-x-8 items-center justify-center mt-4">
-                            <section onClick={() => navigate("internship-invoice")} className="border-2 border-black w-[200px] h-40 rounded-lg">
+                            <section
+                                className="border-2 border-black w-[200px] h-40 rounded-lg cursor-pointer"
+                                onClick={() => navigate("/internship-invoice")}
+                            >
+                                Internship Invoice
                                 <div className="flex items-center justify-center">
                                     <img className="border border-black rounded-xl w-12 h-12 mt-4" src={props.popup1} />
                                 </div>
                                 <h1 className="text-center text-[17px] font-iceberg mt-2">{props.h2}</h1>
                                 <p className="text-center font-sanchez text-[13px] px-1">{props.para2}</p>
                             </section>
-                            <section onClick={() => navigate("product-invoice")} className="border-2 border-black w-[200px] h-40 rounded-lg">
+                            <section onClick={() => navigate("/product-invoice")} className="border-2 border-black w-[200px] h-40 rounded-lg">
                                 <div className="flex items-center justify-center">
                                     <img className="border border-black rounded-xl w-12 h-12 mt-4" src={props.popup2} />
                                 </div>
                                 <h1 className="text-center text-[17px] font-iceberg mt-2">{props.h3}</h1>
                                 <p className="text-center  font-sanchez text-[13px] px-1">{props.para3}</p>
                             </section>
-                            <section onClick={() => navigate("service-invoice")} className="border-2 border-black w-[200px] h-40 rounded-lg">
+                            <section onClick={() => navigate("/service-invoice")} className="border-2 border-black w-[200px] h-40 rounded-lg">
                                 <div className="flex items-center justify-center">
                                     <img className="border border-black rounded-xl w-12 h-12 mt-4" src={props.popup3} />
                                 </div>
@@ -70,7 +74,7 @@ function Create(props: CreateProps) {
                         <div className="flex gap-3 items-center justify-end mt-5 mr-10">
                             {/* < className="absolute bottom-5 -right-10 transform -translate-x-1/2"> */}
                             <button onClick={() => setShow(false)} className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-gray-400">Cancel</button>
-                            <Buttons h1="Continue" h2="" src={props.src2} />
+                            <Buttons h1="Continue" h2="" src1={props.src2} src2="" />
 
                             {/* <div className="absolute right-1/3 mt-5"> */}
                             {/* </div> */}

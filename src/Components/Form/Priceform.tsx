@@ -14,6 +14,7 @@ const StudentForm = (Props:stdform) => {
     paid: Props.paid,
     duedate: Props.duedate,
     paymentMethod: Props.paymentMethod
+
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

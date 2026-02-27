@@ -102,31 +102,31 @@ const RecentInvoices: React.FC = () => {
     <div>
       <h2 className="text-3xl font-iceberg mb-4 pl-12 mt-10">Recent Invoices</h2>
       <div className="">
-        <table className="w-[90%] mx-11 outline-none bg-transparent border-0 border-b-2 border-black rounded-xl text-center">
+        <table className="w-[90%] mx-11 text-center  border-2 border-black ">
           <thead className="h-20 font-iceberg text-2xl">
-            <tr > 
-              <th className="p-3 border h-10">Invoice No</th>
-              <th className="p-3 border">Type</th>
-              <th className="p-3 border">Client</th>
-              <th className="p-3 border">Date Issued</th>
-              <th className="p-3 border">Amount</th>
-              <th className="p-3 border">Status</th>
+            <tr className=" border-0 border-b-2 border-black "> 
+              <th className="p-3">Invoice No</th>
+              <th className="p-3">Type</th>
+              <th className="p-3">Client</th>
+              <th className="p-3">Date Issued</th>
+              <th className="p-3">Amount</th>
+              <th className="p-3">Status</th>
             </tr>
 
           </thead>
           <tbody>
             {invoices.map((invoice) => (
-              <tr key={invoice.id} className="hover:bg-gray-50 font-sanchez">
-                <td className="p-3 border">{invoice.id}</td>
-                <td className="p-3 border">{invoice.type}</td>
-                <td className="p-3 border">{invoice.client}</td>
-                <td className="p-3 border">{invoice.date}</td>
+              <tr key={invoice.id} className="hover:bg-gray-50 font-sanchez  border-0 border-b-2 border-black space-y-10">
+                <td className="p-3 ">{invoice.id}</td>
+                <td className="p-3 ">{invoice.type}</td>
+                <td className="p-3 ">{invoice.client}</td>
+                <td className="p-3">{invoice.date}</td>
                 
-                <td className="p-3 border">
+                <td className="p-3">
               
                   ₹{invoice.amount.toLocaleString()}
                 </td>
-                <td className="p-3 border">
+                <td className="p-3">
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
                       invoice.status === "Paid"
