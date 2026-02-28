@@ -1,4 +1,33 @@
-// import React from "react";
+// interface InputProps {
+//   label: string;
+//   type?: string;
+//   name: string;
+//   placeholder?: string;
+//   required?: boolean;
+// }
+
+// const Input: React.FC<InputProps> = ({
+//   label,
+//   type = "text",
+//   name,
+//   placeholder,
+//   required = false,
+// }) => {
+//   return (
+//     <div className="mb-4">
+//       <label className="block mb-1 font-medium">
+//         {label}
+//       </label>
+//       <input
+//         type={type}
+//         name={name}
+//         placeholder={placeholder}
+//         required={required}
+//         className="border p-2 w-full rounded"
+//       />
+//     </div>
+//   );
+// };// import React from "react";
 
 // interface InputFieldProps {
 //   label: string;
@@ -60,7 +89,7 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         name={name}
         placeholder={placeholder}
-        className="outline-none border-b border-black bg-transparent w-full mb-2 font-sanchez text-sm"
+        className="pl-3 py-2 outline-none  border-2 border-black rounded-md"
       />
     </div>
   );

@@ -202,7 +202,7 @@ const Bill: React.FC<BillProps> = ({
                 <p className="iceberg-regular text-[18px] leading-[100%] text-[#000000] mb-4">Terms & Conditions:</p>
                 <p className="sanchez-regular text-[14px] leading-[20px] text-[#666666]">{conditionPara}</p>
             </div>
-            <div className="w-full flex justify-end items-center"><Buttons h1="Print" /></div>
+            <div className="w-full flex justify-end items-center"><Buttons h1="Print" h2="" src1="" src2=""/></div>
         </div>
     )
 }

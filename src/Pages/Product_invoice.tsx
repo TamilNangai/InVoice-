@@ -16,7 +16,7 @@ const Product_invoice = () => {
         </div>
       </aside>
       <section className="flex">
-        <div className="w-50% mt-10">
+        <div className="w-[50%] ">
           <CustomerForm customer="Customer Name" email="Email Address" office="Office Number" phone="Phone Number" address="Address" gst="GST Number" />
           <Productform productName="" sub="" price="" tax="" />
           <Priceform total="Total Amount" due="Due Amount" paid="Paid Amount" duedate="Due Date" paymentMethod="Payment Type" />

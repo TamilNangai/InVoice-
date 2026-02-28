@@ -111,7 +111,7 @@ const StudentForm = (Props: stdform) => {
     sub: Props.sub,
     price: Props.price,
     tax: Props.tax,
-    
+
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -219,12 +219,12 @@ const StudentForm = (Props: stdform) => {
             placeholder="18"
           />
         </div>
-       
+
       </section>
-       <div className="mt-6 w-[445px]">
-         <button className="w-full border border-black py-2 rounded-md bg-gray-100">
-           + Add Product Line
-         </button>
+      <div className="mt-6 w-[445px]">
+        <button className="w-full border border-black py-2 rounded-md bg-gray-100">
+          + Add Product Line
+        </button>
       </div>
     </div>
 

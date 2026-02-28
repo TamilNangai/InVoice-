@@ -69,7 +69,7 @@ const RecentInvoices: React.FC = () => {
           </thead>
           <tbody>
             {invoices.map((invoice) => (
-              <tr key={invoice.id} className="hover:bg-gray-50 font-sanchez">
+              <tr key={invoice.id} className="hover:bg-gray-50 font-sanchez rounded-xl">
                 <td className="p-3 border">{invoice.id}</td>
                 <td className="p-3 border">{invoice.type}</td>
                 <td className="p-3 border">{invoice.client}</td>

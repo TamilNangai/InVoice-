@@ -18,38 +18,38 @@ import Invoicetable from "@/Components/Table/Invoicetable"
 
 function Dashboard() {
         return (
-          
-                        <div>
-                                <Header h1="Dashboard"
-                                        para=""
-                                />
-                                <div className="absolute right-10 top-4">
-                                        <Create popup1={Popup1}
-                                                popup2={Popup2}
-                                                popup3={Popup3}
-                                                popup4={Popup4}
-                                                src1={src1}
-                                                src2={src2}
 
-                                                h1="Select Invoice Type"
-                                                para1="Choose the type of invoice you want to create. "
-                                                para6="This will customize the form fields for your needs. "
-                                                h2="Student Internship"
-                                                para2="Internship fees, training
+                <div>
+                        <Header h1="Dashboard"
+                                para=""
+                        />
+                        <div className="absolute right-10 top-4">
+                                <Create popup1={Popup1}
+                                        popup2={Popup2}
+                                        popup3={Popup3}
+                                        popup4={Popup4}
+                                        src1={src1}
+                                        src2={src2}
+
+                                        h1="Select Invoice Type"
+                                        para1="Choose the type of invoice you want to create. "
+                                        para6="This will customize the form fields for your needs. "
+                                        h2="Student Internship"
+                                        para2="Internship fees, training
 programs, certifications"
-                                                h3="Product Invoice"
-                                                para3="Physical or digital product
+                                        h3="Product Invoice"
+                                        para3="Physical or digital product
 billing and shipping"
-                                                h4="Service Invoice"
+                                        h4="Service Invoice"
 
-                                                para4="Physical or digital product
+                                        para4="Physical or digital product
 billing and shipping"
-                                                h5="Other Invoice"
-                                                para5="Customer or miscellaneous
+                                        h5="Other Invoice"
+                                        para5="Customer or miscellaneous
 service billing"
-                                                h6="Create Invoice" />
-                                </div>
-                      
+                                        h6="Create Invoice" />
+                        </div>
+
                         <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16">
                                 < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
@@ -57,10 +57,10 @@ service billing"
                                 < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
-                                                        <Invoicetable/>
+                        <Invoicetable />
 
-                          </div>
-               
+                </div>
+
         )
 }
 export default Dashboard;

@@ -42,7 +42,7 @@ function Create(props: CreateProps) {
                                 className="border-2 border-black w-[200px] h-40 rounded-lg cursor-pointer"
                                 onClick={() => navigate("/internship-invoice")}
                             >
-                                Internship Invoice
+                              
                                 <div className="flex items-center justify-center">
                                     <img className="border border-black rounded-xl w-12 h-12 mt-4" src={props.popup1} />
                                 </div>

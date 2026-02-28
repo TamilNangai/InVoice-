@@ -1,84 +1,80 @@
-import React, { useState } from "react";
-import InputField from "./Programinput";
-type stdform = {
- internship: string;
- batch: string;
- start:string;
- tranier:string;
- enddate:string;
-};
-const StudentForm = (Props:stdform) => {
-  const [formData, setFormData] = useState<stdform>({
-   internship: Props.internship,
-   batch: Props.batch,
-   start: Props.start,
-   tranier: Props.tranier,
-   enddate: Props.enddate,
-  });
+// import React from "react";
+import InputField from "./Stdinput";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+const ProgramForm = () => {
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const data = {
+      internship: (form.elements.namedItem("internship") as HTMLInputElement).value,
+      batch: (form.elements.namedItem("batch") as HTMLInputElement).value,
+      start: (form.elements.namedItem("start") as HTMLInputElement).value,
+      trainer: (form.elements.namedItem("tranier") as HTMLInputElement).value,
+      enddate: (form.elements.namedItem("enddate") as HTMLInputElement).value,
+    };
+
+    console.log("Program Data:", data);
   };
 
   return (
-    <div className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
+    <form
+      onSubmit={handleSubmit}
+      className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+    >
       <h2 className="text-xl font-semibold mb-4">Program Details</h2>
-      <section className="grid grid-cols-2 gap-10 font-sanchez">
-        <div className="text-sm">
+
+      <section className="grid grid-cols-2 gap-10 font-sanchez text-sm">
+
+        <div>
           <InputField
-            label={Props.internship}
+            label="Internship"
             name="internship"
-            value={formData.internship}
-            onChange={handleChange}
-            placeholder="Sweatha"
-
+            placeholder="Frontend Development"
           />
 
           <InputField
-            label={Props.batch}
+            label="Batch"
             name="batch"
-            value={formData.batch}
-            onChange={handleChange}
-            placeholder="kings college of engineering"
-  
+            placeholder="Jan 2026"
           />
-              <InputField
-            label={Props.start}
+
+          <InputField
+            label="Start Date"
             type="date"
             name="start"
-            value={formData.start}
-            onChange={handleChange}
-            placeholder="Start Date"
           />
         </div>
-        <div className="text-sm mt-20">
-       
+
+        <div className="mt-20">
           <InputField
-            label={Props.tranier}
+            label="Trainer"
             name="tranier"
-            value={formData.tranier}
-            onChange={handleChange}
             placeholder="Trainer Name"
           />
+
           <InputField
-            label={Props.enddate}
+            label="End Date"
             type="date"
             name="enddate"
-            value={formData.enddate}
-            onChange={handleChange}
-            placeholder="+91 1234567890"
           />
-         
         </div>
+
       </section>
 
-    </div>
-   
+      <div className="mt-6">
+        <button
+          type="submit"
+          className="w-full border border-black py-2 rounded-md bg-gray-100"
+        >
+          Submit
+        </button>
+      </div>
+
+    </form>
   );
 };
 
-export default StudentForm;
-
+export default ProgramForm;

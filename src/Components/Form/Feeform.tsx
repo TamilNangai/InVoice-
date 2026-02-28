@@ -1,82 +1,77 @@
-import React, { useState } from "react";
+// import React from "react";
 import InputField from "./Feeinput";
-type Proform = {
-  tranining: string;
-  certificate: string;
-  tax: string;
-  intership: string;
-  discount: string;
-};
-const ProForm = (Props: Proform) => {
-  const [formData, setFormData] = useState<Proform>({
-    tranining: Props.tranining,
-    certificate: Props.certificate,
-    tax: Props.tax,
-    intership: Props.intership,
-    discount: Props.discount,
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+const ProForm = () => {
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const data = {
+      tranining: (form.elements.namedItem("tranining") as HTMLInputElement).value,
+      certificate: (form.elements.namedItem("certificate") as HTMLInputElement).value,
+      tax: (form.elements.namedItem("tax") as HTMLInputElement).value,
+      intership: (form.elements.namedItem("intership") as HTMLInputElement).value,
+      discount: (form.elements.namedItem("discount") as HTMLInputElement).value,
+    };
+
+    console.log("Form Data:", data);
   };
 
   return (
-    <div className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
+    <form
+      onSubmit={handleSubmit}
+      className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[5px_5px_10px_rgba(0,0,0,0.3)]"
+    >
       <h2 className="text-xl font-semibold mb-4">Fee Breakdown</h2>
+
       <section className="grid grid-cols-2 gap-10 font-sanchez">
-        <div className="text-sm">
+        <div className="text-sm ">
           <InputField
-            label={Props.tranining}
+            label="Training Fee"
             name="tranining"
-            value={formData.tranining}
-            onChange={handleChange}
-            placeholder="Sweatha"
+            type="number"
 
+            placeholder="5000.0"
           />
 
           <InputField
-            label={Props.certificate}
+            label="Certificate Fee"
             name="certificate"
-            value={formData.certificate}
-            onChange={handleChange}
-            placeholder="kings college of engineering"
+            type="number"
+
+            placeholder="Swetha@gmail.com"
           />
+
           <InputField
-            label={Props.tax}
+            label="Tax Rate(%)"
             name="tax"
-            value={formData.tax}
-            onChange={handleChange}
-            placeholder="Tax"
+            type="number"
+            placeholder="10"
           />
         </div>
-        <div className="text-sm">
+
+        <div className="text-sm ">
           <InputField
-            label={Props.intership}
-            type="date"
+            label="Internship Fee"
+            type="number"
             name="intership"
-            value={formData.intership}
-            onChange={handleChange}
-            placeholder="Start Date"
+            placeholder="500.00"
           />
 
           <InputField
-            label={Props.discount}
+            label="Discount"
             name="discount"
-            value={formData.discount}
-            onChange={handleChange}
-            placeholder="+91 1234567890"
+            type="number"
+            placeholder="50.0"
           />
-
         </div>
       </section>
 
-    </div>
 
+    </form>
   );
 };
 
 export default ProForm;
-
