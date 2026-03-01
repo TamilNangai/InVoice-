@@ -1,89 +1,81 @@
-import React, { useState } from "react";
-import InputField from "./Customerinput";
-type CustomerProps = {
-customer: string;
-email: string;
-office: string;
-gst: string;
-phone: string;
-address: string;
-};
-    const CustomerForm = (Props: CustomerProps) => {
-  const [formData, setFormData] = useState<CustomerProps>({
-    customer: Props.customer,
-    email: Props.email,
-    office: Props.office,
-    gst: Props.gst,
-    phone: Props.phone,
-    address: Props.address,
-  });
+// import React from "react";
+import InputField from "./Stdinput";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+const CustomerForm = () => {
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const data = {
+      customer: (form.elements.namedItem("customer") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      gst: (form.elements.namedItem("gst") as HTMLInputElement).value,
+      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+      address: (form.elements.namedItem("address") as HTMLInputElement).value,
+      office: (form.elements.namedItem("office") as HTMLInputElement).value,
+    };
+
+    console.log("Customer Data:", data);
   };
 
   return (
-    <div className="mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)] ">
-      <h2 className="text-xl font-semibold mb-4">Fee Breakdown</h2>
-      <section className="grid grid-cols-2 gap-10 font-sanchez">
-        <div className="text-sm">
+    <form
+      onSubmit={handleSubmit}
+      className="mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
+    >
+      <h2 className="text-xl font-bold mb-4 pl-8">Customer Details</h2>
+
+      <section className="grid grid-cols-2 gap-10 font-iceberg text-md">
+
+        <div>
           <InputField
-            label={Props.customer}
+            label="Customer Name"
             name="customer"
-            value={formData.customer}
-            onChange={handleChange}
             placeholder="Sweatha"
-
           />
 
           <InputField
-            label={Props.email}
+            label="Email Address"
+            type="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="kings college of engineering"
+            placeholder="swetha@email.com"
           />
           <InputField
-            label={Props.gst}
+            label="Office Name"
+            name="office"
+            placeholder="Kings College of Engineering"
+          />
+          <InputField
+            label="GST Number"
             name="gst"
-            value={formData.gst}
-            onChange={handleChange}
-            placeholder="GST Number"
+            placeholder="1234567890"
           />
+
+        </div>
+
+        <div className="mt-20">
+          
           <InputField
-            label={Props.phone}
+            label="Phone Number"
+            type="tel"
             name="phone"
-            value={formData.phone}
-            onChange={handleChange}
             placeholder="+91 1234567890"
           />
-           
-        </div>
-        <div className="mt-20">
-        <InputField
-            label={Props.address}  
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Address"
-          />
           <InputField
-            label={Props.office}
-            name="office"
-            value={formData.office}
-            onChange={handleChange}
-            placeholder="Office Number"
+            label="Office Address"
+            name="address"
+            placeholder="Kings College of Engineering"
           />
-          </div>
+
+
+        </div>
+
       </section>
 
-    </div>
-
+    </form>
   );
 };
 
 export default CustomerForm;
-

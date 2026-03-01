@@ -20,9 +20,11 @@ function Dashboard() {
         return (
 
                 <div>
-                        <Header h1="Dashboard"
-                                para=""
-                        />
+                        <div className="w-[180%]">
+                                <Header h1="Dashboard"
+                                        para=""
+                                />
+                        </div>
                         <div className="absolute right-10 top-4">
                                 <Create popup1={Popup1}
                                         popup2={Popup2}
@@ -57,8 +59,9 @@ service billing"
                                 < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
-                        <Invoicetable />
-
+                        <div className="w-[100%]">
+                                <Invoicetable />
+                        </div>
                 </div>
 
         )

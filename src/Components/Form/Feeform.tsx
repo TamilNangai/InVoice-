@@ -1,5 +1,5 @@
 // import React from "react";
-import InputField from "./Feeinput";
+import InputField from "./Stdinput";
 
 const ProForm = () => {
 
@@ -24,15 +24,14 @@ const ProForm = () => {
       onSubmit={handleSubmit}
       className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[5px_5px_10px_rgba(0,0,0,0.3)]"
     >
-      <h2 className="text-xl font-semibold mb-4">Fee Breakdown</h2>
+      <h2 className="text-xl font-semibold mb-4 pl-8">Fee Breakdown</h2>
 
-      <section className="grid grid-cols-2 gap-10 font-sanchez">
-        <div className="text-sm ">
+      <section className="grid grid-cols-2 gap-10 font-iceberg text-lg">
+        <div >
           <InputField
             label="Training Fee"
             name="tranining"
             type="number"
-
             placeholder="5000.0"
           />
 
@@ -52,7 +51,7 @@ const ProForm = () => {
           />
         </div>
 
-        <div className="text-sm ">
+        <div>
           <InputField
             label="Internship Fee"
             type="number"
@@ -61,7 +60,7 @@ const ProForm = () => {
           />
 
           <InputField
-            label="Discount"
+            label="Discount Amount"
             name="discount"
             type="number"
             placeholder="50.0"

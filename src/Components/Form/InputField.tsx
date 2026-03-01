@@ -89,7 +89,7 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         name={name}
         placeholder={placeholder}
-        className="pl-3 py-2 outline-none  border-2 border-black rounded-md"
+        className="pl-3 py-2 outline-none  border-2 border-black rounded-md font-sanchez text-sm"
       />
     </div>
   );

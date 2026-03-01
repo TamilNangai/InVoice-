@@ -93,11 +93,11 @@ const StudentForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+      className="w-[500px] mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
     >
-      <h2 className="text-xl font-semibold mb-4">Student Details</h2>
+      <h2 className="text-xl font-semibold mb-4 pl-8">Student Details</h2>
 
-      <section className="grid grid-cols-2 gap-10 font-iceberg text-lg">
+      <section className="grid grid-cols-2 gap-10 font-iceberg text-md">
 
         <div>
           <InputField
@@ -107,7 +107,7 @@ const StudentForm = () => {
           />
 
           <InputField
-            label="College"
+            label="College / Institution"
             name="college"
             placeholder="Kings College of Engineering"
           />
@@ -115,14 +115,14 @@ const StudentForm = () => {
 
         <div>
           <InputField
-            label="Phone"
+            label="Phone Number"
             type="tel"
             name="phone"
             placeholder="+91 1234567890"
           />
 
           <InputField
-            label="Email"
+            label="Email Address"
             type="email"
             name="email"
             placeholder="sweatha@gmail.com"

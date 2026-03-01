@@ -5,7 +5,7 @@ type Headerprops = {
 
 function Header(props: Headerprops) {
   return (
-    <div className="bg-[#DFDFDF99] pl-10 w-[1260px] h-20">
+    <div className="bg-[#DFDFDF99] pl-10 h-20">
       <h1 className="text-black font-iceberg text-2xl font-extralight absolute left-90 top-2">{props.h1}</h1>
       <p className="font-sanchez absolute top-10">{props.para}</p>
     </div>
