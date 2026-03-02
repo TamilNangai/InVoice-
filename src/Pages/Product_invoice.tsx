@@ -7,8 +7,8 @@ import vectora from "@/assets/Vectora.png"
 import Productform from "@/Components/Form/Productform"
 const Product_invoice = () => {
   return (
-    <section>
-      <aside className="flex w-[1243px]">
+    <section className="w-[1500px]">
+      <aside>
         <Header h1="Products Invoice"
           para="Manage Your product catalog and service offerings." />
         <div className="absolute right-10 top-4">

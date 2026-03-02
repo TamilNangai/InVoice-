@@ -77,7 +77,7 @@ const Bill: React.FC<BillProps> = ({
   button
 })  => {
     return (
-        <div className="w-full  h-fit p-4 flex flex-col justify-around items-center rounded-[12px] border border-[#000000] bg-[#FFFFFF] shadow-[0px_4px_4px_rgba(0, 0, 0, 0.25)]">
+        <div className="w-full  h-fit p-4 flex flex-col justify-around items-center rounded-[12px] border border-[#000000] bg-[#FFFFFF] shadow-[5px_5px_10px_rgba(0,0,0,0.5)]">
             <header className="w-full ps-4 flex justify-between border-b border-[#000000] ">
                 <div>
                     <p className="iceberg-regular mb-4 text-[32px] leading-[100%] text-[#000000]">DesFlyer </p>

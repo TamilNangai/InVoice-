@@ -8,6 +8,8 @@ import Popup4 from "@/assets/Popup4.png"
 import src1 from '@/assets/Vectorw.png'
 import src2 from '@/assets/Vector.png'
 import Invoicetable from "@/Components/Table/Invoicetable"
+import Search from "@/Components/Filter/Search"
+import Filter from "@/Components/Filter/Filter"
 // import Search from "@/Components/Filter/Search"
 // import Filter from "@/Components/Filter/Filter"
 // import circle from "@/assets/filter/circle.svg"
@@ -19,8 +21,8 @@ import Invoicetable from "@/Components/Table/Invoicetable"
 function Dashboard() {
         return (
 
-                <div>
-                        <div className="w-[180%]">
+                <div className="w-[1500px]">
+                        <div >
                                 <Header h1="Dashboard"
                                         para=""
                                 />
@@ -62,6 +64,8 @@ service billing"
                         <div className="w-[100%]">
                                 <Invoicetable />
                         </div>
+                        {/* <Search/>
+                        <Filter icon="" para="" dropdownimg=""/> */}
                 </div>
 
         )

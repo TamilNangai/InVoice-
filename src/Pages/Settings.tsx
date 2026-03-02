@@ -7,7 +7,7 @@ import pro from "@/assets/settings/pro.png"
 import other from "@/assets/settings/other.png"
 const Settings = () => {
   return (
-    <div>
+    <div className="w-[1500px]">
       <div>
         <Header h1="Settings"
           para="Manage Your product catalog and service offerings." />
@@ -29,10 +29,9 @@ const Settings = () => {
           src3={other}/>
       </div>
       <div className="absolute right-10 top-4">
-        <Buttons src="" h1="Save Settings" />
+        <Buttons src1="" src2='' h2='' h1="Save Settings " />
       </div>
-      <Companyform companyName="Sweatha" companyEmail="sweatha@gmail.com" companyPhone="+91 1234567890" companyAddress="Kings College of Engineering" companypara="These details will appear on your invoices." />
-
+<Companyform/>
     </div>
   )
 }

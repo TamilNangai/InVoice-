@@ -7,7 +7,7 @@ import Reporttable from "@/Components/Table/Reporttable"
 
 const Reports = () => {
   return (
-    <div>
+    <div className="w-[1500px]">
       <Header h1="Products & Inverntory"
         para="Manage Your product catalog and service offerings." />
       <div className="absolute right-10 top-4">

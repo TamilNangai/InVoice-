@@ -34,7 +34,7 @@ const invoices: Invoice[] = [
     amount: 120500,
     status: "Paid",
   },
-   {
+  {
     id: "INV-2025-004",
     type: "Product",
     client: "Hariharan",
@@ -42,7 +42,7 @@ const invoices: Invoice[] = [
     amount: 120000,
     status: "Paid",
   },
-   {
+  {
     id: "INV-2025-004",
     type: "Product",
     client: "Hariharan",
@@ -104,7 +104,11 @@ const RecentInvoices: React.FC = () => {
       <div className="">
         <table className="w-[90%] mx-11 text-center  border-2 border-black ">
           <thead className="h-20 font-iceberg text-2xl">
-            <tr className=" border-0 border-b-2 border-black "> 
+            <tr className="">
+              <th>Recent Transaction</th>
+              <th className="absolute right-36">View All</th>
+            </tr>
+            <tr className=" border-0 border-b-2 border-black ">
               <th className="p-3">Invoice No</th>
               <th className="p-3">Type</th>
               <th className="p-3">Client</th>
@@ -121,17 +125,16 @@ const RecentInvoices: React.FC = () => {
                 <td className="p-3 ">{invoice.type}</td>
                 <td className="p-3 ">{invoice.client}</td>
                 <td className="p-3">{invoice.date}</td>
-                
+
                 <td className="p-3">
-              
+
                   ₹{invoice.amount.toLocaleString()}
                 </td>
                 <td className="p-3">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      invoice.status === "Paid"
-                      
-                    }`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${invoice.status === "Paid"
+
+                      }`}
                   >
                     {invoice.status}
                   </span>
@@ -139,8 +142,8 @@ const RecentInvoices: React.FC = () => {
               </tr>
             ))}
           </tbody>
-            </table>
-    </div>
+        </table>
+      </div>
     </div>
   );
 };

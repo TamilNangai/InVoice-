@@ -5,7 +5,7 @@ import vectorw from '@/assets/Vectorw.png'
 
 const Products = () => {
   return (
-    <div className="">
+    <div className="w-[1500px]">
       <Header h1="Products & Inverntory"
         para="Manage Your product catalog and service offerings." />
        

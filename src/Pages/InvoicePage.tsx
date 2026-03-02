@@ -9,7 +9,7 @@ import src2 from '@/assets/Vector.png'
 
 const InvoicePage = () => {
   return (
-      <section>
+      <section className="w-[1500px]">
         <Header h1="Invoice Page" para="Manage your invoices here." />
         <div className="absolute right-10 top-4">
           <Create popup1={Popup1}
