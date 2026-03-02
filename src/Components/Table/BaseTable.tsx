@@ -25,6 +25,7 @@ const TableContext = createContext<TableContextType>({
 });
 
 
+
 const Table = ({
     children,
     variant = "rows",
@@ -46,8 +47,11 @@ const Header = ({ children }: SectionProps) => {
     return <thead >{children}</thead>;
 };
 
-const Body = ({ children }: SectionProps) => {
-    return <tbody>{children}</tbody>;
+// const Body = ({ children }: SectionProps) => {
+//     return <tbody>{children}</tbody>;
+// };
+const Body = ({ children, className }: SectionProps) => {
+    return <tbody className={className}>{children}</tbody>;
 };
 
 const Row = ({ children }: SectionProps) => {
@@ -65,7 +69,7 @@ const Cell = ({ children }: SectionProps) => {
 
     return (
         <td
-            className={`p-3 text-sm ${variant === "grid" ? "border border-black" : ""
+            className={`p-3  text-sm ${variant === "grid" ? "border border-black" : ""
                 }`}
         >
             {children}
@@ -85,6 +89,7 @@ const HeadCell = ({ children }: SectionProps) => {
         </th>
     );
 };
+
 
 
 Table.Header = Header;
