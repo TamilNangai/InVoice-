@@ -10,12 +10,8 @@ import InvoicedetailsTable from "@/Components/Table/InvoicedetailsTable"
 
 const InvoicePage = () => {
   return (
-<<<<<<< HEAD
     <>
-      <section>
-=======
       <section className="w-[1500px]">
->>>>>>> cc05dd9a118298e175153bef9d603c4b42d3c87d
         <Header h1="Invoice Page" para="Manage your invoices here." />
         <div className="absolute right-10 top-4">
           <Create popup1={Popup1}
@@ -43,11 +39,12 @@ billing and shipping"
 service billing"
             h6="Create Invoice" />
         </div>
-      </section>
-      <div className="mt-20">
-        <h1>Product Details</h1>
+        <div className="m-20">
+          <h1>Product Details</h1>
           <InvoicedetailsTable />
-      </div>
+        </div>
+      </section>
+      
 
   </>
 

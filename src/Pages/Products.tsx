@@ -6,12 +6,8 @@ import vectorw from '@/assets/Vectorw.png'
 
 const Products = () => {
   return (
-<<<<<<< HEAD
     <>
-    <div className="">
-=======
     <div className="w-[1500px]">
->>>>>>> cc05dd9a118298e175153bef9d603c4b42d3c87d
       <Header h1="Products & Inverntory"
         para="Manage Your product catalog and service offerings." />
        
@@ -29,11 +25,12 @@ const Products = () => {
         src1={vectorw}
         src2="" />
         </div>
+        <div className="m-20">
+          <h1>Product Details</h1>
+          <ProductTable />
+        </div>
     </div>
-    <div className="mt-20">
-      <h1>Product Details</h1>
-        <ProductTable />
-    </div>
+    
     </>
   )
 }
