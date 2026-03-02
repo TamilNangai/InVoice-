@@ -53,9 +53,9 @@ const invoices: Invoice[] = [
 const RecentInvoices: React.FC = () => {
   return (
     <div>
-      <h2 className="text-3xl font-iceberg mb-4 pl-12 mt-10">Recent Invoices</h2>
-      <div className="overflow-x-auto">
-        <table className="w-[90%] mx-11 border-2 border-black rounded-2xl text-center">
+      <h2 className="text-3xl font-iceberg mb-4 pl-16 mt-10">Recent Invoices</h2>
+      <div className="pl-5">
+        <table className="w-[90%] mx-11 border-2 border-black rounded-xl text-center">
           <thead className="h-20 font-iceberg text-2xl">
             <tr > 
               <th className="p-3 border h-10">Invoice No</th>

@@ -94,7 +94,7 @@ const CompanyForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[1170px] mx-11 mt-10 h-72 p-6 rounded-xl font-iceberg border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+      className="mx-11 mt-10 h-72 p-6 rounded-xl font-iceberg border border-black shadow-[0_0_10px_rgba(0,0,0,0.5)]"
     >
       <h2 className="text-xl font-semibold mb-4">Company Details</h2>
 
@@ -134,12 +134,7 @@ const CompanyForm = () => {
         </div>
       </section>
 
-      <button
-        type="submit"
-        className="mt-6 px-4 py-2 bg-black text-white rounded-lg"
-      >
-        Submit
-      </button>
+     
     </form>
   );
 };

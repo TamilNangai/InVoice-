@@ -9,7 +9,7 @@ import vectora from "@/assets/Vectora.png"
 const Service_invoice = () => {
 
   return (
-    <section>
+    <section className="w-[1500px]">
       <aside className="flex">
         <Header h1="Products Invoice"
           para="Manage Your product catalog and service offerings." />

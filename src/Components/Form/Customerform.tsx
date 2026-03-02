@@ -23,7 +23,7 @@ const CustomerForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
+      className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
     >
       <h2 className="text-xl font-bold mb-4 pl-8">Customer Details</h2>
 
