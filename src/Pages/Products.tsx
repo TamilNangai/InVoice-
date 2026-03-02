@@ -1,10 +1,12 @@
 import Add from "@/Components/Cards/Add"
 import Header from "@/Components/Nav/Header"
+import ProductTable from "@/Components/Table/ProductTable"
 import vectorw from '@/assets/Vectorw.png'
 
 
 const Products = () => {
   return (
+    <>
     <div className="">
       <Header h1="Products & Inverntory"
         para="Manage Your product catalog and service offerings." />
@@ -24,6 +26,11 @@ const Products = () => {
         src2="" />
         </div>
     </div>
+    <div className="mt-20">
+      <h1>Product Details</h1>
+        <ProductTable />
+    </div>
+    </>
   )
 }
 

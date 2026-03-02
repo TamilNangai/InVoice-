@@ -6,9 +6,11 @@ import Popup3 from "@/assets/Popup3.png"
 import Popup4 from "@/assets/Popup4.png"
 import src1 from '@/assets/Vectorw.png'
 import src2 from '@/assets/Vector.png'
+import InvoicedetailsTable from "@/Components/Table/InvoicedetailsTable"
 
 const InvoicePage = () => {
   return (
+    <>
       <section>
         <Header h1="Invoice Page" para="Manage your invoices here." />
         <div className="absolute right-10 top-4">
@@ -38,8 +40,12 @@ service billing"
             h6="Create Invoice" />
         </div>
       </section>
+      <div className="mt-20">
+        <h1>Product Details</h1>
+          <InvoicedetailsTable />
+      </div>
 
-  
+  </>
 
   )
 }

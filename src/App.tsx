@@ -14,7 +14,8 @@ function App() {
   return (
     <>
       <HashRouter>
-        <div className="min-w-screen min-h-screen flex">
+        <div className="w-full flex">
+        {/* <div className="min-w-screen min-h-screen flex"> */}
         <Sidebar />
         <Routes>
             <Route path="/" element={<Dashboard />} />
