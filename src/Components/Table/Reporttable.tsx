@@ -6,7 +6,6 @@ export interface Invoice {
   client: string;
   date: string;
   amount: number;
-  status: "Paid" | "Pending";
 }
 
 const invoices: Invoice[] = [
@@ -16,7 +15,6 @@ const invoices: Invoice[] = [
     client: "Hariharan",
     date: "25-12-2025",
     amount: 120000,
-    status: "Paid",
   },
   {
     id: "INV-2025-003",
@@ -24,7 +22,6 @@ const invoices: Invoice[] = [
     client: "Akash",
     date: "24-12-2025",
     amount: 140500,
-    status: "Pending",
   },
   {
     id: "INV-2025-002",
@@ -32,7 +29,6 @@ const invoices: Invoice[] = [
     client: "Swetha",
     date: "23-12-2025",
     amount: 120500,
-    status: "Paid",
   },
   {
     id: "INV-2025-004",
@@ -40,7 +36,6 @@ const invoices: Invoice[] = [
     client: "Hariharan",
     date: "25-12-2025",
     amount: 120000,
-    status: "Paid",
   },
   {
     id: "INV-2025-004",
@@ -48,7 +43,6 @@ const invoices: Invoice[] = [
     client: "Hariharan",
     date: "25-12-2025",
     amount: 120000,
-    status: "Paid",
   },
 ];
 
@@ -99,52 +93,37 @@ const RecentInvoices: React.FC = () => {
 
     //   </div>
     // </div>
-    <div>
-      <h2 className="text-3xl font-iceberg mb-4 pl-12 mt-10">Recent Invoices</h2>
-      <div className="">
-        <table className="w-[90%] mx-11 text-center  border-2 border-black ">
-          <thead className="h-20 font-iceberg text-2xl">
-            <tr className="">
-              <th>Recent Transaction</th>
-              <th className="absolute right-36">View All</th>
+      <div className="border border-black rounded-xl mx-5 mt-20">
+        <table className="w-[95%] mx-8 text-center ">
+          <thead className="h-20 font-iceberg text-2xl ">
+            <tr className=" border-0 border-b border-black ">
+              <th className="p-4 text-start">Recent Transaction</th>
+              <th className="absolute right-12 mt-5 text-blue-400">View All</th>
             </tr>
-            <tr className=" border-0 border-b-2 border-black ">
-              <th className="p-3">Invoice No</th>
-              <th className="p-3">Type</th>
-              <th className="p-3">Client</th>
-              <th className="p-3">Date Issued</th>
-              <th className="p-3">Amount</th>
-              <th className="p-3">Status</th>
+            <tr className="border-0 border-b border-black grid grid-cols-5 text-start">
+              <th className="p-4 text-start">Invoice No</th>
+              <th className="p-4 text-start">Type</th>
+              <th className="p-4 text-start">Client</th>
+              <th className="p-4 text-end">Date Issued</th>
+              <th className="p-4 text-end">Amount</th>
             </tr>
 
           </thead>
           <tbody>
             {invoices.map((invoice) => (
-              <tr key={invoice.id} className="hover:bg-gray-50 font-sanchez  border-0 border-b-2 border-black space-y-10">
-                <td className="p-3 ">{invoice.id}</td>
-                <td className="p-3 ">{invoice.type}</td>
-                <td className="p-3 ">{invoice.client}</td>
-                <td className="p-3">{invoice.date}</td>
-
-                <td className="p-3">
-
+              <tr key={invoice.id} className="hover:bg-gray-50 font-sanchez  border-0 border-b border-black grid grid-cols-5">
+                <td className="p-4 text-start">{invoice.id}</td>
+                <td className="p-4 text-start">{invoice.type}</td>
+                <td className="p-4 text-start">{invoice.client}</td>
+                <td className="p-4 text-end">{invoice.date}</td>
+                <td className="p-4 text-end">
                   ₹{invoice.amount.toLocaleString()}
-                </td>
-                <td className="p-3">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${invoice.status === "Paid"
-
-                      }`}
-                  >
-                    {invoice.status}
-                  </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </div>
   );
 };
 

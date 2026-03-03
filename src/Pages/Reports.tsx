@@ -13,7 +13,7 @@ const Reports = () => {
       <div className="absolute right-10 top-4">
         <button className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-black"><img className="h-8" src={ex} />Export Data</button>
       </div>
-      <div className="w-full">
+      <div className="w-full pl-10">
         <Radiogroup />
         <div className="w-full flex justify-center items-center ">
           <div className="w-[50%] m-5  grid grid-cols-2 gap-[30px]  place-items-center">
@@ -25,7 +25,9 @@ const Reports = () => {
           <div className="w-[50%] mr-10"><Revenue /></div>
         </div>
       </div>
+      <div className="pl-10">
       <Reporttable />
+      </div>
     </div>
   )
 }

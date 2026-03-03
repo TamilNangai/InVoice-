@@ -6,9 +6,11 @@ import Popup3 from "@/assets/Popup3.png"
 import Popup4 from "@/assets/Popup4.png"
 import src1 from '@/assets/Vectorw.png'
 import src2 from '@/assets/Vector.png'
+import InvoicedetailsTable from "@/Components/Table/InvoicedetailsTable"
 
 const InvoicePage = () => {
   return (
+    <>
       <section className="w-[1500px]">
         <Header h1="Invoice Page" para="Manage your invoices here." />
         <div className="absolute right-10 top-4">
@@ -37,9 +39,18 @@ billing and shipping"
 service billing"
             h6="Create Invoice" />
         </div>
+        <section className="flex gap-10 mx-6 mt-5">
+          <Search />
+          <Filter icon="" para="" dropdownimg="" />
+        </section> <div className="m-20"></div>
+        <div className="m-20 font-iceberg text-xl">
+          <h1>Product Details</h1>
+          <InvoicedetailsTable />
+        </div>
       </section>
 
-  
+
+    </>
 
   )
 }
