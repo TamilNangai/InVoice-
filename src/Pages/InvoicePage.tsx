@@ -6,7 +6,14 @@ import Popup3 from "@/assets/Popup3.png"
 import Popup4 from "@/assets/Popup4.png"
 import src1 from '@/assets/Vectorw.png'
 import src2 from '@/assets/Vector.png'
+import Search from "@/assets/filter/search.svg"
+import Filter from "@/Components/Filter/Filter"
+import dropdown from "@/assets/filter/dropdown.svg"
+import filter from "@/assets/filter/filter.svg"
+import circle from "@/assets/filter/circle.svg"
+import date from "@/assets/filter/date.svg"
 import InvoicedetailsTable from "@/Components/Table/InvoicedetailsTable"
+import Searchinput from "@/Components/Filter/Searchinput"
 
 const InvoicePage = () => {
   return (
@@ -39,10 +46,12 @@ billing and shipping"
 service billing"
             h6="Create Invoice" />
         </div>
-        <section className="flex gap-10 mx-6 mt-5">
-          {/* <Search />
-          <Filter icon="" para="" dropdownimg="" /> */}
-        </section> <div className="m-20"></div>
+        <section className="grid grid-cols-[4fr_1fr_1fr_1fr] gap-10 mx-10 mt-5 ">
+          <Searchinput icon={Search} para="Search by Invoice no or client Name" />
+          <Filter icon={filter} para="Type" dropdownimg={dropdown} />
+          <Filter icon={circle} para="Status" dropdownimg={dropdown} />
+          <Filter icon={date} para="Data Range"  />
+        </section>
         <div className="m-20 font-iceberg text-xl">
           <h1>Product Details</h1>
           <InvoicedetailsTable />
