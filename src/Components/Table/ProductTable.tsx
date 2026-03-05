@@ -75,7 +75,7 @@ const ProductTable = () => {
     );
 
     return (
-        <div className="w-full mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
+        <div className="w-[90%] mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
             <BaseTable variant="grid">
                 <BaseTable.Header>
                     <BaseTable.Row>
