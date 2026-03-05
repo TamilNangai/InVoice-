@@ -25,16 +25,13 @@ const Products = () => {
             src1={vectorw}
             src2="" />
         </div>
-        <section className="flex gap-10 mx-6 mt-5">
-          <Search />
-          <Filter icon="" para="" dropdownimg="" />
-        </section> <div className="m-20">
+      
           <h1>Product Details</h1>
           <ProductTable />
         </div>
 
 
-      </div>
+     
 
     </>
   )

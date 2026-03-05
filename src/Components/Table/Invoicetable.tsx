@@ -64,15 +64,14 @@ const RecentInvoices: React.FC = () => {
       : invoices.filter((invoice) => invoice.status === filter);
 
   return (
-    <div>
+    <div >
       <h2 className="text-3xl font-iceberg mb-4 pl-16 mt-10">
         Recent Invoices
       </h2>
-      <div className="pl-5">
-        <div className="w-[90%] mx-11 border-2 border-black rounded-xl overflow-hidden">
-          <table className="w-full text-center">
-            <thead className="h-16 text-xl">
-
+      <div className="pl-5 ">
+        <div className="w-[90%] mx-11 rounded-xl overflow-hidden border-2 border-black">
+          <table className="w-full text-center ">
+            <thead className="h-16 text-xl font-light">
               <tr className="flex gap-20 pl-14 p-5 font-iceberg ">
                 <th>
                   <button
@@ -98,11 +97,15 @@ const RecentInvoices: React.FC = () => {
                   </button>
                 </th>
                 <div className="absolute right-28 -mt-2">
-                  <Search />
+                  <div className='w-full flex justify-center items-center  h-[50px] rounded-[6px] text-black border border-[#00000033]'>
+                      <div className='flex justify-center items-center  text-[#1F1F1F]'>
+                      <input className='w-80 h-12 p-2 flex justify-center items-center text-black' type="text" name="search" placeholder='Search Invoices,Clients...' />
+                    </div>
+                    </div>
                 </div>
               </tr>
 
-              <tr className="grid grid-cols-6 font-iceberg border border-black">
+              <tr className="grid grid-cols-6 font-iceberg font-normal">
                 <th className="p-3 border">Invoice No</th>
                 <th className="p-3 border">Type</th>
                 <th className="p-3 border">Client</th>
@@ -114,7 +117,7 @@ const RecentInvoices: React.FC = () => {
 
             <tbody>
               {filteredInvoices.map((invoice, index) => (
-                <tr key={index} className="hover:bg-gray-50 grid grid-cols-6 border border-black">
+                <tr key={index} className="hover:bg-gray-50 grid grid-cols-6 ">
                   <td className="p-3 border">{invoice.id}</td>
                   <td className="p-3 border">{invoice.type}</td>
                   <td className="p-3 border">{invoice.client}</td>

@@ -40,8 +40,8 @@ service billing"
             h6="Create Invoice" />
         </div>
         <section className="flex gap-10 mx-6 mt-5">
-          <Search />
-          <Filter icon="" para="" dropdownimg="" />
+          {/* <Search />
+          <Filter icon="" para="" dropdownimg="" /> */}
         </section> <div className="m-20"></div>
         <div className="m-20 font-iceberg text-xl">
           <h1>Product Details</h1>

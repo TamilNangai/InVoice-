@@ -1,6 +1,10 @@
+import { useState } from "react";
 import BaseTable from "./BaseTable";
 
 const ProductTable = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 6;
+
     const products = [
         {
             name: "Report Management System",
@@ -44,11 +48,34 @@ const ProductTable = () => {
             max: "Internship",
             min: "3500/-",
         },
+
+        // Extra rows for testing pagination
+        {
+            name: "CRM Software",
+            type: "Product",
+            id: "CRM-DF_2025",
+            max: "15 Lakhs",
+            min: "18 Lakhs",
+        },
+        {
+            name: "AI Chatbot Service",
+            type: "Service",
+            id: "AI-DF_2025",
+            max: "Service",
+            min: "2500/-",
+        },
     ];
 
-    return (
-        <div className="w-[100%] mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
+    const totalPages = Math.ceil(products.length / rowsPerPage);
+    const startIndex = (currentPage - 1) * rowsPerPage;
 
+    const currentRows = products.slice(
+        startIndex,
+        startIndex + rowsPerPage
+    );
+
+    return (
+        <div className="w-full mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
             <BaseTable variant="grid">
                 <BaseTable.Header>
                     <BaseTable.Row>
@@ -60,7 +87,7 @@ const ProductTable = () => {
                 </BaseTable.Header>
 
                 <BaseTable.Body>
-                    {products.map((item, index) => (
+                    {currentRows.map((item, index) => (
                         <BaseTable.Row key={index}>
                             <BaseTable.Cell>
                                 <div className="font-medium text-gray-800">
@@ -78,14 +105,37 @@ const ProductTable = () => {
                     ))}
                 </BaseTable.Body>
             </BaseTable>
-            <div className="flex justify-between border-x border-b border-black items-center px-4 py-3  text-sm">
-                <div>Showing 1 to 6 of 200 Results</div>
+
+            {/* Footer Pagination */}
+            <div className="flex justify-between border-x border-b border-black items-center px-4 py-3 text-sm">
+                <div>
+                    Showing {startIndex + 1} to{" "}
+                    {Math.min(startIndex + rowsPerPage, products.length)} of{" "}
+                    {products.length} Results
+                </div>
 
                 <div className="flex gap-2">
-                    <button className="px-3 py-1 border border-black rounded bg-gray-200">
+                    <button
+                        onClick={() =>
+                            setCurrentPage((prev) =>
+                                prev > 1 ? prev - 1 : prev
+                            )
+                        }
+                        disabled={currentPage === 1}
+                        className="px-3 py-1 border border-black rounded bg-gray-200 disabled:opacity-50"
+                    >
                         &lt;
                     </button>
-                    <button className="px-3 py-1 border border-black rounded bg-gray-200">
+
+                    <button
+                        onClick={() =>
+                            setCurrentPage((prev) =>
+                                prev < totalPages ? prev + 1 : prev
+                            )
+                        }
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1 border border-black rounded bg-gray-200 disabled:opacity-50"
+                    >
                         &gt;
                     </button>
                 </div>
