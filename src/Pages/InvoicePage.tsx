@@ -52,8 +52,8 @@ service billing"
           <Filter icon={circle} para="Status" dropdownimg={dropdown} />
           <Filter icon={date} para="Data Range"  />
         </section>
-        <div className="m-20 font-iceberg text-xl">
-          <h1>Product Details</h1>
+        <div className="mx-10 my-10 font-iceberg text-xl">
+          <h1 className="iceberg text-[32px] leading-[100%]">Invoice  Details</h1>
           <InvoicedetailsTable />
         </div>
       </section>
