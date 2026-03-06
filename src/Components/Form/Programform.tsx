@@ -28,7 +28,7 @@ const ProgramForm = () => {
 
       <section className="grid grid-cols-2 gap-10 font-iceberg text-lg">
 
-        <div>
+        <div className="">
           <InputField
             label="Internship Program Name"
             name="internship"
@@ -44,11 +44,12 @@ const ProgramForm = () => {
           <InputField
             label="Start Date"
             name="start"
+            type="number"
             placeholder="01-01-2026"
           />
         </div>
 
-        <div className=" mt-20">
+        <div className=" col-span-2">
           <InputField
             label="Trainer Name(optional)"
             name="tranier"
@@ -58,12 +59,11 @@ const ProgramForm = () => {
           <InputField
             label="End Date"
             name="enddate"
+            type="number"
             placeholder="31-01-2026"
           />
         </div>
-
       </section>
-
     </form>
   );
 };
