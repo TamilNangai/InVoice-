@@ -2,7 +2,7 @@
 
 
 import React, { useState } from "react";
-import Search from "../Filter/Search";
+
 export interface Invoice {
   id: string;
   type: string;

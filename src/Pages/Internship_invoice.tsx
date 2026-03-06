@@ -17,8 +17,8 @@ const Internship_invoice = () => {
           <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1='' />
         </div>
       </div>
-      <section className="grid grid-cols-2 grid-rows-12">
-        <div className="row-span-6">
+      <section className="grid grid-cols-2 grid-rows-[18px]">
+        <div>
           <Stdform studentName='Student Name' college='College / Institution' phone='Phone Number' email='Email Address' />
           <Programform />
           <Feeform />

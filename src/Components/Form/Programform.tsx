@@ -49,7 +49,7 @@ const ProgramForm = () => {
           />
         </div>
 
-        <div className=" col-span-2">
+        <div className="">
           <InputField
             label="Trainer Name(optional)"
             name="tranier"
