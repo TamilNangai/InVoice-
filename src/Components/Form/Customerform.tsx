@@ -1,39 +1,49 @@
-// import React from "react";
-import InputField from "./Stdinput";
+import React from "react";
+import InputField from "@/Components/Form/InputField";
 
-const CustomerForm = () => {
+type CustomerData = {
+  customer?: string;
+  email?: string;
+  office?: string;
+  gst?: string;
+  phone?: string;
+  address?: string;
+};
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+type Props = {
+  data: CustomerData;
+  setData: React.Dispatch<React.SetStateAction<CustomerData>>;
+};
 
-    const form = e.currentTarget;
+const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
-    const data = {
-      customer: (form.elements.namedItem("customer") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      gst: (form.elements.namedItem("gst") as HTMLInputElement).value,
-      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
-      address: (form.elements.namedItem("address") as HTMLInputElement).value,
-      office: (form.elements.namedItem("office") as HTMLInputElement).value,
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-    console.log("Customer Data:", data);
+    setData({
+      ...data,
+      [name]: value,
+    });
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
-      className="mx-11 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
+      className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
     >
       <h2 className="text-xl font-bold mb-4 pl-8">Customer Details</h2>
 
       <section className="grid grid-cols-2 gap-10 font-iceberg text-md">
 
+        {/* Left Side */}
+
         <div>
+
           <InputField
             label="Customer Name"
             name="customer"
-            placeholder="Sweatha"
+            placeholder="Swetha"
+            value={data.customer || ""}
+            onChange={handleChange}
           />
 
           <InputField
@@ -41,35 +51,48 @@ const CustomerForm = () => {
             type="email"
             name="email"
             placeholder="swetha@email.com"
+            value={data.email || ""}
+            onChange={handleChange}
           />
+
           <InputField
             label="Office Name"
             name="office"
             placeholder="Kings College of Engineering"
+            value={data.office || ""}
+            onChange={handleChange}
           />
+
           <InputField
             label="GST Number"
-            name="number"
-            type="number"
-            placeholder="1234567890"
+            name="gst"
+            placeholder="33ABCDE1234F1Z5"
+            value={data.gst || ""}
+            onChange={handleChange}
           />
 
         </div>
 
+        {/* Right Side */}
+
         <div className="mt-20">
-          
+
           <InputField
             label="Phone Number"
-            type="number"
+            type="tel"
             name="phone"
             placeholder="+91 1234567890"
+            value={data.phone || ""}
+            onChange={handleChange}
           />
+
           <InputField
             label="Office Address"
             name="address"
-            placeholder="Kings College of Engineering"
+            placeholder="Chennai, Tamil Nadu"
+            value={data.address || ""}
+            onChange={handleChange}
           />
-
 
         </div>
 

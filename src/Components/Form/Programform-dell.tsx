@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "./Programinput";
+import InputField from "@/Components/Form/InputField"
 type stdform = {
  internship: string;
  batch: string;

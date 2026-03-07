@@ -8,8 +8,16 @@ import Reports from "./Pages/Reports"
 import Internship_invoice from"./Pages/Internship_invoice"
 import Service_invoice from "./Pages/Service_invoice"
 import Sidebar from "./Components/Nav/Sidebar"
+import { useEffect } from "react";
 
 function App() {
+
+ useEffect(()=>{
+    window.electron?.on("main-process-message",(data)=>{
+      console.log(data)
+    })
+  },[])
+
 
   return (
     <>
