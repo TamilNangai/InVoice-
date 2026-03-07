@@ -27,7 +27,7 @@ const InputField: React.FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        defaultValue={value}
+       
         className="w-full pl-3 py-2 outline-none border-2 border-black rounded-md font-sanchez text-sm" />
     </div>
   )
