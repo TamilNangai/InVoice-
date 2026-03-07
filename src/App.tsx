@@ -5,7 +5,7 @@ import InvoicePage from "./Pages/InvoicePage"
 import Product_invoice from "./Pages/Product_invoice"
 import Settings from "./Pages/Settings"
 import Reports from "./Pages/Reports"
-import Internship_invoice from "./Pages/Internship_invoice"
+import Internship_invoice from"./Pages/Internship_invoice"
 import Service_invoice from "./Pages/Service_invoice"
 import Sidebar from "./Components/Nav/Sidebar"
 

@@ -42,7 +42,7 @@ const Table = ({
  
 
 const Header = ({ children }: SectionProps) => {
-    return <thead >{children}</thead>;
+    return <thead>{children}</thead>;
 };
 
 // const Body = ({ children }: SectionProps) => {
@@ -67,7 +67,7 @@ const Cell = ({ children }: SectionProps) => {
 
     return (
         <td
-            className={`p-3  text-sm ${variant === "grid" ? "border border-black" : ""
+            className={`p-4 font-sanchez  ${variant === "grid" ? "border border-black" : ""
                 }`}
         >
             {children}
@@ -80,7 +80,7 @@ const HeadCell = ({ children }: SectionProps) => {
 
     return (
         <th
-            className={`p-3 text-left text-sm font-semibold ${variant === "grid" ? "border border-black" : ""
+            className={`p-5 text-center text-sm font-semibold ${variant === "grid" ? "border border-black" : ""
                 }`}
         >
             {children}

@@ -25,9 +25,9 @@ const Products = () => {
             src1={vectorw}
             src2="" />
         </div>
-        <h1>Product Details</h1>
-      <div className="flex justify-center items-center flex-col">
-         
+        
+        <div className="mx-10 my-10 font-iceberg text-xl">
+          <h1 className="font-iceberg text-[32px] leading-[100%]">Product Details</h1>
           <ProductTable />
           </div>
         </div>

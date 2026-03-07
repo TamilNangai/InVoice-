@@ -305,7 +305,7 @@ const ProductForm = () => {
 
       {/* Table Header */}
       <div className="grid grid-cols-12 gap-3 font-iceberg text-lg">
-        <div className="col-span-4">Product Name</div>
+        <div className="col-span-5">Product Name</div>
         <div className="col-span-2">Sub</div>
         <div className="col-span-2">Price</div>
         <div className="col-span-2">Tax %</div>
@@ -334,12 +334,14 @@ const ProductForm = () => {
 
           <input
             name="price"
+            type="number"
             placeholder="100000"
             className="col-span-2 border-2 border-black rounded-md px-3 py-2"
           />
 
           <input
             name="tax"
+            type="number"
             placeholder="18"
             className="col-span-2 border-2 border-black rounded-md px-3 py-2"
           />
@@ -376,12 +378,14 @@ const ProductForm = () => {
 
           <input
             name="price"
+            type="number"
             placeholder="100000"
             className="col-span-2 border-2 border-black rounded-md px-3 py-2"
           />
 
           <input
             name="tax"
+            type="number"
             placeholder="18"
             className="col-span-2 border-2 border-black rounded-md px-3 py-2"
           />

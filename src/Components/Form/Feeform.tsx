@@ -22,7 +22,7 @@ const ProForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.3)]"
+      className="mx-11 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.3)]"
     >
       <h2 className="text-xl font-semibold mb-4 pl-8">Fee Breakdown</h2>
 

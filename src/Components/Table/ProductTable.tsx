@@ -75,14 +75,14 @@ const ProductTable = () => {
     );
 
     return (
-        <div className="w-[90%] mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
+        <div className="w-[100%] mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
             <BaseTable variant="grid">
                 <BaseTable.Header>
                     <BaseTable.Row>
-                        <BaseTable.HeadCell>Product Details</BaseTable.HeadCell>
-                        <BaseTable.HeadCell>Product ID</BaseTable.HeadCell>
-                        <BaseTable.HeadCell>Max Price</BaseTable.HeadCell>
-                        <BaseTable.HeadCell>Min Price</BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Product Details</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Product ID</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Max Price</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Min Price</div></BaseTable.HeadCell>
                     </BaseTable.Row>
                 </BaseTable.Header>
 
@@ -90,17 +90,17 @@ const ProductTable = () => {
                     {currentRows.map((item, index) => (
                         <BaseTable.Row key={index}>
                             <BaseTable.Cell>
-                                <div className="font-medium text-gray-800">
+                                <div className="font-iceberg text-[20px] text-gray-800">
                                     {item.name}
                                 </div>
-                                <div className="text-xs text-gray-500">
+                                <div className="text-[18px] font-sanchez text-gray-500">
                                     {item.type}
                                 </div>
                             </BaseTable.Cell>
 
-                            <BaseTable.Cell>{item.id}</BaseTable.Cell>
-                            <BaseTable.Cell>{item.max}</BaseTable.Cell>
-                            <BaseTable.Cell>{item.min}</BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[20px] font-sanchez">{item.id}</div></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[20px] font-sanchez">{item.max}</div></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[20px] font-sanchez">{item.min}</div></BaseTable.Cell>
                         </BaseTable.Row>
                     ))}
                 </BaseTable.Body>
@@ -108,7 +108,7 @@ const ProductTable = () => {
 
             {/* Footer Pagination */}
             <div className="flex justify-between border-x border-b border-black items-center px-4 py-3 text-sm">
-                <div>
+                <div className="font-sanchez text-[20px] text-gray-700">
                     Showing {startIndex + 1} to{" "}
                     {Math.min(startIndex + rowsPerPage, products.length)} of{" "}
                     {products.length} Results

@@ -121,7 +121,7 @@ const CompanyForm = () => {
         <div className="text-sm">
           <InputField
             label="Company Phone"
-            type="tel"
+            type="number"
             name="companyPhone"
             placeholder="+91 1234567890"
           />
