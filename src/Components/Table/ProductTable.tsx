@@ -49,7 +49,6 @@ const ProductTable = () => {
             min: "3500/-",
         },
 
-        // Extra rows for testing pagination
         {
             name: "CRM Software",
             type: "Product",
@@ -106,7 +105,6 @@ const ProductTable = () => {
                 </BaseTable.Body>
             </BaseTable>
 
-            {/* Footer Pagination */}
             <div className="flex justify-between border-x border-b border-black items-center px-4 py-3 text-sm">
                 <div className="font-sanchez text-[20px] text-gray-700">
                     Showing {startIndex + 1} to{" "}
