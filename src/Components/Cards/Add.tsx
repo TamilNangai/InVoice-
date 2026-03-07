@@ -22,8 +22,8 @@ function Add(props: AddProps) {
                 <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-5 py-2 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h8}</button>
             </div>
             {show && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="border border-black rounded-xl w-2/5 space-y-3 absolute right-72 h-[500px]" >
+                <div className="fixed inset-0 flex items-center justify-center  z-50">
+                    <div className="border border-black rounded-xl w-2/5 space-y-3 absolute right-72 h-[500px] bg-white" >
                         <h1 className="font-iceberg text-2xl pl-10 mt-3">{props.h1}</h1>
                         <p className="font-sanchez text-sm pl-10">{props.para1}</p>
                         <h6 className="font-iceberg text-lg pl-12 border-b-2 border-gray-200 ">{props.h2}</h6>

@@ -1,70 +1,79 @@
-// import React from "react";
-import InputField from "./Stdinput";
+import React from "react";
+import InputField from "@/Components/Form/InputField"
 
-const ProgramForm = () => {
+type Props = {
+  data: {
+    internship: string;
+    batch: string;
+    start: string;
+    trainer: string;
+    enddate: string;
+  };
+  setData: (data: any) => void;
+};
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const ProgramForm = ({ data, setData }: Props) => {
 
-    const form = e.currentTarget;
-
-    const data = {
-      internship: (form.elements.namedItem("internship") as HTMLInputElement).value,
-      batch: (form.elements.namedItem("batch") as HTMLInputElement).value,
-      start: (form.elements.namedItem("start") as HTMLInputElement).value,
-      trainer: (form.elements.namedItem("tranier") as HTMLInputElement).value,
-      enddate: (form.elements.namedItem("enddate") as HTMLInputElement).value,
-    };
-
-    console.log("Program Data:", data);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
       className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
     >
       <h2 className="text-xl font-semibold mb-4 pl-8">Program Details</h2>
 
       <section className="grid grid-cols-2 gap-10 font-iceberg text-lg">
 
-        <div>
+        <div className="">
           <InputField
             label="Internship Program Name"
             name="internship"
+            value={data.internship}
+            onChange={handleChange}
             placeholder="Web Development Internship"
           />
 
           <InputField
             label="Batch Name"
             name="batch"
-            placeholder="swetha@gmail.com"
+            value={data.batch}
+            onChange={handleChange}
+            placeholder="Summer Batch 2026"
           />
 
           <InputField
             label="Start Date"
+            type="date"
             name="start"
-            placeholder="01-01-2026"
+            value={data.start}
+            onChange={handleChange}
           />
         </div>
 
-        <div className=" mt-20">
+        <div className="mt-20">
           <InputField
-            label="Trainer Name(optional)"
-            name="tranier"
-            placeholder="HariHaran"
+            label="Trainer Name (Optional)"
+            name="trainer"
+            value={data.trainer}
+            onChange={handleChange}
+            placeholder="Hariharan"
           />
 
           <InputField
             label="End Date"
+            type="date"
             name="enddate"
-            placeholder="31-01-2026"
+            value={data.enddate}
+            onChange={handleChange}
           />
         </div>
-
       </section>
-
-    </form>
+    </div>
   );
 };
 

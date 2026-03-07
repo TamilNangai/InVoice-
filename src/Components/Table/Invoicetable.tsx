@@ -1,8 +1,5 @@
-// 
-
-
 import React, { useState } from "react";
-import Search from "../Filter/Search";
+
 export interface Invoice {
   id: string;
   type: string;
@@ -72,36 +69,48 @@ const RecentInvoices: React.FC = () => {
         <div className="w-[90%] mx-11 rounded-xl overflow-hidden border-2 border-black">
           <table className="w-full text-center ">
             <thead className="h-16 text-xl font-light">
-              <tr className="flex gap-20 pl-14 p-5 font-iceberg ">
+              <tr className="flex gap-20 pl-14 p-5 font-iceberg">
                 <th>
                   <button
-                    className="hover:bg-[#136CED80] rounded-md h-8 w-28"
-                    onClick={() => setFilter("All")}>
+                    className={`rounded-md h-8 w-28 hover:bg-[#136CED80] 
+      ${filter === "All" ? "bg-[#136CED80]" : ""}`}
+                    onClick={() => setFilter("All")}
+                  >
                     All Invoices
                   </button>
                 </th>
+
                 <th>
                   <button
-                    className="hover:bg-[#136CED80] rounded-md h-8 w-12"
+                    className={`rounded-md h-8 w-12 hover:bg-[#136CED80] 
+      ${filter === "Paid" ? "bg-[#136CED80]" : ""}`}
                     onClick={() => setFilter("Paid")}
                   >
                     Paid
                   </button>
                 </th>
+
                 <th>
                   <button
-                    className="hover:bg-[#136CED80] rounded-md h-8 w-20"
+                    className={`rounded-md h-8 w-20 hover:bg-[#136CED80] 
+      ${filter === "Pending" ? "bg-[#136CED80]" : ""}`}
                     onClick={() => setFilter("Pending")}
                   >
                     Pending
                   </button>
                 </th>
+
                 <div className="absolute right-28 -mt-2">
-                  <div className='w-full flex justify-center items-center  h-[50px] rounded-[6px] text-black border border-[#00000033]'>
-                      <div className='flex justify-center items-center  text-[#1F1F1F]'>
-                      <input className='w-80 h-12 p-2 flex justify-center items-center text-black' type="text" name="search" placeholder='Search Invoices,Clients...' />
+                  <div className="w-full flex justify-center items-center h-[50px] rounded-[6px] text-black border border-[#00000033]">
+                    <div className="flex justify-center items-center text-[#1F1F1F]">
+                      <input
+                        className="w-80 h-12 p-2 text-black"
+                        type="text"
+                        name="search"
+                        placeholder="Search Invoices,Clients..."
+                      />
                     </div>
-                    </div>
+                  </div>
                 </div>
               </tr>
 
@@ -127,7 +136,7 @@ const RecentInvoices: React.FC = () => {
                   </td>
                   <td className="p-3 border">
                     <span>
-                      {invoice.status}
+                      .   {invoice.status}
                     </span>
                   </td>
                 </tr>

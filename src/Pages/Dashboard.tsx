@@ -10,6 +10,7 @@ import src2 from '@/assets/Vector.png'
 import Invoicetable from "@/Components/Table/Invoicetable"
 import Search from "@/Components/Filter/Search"
 import Filter from "@/Components/Filter/Filter"
+
 // import Search from "@/Components/Filter/Search"
 // import Filter from "@/Components/Filter/Filter"
 // import circle from "@/assets/filter/circle.svg"
@@ -62,10 +63,9 @@ service billing"
 
                         </div>
                         <div className="w-[100%]">
+                                
                                 <Invoicetable />
                         </div>
-                        {/* <Search/>
-                        <Filter icon="" para="" dropdownimg=""/> */}
                 </div>
 
         )

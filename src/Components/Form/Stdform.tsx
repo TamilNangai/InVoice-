@@ -1,123 +1,71 @@
-// import React, { useState } from "react";
-// import InputField from "./Stdinput";
-// type stdform = {
-//   studentName: string;
-//   college: string;
-//   email: string;
-//   phone: string;
-// };
-// const StudentForm = (Props:stdform) => {
-//   const [formData, setFormData] = useState<stdform>({
-//     studentName: Props.studentName,
-//     college: Props.college,
-//     email: Props.email,
-//     phone: Props.phone,
-//   });
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   return (
-//     <div className="h-fit mx-11 mt-10 p-6 font-iceberg rounded-xl border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] ">
-//       <h2 className="text-xl font-semibold mb-4">Student Details</h2>
-//       <section className="grid grid-cols-2 gap-10 font-sanchez">
-//         <div className="text-sm">
-//           <InputField
-//             label={Props.studentName}
-//             name="studentName"
-//             value={formData.studentName}
-//             onChange={handleChange}
-//             placeholder="Sweatha"
-
-//           />
-
-//           <InputField
-//             label={Props.college}
-//             name="college"
-//             value={formData.college}
-//             onChange={handleChange}
-//             placeholder="kings college of engineering"
-//           />
-//         </div>
-//         <div className="text-sm">
-//            <InputField
-//             label={Props.phone}
-//             type="tel"
-//             name="phone"
-//             value={formData.phone}
-//             onChange={handleChange}
-//             placeholder="+91 1234567890"
-//           />
-//           <InputField
-//             label={Props.email}
-//             type="email"
-//             name="email"
-//             value={formData.email}
-//             onChange={handleChange}
-//             placeholder="sweatha@gmail.com"
-//           />
-//         </div>
-//       </section>
-
-//     </div>
-   
-//   );
-// };
-
-// export default StudentForm;
-
 import React from "react";
-import InputField from "./Stdinput";
+import InputField from "@/Components/Form/InputField";
 
-const StudentForm = () => {
+type StudentData = {
+  studentName: string;
+  college: string;
+  phone: string;
+  email: string;
+};
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+type Props = {
+  data: StudentData;
+  setData: (data: StudentData) => void;
+};
 
-    const form = e.currentTarget;
+const StudentForm: React.FC<Props> = ({ data, setData }) => {
 
-    const data = {
-      studentName: (form.elements.namedItem("studentName") as HTMLInputElement).value,
-      college: (form.elements.namedItem("college") as HTMLInputElement).value,
-      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-    console.log("Student Data:", data);
+    setData({
+      ...data,
+      [name]: value
+    });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
       className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
     >
-      <h2 className="text-xl font-semibold mb-4 pl-8">Student Details</h2>
+      <h2 className="text-xl font-semibold mb-4 pl-8">
+        Student Details
+      </h2>
 
       <section className="grid grid-cols-2 gap-10 font-iceberg text-lg">
 
+  
+
         <div>
+
           <InputField
             label="Student Name"
             name="studentName"
-            placeholder="Sweatha"
+            value={data.studentName || ""}
+            onChange={handleChange}
+            placeholder="Swetha"
           />
 
           <InputField
-            label="College / Institution"
+            label="College Name"
             name="college"
+            value={data.college || ""}
+            onChange={handleChange}
             placeholder="Kings College of Engineering"
           />
+
         </div>
 
+      
+
         <div>
+
           <InputField
             label="Phone Number"
             type="tel"
             name="phone"
+            value={data.phone || ""}
+            onChange={handleChange}
             placeholder="+91 1234567890"
           />
 
@@ -125,15 +73,16 @@ const StudentForm = () => {
             label="Email Address"
             type="email"
             name="email"
-            placeholder="sweatha@gmail.com"
+            value={data.email || ""}
+            onChange={handleChange}
+            placeholder="swetha@gmail.com"
           />
+
         </div>
 
       </section>
 
-     
-
-    </form>
+    </div>
   );
 };
 

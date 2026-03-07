@@ -1,62 +1,65 @@
-// import React from "react";
-import InputField from "./Stdinput";
+import React from "react";
+import InputField from "@/Components/Form/InputField"
 
-const ProForm = () => {
+type Props = {
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
+};
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const ProForm = ({ data, setData }: Props) => {
 
-    const form = e.currentTarget;
-
-    const data = {
-      tranining: (form.elements.namedItem("tranining") as HTMLInputElement).value,
-      certificate: (form.elements.namedItem("certificate") as HTMLInputElement).value,
-      tax: (form.elements.namedItem("tax") as HTMLInputElement).value,
-      intership: (form.elements.namedItem("intership") as HTMLInputElement).value,
-      discount: (form.elements.namedItem("discount") as HTMLInputElement).value,
-    };
-
-    console.log("Form Data:", data);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
       className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.3)]"
     >
       <h2 className="text-xl font-semibold mb-4 pl-8">Fee Breakdown</h2>
 
       <section className="grid grid-cols-2 gap-10 font-iceberg text-lg">
-        <div >
+
+        <div>
           <InputField
             label="Training Fee"
-            name="tranining"
+            name="training"
             type="number"
             placeholder="5000.0"
+            value={data.training || ""}
+            onChange={handleChange}
           />
 
           <InputField
             label="Certificate Fee"
             name="certificate"
             type="number"
-
-            placeholder="Swetha@gmail.com"
+            placeholder="1000"
+            value={data.certificate || ""}
+            onChange={handleChange}
           />
 
           <InputField
-            label="Tax Rate(%)"
+            label="Tax Rate (%)"
             name="tax"
             type="number"
             placeholder="10"
+            value={data.tax || ""}
+            onChange={handleChange}
           />
         </div>
 
         <div>
           <InputField
             label="Internship Fee"
+            name="internship"
             type="number"
-            name="intership"
             placeholder="500.00"
+            value={data.internship || ""}
+            onChange={handleChange}
           />
 
           <InputField
@@ -64,11 +67,12 @@ const ProForm = () => {
             name="discount"
             type="number"
             placeholder="50.0"
+            value={data.discount || ""}
+            onChange={handleChange}
           />
         </div>
+
       </section>
-
-
     </form>
   );
 };

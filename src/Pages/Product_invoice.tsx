@@ -15,13 +15,23 @@ const Product_invoice = () => {
           <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
         </div>
       </aside>
-      <section className="flex">
-        <div className="w-[50%] ">
-          <CustomerForm />
-          <Productform />
-          <Priceform />
+      <section className="grid grid-cols-2 grid-rows-10 h-screen">
+        <div className="">
+          <div className="row-span-4">
+            <CustomerForm />
+          </div>
+          <div className="row-span-3">
+            <Productform />
+          </div>
+          <div className="row-span-3">
+            <Priceform total="110000"
+              due="10000"
+              paid="100000"
+              duedate="2026-03-10"
+              paymentMethod="UPI" />
+          </div>
         </div>
-        <div className='w-[50%] flex flex-col justify-center my-10 items-center -mt-5'>
+        <div className='flex flex-col justify-center my-10 items-center -mt-5'>
           <Bill button={<Buttons src1="" src2="" h1="Product Invoice" h2="" />} name="Akash " email="akash@gmail.com" phone={8525913433} college="State University of Technology" invoiceid="INV-2026-001" date="JAN 24, 2026" duedate="Feb 24, 2026" boxinvoicedate='Jan 20,2026' boxduedate='Feb 20,2026' boxref='Po-12345' detailhead='Product Details' head11="Report Management" head12="Prd:0015" amount1={100000.00} head21="Hall Management" head22="Prd:0012" amount2={200000.00} count1="2M" count2="2M" subamount11={30000.00} subamount12={0.00} subamount13={50.00} subamount21={30050.00} subamount22={50.00} subamount23={500.00} conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced." />
         </div>
       </section>

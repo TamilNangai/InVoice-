@@ -1,16 +1,42 @@
-
-
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
-interface InvoiceData {
+type SaveInvoiceData = {
   invoiceType: string;
-  companyDetails: any;
-  // items: any;
-  priceDetails: any;
-}
 
-export const saveInvoice = async (data: InvoiceData) => {
+  student: {
+    studentName: string;
+    email: string;
+    phone: string;
+    college: string;
+  };
+
+  program: {
+    internship: string;
+    batch: string;
+    start: string;
+    trainer: string;
+    enddate: string;
+  };
+
+  fees: {
+    training: number;
+    certificate: number;
+    tax: number;
+    internship: number;
+    discount: number;
+  };
+
+  price: {
+    total: string;
+    due: string;
+    paid: string;
+    duedate: string;
+    paymentMethod: string;
+  };
+};
+
+export const saveInvoice = async (data: SaveInvoiceData) => {
   try {
     const docRef = await addDoc(collection(db, "invoices"), {
       ...data,
