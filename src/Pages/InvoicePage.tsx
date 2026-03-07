@@ -102,7 +102,7 @@ const filteredInvoices = invoices.filter((item) => {
 
       <div className=" flex gap-6 justify-center items-center px-20 m-3 mb-5">
 
-        <div className="w-5/12">
+        <div className="w-7/12">
 
           <Searchinput
             icon={searchIcon}
@@ -112,7 +112,7 @@ const filteredInvoices = invoices.filter((item) => {
           />
 
     </div>
-        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-4 py-2 w-2/12 ">
+        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-2/12 h-[50px] ">
 
           <img src={filterIcon} className="w-4 h-4" />
 
@@ -129,7 +129,7 @@ const filteredInvoices = invoices.filter((item) => {
         </div>
 
 
-        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-4 py-2 w-2/12 ">
+        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-2/12 h-[50px] ">
 
           <img src={statusIcon} className="w-4 h-4" />
 
@@ -145,7 +145,7 @@ const filteredInvoices = invoices.filter((item) => {
 
         </div>
 
-        <div className="flex items-center gap-3 border border-[#00000033] rounded-md px-4 py-2 w-3/12  cursor-pointer"
+        <div className="flex items-center gap-3 border border-[#00000033] rounded-md px-4 py-2 w-2/12 h-[50px]  cursor-pointer"
           onClick={() => dateRef.current?.showPicker()}>
 
           <img src={dateIcon} className="w-5 h-5" />
