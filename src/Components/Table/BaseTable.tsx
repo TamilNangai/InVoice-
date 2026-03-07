@@ -31,7 +31,7 @@ const Table = ({
 }: TableProps) => {
     return (
         <TableContext.Provider value={{ variant }}>
-            <div className="border border-black overflow-hidden">
+            <div className=" overflow-hidden">
                 <table className={`w-full border-collapse ${className}`}>
                     {children}
                 </table>
@@ -67,7 +67,7 @@ const Cell = ({ children }: SectionProps) => {
 
     return (
         <td
-            className={`p-4 font-sanchez  ${variant === "grid" ? "border border-black" : ""
+            className={`p-3 font-sanchez  ${variant === "grid" ? "border border-black" : ""
                 }`}
         >
             {children}

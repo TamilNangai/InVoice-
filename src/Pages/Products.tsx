@@ -26,7 +26,7 @@ const Products = () => {
             src2="" />
         </div>
         
-        <div className="mx-10 my-10 font-iceberg text-xl">
+        <div className=" mx-10 mt-10 font-iceberg text-xl">
           <h1 className="font-iceberg text-[32px] leading-[100%]">Product Details</h1>
           <ProductTable />
           </div>
