@@ -75,14 +75,14 @@ const ProductTable = () => {
     );
 
     return (
-        <div className="w-[100%] mt-5 bg-white shadow-md rounded-xl overflow-hidden border border-black">
+        <div className="w-[100%] mt-3 bg-white shadow-md rounded-xl overflow-hidden border border-black">
             <BaseTable variant="grid">
                 <BaseTable.Header>
                     <BaseTable.Row>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Product Details</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Product ID</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Max Price</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[32px]">Min Price</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Product Details</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Product ID</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Max Price</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Min Price</div></BaseTable.HeadCell>
                     </BaseTable.Row>
                 </BaseTable.Header>
 

@@ -23,10 +23,8 @@ function Dashboard() {
         return (
 
                 <div className="w-[1500px]">
-                        <div >
-                                <Header h1="Dashboard"
-                                        para=""
-                                />
+                        <div className="bg-[#DFDFDF99] pl-10 h-20">
+                                <h1 className="text-black font-iceberg text-3xl font-extralight absolute left-90 top-6">Dashboard</h1>
                         </div>
                         <div className="absolute right-10 top-4">
                                 <Create popup1={Popup1}
@@ -63,7 +61,7 @@ service billing"
 
                         </div>
                         <div className="w-[100%]">
-                                
+
                                 <Invoicetable />
                         </div>
                         {/* <Search/>

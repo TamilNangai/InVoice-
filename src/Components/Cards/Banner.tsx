@@ -18,7 +18,7 @@ type Bannerprops = {
 function Banner(props: Bannerprops) {
   return (
     <section >
-      <div className="border-2 border-black shadow-[0_0_10px_rgba(0,0,0,0.5)] mx-10 rounded-xl p-6">
+      <div className="border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.5)] mx-10 rounded-xl p-6">
         <h1 className="text-2xl font-iceberg">{props.h1}</h1>
         <p className="font-sanchez">{props.para1}</p>
         <div className="space-y-6 mt-5 ">

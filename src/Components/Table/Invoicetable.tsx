@@ -68,7 +68,7 @@ const RecentInvoices: React.FC = () => {
       <h2 className="text-3xl font-iceberg mb-4 pl-16 mt-10">
         Recent Invoices
       </h2>
-      <div className="pl-5 ">
+      <div className="pl-5">
         <div className="w-[90%] mx-11 rounded-xl overflow-hidden border-2 border-black">
           <table className="w-full text-center ">
             <thead className="h-16 text-xl font-light">

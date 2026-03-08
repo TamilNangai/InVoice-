@@ -17,16 +17,21 @@ const Service_invoice = () => {
           <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
         </div>
       </aside>
-      <section className="flex">
-        <div className="w-[50%] ">
+      <section className="grid grid-cols-2 grid-rows-10 h-screen">
+        <div className="col-start-1 col-end-2 row-start-1 row-end-4 p-4">
           <CustomerForm />
+        </div>
+        <div className="col-start-1 col-end-2 row-start-6 row-end-8 p-4 mt-10">
           <Productform />
+        </div>
+        <div className="col-start-1 col-end-2 row-start-10 row-end-11 p-4 mt-12">
           <Priceform total="110000"
             due="10000"
             paid="100000"
             duedate="2026-03-10"
-            paymentMethod="UPI" />        </div>
-        <div className='w-[50%] flex flex-col justify-center my-10 items-center -mt-5'>
+            paymentMethod="UPI" />
+        </div>
+        <div className='col-start-2 col-end-3 row-start-1 row-end-11 p-2'>
           {/* <Bill button={<Buttons h1="Product Invoice" h2="" src1="" src2="" />} name="Akash " email="akash@gmail.com" phone={8525913433} college="State University of Technology" invoiceid="INV-2026-001" date="JAN 24, 2026" duedate="Feb 24, 2026" boxinvoicedate='Jan 20,2026' boxduedate='Feb 20,2026' boxref='Po-12345' detailhead='Product Details' head11="Report Management" head12="Prd:0015" amount1={100000.00} head21="Hall Management" head22="Prd:0012" amount2={200000.00} count1="2M" count2="2M" subamount11={30000.00} subamount12={0.00} subamount13={50.00} subamount21={30050.00} subamount22={50.00} subamount23={500.00} conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced." /> */}
           <Bill button={<Buttons h1="Service Invoice" h2="" src1="" src2="" />} name="Akash " email="akash@gmail.com" phone={8525913433} college="State University of Technology" invoiceid="INV-2026-001" date="JAN 24, 2026" duedate="Feb 24, 2026" boxinvoicedate='Jan 20,2026' boxduedate='Feb 20,2026' boxref='Po-12345' detailhead='Service Details' head11="Static Website" head12="Srv:0010" amount1={10000.00} head21="Dynamic Website" head22="Srv:0011" amount2={20000.00} subamount11={30000.00} subamount12={0.00} subamount13={50.00} subamount21={30050.00} subamount22={50.00} subamount23={500.00} conditionPara="Thank you for your business. Please remit payment within 30 das" />
         </div>

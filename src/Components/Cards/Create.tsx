@@ -28,10 +28,10 @@ function Create(props: CreateProps) {
     return (
         <div className="flex align-items-center justify-center">
             <div>
-                <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-5 py-2 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h6}</button>
+                <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-3 py-1 mt-1 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h6}</button>
             </div>
             {Show && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className="fixed inset-0 translate-x-[400px] translate-y-1/4  z-50">
                     <section className='  border-2 border-[#136CEDCC] w-[970px] h-[410px] rounded-lg bg-white'>
                         <h1 className="font-iceberg text-2xl pl-10 mt-5 h-12 font-extralight border-b border-black ">{props.h1}</h1>
                         <p className="text-center text-[17px] font-sanchez mt-3">{props.para1}</p>
@@ -42,7 +42,7 @@ function Create(props: CreateProps) {
                                 className="border-2 border-black w-[200px] h-40 rounded-lg cursor-pointer"
                                 onClick={() => navigate("/internship-invoice")}
                             >
-                              
+
                                 <div className="flex items-center justify-center">
                                     <img className="border border-black rounded-xl w-12 h-12 mt-4" src={props.popup1} />
                                 </div>

@@ -25,7 +25,7 @@ const Reports = () => {
           <div className="w-[50%] mr-10"><Revenue /></div>
         </div>
       </div>
-      <div className="pl-10">
+      <div className="mx-5 pl-5">
       <Reporttable />
       </div>
     </div>
