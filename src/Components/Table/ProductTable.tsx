@@ -49,7 +49,6 @@ const ProductTable = () => {
             min: "3500/-",
         },
 
-        // Extra rows for testing pagination
         {
             name: "CRM Software",
             type: "Product",
@@ -79,10 +78,10 @@ const ProductTable = () => {
             <BaseTable variant="grid">
                 <BaseTable.Header>
                     <BaseTable.Row>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Product Details</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Product ID</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Max Price</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><div className="font-iceberg text-[28px]">Min Price</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg font-extralight text-[28px]">Product Details</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg font-extralight text-[28px]">Product ID</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg font-extralight text-[28px]">Max Price</div></BaseTable.HeadCell>
+                        <BaseTable.HeadCell><div className="font-iceberg font-extralight text-[28px]">Min Price</div></BaseTable.HeadCell>
                     </BaseTable.Row>
                 </BaseTable.Header>
 
@@ -93,22 +92,21 @@ const ProductTable = () => {
                                 <div className="font-iceberg text-[20px] text-gray-800">
                                     {item.name}
                                 </div>
-                                <div className="text-[18px] font-sanchez text-gray-500">
+                                <div className="text-[15px] font-sanchez text-gray-500">
                                     {item.type}
                                 </div>
                             </BaseTable.Cell>
 
-                            <BaseTable.Cell><div className="text-[20px] font-sanchez">{item.id}</div></BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[20px] font-sanchez">{item.max}</div></BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[20px] font-sanchez">{item.min}</div></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[18px] text-center font-sanchez">{item.id}</div></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[18px] text-center font-sanchez">{item.max}</div></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[18px] text-center font-sanchez">{item.min}</div></BaseTable.Cell>
                         </BaseTable.Row>
                     ))}
                 </BaseTable.Body>
             </BaseTable>
 
-            {/* Footer Pagination */}
             <div className="flex justify-between border-x border-b border-black items-center px-4 py-3 text-sm">
-                <div className="font-sanchez text-[20px] text-gray-700">
+                <div className="font-sanchez text-[18px] text-gray-600">
                     Showing {startIndex + 1} to{" "}
                     {Math.min(startIndex + rowsPerPage, products.length)} of{" "}
                     {products.length} Results

@@ -60,12 +60,10 @@ service billing"
                                 < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
-                        <div className="w-[100%]">
+                        <div className="pl-16">
 
                                 <Invoicetable />
                         </div>
-                        {/* <Search/>
-                        <Filter icon="" para="" dropdownimg=""/> */}
                 </div>
 
         )

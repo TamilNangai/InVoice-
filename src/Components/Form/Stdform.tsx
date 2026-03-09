@@ -1,38 +1,31 @@
 import React from "react";
-import InputField from "./Stdinput";
+import InputField from "@/Components/Form/InputField";
 
-type StudentFormProps = {
+type StudentData = {
   studentName: string;
   college: string;
   phone: string;
   email: string;
 };
 
-const StudentForm = ({
-  studentName,
-  college,
-  phone,
-  email,
-}: StudentFormProps) => {
+type Props = {
+  data: StudentData;
+  setData: (data: StudentData) => void;
+};
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const StudentForm: React.FC<Props> = ({ data, setData }) => {
 
-    const form = e.currentTarget;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-    const data = {
-      studentName: (form.elements.namedItem("studentName") as HTMLInputElement).value,
-      college: (form.elements.namedItem("college") as HTMLInputElement).value,
-      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-    };
-
-    console.log("Student Data:", data);
+    setData({
+      ...data,
+      [name]: value
+    });
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
       className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)] "
     >
       <h2 className="text-xl font-semibold mb-4 pl-8">
@@ -43,35 +36,50 @@ const StudentForm = ({
 
         <div className="">
           <InputField
-            label={studentName}
+            label="Student Name"
             name="studentName"
-            placeholder="Sweatha"
+            value={data.studentName || ""}
+            onChange={handleChange}
+            placeholder="Swetha"
+          
           />
 
           <InputField
-            label={college}
+            label="College Name"
             name="college"
+            value={data.college || ""}
+            onChange={handleChange}
             placeholder="Kings College of Engineering"
           />
+
         </div>
 
+      
+
         <div>
+
           <InputField
-            label={phone}
+            label="Phone Number"
             type="number"
             name="phone"
+            value={data.phone || ""}
+            onChange={handleChange}
             placeholder="+91 1234567890"
           />
 
           <InputField
-            label={email}
+            label="Email Address"
             type="email"
             name="email"
-            placeholder="sweatha@gmail.com"
+            value={data.email || ""}
+            onChange={handleChange}
+            placeholder="swetha@gmail.com"
           />
+
         </div>
 
       </section>
+
     </form>
   );
 };

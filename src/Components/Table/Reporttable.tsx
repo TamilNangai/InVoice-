@@ -76,7 +76,7 @@ const RecentInvoices: React.FC = () => {
   const visibleInvoices = showAll ? invoices : invoices.slice(0,4);
 
   return (
-    <div className="border border-black rounded-xl m-5">
+    <div className="border-[2px] border-black rounded-xl m-5 shadow-[5px_5px_10px_rgba(0,0,0,0.3)]">
       <table className="w-[95%] mx-8 text-center">
         
         <thead className="h-20 font-iceberg text-2xl">

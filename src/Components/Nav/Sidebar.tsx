@@ -9,9 +9,8 @@ import Icon5 from "@/assets/sidebar/icon/Icon5"
 import Icon6 from "@/assets/sidebar/icon/Icon6"
 import Icon7 from "@/assets/sidebar/icon/Icon7"
 import Icon8 from "@/assets/sidebar/icon/Icon8"
-
-import Avatar from '@/assets/sidebar/Avatar.png'
-import footerarrow from '@/assets/sidebar/footerarror.png'
+import Avatar from "@/assets/sidebar/Avatar.png"
+import footerarrow from "@/assets/sidebar/footerarror.png"
 import { Link, useLocation } from "react-router-dom";
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -28,7 +27,7 @@ const Sidebar = () => {
                 }`}>
                 <div className='flex flex-col items-center justify-center'>
                     <header className=" text-2xl font-bold my-4 flex items-center justify-between">
-                        {isExpanded && <img src={deslogo} alt={deslogo} />}
+                        {isExpanded && <img className="w-[70%] h-auto" src={deslogo} alt={deslogo} />}
                         <button onClick={toggleSidebar}><img className={` ${isExpanded ? "" : "rotate-180"}`} src={expand} alt={expand} /></button>
                     </header>
                     <main>

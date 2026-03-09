@@ -1,35 +1,31 @@
 import React from "react";
 import InputField from "./Priceinput";
 
-type PriceProps = {
-  total: string;
-  due: string;
-  paid: string;
-  duedate: string;
-  paymentMethod: string;
+type Props = {
+  data: {
+    total: string;
+    due: string;
+    paid: string;
+    duedate: string;
+    paymentMethod: string;
+  };
+  setData: (data: any) => void;
 };
 
-const PriceForm = (props: PriceProps) => {
+const PriceForm = ({ data, setData }: Props) => {
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const form = e.currentTarget;
-
-    const data = {
-      total: (form.elements.namedItem("total") as HTMLInputElement).value,
-      due: (form.elements.namedItem("due") as HTMLInputElement).value,
-      paid: (form.elements.namedItem("paid") as HTMLInputElement).value,
-      duedate: (form.elements.namedItem("duedate") as HTMLInputElement).value,
-      paymentMethod: (form.elements.namedItem("paymentMethod") as HTMLInputElement).value,
-    };
-
-    console.log("Price Data:", data);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
+
     <form
-      onSubmit={handleSubmit}
       className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
     >
       <h2 className="text-xl font-semibold mb-4 pl-8">
@@ -43,7 +39,6 @@ const PriceForm = (props: PriceProps) => {
             label="Total Amount"
             name="total"
             type="number"
-            value={props.total}
             placeholder="110000"
           />
 
@@ -51,7 +46,6 @@ const PriceForm = (props: PriceProps) => {
             label="Due Amount"
             name="due"
             type="number"
-            value={props.due}
             placeholder="10000"
           />
         </div>
@@ -61,7 +55,6 @@ const PriceForm = (props: PriceProps) => {
             label="Paid Amount"
             name="paid"
             type="number"
-            value={props.paid}
             placeholder="100000"
           />
 
@@ -69,7 +62,6 @@ const PriceForm = (props: PriceProps) => {
             label="Due Date"
             type="date"
             name="duedate"
-            value={props.duedate}
           />
         </div>
 
@@ -77,20 +69,21 @@ const PriceForm = (props: PriceProps) => {
 
       <div className="flex items-center justify-center mt-6">
         <div className="text-sm font-sanchez">
-          <label className="block mb-1 text-lg">
+          <label className="block mb-1 font-iceberg text-lg">
             Payment Method
           </label>
 
           <select
             name="paymentMethod"
-            defaultValue={props.paymentMethod}
             className="py-2 px-3 border-2 border-black rounded-md"
           >
-            <option value="Case" >Cash</option>
+            <option value="">Select Payment Method</option>
             <option value="UPI">UPI</option>
+            <option value="Cash">Cash</option>
             <option value="Bank Transfer">Bank Transfer</option>
             <option value="Card">Card</option>
           </select>
+
         </div>
       </div>
 
