@@ -2,8 +2,8 @@ import Add from "@/Components/Cards/Add"
 import Header from "@/Components/Nav/Header"
 import ProductTable from "@/Components/Table/ProductTable"
 import vectorw from '@/assets/Vectorw.png'
-import Search from "@/Components/Filter/Search"
-import Filter from "@/Components/Filter/Filter"
+// import Search from "@/Components/Filter/Search"
+// import Filter from "@/Components/Filter/Filter"
 
 const Products = () => {
   return (
@@ -26,8 +26,8 @@ const Products = () => {
             src2="" />
         </div>
         
-        <div className=" mx-10 mt-10 font-iceberg text-xl">
-          <h1 className="font-iceberg text-[32px] leading-[100%]">Product Details</h1>
+        <div className="mx-10">
+          <h1 className="font-iceberg font-extralight text-[28px] leading-[100%] mt-5 mb-5">Product Details</h1>
           <ProductTable />
           </div>
         </div>

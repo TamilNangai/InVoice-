@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "./InputField";
+import InputField from "./Priceinput";
 
 type Props = {
   data: {
@@ -24,19 +24,21 @@ const PriceForm = ({ data, setData }: Props) => {
   };
 
   return (
-    <div className="mx-11 mt-10 p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
-      
-      <h2 className="text-xl font-semibold mb-4 pl-8">Price Details</h2>
 
-      <section className="grid grid-cols-2 gap-10 text-lg">
+    <form
+      className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
+    >
+      <h2 className="text-xl font-semibold mb-4 pl-8">
+        Price Details
+      </h2>
+
+      <section className="grid grid-cols-2 gap-10 text-lg w-full h-full">
 
         <div>
           <InputField
             label="Total Amount"
             name="total"
             type="number"
-            value={data.total}
-            onChange={handleChange}
             placeholder="110000"
           />
 
@@ -44,8 +46,6 @@ const PriceForm = ({ data, setData }: Props) => {
             label="Due Amount"
             name="due"
             type="number"
-            value={data.due}
-            onChange={handleChange}
             placeholder="10000"
           />
         </div>
@@ -55,8 +55,6 @@ const PriceForm = ({ data, setData }: Props) => {
             label="Paid Amount"
             name="paid"
             type="number"
-            value={data.paid}
-            onChange={handleChange}
             placeholder="100000"
           />
 
@@ -64,8 +62,6 @@ const PriceForm = ({ data, setData }: Props) => {
             label="Due Date"
             type="date"
             name="duedate"
-            value={data.duedate}
-            onChange={handleChange}
           />
         </div>
 
@@ -79,8 +75,6 @@ const PriceForm = ({ data, setData }: Props) => {
 
           <select
             name="paymentMethod"
-            value={data.paymentMethod}
-            onChange={handleChange}
             className="py-2 px-3 border-2 border-black rounded-md"
           >
             <option value="">Select Payment Method</option>
@@ -93,7 +87,7 @@ const PriceForm = ({ data, setData }: Props) => {
         </div>
       </div>
 
-    </div>
+    </form>
   );
 };
 

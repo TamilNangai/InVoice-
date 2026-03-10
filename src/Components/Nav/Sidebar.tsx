@@ -23,7 +23,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <div className={`sticky  flex flex-col justify-between items-center h-[1260px] rounded-tr-[16px] rounded-br-[16px] border-[2.5px] border-[#000000] bg-[#FFFFFF] shadow-[0px_16px_44px_rgba(0,0,0,0.07)] gap-6 transition-all duration-300 ${isExpanded ? "w-[276px]" : "w-[64px]"
+            <div className={`sticky  flex flex-col justify-between items-center h-screen rounded-tr-[16px] rounded-br-[16px] border-[2.5px] border-[#000000] bg-[#FFFFFF] shadow-[0px_16px_44px_rgba(0,0,0,0.07)] gap-6 transition-all duration-300 ${isExpanded ? "w-[276px]" : "w-[64px]"
                 }`}>
                 <div className='flex flex-col items-center justify-center'>
                     <header className=" text-2xl font-bold my-4 flex items-center justify-between">
@@ -37,7 +37,7 @@ const Sidebar = () => {
                                ${location.pathname === "/" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className={`w-[20px] h-[20px] ${location.pathname === "/" ? " text-[#136CED]  " : ""} `} src={icon1} alt={icon1} /> */}
-                                    <Icon1 className={`text-[#136CED] ${location.pathname === "/" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon1 className={`text-[#136CED] ${location.pathname === "/" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className='w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium '>Dashboard </p>}
                                 </Link>
                             </li>
@@ -46,7 +46,7 @@ const Sidebar = () => {
                                ${location.pathname === "/products" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon2} alt={icon2} /> */}
-                                    <Icon2 className={`text-[#136CED] ${location.pathname === "/products" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon2 className={`text-[#136CED] ${location.pathname === "/products" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium ">Products </p>}
                                 </Link>
                             </li>
@@ -55,7 +55,7 @@ const Sidebar = () => {
                                ${location.pathname === "/invoice-page" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon3} alt={icon3} /> */}
-                                    <Icon3 className={`text-[#136CED] ${location.pathname === "/invoice-page" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon3 className={`text-[#136CED] ${location.pathname === "/invoice-page" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium ">Invoice</p>}
                                 </Link>
                             </li>
@@ -64,7 +64,7 @@ const Sidebar = () => {
                                ${location.pathname === "/clients" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon4} alt={icon4} /> */}
-                                    <Icon4 className={`text-[#136CED] ${location.pathname === "/clients" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon4 className={`text-[#136CED] ${location.pathname === "/clients" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium ">Clients</p>}
                                 </Link>
                             </li>
@@ -73,7 +73,7 @@ const Sidebar = () => {
                                ${location.pathname === "/reports" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon5} alt={icon5} /> */}
-                                    <Icon5 className={`text-[#136CED] ${location.pathname === "/reports" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon5 className={`text-[#136CED] ${location.pathname === "/reports" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium  ">Reports</p>}
                                 </Link></li>
                         </ul>
@@ -84,7 +84,7 @@ const Sidebar = () => {
                                ${location.pathname === "/notifications" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon6} alt={icon6} /> */}
-                                    <Icon6 className={`text-[#136CED] ${location.pathname === "/notifications" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon6 className={`text-[#136CED] ${location.pathname === "/notifications" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium ">Notifications </p>}
                                 </Link></li>
                             <li className=" mb-2 ">
@@ -92,7 +92,7 @@ const Sidebar = () => {
                                ${location.pathname === "/settings" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon7} alt={icon7} /> */}
-                                    <Icon7 className={`text-[#136CED] ${location.pathname === "/settings" ? " text-[#136CED]  " : "text-[#64748B]"}`}/>
+                                    <Icon7 className={`text-[#136CED] ${location.pathname === "/settings" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium ">Settings </p>}
                                 </Link></li>
                             <li className=" mb-2 ">
@@ -100,7 +100,7 @@ const Sidebar = () => {
                                ${location.pathname === "/support" ? "bg-[#136CED66] text-[#136CED]  " : "text-[#64748B] hover:bg-gray-100 "}   
                                ${isExpanded ? "w-[228px]" : "w-[50px] justify-center  "}`}>
                                     {/* <img className='w-[20px] h-[20px] ' src={icon8} alt={icon8} /> */}
-                                    <Icon8 className={`text-[#136CED] ${location.pathname === "/support" ? " text-[#136CED]  " : "text-[#64748B]"}`}  />
+                                    <Icon8 className={`text-[#136CED] ${location.pathname === "/support" ? " text-[#136CED]  " : "text-[#64748B]"}`} />
                                     {isExpanded && <p className="w-[164px] h-[20px] text-[14px] leading-[20px] flex justify-start items-center  poppins-medium ">Support</p>}
                                 </Link></li>
                         </ul>

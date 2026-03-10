@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import searchIcon from "@/assets/filter/search.svg";
+import Searchinput from "../Filter/Searchinput";
 
 export interface Invoice {
   id: string;
@@ -35,6 +37,14 @@ const invoices: Invoice[] = [
     status: "Paid",
   },
   {
+    id: "INV-2025-004",
+    type: "Product",
+    client: "Hariharan",
+    date: "25-12-2025",
+    amount: 120000,
+    status: "Paid",
+  },
+  {
     id: "INV-2025-003",
     type: "Internship",
     client: "Akash",
@@ -54,66 +64,67 @@ const invoices: Invoice[] = [
 
 const RecentInvoices: React.FC = () => {
   const [filter, setFilter] = useState<"All" | "Paid" | "Pending">("All");
+  const [search, setSearch] = useState("");
 
-  const filteredInvoices =
-    filter === "All"
-      ? invoices
-      : invoices.filter((invoice) => invoice.status === filter);
+  const filteredInvoices = invoices.filter((item) => {
+    const matchSearch =
+      item.id.toLowerCase().includes(search.toLowerCase()) ||
+      item.client.toLowerCase().includes(search.toLowerCase());
+
+    const matchStatus = filter === "All" ? true : item.status === filter;
+
+    return matchSearch && matchStatus;
+  });
 
   return (
-    <div >
-      <h2 className="text-3xl font-iceberg mb-4 pl-16 mt-10">
+    <div>
+      <h2 className="text-3xl font-iceberg mb-4 mt-10">
         Recent Invoices
       </h2>
-      <div className="pl-5 ">
-        <div className="w-[90%] mx-11 rounded-xl overflow-hidden border-2 border-black">
-          <table className="w-full text-center ">
-            <thead className="h-16 text-xl font-light">
-              <tr className="flex gap-20 pl-14 p-5 font-iceberg">
-                <th>
-                  <button
-                    className={`rounded-md h-8 w-28 hover:bg-[#136CED80] 
-      ${filter === "All" ? "bg-[#136CED80]" : ""}`}
-                    onClick={() => setFilter("All")}
-                  >
-                    All Invoices
-                  </button>
-                </th>
 
-                <th>
-                  <button
-                    className={`rounded-md h-8 w-12 hover:bg-[#136CED80] 
-      ${filter === "Paid" ? "bg-[#136CED80]" : ""}`}
-                    onClick={() => setFilter("Paid")}
-                  >
-                    Paid
-                  </button>
-                </th>
+      <div className="">
+        <div className="w-[93.5%] rounded-xl overflow-hidden border-2 border-black">
 
-                <th>
-                  <button
-                    className={`rounded-md h-8 w-20 hover:bg-[#136CED80] 
-      ${filter === "Pending" ? "bg-[#136CED80]" : ""}`}
-                    onClick={() => setFilter("Pending")}
-                  >
-                    Pending
-                  </button>
-                </th>
+          <div className="flex justify-between items-center p-5">
+            <div className="flex gap-14 font-iceberg text-xl">
+              <button
+                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "All" ? "bg-[#136CED80]" : ""
+                  }`}
+                onClick={() => setFilter("All")}
+              >
+                All Invoices
+              </button>
 
-                <div className="absolute right-28 -mt-2">
-                  <div className="w-full flex justify-center items-center h-[50px] rounded-[6px] text-black border border-[#00000033]">
-                    <div className="flex justify-center items-center text-[#1F1F1F]">
-                      <input
-                        className="w-80 h-12 p-2 text-black"
-                        type="text"
-                        name="search"
-                        placeholder="Search Invoices,Clients..."
-                      />
-                    </div>
-                  </div>
-                </div>
-              </tr>
+              <button
+                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "Paid" ? "bg-[#136CED80]" : ""
+                  }`}
+                onClick={() => setFilter("Paid")}
+              >
+                Paid
+              </button>
 
+              <button
+                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""
+                  }`}
+                onClick={() => setFilter("Pending")}
+              >
+                Pending
+              </button>
+            </div>
+            <div className="absolute right-28 w-[24%]">
+              <Searchinput
+                icon={searchIcon}
+                para="Search by Invoice no or client Name"
+                value={search}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearch(e.target.value)
+                }
+              />
+            </div>
+          </div>
+
+          <table className="w-full text-center">
+            <thead className="text-xl">
               <tr className="grid grid-cols-6 font-iceberg font-normal">
                 <th className="p-3 border">Invoice No</th>
                 <th className="p-3 border">Type</th>
@@ -126,7 +137,10 @@ const RecentInvoices: React.FC = () => {
 
             <tbody>
               {filteredInvoices.map((invoice, index) => (
-                <tr key={index} className="hover:bg-gray-50 grid grid-cols-6 ">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 grid grid-cols-6"
+                >
                   <td className="p-3 border">{invoice.id}</td>
                   <td className="p-3 border">{invoice.type}</td>
                   <td className="p-3 border">{invoice.client}</td>
@@ -135,9 +149,7 @@ const RecentInvoices: React.FC = () => {
                     ₹{invoice.amount.toLocaleString()}
                   </td>
                   <td className="p-3 border">
-                    <span>
-                      .   {invoice.status}
-                    </span>
+                    {invoice.status}
                   </td>
                 </tr>
               ))}
@@ -151,6 +163,7 @@ const RecentInvoices: React.FC = () => {
               )}
             </tbody>
           </table>
+
         </div>
       </div>
     </div>

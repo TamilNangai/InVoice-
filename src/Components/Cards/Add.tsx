@@ -17,12 +17,12 @@ import Buttons from "../Button/Buttons"
 function Add(props: AddProps) {
     const [show, setShow] = useState(false)
     return (
-        <section className="flex items-center justify-center">
+        <section className="">
             <div>
-                <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-5 py-2 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h8}</button>
+                <button onClick={() => setShow(true)} className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-3 py-1 mt-1 rounded-lg"><img className="mt-2 h-4 " src={props.src1} />{props.h8}</button>
             </div>
             {show && (
-                <div className="fixed inset-0 flex items-center justify-center  z-50">
+                <div className="fixed inset-0 translate-x-[-50px] translate-y-1/4  z-50">
                     <div className="border border-black rounded-xl w-2/5 space-y-3 absolute right-72 h-[500px] bg-white" >
                         <h1 className="font-iceberg text-2xl pl-10 mt-3">{props.h1}</h1>
                         <p className="font-sanchez text-sm pl-10">{props.para1}</p>

@@ -1,8 +1,8 @@
 type ButtonsProps={
   h1:string;
   h2:string
-  src1:string;
-  src2:string
+  src1?:string;
+  src2?:string
 }
 function Buttons(props:ButtonsProps) {
   return (

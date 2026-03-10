@@ -22,10 +22,10 @@ const Reports = () => {
             < Cards head="Pending Amount" amount={50000.00} para="10 Invoice pending" cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px]  text-[#FFCC00] " />
             < Cards head="Overdue" amount={20000.00} para="3 invoice overdue" cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FF383C]" />
           </div>
-          <div className="w-[50%] mr-10"><Revenue /></div>
+          <div className="w-[50%] mr-10 pl-3"><Revenue /></div>
         </div>
       </div>
-      <div className="pl-10">
+      <div className="mx-5 pl-5">
       <Reporttable />
       </div>
     </div>

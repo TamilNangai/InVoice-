@@ -4,7 +4,7 @@ const Radiogroup = () => {
     const [selected, setSelected] = useState("Overall Revenue");
     const options = ["Overall Revenue", "Internship Revenue", "Product Sales", "Other Invoice"];
     return (
-        <div className="flex justify-around items-center m-5  w-fit h-[44px] rounded-[4px] border-[2px] border-[#000000] bg-[#136CED33]">
+        <div className="flex justify-around items-center font-iceberg m-5  w-[600px] h-[48px] rounded-[4px] border-[2px] border-[#000000] bg-[#136CED33]">
             {options.map((label) => {
                 return (
                     <label key={label} className=" flex justify-center items-center">
