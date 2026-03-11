@@ -4,14 +4,14 @@ import { db } from "../firebase";
 type SaveInvoiceData = {
   invoiceType: string;
 
-  student: {
+  student?: {
     studentName: string;
     email: string;
     phone: string;
     college: string;
   };
 
-  customer: {
+  customers: {
     customer: string
     email: string
     phone: string
@@ -28,13 +28,37 @@ type SaveInvoiceData = {
     enddate: string;
   };
 
-  fees: {
+  fees?: {
     training: number;
     certificate: number;
     tax: number;
     internship: number;
     discount: number;
   };
+
+  customer?: {
+    customer: string;
+    email: string;
+    office: string;
+    gst: string;
+    phone: string;
+    address: string;
+  };
+  product: [
+    {
+      productName: "",
+      sub: "1M",
+      price: 0,
+      tax: 18
+    }
+  ];
+  
+  service?: {
+    serviceName: string;
+    price: number;
+    tax: number;
+  }[];
+
 
   price: {
     total: string;
@@ -59,3 +83,4 @@ export const saveInvoice = async (data: SaveInvoiceData) => {
     alert("Failed to Save Invoice");
   }
 };
+

@@ -50,9 +50,14 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   onChange,
 }) => {
+
   return (
+
     <div className="mb-4">
-      <label className="block mb-1">{label}</label>
+
+      <label className="block mb-1">
+        {label}
+      </label>
 
       <input
         type={type}
@@ -63,7 +68,9 @@ const InputField: React.FC<InputFieldProps> = ({
         className="w-full pl-3 py-2 outline-none border-2 border-black rounded-md font-sanchez text-sm"
       />
     </div>
-  );
-};
 
-export default InputField;
+  )
+
+}
+
+export default InputField

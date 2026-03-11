@@ -2,7 +2,7 @@
 
 const Revenue = () => {
     return (
-        <div className="w-[100%] h-[330px]  flex flex-col  p-5 gap-7 rounded-[12px] border-[2px] border-[#000000] shadow-[5px_5px_10px_rgba(0,0,0,0.3)]">
+        <div className="w-[100%] h-[330px]  flex flex-col  p-5 gap-7 rounded-[12px] border-[2px] border-[#000000] shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
             <h1 className="text-[24px] text-[#000000] leading-[100%] iceberg-regular mt-5">Revenue by Type</h1>
             <div>
                 <div className="flex justify-between items-center">
