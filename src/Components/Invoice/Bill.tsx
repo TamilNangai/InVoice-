@@ -855,163 +855,487 @@
 
 
 
-import React from "react";
-import Buttons from "@/Components/Button/Buttons";
 
-export type BillRow = {
-    title: string;
-    subtitle?: string;
-    amount: number;
-    count?: string;
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from "react"
 
 type BillProps = {
-    rows: BillRow[];
-    name: string;
-    email: string;
-    phone: number;
-    college: string;
-    invoiceid: string;
-    date: string;
-    duedate: string;
-    detailhead: string;
-    conditionPara: string;
-    button?: React.ReactNode;
-    onPrint: () => void;
-    discount?: number;
-    gst?: number;
-    paid?: number;
-};
+
+    data?: any
+
+    onPrint: () => void
+
+    button?: React.ReactNode
+
+    name: string
+    email: string
+    phone: number
+    college: string
+
+    invoiceid: string
+    date: string
+    duedate: string
+
+    type?: "internship" | "service"
+
+    boxhead?: string
+    boxprogram?: string
+    batch?: string
+    duration?: string
+
+    boxdate?: string
+    boxduedate?: string
+    boxreference?: string
+
+    detailhead: string
+
+    head11?: string
+    head12?: string
+    amount1?: number
+
+    head21?: string
+    head22?: string
+    amount2?: number
+
+    head31?: string
+    head32?: string
+    amount3?: number
+
+    rows?: {
+        title: string
+        subtitle: string
+        amount: number
+    }[]
+
+    subamount11: number
+    subamount12: number
+    subamount13: number
+
+    subamount21: number
+    subamount22: number
+    subamount23: number
+
+    conditionPara: string
+
+}
 
 const Bill: React.FC<BillProps> = ({
-    rows,
+
+    button,
+
     name,
     email,
     phone,
     college,
+
     invoiceid,
     date,
     duedate,
+
+    type,
+
+    boxhead,
+    boxprogram,
+    batch,
+    duration,
+
+    boxdate,
+    boxduedate,
+    boxreference,
+
     detailhead,
+
+    head11,
+    head12,
+    amount1,
+
+    head21,
+    head22,
+    amount2,
+
+    head31,
+    head32,
+    amount3,
+
+    rows,
+
+    subamount11,
+    subamount12,
+    subamount13,
+
+    subamount21,
+    subamount22,
+    subamount23,
+
     conditionPara,
-    button,
-    onPrint,
-    discount = 0,
-    gst = 0,
-    paid = 0,
+
+    onPrint
+
 }) => {
-    const subtotal = rows.reduce((sum, r) => sum + r.amount, 0);
-    const total = subtotal - discount + gst;
-    const due = total - paid;
+
+   
+
 
     return (
-        <div className="w-full h-fit p-4 flex flex-col justify-around items-center rounded-[12px] border border-[#000000] bg-[#FFFFFF] shadow-[5px_5px_10px_rgba(0,0,0,0.5)]">
+
+        <div className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white">
+
+
             {/* HEADER */}
-            <header className="w-full ps-4 flex justify-between border-b border-[#000000]">
+
+            <div className="flex justify-between items-start">
+
                 <div>
-                    <p className="iceberg-regular mb-4 text-[32px]">DesFlyer</p>
-                    <p className="sanchez-regular mb-2 text-[12px]">237 DesFlyer, Kings College of Engineering</p>
-                    <p className="sanchez-regular mb-2 text-[12px]">Desflyer.tech@gmail.com | +91 8525913433</p>
-                </div>
-                <div>{button}</div>
-            </header>
 
-            {/* CUSTOMER / BILL TO */}
-            <section className="w-full p-4 flex justify-between items-start">
+                    <h1 className="font-iceberg text-[32px]">
+                        DesFlyer
+                    </h1>
+
+                    <p className="font-sanchez text-[14px]">
+                        237 DesFlyer, Kings College of Engineering
+                    </p>
+
+                    <p className="font-sanchez text-[14px]">
+                        Desflyer.tech@gmail.com | +91 8525913433
+                    </p>
+
+                </div>
+
                 <div>
-                    <p className="iceberg-regular mb-2 text-[22px]">BILL TO</p>
-                    <p className="iceberg-regular mb-2 text-[18px]">{name}</p>
-                    <p className="sanchez-regular mb-2 text-[14px]">{email}</p>
-                    <p className="sanchez-regular mb-2 text-[14px]">+91 {phone}</p>
-                    <p className="sanchez-regular mb-2 text-[16px]">{college}</p>
+                    {button}
                 </div>
 
-                <div className="text-center">
-                    <p className="iceberg-regular mb-2 text-[22px]">Invoice Details</p>
-                    <p className="sanchez-regular mb-2 text-[14px]">Invoice #{invoiceid}</p>
-                    <p className="sanchez-regular mb-2 text-[14px]">Date: {date}</p>
-                    <p className="sanchez-regular mb-2 text-[14px]">Due Date: {duedate}</p>
+            </div>
+
+
+            <hr className="my-4 border-[#00000040]" />
+
+
+            {/* BILL TO */}
+
+            <div className="flex justify-between">
+
+                <div>
+
+                    <p className="font-iceberg text-[18px] mb-2">
+                        BILL TO
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        {name}
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        {email}
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        +91 {phone}
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        {college}
+                    </p>
+
                 </div>
-            </section>
 
-            {/* TABLE */}
-            <section className="w-full flex flex-col items-end">
-                <table className="w-full border-collapse">
-                    <thead>
-                        <tr className="border-b border-[#DFDFDF]">
-                            <th className="p-4 text-left text-[20px]">{detailhead}</th>
-                            <th className="p-4 text-right text-[20px]">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {rows.map((item, idx) => (
-                            <tr key={idx} className="border-b border-[#DFDFDF]">
-                                <td className="p-4">
-                                    <div className="flex justify-between">
-                                        <div>
-                                            <p className="iceberg-regular text-[18px]">{item.title}</p>
-                                            {item.subtitle && <p className="sanchez-regular text-[14px] mt-2">{item.subtitle}</p>}
-                                        </div>
-                                        {item.count && (
-                                            <div className="px-3 border-x border-black">
-                                                <p className="iceberg-regular text-[18px]">Subscription</p>
-                                                <p className="sanchez-regular text-[14px]">{item.count}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
-                                <td className="p-4 text-right text-[20px]">{item.amount}.00</td>
-                            </tr>
-                        ))}
 
-                        {/* TOTALS */}
-                        <tr className="border-b border-[#DFDFDF]">
-                            <td colSpan={2} className="p-4">
-                                <div className="w-[70%] ml-auto">
-                                    <p className="flex justify-between mb-3">
-                                        <span>Subtotal</span>
-                                        <span>{subtotal.toFixed(2)}</span>
-                                    </p>
-                                    <p className="flex justify-between mb-3">
-                                        <span>Discount</span>
-                                        <span>{discount.toFixed(2)}</span>
-                                    </p>
-                                    <p className="flex justify-between mb-3">
-                                        <span>GST</span>
-                                        <span>{gst.toFixed(2)}</span>
-                                    </p>
-                                    <p className="flex justify-between text-blue-600 mb-3">
-                                        <span>Total Amount</span>
-                                        <span>{total.toFixed(2)}</span>
-                                    </p>
-                                    <p className="flex justify-between mb-3">
-                                        <span>Paid Amount</span>
-                                        <span>{paid.toFixed(2)}</span>
-                                    </p>
-                                    <p className="flex justify-between">
-                                        <span>Due Amount</span>
-                                        <span>{due.toFixed(2)}</span>
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                <div className="text-right">
+
+                    <p className="font-iceberg text-[18px]">
+                        Invoice Details
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        Invoice #: {invoiceid}
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        Date: {date}
+                    </p>
+
+                    <p className="font-sanchez text-[16px]">
+                        Due Date: {duedate}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {/* BOX SECTION */}
+
+            {type === "internship" ? (
+
+                <div className="border border-[#00000080] rounded-xl p-4 mt-5">
+
+                    <p className="font-sanchez text-[16px]">
+                        {boxhead}
+                    </p>
+
+                    <p className="font-iceberg text-[20px]">
+                        {boxprogram}
+                    </p>
+
+                    <div className="flex justify-between mt-2">
+
+                        <p className="font-sanchez text-[14px]">
+                            {batch}
+                        </p>
+
+                        <p className="font-sanchez text-[14px]">
+                            {duration}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ) : (
+
+                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
+
+                        <div className="w-1/3">
+                            <p className="font-iceberg text-[18px]">Invoice Date</p>
+                            <p className="font-sanchez text-[16px]">{boxdate}</p>
+                        </div>
+
+                        <div className="w-1/3">
+                            <p className="font-iceberg text-[18px]">Due Date</p>
+                            <p className="font-sanchez text-[16px]">{boxduedate}</p>
+                        </div>
+
+                        <div className="w-1/3">
+                            <p className="font-iceberg text-[18px]">Reference</p>
+                            <p className="font-sanchez text-[16px]">{boxreference}</p>
+                        </div>
+
+                    </div>
+
+
+            )}
+
+
+            {/* DETAILS */}
+
+            <div className="mt-6">
+
+                <div className="flex justify-between border-b pb-2">
+
+                    <p className="font-iceberg text-[18px]">
+                        {detailhead}
+                    </p>
+
+                    <p className="font-iceberg text-[18px]">
+                        Amount
+                    </p>
+
+                </div>
+
+
+                {/* INTERNSHIP ROWS */}
+
+                {type === "internship" && (
+
+                    <>
+
+                        <div className="flex justify-between py-4 border-b">
+
+                            <div>
+
+                                <p className="font-sanchez text-[16px]">
+                                    {head11}
+                                </p>
+
+                                <p className="font-sanchez text-[14px] text-gray-500">
+                                    {head12}
+                                </p>
+
+                            </div>
+
+                            <p className="font-sanchez text-[18px]">
+                                {amount1?.toFixed(2)}
+                            </p>
+
+                        </div>
+
+
+                        <div className="flex justify-between py-4 border-b">
+
+                            <div>
+
+                                <p className="font-sanchez text-[16px]">
+                                    {head21}
+                                </p>
+
+                                <p className="font-sanchez text-[14px] text-gray-500">
+                                    {head22}
+                                </p>
+
+                            </div>
+
+                            <p className="font-sanchez text-[18px]">
+                                {amount2?.toFixed(2)}
+                            </p>
+
+                        </div>
+
+
+                        <div className="flex justify-between py-4 border-b">
+
+                            <div>
+
+                                <p className="font-sanchez text-[16px]">
+                                    {head31}
+                                </p>
+
+                                <p className="font-sanchez text-[14px] text-gray-500">
+                                    {head32}
+                                </p>
+
+                            </div>
+
+                            <p className="font-sanchez text-[18px]">
+                                {amount3?.toFixed(2)}
+                            </p>
+
+                        </div>
+
+                    </>
+
+                )}
+
+
+                {/* SERVICE ROWS */}
+
+                {type === "service" && rows?.map((row, index) => (
+                    <div key={index} className="flex justify-between py-4 border-b">
+
+                        <div>
+
+                            <p className="font-sanchez text-[16px]">
+                                {row.title}
+                            </p>
+
+                            <p className="font-sanchez text-[14px] text-gray-500">
+                                {row.subtitle}
+                            </p>
+
+                        </div>
+
+                        <p className="font-sanchez text-[18px]">
+                            {row.amount.toFixed(2)}
+                        </p>
+
+                    </div>
+                ))}
+
+            </div>
+
+
+            {/* TOTALS */}
+
+            <div className="flex flex-col items-end mt-6 space-y-2">
+
+                <div className="flex justify-between w-[260px]">
+                    <p className="font-sanchez text-[16px]">Subtotal</p>
+                    <p className="font-sanchez text-[16px]">{subamount11.toFixed(2)}</p>
+                </div>
+
+                <div className="flex justify-between w-[260px]">
+                    <p className="font-sanchez text-[16px]">Discount</p>
+                    <p className="font-sanchez text-[16px]">{subamount12.toFixed(2)}</p>
+                </div>
+
+                <div className="flex justify-between w-[260px]">
+                    <p className="font-sanchez text-[16px]">GST</p>
+                    <p className="font-sanchez text-[16px]">{subamount13.toFixed(2)}</p>
+                </div>
+
+                <hr className="w-[100%]" />
+
+                <div className="flex justify-between w-[260px]">
+
+                    <p className="font-sanchez text-[20px] text-blue-600">
+                        Total Amount
+                    </p>
+
+                    <p className="font-sanchez text-[20px] text-blue-600">
+                        {subamount21.toFixed(2)}
+                    </p>
+
+                </div>
+
+
+                <div className="flex justify-between w-[260px]">
+                    <p className="font-sanchez text-[16px]">Paid Amount</p>
+                    <p className="font-sanchez text-[16px]">{subamount22.toFixed(2)}</p>
+                </div>
+
+                <div className="flex justify-between w-[260px]">
+                    <p className="font-sanchez text-[16px]">Due Amount</p>
+                    <p className="font-sanchez text-[16px]">{subamount23.toFixed(2)}</p>
+                </div>
+
+            </div>
+
 
             {/* TERMS */}
-            <div className="w-full pt-4">
-                <p className="iceberg-regular text-[18px] mb-2">Terms & Conditions:</p>
-                <p className="sanchez-regular text-[14px] text-gray-600">{conditionPara}</p>
+
+            <div className="mt-6">
+
+                <p className="font-iceberg text-[16px]">
+                    Terms & Conditions:
+                </p>
+
+                <p className="font-sanchez text-[14px] text-gray-500">
+                    {conditionPara}
+                </p>
+
             </div>
 
-            <div className="w-full flex justify-end mt-4">
-                <div onClick={onPrint}>
-                    <Buttons h1="Print" h2="" src1="" src2="" />
-                </div>
+
+            {/* PRINT */}
+
+            <div className="flex justify-end mt-6">
+
+                <button
+                    onClick={onPrint}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md font-sanchez"
+                >
+                    Print
+                </button>
+
             </div>
+
         </div>
-    );
-};
 
-export default Bill;
+    )
+
+}
+
+export default Bill
