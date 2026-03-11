@@ -53,7 +53,7 @@ service billing"
                                         h6="Create Invoice" />
                         </div>
 
-                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16">
+                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16 ">
                                 < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />

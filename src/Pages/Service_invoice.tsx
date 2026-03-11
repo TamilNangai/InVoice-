@@ -46,182 +46,175 @@
 
 
 
-// import { useState } from "react"
-// import Header from "@/Components/Nav/Header"
-// import CustomerForm from "@/Components/Form/Customerform"
-// import Productform from "@/Components/Form/Productform"
-// import Priceform from "@/Components/Form/Priceform"
-// import Bill from "@/Components/Invoice/Bill"
-// import Buttons from "@/Components/Button/Buttons"
-// import vectora from "@/assets/Vectora.png"
+import { useState } from "react"
+import Header from "@/Components/Nav/Header"
+import Customerform from "@/Components/Form/Customerform"
+import Productform from "@/Components/Form/Productform"
+import Priceform from "@/Components/Form/Priceform"
+import Bill from "@/Components/Invoice/Bill"
+import Buttons from "@/Components/Button/Buttons"
+import vectora from "@/assets/Vectora.png"
 
-// type InvoiceData = {
+type InvoiceData = {
 
-//   customer:{
-//     customer:string
-//     email:string
-//     phone:string
-//     office:string
-//   }
+  customer: {
+    customer: string
+    email: string
+    office: string
+    gst: string
+    phone: string
+    address: string
+  }
 
-//   product:{
-//     service1:string
-//     code1:string
-//     amount1:number
+  product: {
+    service1: string
+    code1: string
+    amount1: number
 
-//     service2:string
-//     code2:string
-//     amount2:number
-//   }
+    service2: string
+    code2: string
+    amount2: number
+  }
 
-//   price:{
-//     subtotal:number
-//     discount:number
-//     tax:number
-//     total:number
-//     paid:number
-//     due:number
-//     duedate:string
-//   }
-// }
+  price: {
+    total: string
+    due: string
+    paid: string
+    duedate: string
+    paymentMethod: string
+  }
+}
 
-// const Service_invoice = () => {
+const Service_invoice = () => {
 
-// const [invoiceData,setInvoiceData] = useState<InvoiceData>({
-//   customer:{
-//     customer:"",
-//     email:"",
-//     phone:"",
-//     office:""
-//   },
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>({
+    customer: {
+      customer: "",
+      email: "",
+      office: "",
+      gst: "",
+      phone: "",
+      address: ""
+    },
 
-//   product:{
-//     service1:"",
-//     code1:"",
-//     amount1:0,
-//     service2:"",
-//     code2:"",
-//     amount2:0
-//   },
+    product: {
+      service1: "",
+      code1: "",
+      amount1: 0,
+      service2: "",
+      code2: "",
+      amount2: 0
+    },
 
-//   price:{
-//     subtotal:0,
-//     discount:0,
-//     tax:0,
-//     total:0,
-//     paid:0,
-//     due:0,
-//     duedate:""
-//   }
-// })
-
-
-// const handlePrint = () => {
-//   console.log(invoiceData)
-//   window.print()
-// }
+    price: {
+      total: "",
+      due: "",
+      paid: "",
+      duedate: "",
+      paymentMethod: ""
+    }
+  })
 
 
-// return (
-// <section className="w-[1500px]">
+  const handlePrint = () => {
+    console.log(invoiceData)
+    window.print()
+  }
 
-//   <aside>
+  return (
+    <section className="w-[1500px]">
 
-//     <Header
-//       h1="Products Invoice"
-//       para="Manage Your product catalog and service offerings."
-//     />
+      <aside>
 
-//     <div className="absolute right-10 top-4">
-//       <Buttons
-//         h1="Issue Invoice"
-//         h2="Save Draft"
-//         src2={vectora}
-//         src1=""
-//       />
-//     </div>
+        <Header
+          h1="Products Invoice"
+          para="Manage Your product catalog and service offerings."
+        />
 
-//   </aside>
+        <div className="absolute right-10 top-4">
+          <Buttons
+            h1="Issue Invoice"
+            h2="Save Draft"
+            src2={vectora}
+            src1=""
+          />
+        </div>
 
-
-//   <section className="flex">
-
-//     {/* LEFT SIDE FORMS */}
-
-//     <div className="w-[50%] space-y-7 p-4">
-
-//       <CustomerForm
-//         data={invoiceData.customer}
-//         setData={(data)=>
-//           setInvoiceData(prev => ({...prev,customer:data}))
-//         }
-//       />
-
-//       <Productform
-//         data={invoiceData.product}
-//         setData={(data)=>
-//           setInvoiceData(prev => ({...prev,product:data}))
-//         }
-//       />
-
-//       <Priceform
-//         data={invoiceData.price}
-//         setData={(data)=>
-//           setInvoiceData(prev => ({...prev,price:data}))
-//         }
-//       />
-
-//     </div>
+      </aside>
 
 
-//     {/* RIGHT SIDE BILL */}
+      <section className="flex">
 
-//     <div className="w-[50%] p-4">
+        <div className="w-[50%] space-y-7 p-4">
 
-//       <Bill
+          <Customerform
+            data={invoiceData.customer} setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, customer: data }))
+            }
+          />
 
-//         data={invoiceData}
-//         onPrint={handlePrint}
+          {/* <Productform
+        data={invoiceData.product} setData={(data)=>
+          setInvoiceData(prev => ({...prev,product:data}))
+        }
+      /> */}
 
-//         button={<Buttons h1="Service Invoice" h2="" src1="" src2="" />}
+          <Priceform
+            data={invoiceData.price}
+            setData={(data) => setInvoiceData(prev => ({ ...prev, price: data }))}
+          />
 
-//         name={invoiceData.customer.customer}
-//         email={invoiceData.customer.email}
-//         phone={Number(invoiceData.customer.phone)}
-//         college={invoiceData.customer.office}
+        </div>
 
-//         invoiceid="INV-2026-001"
-//         date={new Date().toDateString()}
-//         duedate={invoiceData.price.duedate}
 
-//         detailhead="Service Details"
+        {/* RIGHT SIDE BILL */}
 
-//         head11={invoiceData.product.service1}
-//         head12={invoiceData.product.code1}
-//         amount1={invoiceData.product.amount1}
+        <div className="w-[50%] p-4">
 
-//         head21={invoiceData.product.service2}
-//         head22={invoiceData.product.code2}
-//         amount2={invoiceData.product.amount2}
+          <Bill
 
-//         subamount11={invoiceData.price.subtotal}
-//         subamount12={invoiceData.price.discount}
-//         subamount13={invoiceData.price.tax}
+            data={invoiceData}
+            onPrint={handlePrint}
 
-//         subamount21={invoiceData.price.total}
-//         subamount22={invoiceData.price.paid}
-//         subamount23={invoiceData.price.due}
+            button={<Buttons h1="Service Invoice" h2="" src1="" src2="" />}
 
-//         conditionPara="Thank you for your business. Please remit payment within 30 days."
+            name={invoiceData.customer.customer}
+            email={invoiceData.customer.email}
+            phone={Number(invoiceData.customer.phone)}
+            college={invoiceData.customer.office}
 
-//       />
+            invoiceid="INV-2026-001"
+            date={new Date().toDateString()}
+            duedate={invoiceData.price.duedate}
 
-//     </div>
+            detailhead="Service Details"
 
-//   </section>
+            head11={invoiceData.product.service1}
+            head12={invoiceData.product.code1}
+            amount1={invoiceData.product.amount1}
 
-// </section>
-// )
-// }
+            head21={invoiceData.product.service2}
+            head22={invoiceData.product.code2}
+            amount2={invoiceData.product.amount2}
 
-// export default Service_invoice
+            // subamount11={invoiceData.price.subtotal}
+            // subamount12={invoiceData.price.discount}
+            // subamount13={invoiceData.price.tax}
+
+            // subamount21={invoiceData.price.total}
+            // subamount22={invoiceData.price.paid}
+            // subamount23={invoiceData.price.due}
+
+            conditionPara="Thank you for your business. Please remit payment within 30 days."
+
+          />
+
+        </div>
+
+      </section>
+
+    </section>
+  )
+}
+
+export default Service_invoice

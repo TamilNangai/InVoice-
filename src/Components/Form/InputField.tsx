@@ -26,8 +26,8 @@ const InputField: React.FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        required
         className="border-b border-black outline-none w-full bg-transparent text-[15px] font-sanchez"
+        required
       />
 
     </div>

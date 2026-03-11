@@ -11,6 +11,15 @@ type SaveInvoiceData = {
     college: string;
   };
 
+  customer: {
+    customer: string
+    email: string
+    phone: string
+    office: string
+    gst: string
+    address: string
+  };
+
   program: {
     internship: string;
     batch: string;

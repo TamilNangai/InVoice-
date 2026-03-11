@@ -22,6 +22,7 @@ type BillProps = {
     email: string;
     phone: number;
     college: string;
+    address:string;
     invoiceid: string;
     date: string;
     duedate: string;
@@ -36,48 +37,49 @@ type BillProps = {
     boxref?: string;
     detailhead: string;
     button: ReactNode;
-    data:any;
-    onPrint:()=>void
+    data: any;
+    onPrint: () => void
 }
 
 const Bill: React.FC<BillProps> = ({
 
-  head11,
-  head12,
-  amount1,
-  head21,
-  head22,
-  amount2,
-  head31,
-  head32,
-  amount3,
-  subamount11,
-  subamount12,
-  subamount13,
-  subamount21,
-  subamount22,
-  subamount23,
-  conditionPara,
-  name,
-  email,
-  phone,
-  college,
-  invoiceid,
-  date,
-  duedate,
-  boxhead,
-  boxprogram,
-  batch,
-  duration,
-  count1,
-  count2,
-  boxinvoicedate,
-  boxduedate,
-  boxref,
-  detailhead,
-  button,
-  onPrint
-})  => {
+    head11,
+    head12,
+    amount1,
+    head21,
+    head22,
+    amount2,
+    head31,
+    head32,
+    amount3,
+    subamount11,
+    subamount12,
+    subamount13,
+    subamount21,
+    subamount22,
+    subamount23,
+    conditionPara,
+    name,
+    email,
+    phone,
+    college,
+    address,
+    invoiceid,
+    date,
+    duedate,
+    boxhead,
+    boxprogram,
+    batch,
+    duration,
+    count1,
+    count2,
+    boxinvoicedate,
+    boxduedate,
+    boxref,
+    detailhead,
+    button,
+    onPrint
+}) => {
     return (
         <div className="w-full  h-fit p-4 flex flex-col justify-around items-center rounded-[12px] border border-[#000000] bg-[#FFFFFF] shadow-[5px_5px_10px_rgba(0,0,0,0.5)]">
             <header className="w-full ps-4 flex justify-between border-b border-[#000000] ">
@@ -96,6 +98,7 @@ const Bill: React.FC<BillProps> = ({
                     <p className="iceberg-regular mb-2 text-[18px] leading-[100%] text-[#000000]">{name} </p>
                     <p className="sanchez-regular mb-2 text-[14px] leading-[100%] text-[#000000]">{email}</p>
                     <p className="sanchez-regular mb-2 text-[14px] leading-[100%] text-[#000000]">+91  {phone}</p>
+                    <p className="sanchez-regular mb-2 text-[14px] leading-[100%] text-[#000000]">{address}</p>
                     <p className="sanchez-regular mb-2 text-[16px] leading-[100%] text-[#000000]">{college}</p>
                 </div>
                 <div className="flex flex-col justify-center items-center">
@@ -158,7 +161,7 @@ const Bill: React.FC<BillProps> = ({
                                     )}
                                 </div>
                             </td>
-                            
+
                             <td className="p-4 text-right sanchez-regular text-[20px] leading-[100%] text-[#000000]">
                                 {amount1}.00
                             </td>
@@ -271,16 +274,16 @@ const Bill: React.FC<BillProps> = ({
             </section>
 
 
-           
+
             <div className="w-full pt-4">
                 <p className="iceberg-regular text-[18px] leading-[100%] text-[#000000] mb-4">Terms & Conditions:</p>
                 <p className="sanchez-regular text-[14px] leading-[20px] text-[#666666]">{conditionPara}</p>
             </div>
             <div className="w-full flex justify-end items-center">
-                 <div onClick={onPrint}>
-    
-  <Buttons h1="Print" h2="" src1="" src2=""/>
-  </div></div>
+                <div onClick={onPrint}>
+
+                    <Buttons h1="Print" h2="" src1="" src2="" />
+                </div></div>
         </div>
     )
 }

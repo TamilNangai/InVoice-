@@ -166,9 +166,10 @@ const CustomerForm = ({ data, setData }: Props) => {
           <InputField
             label="GST Number"
             name="gst"
+            type="number"
             value={data.gst}
             onChange={handleChange}
-            placeholder="33ABCDE1234F1Z5"
+            placeholder="123456789"
           />
 
         </div>
@@ -177,8 +178,8 @@ const CustomerForm = ({ data, setData }: Props) => {
 
           <InputField
             label="Phone Number"
-            type="number"
             name="phone"
+            type="number"
             value={data.phone}
             onChange={handleChange}
             placeholder="+91 1234567890"
