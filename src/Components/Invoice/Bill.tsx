@@ -105,11 +105,11 @@ const Bill: React.FC<BillProps> = ({
                         DesFlyer
                     </h1>
 
-                    <p className="font-sanchez text-[14px]">
+                    <p className="font-sanchez text-[13px]">
                         237 DesFlyer, Kings College of Engineering
                     </p>
 
-                    <p className="font-sanchez text-[14px]">
+                    <p className="font-sanchez text-[13px]">
                         Desflyer.tech@gmail.com | +91 8525913433
                     </p>
 
@@ -122,7 +122,7 @@ const Bill: React.FC<BillProps> = ({
             </div>
             <section className="w-full p-4 flex justify-between items-start">
                 <div className="flex flex-col justify-center items-start">
-                    <p className="iceberg-regular mb-2 text-[22px] leading-[100%] text-[#000000]">BILLED TO STUDENT</p>
+                    <p className="iceberg-regular mb-2 text-[22px] leading-[100%] text-[#000000]">BILLED TO</p>
                     <p className="iceberg-regular mb-2 text-[18px] leading-[100%] text-[#000000]">{name} </p>
                     <p className="sanchez-regular mb-2 text-[14px] leading-[100%] text-[#000000]">{email}</p>
                     <p className="sanchez-regular mb-2 text-[14px] leading-[100%] text-[#000000]">+91  {phone}</p>

@@ -11,7 +11,6 @@ type SaveInvoiceData = {
     college: string;
   };
 
-  
   program?: {
     internship: string;
     batch: string;
@@ -37,15 +36,13 @@ type SaveInvoiceData = {
     address: string;
   };
 
-  product?: [
+  product?: 
     {
-      productName: "",
-      sub: "1M",
-      price: 0,
-      tax: 18
-    },
-   
-  ];
+      productName: string,
+      sub:  string,
+      price: number,
+      tax:number
+    };
 
   service?: {
     serviceName: string;

@@ -63,15 +63,31 @@ const invoices: Invoice[] = [
 ];
 
 const RecentInvoices: React.FC = () => {
-  const [filter, setFilter] = useState<"All" | "Paid" | "Pending">("All");
+  const [filter, setFilter] = useState<"All" | "Paid" | "Pending" | "Type">("All");
   const [search, setSearch] = useState("");
+
+  // const filteredInvoices = invoices.filter((item) => {
+  //   const matchSearch =
+  //     item.id.toLowerCase().includes(search.toLowerCase()) ||
+  //     item.client.toLowerCase().includes(search.toLowerCase());
+
+  //   const matchStatus = filter === "All" ? true : item.status === filter;
+
+  //   return matchSearch && matchStatus;
+  // });
 
   const filteredInvoices = invoices.filter((item) => {
     const matchSearch =
       item.id.toLowerCase().includes(search.toLowerCase()) ||
-      item.client.toLowerCase().includes(search.toLowerCase());
+      item.client.toLowerCase().includes(search.toLowerCase()) ||
+      item.type.toLowerCase().includes(search.toLowerCase());
 
-    const matchStatus = filter === "All" ? true : item.status === filter;
+    const matchStatus =
+      filter === "All"
+        ? true
+        : filter === "Type"
+          ? true
+          : item.status === filter;
 
     return matchSearch && matchStatus;
   });
@@ -110,14 +126,13 @@ const RecentInvoices: React.FC = () => {
               >
                 Pending
               </button>
-               <button
-                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""
-                  }`}
-                onClick={() => setFilter("Pending")}
+              <button
+                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Type" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("Type")}
               >
                 Type
               </button>
-              
+
             </div>
             <div className="absolute right-28 w-[24%]">
               <Searchinput

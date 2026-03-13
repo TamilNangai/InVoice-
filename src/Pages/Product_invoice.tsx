@@ -35,7 +35,7 @@ type Price = {
 
 type InvoiceData = {
   customer: Customer
-  product: Product[]
+  product: Product
   price: Price
 }
 
@@ -51,20 +51,15 @@ const Product_invoice = () => {
       address: ""
     },
 
-    product: [
+    product: 
       {
         productName: "",
-        sub: "1M",
+        sub: "",
         price: 0,
         tax: 18
       },
-       {
-        productName: "",
-        sub: "2M",
-        price: 0,
-        tax: 18
-      }
-    ],
+      
+  
 
     price: {
       total: "",
@@ -129,7 +124,7 @@ const Product_invoice = () => {
             }
           />
 
-          <Productform
+          {/* <Productform
             data={invoiceData.product}
             setData={(data: Product[]) =>
               setInvoiceData(prev => ({
@@ -137,7 +132,7 @@ const Product_invoice = () => {
                 product: data
               }))
             }
-          />
+          /> */}
 
           <Priceform
             data={invoiceData.price}
@@ -177,16 +172,16 @@ const Product_invoice = () => {
 
             detailhead="Product Details"
 
-            head11={invoiceData.product[0]?.productName || ""}
+            head11={invoiceData.product?.productName || ""}
             head12="PRD-001"
-            amount1={invoiceData.product[0]?.price || 0}
+            amount1={invoiceData.product?.price || 0}
 
-            head21={invoiceData.product[1]?.productName || ""}
+            head21={invoiceData.product?.productName || ""}
             head22="PRD-002"
-            amount2={invoiceData.product[1]?.price || 0}
+            amount2={invoiceData.product?.price || 0}
 
-            count1={invoiceData.product[0]?.sub || ""}
-            count2={invoiceData.product[1]?.sub || ""}
+            count1={invoiceData.product?.sub || ""}
+            count2={invoiceData.product?.sub || ""}
 
             subamount11={Number(invoiceData.price.total)}
             subamount12={0}
