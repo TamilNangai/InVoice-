@@ -1,5 +1,6 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, forwardRef } from "react";
 import Buttons from "../Button/Buttons"
+
 type BillProps = {
 
     head11: string;
@@ -38,12 +39,12 @@ type BillProps = {
     detailhead: string;
     button: ReactNode;
     data: any;
-    onPrint: () => void
+    onPrint: () => void;
+};
 
-}
+const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
-const Bill: React.FC<BillProps> = ({
-
+  const {
     head11,
     head12,
     amount1,
@@ -60,17 +61,14 @@ const Bill: React.FC<BillProps> = ({
     subamount22,
     subamount23,
     conditionPara,
-
     name,
     email,
     phone,
     college,
-
     address,
     invoiceid,
     date,
     duedate,
-
     boxhead,
     boxprogram,
     batch,
@@ -83,18 +81,14 @@ const Bill: React.FC<BillProps> = ({
     detailhead,
     button,
     onPrint
-}) => {
-
-
-
-
-
+  } = props;
 
     return (
 
-        <div className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white">
-
-
+        <div 
+          ref={ref}
+          className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
+        >
             {/* HEADER */}
 
             <div className="flex justify-between items-start">
@@ -301,22 +295,21 @@ const Bill: React.FC<BillProps> = ({
                 </table>
             </section>
 
-
-
             <div className="w-full pt-4">
                 <p className="iceberg-regular text-[18px] leading-[100%] text-[#000000] mb-4">Terms & Conditions:</p>
                 <p className="sanchez-regular text-[14px] leading-[20px] text-[#666666]">{conditionPara}</p>
             </div>
-            <div className="w-full flex justify-end items-center">
+         
+  <div className="w-full flex justify-end items-center">
                 <div onClick={onPrint}>
                     <Buttons h1="Print" h2="" src1="" src2="" />
                 </div>
             </div>
 
         </div>
+    );
+});
 
-    )
+Bill.displayName = "Bill";
 
-}
-
-export default Bill
+export default Bill;

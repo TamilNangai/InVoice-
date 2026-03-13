@@ -13,7 +13,7 @@ type SaveSettingData = {
 export const saveSettings = async (data: SaveSettingData) => {
   try {
 
-    const docRef = await addDoc(collection(db, "settings"), {
+    const docRef = await addDoc(collection(db, "company-Details"), {
       ...data,
       createdAt: Timestamp.now(),
     });

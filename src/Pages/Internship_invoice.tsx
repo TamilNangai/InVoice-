@@ -1,4 +1,5 @@
-
+import { useRef } from "react";
+import { saveAndPrint } from "@/utils/saveAndPrint";
 import { useState } from "react"
 import Bill from '@/Components/Invoice/Bill'
 import Header from "@/Components/Nav/Header"
@@ -8,7 +9,7 @@ import Stdform from "@/Components/Form/Stdform"
 import Priform from "@/Components/Form/Priceform"
 import Buttons from '@/Components/Button/Buttons'
 import vectora from "@/assets/Vectora.png"
-import { saveInvoice } from '@/utils/SaveInvoice'
+
 
 type InvoiceData = {
   student:{
@@ -78,20 +79,21 @@ const [invoiceData,setInvoiceData] = useState<InvoiceData>({
   }
 })
 
+const billRef = useRef<HTMLDivElement>(null);
+
 const handlePrintAndSave = async () => {
 
-  console.log("Invoice Data:",invoiceData)
-
-  await saveInvoice({
-    invoiceType:"internship",
-    student:invoiceData.student,
-    program:invoiceData.program,
-    fees:invoiceData.fees,
-    price:invoiceData.price
-  })
-
-  window.print()
-}
+  await saveAndPrint(
+    {
+      invoiceType: "internship",
+      student: invoiceData.student,
+      program: invoiceData.program,
+      fees: invoiceData.fees,
+      price: invoiceData.price
+    },
+    billRef
+  );
+};
 
 return (
 <div className="w-[1500px]">
@@ -148,6 +150,7 @@ return (
 
       <Bill
         // type="internship"
+        ref={billRef}
         data={invoiceData}
         onPrint={handlePrintAndSave}
 

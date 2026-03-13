@@ -31,7 +31,7 @@ const Settings = () => {
     await saveSettings({
       company: settingsData
     })
-    window.print()
+   
 
   }
 
