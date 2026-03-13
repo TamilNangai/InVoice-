@@ -147,7 +147,7 @@ return (
     <div className="w-[50%] p-4">
 
       <Bill
-        type="internship"
+        // type="internship"
         data={invoiceData}
         onPrint={handlePrintAndSave}
 

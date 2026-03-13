@@ -1,4 +1,3 @@
-import Header from "@/Components/Nav/Header"
 import Cards from "@/Components/Cards/Cards"
 import Create from "@/Components/Cards/Create"
 import Popup1 from "@/assets/Popup1.png"
@@ -8,16 +7,6 @@ import Popup4 from "@/assets/Popup4.png"
 import src1 from '@/assets/Vectorw.png'
 import src2 from '@/assets/Vector.png'
 import Invoicetable from "@/Components/Table/Invoicetable"
-import Search from "@/Components/Filter/Search"
-import Filter from "@/Components/Filter/Filter"
-
-// import Search from "@/Components/Filter/Search"
-// import Filter from "@/Components/Filter/Filter"
-// import circle from "@/assets/filter/circle.svg"
-// import date from "@/assets/filter/date.svg"
-// import filter from "@/assets/filter/filter.svg"
-// import dropdown from "@/assets/filter/dropdown.svg"
-
 
 function Dashboard() {
         return (
@@ -53,7 +42,7 @@ service billing"
                                         h6="Create Invoice" />
                         </div>
 
-                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16">
+                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16 ">
                                 < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
@@ -61,7 +50,6 @@ service billing"
 
                         </div>
                         <div className="pl-16">
-
                                 <Invoicetable />
                         </div>
                 </div>

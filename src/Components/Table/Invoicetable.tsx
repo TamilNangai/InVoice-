@@ -110,6 +110,14 @@ const RecentInvoices: React.FC = () => {
               >
                 Pending
               </button>
+               <button
+                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""
+                  }`}
+                onClick={() => setFilter("Pending")}
+              >
+                Type
+              </button>
+              
             </div>
             <div className="absolute right-28 w-[24%]">
               <Searchinput
