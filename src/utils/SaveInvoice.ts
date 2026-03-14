@@ -36,6 +36,14 @@ type SaveInvoiceData = {
     address: string;
   };
 
+  product?: 
+    {
+      productName: string,
+      sub:  string,
+      price: number,
+      tax:number
+    };
+
   service?: {
     serviceName: string;
     price: number;

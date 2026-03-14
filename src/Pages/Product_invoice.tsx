@@ -52,14 +52,15 @@ const Product_invoice = () => {
       address: ""
     },
 
-    product: [
+    product: 
       {
         productName: "",
         sub: "",
         price: 0,
-        tax: 0
-      }
-    ],
+        tax: 18
+      },
+      
+  
 
     price: {
       total: 0,

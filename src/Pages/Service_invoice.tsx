@@ -1,12 +1,12 @@
 import { useState } from "react"
-import Bill from '@/Components/Invoice/Bill'
+import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
 import ProductForm from "@/Components/Form/Productform"
 import PriceForm from "@/Components/Form/Priceform"
-import Buttons from '@/Components/Button/Buttons'
+import Buttons from "@/Components/Button/Buttons"
 import vectora from "@/assets/Vectora.png"
-import { saveInvoice } from '@/utils/SaveInvoice'
+import { saveInvoice } from "@/utils/SaveInvoice"
 
 type Service = {
   serviceName: string
@@ -15,7 +15,6 @@ type Service = {
 }
 
 type InvoiceData = {
-
   customer: {
     customer: string
     email: string
@@ -41,7 +40,6 @@ type InvoiceData = {
 const Service_invoice = () => {
 
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-
     customer: {
       customer: "",
       email: "",
@@ -68,7 +66,6 @@ const Service_invoice = () => {
     },
 
     discount: 0
-
   })
 
 
@@ -113,7 +110,6 @@ const Service_invoice = () => {
   const dueAmount = totalAmount - paidAmount
 
 
-
   /* ================= SAVE + PRINT ================= */
 
   const handlePrintAndSave = async () => {
@@ -129,11 +125,9 @@ const Service_invoice = () => {
       }
     })
 
-
     window.print()
 
   }
-
 
 
   return (
@@ -158,22 +152,27 @@ const Service_invoice = () => {
 
       </div>
 
+
       <section className="flex">
 
+        {/* LEFT SIDE FORMS */}
 
         <div className="w-[50%] space-y-7 p-4">
 
           <CustomerForm
             data={invoiceData.customer}
-            setData={(data) => setInvoiceData(prev => ({ ...prev, customer: data }))}
+            setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, customer: data }))
+            }
           />
 
-        <ProductForm
+          <ProductForm
             data={invoiceData.service.map(s => ({
               productName: s.serviceName,
               price: s.price,
               tax: s.tax
             }))}
+
             setData={(data) =>
               setInvoiceData(prev => ({
                 ...prev,
@@ -184,13 +183,11 @@ const Service_invoice = () => {
                 }))
               }))
             }
-         
+
             title="Service Details"
             nameLabel="Service Name"
             addButton="+ Add Service Line"
-         />
-
-
+          />
 
 
           <PriceForm
@@ -199,15 +196,18 @@ const Service_invoice = () => {
               total: totalAmount,
               due: dueAmount
             }}
-            setData={(data) => setInvoiceData(prev => ({ ...prev, price: data }))}
+
+            setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, price: data }))
+            }
           />
 
         </div>
 
 
-        <div className="w-[50%] p-4">
+        {/* RIGHT SIDE BILL */}
 
-          
+        <div className="w-[50%] p-4">
 
           <Bill
             type="service"
@@ -250,7 +250,6 @@ const Service_invoice = () => {
 
             onPrint={handlePrintAndSave}
           />
-
 
         </div>
 

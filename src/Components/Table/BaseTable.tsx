@@ -45,9 +45,7 @@ const Header = ({ children }: SectionProps) => {
     return <thead>{children}</thead>;
 };
 
-// const Body = ({ children }: SectionProps) => {
-//     return <tbody>{children}</tbody>;
-// };
+
 const Body = ({ children, className }: SectionProps) => {
     return <tbody className={className}>{children}</tbody>;
 };
