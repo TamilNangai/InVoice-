@@ -1,5 +1,5 @@
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "@/firebase"
+import { collection, addDoc } from "firebase/firestore"
 
 type SaveInvoiceData = {
   invoiceType: string;
@@ -11,7 +11,6 @@ type SaveInvoiceData = {
     college: string;
   };
 
-  
   program?: {
     internship: string;
     batch: string;
@@ -37,16 +36,6 @@ type SaveInvoiceData = {
     address: string;
   };
 
-  product?: [
-    {
-      productName: "",
-      sub: "1M",
-      price: 0,
-      tax: 18
-    },
-   
-  ];
-
   service?: {
     serviceName: string;
     price: number;
@@ -55,32 +44,30 @@ type SaveInvoiceData = {
 
 
   price: {
-    total: string;
-    due: string;
-    paid: string;
+    total: number;
+    due: number;
+    paid: number;
     duedate: string;
     paymentMethod: string;
   };
-  data?: {
-    companyName: string;
-    companyEmail: string;
-    companyPhone: string;
-    companyAddress: string;
-  };
 };
+
 
 export const saveInvoice = async (data: SaveInvoiceData) => {
+
   try {
-    const docRef = await addDoc(collection(db, "invoices"), {
+
+    await addDoc(collection(db, "invoices"), {
       ...data,
-      createdAt: Timestamp.now(),
-    });
+      createdAt: new Date()
+    })
 
-    console.log("Invoice saved with ID:", docRef.id);
-    alert("Invoice Saved Successfully!");
+    console.log("Invoice saved successfully")
+
   } catch (error) {
-    console.error("Error saving invoice:", error);
-    alert("Failed to Save Invoice");
-  }
-};
 
+    console.error("Error saving invoice", error)
+
+  }
+
+}

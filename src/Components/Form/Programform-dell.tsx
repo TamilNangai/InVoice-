@@ -33,7 +33,7 @@ const StudentForm = (Props:stdform) => {
             name="internship"
             value={formData.internship}
             onChange={handleChange}
-            placeholder="Sweatha"
+            placeholder="Swetha"
 
           />
 
