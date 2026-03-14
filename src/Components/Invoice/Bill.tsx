@@ -1,3 +1,5 @@
+
+
 import React, { ReactNode, forwardRef } from "react";
 import Buttons from "../Button/Buttons"
 
@@ -39,55 +41,63 @@ type BillProps = {
     detailhead: string;
     button: ReactNode;
     data: any;
+    companyName: string;
+    companyEmail: string;
+    companyPhone: string;
+    companyAddress: string;
     onPrint: () => void;
 };
 
 const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
-  const {
-    head11,
-    head12,
-    amount1,
-    head21,
-    head22,
-    amount2,
-    head31,
-    head32,
-    amount3,
-    subamount11,
-    subamount12,
-    subamount13,
-    subamount21,
-    subamount22,
-    subamount23,
-    conditionPara,
-    name,
-    email,
-    phone,
-    college,
-    address,
-    invoiceid,
-    date,
-    duedate,
-    boxhead,
-    boxprogram,
-    batch,
-    duration,
-    count1,
-    count2,
-    boxinvoicedate,
-    boxduedate,
-    boxref,
-    detailhead,
-    button,
-    onPrint
-  } = props;
+    const {
+        head11,
+        head12,
+        amount1,
+        head21,
+        head22,
+        amount2,
+        head31,
+        head32,
+        amount3,
+        subamount11,
+        subamount12,
+        subamount13,
+        subamount21,
+        subamount22,
+        subamount23,
+        conditionPara,
+        name,
+        email,
+        phone,
+        college,
+        address,
+        invoiceid,
+        date,
+        duedate,
+        boxhead,
+        boxprogram,
+        batch,
+        duration,
+        count1,
+        count2,
+        boxinvoicedate,
+        boxduedate,
+        boxref,
+        detailhead,
+        button,
+        companyAddress,
+        companyEmail,
+        companyName,
+        companyPhone,
+        onPrint
+    } = props;
 
     return (
 
-        <div 
-          ref={ref}
-          className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
+        <div
+            ref={ref}
+            className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
         >
             {/* HEADER */}
 
@@ -96,15 +106,16 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                 <div>
 
                     <h1 className="font-iceberg text-[32px]">
-                        DesFlyer
+                        {companyName}
                     </h1>
 
                     <p className="font-sanchez text-[13px]">
-                        237 DesFlyer, Kings College of Engineering
+                        {companyAddress}
                     </p>
 
                     <p className="font-sanchez text-[13px]">
-                        Desflyer.tech@gmail.com | +91 8525913433
+                        {companyEmail}
+                        {companyPhone}
                     </p>
 
                 </div>
@@ -299,8 +310,8 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                 <p className="iceberg-regular text-[18px] leading-[100%] text-[#000000] mb-4">Terms & Conditions:</p>
                 <p className="sanchez-regular text-[14px] leading-[20px] text-[#666666]">{conditionPara}</p>
             </div>
-         
-  <div className="w-full flex justify-end items-center">
+
+            <div className="w-full flex justify-end items-center">
                 <div onClick={onPrint}>
                     <Buttons h1="Print" h2="" src1="" src2="" />
                 </div>

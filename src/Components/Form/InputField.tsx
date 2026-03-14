@@ -5,6 +5,7 @@ interface InputFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   type?: string
   placeholder?: string
+  required?:boolean
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -13,7 +14,9 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   onChange,
   type = "text",
-  placeholder
+  placeholder,
+  required,
+  
 }) => {
   return (
     <div className="mb-4">
@@ -24,10 +27,11 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         name={name}
         value={value}
+        required={required}
         onChange={onChange}
         placeholder={placeholder}
         className="border-b border-black outline-none w-full bg-transparent text-[15px] font-sanchez"
-        required
+     
       />
 
     </div>

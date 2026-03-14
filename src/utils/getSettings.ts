@@ -1,14 +1,14 @@
-// import { collection, getDocs } from "firebase/firestore";
-// import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
-// export const getSettings = async () => {
-//   const snapshot = await getDocs(collection(db, "settings"));
+export const getSettings = async () => {
+  const snapshot = await getDocs(collection(db, "company-Details"));
 
-//   let data = null;
+  let data = null;
 
-//   snapshot.forEach((doc) => {
-//     data = doc.data();
-//   });
+  snapshot.forEach((doc) => {
+    data = doc.data();
+  });
 
-//   return data;
-// };
+  return data;
+};

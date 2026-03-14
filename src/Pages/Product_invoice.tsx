@@ -39,6 +39,7 @@ type InvoiceData = {
   price: Price
 }
 
+
 const Product_invoice = () => {
 
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
@@ -156,6 +157,11 @@ const Product_invoice = () => {
             onPrint={handlePrintAndSave}
             button={<Buttons src1="" src2="" h1="Product Invoice" h2="" />}
 
+            companyAddress=""
+            companyEmail=""
+            companyName=""
+            companyPhone=""
+            
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
             phone={Number(invoiceData.customer.phone)}

@@ -172,7 +172,7 @@ const RecentInvoices: React.FC = () => {
                     ₹{invoice.amount.toLocaleString()}
                   </td>
                   <td className="p-3 border">
-                    {invoice.status}
+                    .  {invoice.status}
                   </td>
                 </tr>
               ))}
