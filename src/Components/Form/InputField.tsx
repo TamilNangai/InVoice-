@@ -1,40 +1,59 @@
 interface InputFieldProps {
   label: string
   name: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   type?: string
+  value?: string | number
   placeholder?: string
-  required?:boolean
+
+  required?: boolean
+  maxLength?: number
+  disabled?: boolean
+
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
 }
+
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
+  type = "text",
   name,
+  placeholder,
   value,
   onChange,
-  type = "text",
-  placeholder,
-  required,
-  
+  onBlur,
+  maxLength,
+  required = false,
+  disabled = false
 }) => {
+
   return (
+
     <div className="mb-4">
 
-      <label className="block mb-1">{label}</label>
+      <label className="block mb-1">
+        {label}  {name == "gst" && <span className="text-gray-500">(optional)</span>}
+      </label>
+     
 
       <input
         type={type}
         name={name}
         value={value}
-        required={required}
-        onChange={onChange}
+
         placeholder={placeholder}
+        onChange={onChange}
+        onBlur={onBlur}
+        maxLength={maxLength}
+        disabled={disabled}
+        required={required}
         className="border-b border-black outline-none w-full bg-transparent text-[15px] font-sanchez"
-     
+
       />
 
+
     </div>
+
   )
 }
 
