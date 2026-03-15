@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-import { useState, useEffect } from "react"
-
-=======
-import { useRef } from "react";
 import { saveAndPrint } from "@/utils/saveAndPrint";
-import { useState } from "react"
->>>>>>> 8d94990723274a58e202b2871c5d57e3586f9c95
+import { useState, useEffect, useRef } from "react"
 import Bill from '@/Components/Invoice/Bill'
 import Header from "@/Components/Nav/Header"
 import Feeform from "@/Components/Form/Feeform"
@@ -13,12 +7,8 @@ import Programform from "@/Components/Form/Programform"
 import Stdform from "@/Components/Form/Stdform"
 import Buttons from '@/Components/Button/Buttons'
 import vectora from "@/assets/Vectora.png"
-<<<<<<< HEAD
-import { saveInvoice } from '@/utils/SaveInvoice'
 import PriceForm from "@/Components/Form/Priceform"
-=======
 
->>>>>>> 8d94990723274a58e202b2871c5d57e3586f9c95
 
 type InvoiceData = {
   student: {
@@ -79,7 +69,6 @@ const Internship_invoice = () => {
       discount: 0
     },
 
-<<<<<<< HEAD
     price: {
       total: 0,
       due: 0,
@@ -89,21 +78,11 @@ const Internship_invoice = () => {
     }
   })
 
-  const handlePrintAndSave = async () => {
-=======
-  price:{
-    total:"",
-    due:"",
-    paid:"",
-    duedate:"",
-    paymentMethod:""
-  }
-})
 
 const billRef = useRef<HTMLDivElement>(null);
 
 const handlePrintAndSave = async () => {
-
+  console.log("Invoice Data:", invoiceData)
   await saveAndPrint(
     {
       invoiceType: "internship",
@@ -115,20 +94,8 @@ const handlePrintAndSave = async () => {
     billRef
   );
 };
->>>>>>> 8d94990723274a58e202b2871c5d57e3586f9c95
 
-    console.log("Invoice Data:", invoiceData)
 
-    await saveInvoice({
-      invoiceType: "internship",
-      student: invoiceData.student,
-      program: invoiceData.program,
-      fees: invoiceData.fees,
-      price: invoiceData.price
-    })
-
-    window.print()
-  }
 
   useEffect(() => {
 
@@ -264,69 +231,7 @@ const handlePrintAndSave = async () => {
       </section>
 
     </div>
-<<<<<<< HEAD
   )
-=======
-
-
-    {/* RIGHT SIDE BILL */}
-
-    <div className="w-[50%] p-4">
-
-      <Bill
-        // type="internship"
-        ref={billRef}
-        data={invoiceData}
-        onPrint={handlePrintAndSave}
-
-        button={<Buttons src1="" src2="" h1="Internship Invoice" h2="" />}
-
-        name={invoiceData.student.studentName}
-        email={invoiceData.student.email}
-        phone={Number(invoiceData.student.phone)}
-        college={invoiceData.student.college}
-
-        invoiceid="INV-2026-001"
-        date={invoiceData.program.start}
-        duedate={invoiceData.price.duedate}
-
-        boxhead="Program Enrolled"
-        boxprogram={invoiceData.program.internship}
-        batch={`Batch: ${invoiceData.program.batch}`}
-        duration={`Duration: ${invoiceData.program.start} - ${invoiceData.program.enddate}`}
-
-        detailhead="Program Enrolled"
-
-        head11="Training Program Fee"
-        head12="Core Curriculum Access and mentorship"
-        amount1={invoiceData.fees.training}
-
-        head21="Internship Administrative Fee"
-        head22="Project allocation and assessment"
-        amount2={invoiceData.fees.internship}
-
-        head31="Certification Issuance"
-        head32="Digital and physical certificate"
-        amount3={invoiceData.fees.certificate}
-
-        subamount11={Number(invoiceData.price.total)}
-        subamount12={invoiceData.fees.discount}
-        subamount13={invoiceData.fees.tax}
-
-        subamount21={Number(invoiceData.price.total)}
-        subamount22={Number(invoiceData.price.paid)}
-        subamount23={Number(invoiceData.price.due)}
-
-        conditionPara="Payment is due within 7 days of invoice issuance. Fees are non-refundable once the internship program has commenced."
-      />
-
-    </div>
-
-  </section>
-
-</div>
-)
->>>>>>> 8d94990723274a58e202b2871c5d57e3586f9c95
 }
 
 export default Internship_invoice

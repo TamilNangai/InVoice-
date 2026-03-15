@@ -156,22 +156,13 @@ const ProductForm: React.FC<Props> = ({
           
           className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} items-center gap-3 mt-3 font-sanchez text-sm`}
         >
-
-          {/* Name */}
-
-          {/* <input
-            placeholder={nameLabel}
-            value={row.productName}
-            onChange={(e) =>
-              handleChange(index, "productName", e.target.value)
-            }
-            className="col-span-5 border-2 border-black rounded-md px-3 py-2"
-          /> */}
+          {/* productName*/}
 
           <input
             name="productName"
             placeholder={nameLabel}
             value={row.productName}
+            required
             onChange={(e) =>
               handleChange(index, "productName", e.target.value)
             }
@@ -186,6 +177,9 @@ const ProductForm: React.FC<Props> = ({
 
             <select
               value={row.sub || ""}
+              required
+              name="sub"
+              onBlur={(e) => handleBlur(e, index)}
               onChange={(e) =>
                 handleChange(index, "sub", e.target.value)
               }
@@ -202,21 +196,14 @@ const ProductForm: React.FC<Props> = ({
 
           {/* Price */}
 
-          {/* <input
-            type="number"
-            placeholder="10000"
-            value={row.price}
-            onChange={(e) =>
-              handleChange(index, "price", Number(e.target.value))
-            }
-            className="col-span-2 border-2 border-black rounded-md px-3 py-2"
-          /> */}
+         
 
           <input
             name="price"
             type="number"
             placeholder="10000"
             value={row.price}
+            required
             onChange={(e) =>
               handleChange(index, "price", Number(e.target.value))
             }
@@ -226,15 +213,7 @@ const ProductForm: React.FC<Props> = ({
           
           {/* Tax */}
 
-          {/* <input
-            type="number"
-            placeholder="18"
-            value={row.tax}
-            onChange={(e) =>
-              handleChange(index, "tax", Number(e.target.value))
-            }
-            className="col-span-2 border-2 border-black rounded-md px-3 py-2"
-          /> */}
+          
                                 
 
           <input
@@ -242,6 +221,7 @@ const ProductForm: React.FC<Props> = ({
             type="number"
             placeholder="18"
             value={row.tax}
+            required
             onChange={(e) =>
               handleChange(index, "tax", Number(e.target.value))
             }

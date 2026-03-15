@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
@@ -7,6 +7,9 @@ import PriceForm from "@/Components/Form/Priceform"
 import Buttons from "@/Components/Button/Buttons"
 import vectora from "@/assets/Vectora.png"
 import { saveInvoice } from "@/utils/SaveInvoice"
+import { generateInvoiceId } from "@/utils/generateInvoiceId"
+import { validateForm } from "@/utils/useInvoiceValidation"
+
 
 type Service = {
   serviceName: string
@@ -38,6 +41,9 @@ type InvoiceData = {
 }
 
 const Service_invoice = () => {
+
+  const [invoiceId] = useState(generateInvoiceId())
+
 
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     customer: {
@@ -112,12 +118,67 @@ const Service_invoice = () => {
 
   /* ================= SAVE + PRINT ================= */
 
+
+  const formRef = useRef<HTMLFormElement>(null)
+  
   const handlePrintAndSave = async () => {
 
+    if (!validateForm(formRef.current)) return
+
+    /* CUSTOMER VALIDATION */
+
+    const { customer, email, office, phone, address } = invoiceData.customer
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      alert("Phone number must be 10 digits")
+      return
+    }
+
+
+    if (!customer || !email || !office || !phone || !address) {
+      alert("Please fill all customer details.")
+      return
+    }
+
+    /* SERVICE VALIDATION */
+
+    const invalidService = invoiceData.service.some(
+      s =>
+        !s.serviceName ||
+        s.price <= 0 ||
+        isNaN(s.price) ||
+        s.tax < 0 ||
+        s.tax > 100 ||
+        isNaN(s.tax)
+    )
+
+    if (invalidService) {
+      alert("Please fill all service details correctly.")
+      return
+    }
+
+    /* FILTER EMPTY ROWS */
+
+    const validServices = invoiceData.service.filter(
+      s => s.serviceName && s.price > 0
+    )
+
+    /* PRICE VALIDATION */
+
+    const { paid, duedate, paymentMethod } = invoiceData.price
+
+    if (!duedate || !paymentMethod ||!paid || paid < 0 || isNaN(paid)) {
+      alert("Please fill all price details correctly.")
+      return
+    }
+
+    /* SAVE */
+
     await saveInvoice({
+      invoiceId,
       invoiceType: "service",
       customer: invoiceData.customer,
-      service: invoiceData.service,
+      service: validServices,
       price: {
         ...invoiceData.price,
         total: totalAmount,
@@ -126,8 +187,9 @@ const Service_invoice = () => {
     })
 
     window.print()
-
   }
+
+
 
 
   return (
@@ -138,7 +200,8 @@ const Service_invoice = () => {
 
         <Header
           h1="New Service Invoice"
-          para="#INV-2026-001"
+          para={`#${invoiceId}`}
+
         />
 
         <div className="absolute right-10 top-4">
@@ -147,13 +210,29 @@ const Service_invoice = () => {
             h2="Save Draft"
             src2={vectora}
             src1=""
+            type="submit"
           />
         </div>
 
       </div>
 
 
-      <section className="flex">
+      <form
+      className="flex"
+        ref={formRef}
+        onSubmit={(e) => {
+          e.preventDefault()
+
+          if (!formRef.current?.checkValidity()) {
+            formRef.current?.reportValidity()
+            return
+          }
+
+          handlePrintAndSave()
+        }}
+      >
+
+
 
         {/* LEFT SIDE FORMS */}
 
@@ -217,19 +296,20 @@ const Service_invoice = () => {
               subtitle: "Service",
               amount: item.price
             }))}
+            
 
             boxdate={new Date().toLocaleDateString()}
             boxduedate={invoiceData.price.duedate}
             boxreference="Po-12345"
 
-            button={<Buttons src1="" src2="" h1="Service Invoice" h2="" />}
+            button={<Buttons src1="" src2="" h1="Service Invoice" h2=""  />}
 
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
             phone={Number(invoiceData.customer.phone)}
             college={invoiceData.customer.office}
 
-            invoiceid="INV-2026-001"
+            invoiceid={invoiceId}
             date={new Date().toLocaleDateString()}
             duedate={invoiceData.price.duedate}
 
@@ -243,17 +323,18 @@ const Service_invoice = () => {
             subamount22={paidAmount}
             subamount23={dueAmount}
 
-            taxPercent={invoiceData.service[0]?.tax}
+            taxPercent={invoiceData.service[0]?.tax || 0}
             paymentMethod={invoiceData.price.paymentMethod}
 
             conditionPara="Thank you for your business. Please remit payment within 30 days."
 
-            onPrint={handlePrintAndSave}
+            onPrint={() => formRef.current?.requestSubmit()}
+
           />
 
         </div>
 
-      </section>
+      </form>
 
     </div>
 

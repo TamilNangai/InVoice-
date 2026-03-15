@@ -52,13 +52,14 @@ const Product_invoice = () => {
       address: ""
     },
 
-    product: 
+    product: [
       {
         productName: "",
         sub: "",
         price: 0,
-        tax: 18
-      },
+        tax: 0
+      }
+    ],
       
   
 
@@ -118,8 +119,10 @@ const Product_invoice = () => {
 
       customer: invoiceData.customer,
 
-      service: invoiceData.product.map(p => ({
-        serviceName: p.productName,
+
+      product: invoiceData.product.map(p => ({
+        productName: p.productName,
+        sub: p.sub,
         price: p.price,
         tax: p.tax
       })),
