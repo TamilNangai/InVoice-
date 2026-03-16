@@ -8,6 +8,7 @@ interface InputFieldProps {
   required?: boolean
   maxLength?: number
   disabled?: boolean
+  pattern?: string
 
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
@@ -20,19 +21,22 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   placeholder,
   value,
+  disabled = false,
+  required = false,
+  maxLength,
   onChange,
   onBlur,
-  maxLength,
-  required = false,
-  disabled = false
+  pattern
 }) => {
+
+  
 
   return (
 
     <div className="mb-4">
 
       <label className="block mb-1">
-        {label}  {name == "gst" && <span className="text-gray-500">(optional)</span>}
+        {label}  {name == "gst" && <span className="text-gray-500">(optional)</span>} {name == "trainer" && <span className="text-gray-500">(optional)</span>}
       </label>
      
 
@@ -46,6 +50,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onBlur={onBlur}
         maxLength={maxLength}
         disabled={disabled}
+        pattern={pattern}
         required={required}
         className="border-b border-black outline-none w-full bg-transparent text-[15px] font-sanchez"
 

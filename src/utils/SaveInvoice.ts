@@ -4,6 +4,8 @@ import { collection, addDoc } from "firebase/firestore"
 type SaveInvoiceData = {
   invoiceType: string;
 
+  invoiceId: string;
+
   student?: {
     studentName: string;
     email: string;
@@ -39,10 +41,10 @@ type SaveInvoiceData = {
   product?: 
     {
       productName: string,
-      sub:  string,
+      sub?:  string,
       price: number,
       tax:number
-    };
+    }[];
 
   service?: {
     serviceName: string;

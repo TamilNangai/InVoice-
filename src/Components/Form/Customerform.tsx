@@ -1,53 +1,3 @@
-// import React from "react";
-// import InputField from "@/Components/Form/InputField";
-// type CustomerData = {
-//   customer: string;
-//   email: string;
-//   office: string;
-//   gst: string;
-//   phone: string;
-//   address: string;
-
-// };
-// type Props = {
-//   data: CustomerData;
-//   setData: (data: CustomerData) => void;
-// };
-
-// const CustomerForm: React.FC<Props> = ({ data, setData }) => {
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setData({ ...data, [name]: value, });
-//   };
-//   return (<form className=" p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]" > <h2 className="text-xl font-bold mb-4 pl-8">Customer Details
-//   </h2> <section className="grid grid-cols-2 gap-10 font-iceberg text-md w-full h-full">
-//       <div>
-//         <InputField label="Customer Name" name="customer" placeholder="Swetha" value={data.customer || ""} onChange={handleChange} />
-//         <InputField label="Email Address" type="email" name="email" placeholder="swetha@email.com" value={data.email || ""} onChange={handleChange} />
-//         <InputField label="Office Name" name="office" placeholder="Kings College of Engineering" value={data.office || ""} onChange={handleChange} />
-//         <InputField label="GST Number" name="gst" placeholder="33ABCDE1234F1Z5" value={data.gst || ""} onChange={handleChange} />
-
-//       </div> {/* Right Side */}
-//       <div className="mt-20">
-//         <InputField label="Phone Number" type="tel" name="phone" placeholder="+91 1234567890" value={data.phone || ""} onChange={handleChange} />
-//         <InputField label="Office Address" name="address" placeholder="Chennai, Tamil Nadu" value={data.address || ""} onChange={handleChange} />
-//       </div>
-//     </section>
-//   </form>);
-// };
-// export default CustomerForm;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 import React, { useState } from "react"
@@ -136,7 +86,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
   return (
 
-    <form className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
+    <div className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
 
       <h2 className="text-xl font-bold mb-4 pl-8">
         Customer Details
@@ -153,6 +103,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             value={data.customer || ""}
             onChange={handleChange}
             onBlur={(e) => validateField(e.target.name, e.target.value)}
+            required
           />
           {errors.customer && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.customer}</p>}
 
@@ -164,6 +115,8 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             value={data.email || ""}
             onChange={handleChange}
             onBlur={(e) => validateField(e.target.name, e.target.value)}
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
           />
           {errors.email && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.email}</p>}
 
@@ -174,6 +127,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             value={data.office || ""}
             onChange={handleChange}
             onBlur={(e) => validateField(e.target.name, e.target.value)}
+            required
           />
           {errors.office && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.office}</p>}
 
@@ -185,6 +139,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onChange={handleChange}
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             maxLength={15}
+            pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$"
           />
 
           {errors.gst && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.gst}</p>}
@@ -202,6 +157,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onChange={handleChange}
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             maxLength={10}
+            required
           />
           {errors.phone && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.phone}</p>}
 
@@ -212,6 +168,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             value={data.address || ""}
             onChange={handleChange}
             onBlur={(e) => validateField(e.target.name, e.target.value)}
+            required
           />
           {errors.address && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.address}</p>}
 
@@ -219,7 +176,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
       </section>
 
-    </form>
+    </div>
 
   )
 }

@@ -21,7 +21,7 @@ const PriceForm = ({ data, setData }: Props) => {
 
     let message = ""
 
-    if (!value && name !== "paymentMethod") {
+    if (!value) {
       message = "This field is required"
     }
 
@@ -32,7 +32,9 @@ const PriceForm = ({ data, setData }: Props) => {
       if (num < 0) {
         message = "Paid amount cannot be negative"
       }
-
+      if (num === 0) {
+        message = "Paid amount cannot be zero"
+      }
       if (num > data.total) {
         message = "Paid cannot exceed total amount"
       }
@@ -96,7 +98,7 @@ const PriceForm = ({ data, setData }: Props) => {
 
   return (
 
-    <form className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
+    <div className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
 
       <h2 className="text-xl font-semibold mb-4 pl-8">
         Price Details
@@ -131,9 +133,9 @@ const PriceForm = ({ data, setData }: Props) => {
             name="paid"
             type="number"
             value={data.paid}
+            required
             onChange={handleChange}
             onBlur={handleBlur}
-            required
           />
           {errors.paid && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.paid}</p>}
 
@@ -192,7 +194,7 @@ const PriceForm = ({ data, setData }: Props) => {
 
       </div>
 
-    </form>
+    </div>
 
   )
 
