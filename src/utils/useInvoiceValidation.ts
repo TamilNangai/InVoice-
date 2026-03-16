@@ -5,6 +5,5 @@ export const validateForm = (form: HTMLFormElement | null) => {
         form.reportValidity()
         return false
     }
-
     return true
 }

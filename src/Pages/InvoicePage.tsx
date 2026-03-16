@@ -37,7 +37,8 @@ const invoices = [
   { no: "INV-2025-011", type: "Product", name: "Swetha S", sub: "Invoice Management", amount: "100000/-", status: "Pending", pending: "100000/-", date: "2025-12-02" },
   { no: "INV-2025-010", type: "Internship", name: "Tamil K", sub: "Web Development Internship", amount: "10000/-", status: "Over Due", pending: "10000/-", date: "2025-11-28" },
   { no: "INV-2025-009", type: "Product", name: "Akash K", sub: "Attendance Management", amount: "200000/-", status: "Paid", pending: "200000/-", date: "2025-11-02" },
- 
+  { no: "INV-2025-009", type: "Product", name: "Akash K", sub: "Attendance Management", amount: "200000/-", status: "Paid", pending: "200000/-", date: "2025-11-08" },
+
 ];
 
 
@@ -48,26 +49,33 @@ const InvoicePage = () => {
 
 
 
-const [search, setSearch] = useState("");
-const [type, setType] = useState("");
-const [status, setStatus] = useState("");
-const [date, setDate] = useState("");
+  const [search, setSearch] = useState("");
+  const [type, setType] = useState("");
+  const [status, setStatus] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
-const filteredInvoices = invoices.filter((item) => {
 
-  const matchSearch =
-    item.no.toLowerCase().includes(search.toLowerCase()) ||
-    item.name.toLowerCase().includes(search.toLowerCase());
 
-  const matchType = type ? item.type === type : true;
+    const filteredInvoices = invoices.filter((item) => {
 
-  const matchStatus = status ? item.status === status : true;
+      const matchSearch =
+        item.no.toLowerCase().includes(search.toLowerCase()) ||
+        item.name.toLowerCase().includes(search.toLowerCase());
 
-  const matchDate = date ? item.date === date : true;
+      const matchType = type ? item.type === type : true;
 
-  return matchSearch && matchType && matchStatus && matchDate;
+      const matchStatus = status ? item.status === status : true;
 
-});
+      const matchDate =
+        fromDate && toDate
+          ? new Date(item.date) >= new Date(fromDate) &&
+          new Date(item.date) <= new Date(toDate)
+          : true;
+
+      return matchSearch && matchType && matchStatus && matchDate;
+    });
+
 
 
 
@@ -100,9 +108,9 @@ const filteredInvoices = invoices.filter((item) => {
         />
       </div>
 
-      <div className=" flex gap-6 justify-center items-center px-20 m-3 mb-5">
+      <div className=" flex gap-6 justify-center items-center px-5 m-3 mb-5">
 
-        <div className="w-7/12">
+        <div className="w-2/6">
 
           <Searchinput
             icon={searchIcon}
@@ -111,8 +119,8 @@ const filteredInvoices = invoices.filter((item) => {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-    </div>
-        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-2/12 h-[50px] ">
+        </div>
+        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px] ">
 
           <img src={filterIcon} className="w-4 h-4" />
 
@@ -120,16 +128,16 @@ const filteredInvoices = invoices.filter((item) => {
             className="bg-transparent outline-none w-full font-iceberg text-[18px]"
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="">Type</option>
-            <option value="Internship">Internship</option>
-            <option value="Product">Product</option>
-            <option value="Others">Others</option>
+            <option  className="text-[18px] font-sanchez " value="">Type</option>
+            <option  className="text-[18px] font-sanchez " value="Internship">Internship</option>
+            <option  className="text-[18px] font-sanchez " value="Product">Product</option>
+            <option  className="text-[18px] font-sanchez " value="Others">Others</option>
           </select>
 
         </div>
 
 
-        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-2/12 h-[50px] ">
+        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px] ">
 
           <img src={statusIcon} className="w-4 h-4" />
 
@@ -137,34 +145,36 @@ const filteredInvoices = invoices.filter((item) => {
             className="bg-transparent outline-none w-full font-iceberg text-[18px]"
             onChange={(e) => setStatus(e.target.value)}
           >
-            <option value="">Status</option>
-            <option value="Paid">Paid</option>
-            <option value="Pending">Pending</option>
-            <option value="Over Due">Over Due</option>
+            <option className="text-[18px] font-sanchez " value="">Status</option>
+            <option className="text-[18px] font-sanchez " value="Paid">Paid</option>
+            <option className="text-[18px] font-sanchez " value="Pending">Pending</option>
+            <option  className="text-[18px] font-sanchez "value="Over Due">Over Due</option>
           </select>
 
         </div>
 
-        <div className="flex items-center gap-3 border border-[#00000033] rounded-md px-4 py-2 w-2/12 h-[50px]  cursor-pointer"
-          onClick={() => dateRef.current?.showPicker()}>
-
-          <img src={dateIcon} className="w-5 h-5" />
-
-          <span className="font-iceberg text-[18px] text-gray-600">
-            {date ? date : "Date Range"}
-          </span>
+        <div className="flex gap-3 w-2/6">
+          {/* <div className="flex items-center gap-3 border border-[#00000033] rounded-md px-4 py-2 w-2/12 h-[50px]  cursor-pointer" */}
 
           <input
-            ref={dateRef}
             type="date"
-            onChange={(e) => setDate(e.target.value)}
-            className="absolute opacity-0 pointer-events-none"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+            className="border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
+          />
+
+          <input
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+            className="border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
           />
 
         </div>
 
 
-  </div>
+
+      </div>
 
 
       <div className="m-3 ms-10">

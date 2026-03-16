@@ -78,7 +78,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
         email,
         phone,
         college,
-        address,
+        // address,
 
         invoiceid,
         date,
@@ -127,9 +127,9 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
     return (
 
-        <div 
-          ref={ref}
-          className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
+        <div
+            ref={ref}
+            className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
         >
             {/* HEADER */}
 
@@ -171,7 +171,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                         BILL TO
                     </p>
 
-                    <p className="font-sanchez text-[18px]">
+                    <p className="font-iceberg text-[18px]">
                         {name}
                     </p>
 
@@ -180,7 +180,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                     </p>
 
                     <p className="font-sanchez text-[18px]">
-                        +91 {phone}
+                        {phone}
                     </p>
 
                     <p className="font-sanchez text-[18px]">
@@ -200,13 +200,15 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                         Invoice #: {invoiceid}
                     </p>
 
-                    <p className="font-sanchez text-[18px]">
-                        Date: {date}
-                    </p>
+                    {type === "internship" && <>
+                        <p className="font-sanchez text-[18px]">
+                            Date: {date}
+                        </p>
 
-                    <p className="font-sanchez text-[18px]">
-                        Due Date: {duedate}
-                    </p>
+                        <p className="font-sanchez text-[18px]">
+                            Due Date: {duedate}
+                        </p>
+                    </>}
 
                 </div>
 
@@ -287,7 +289,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                     <>
 
-                        <div className="flex justify-between py-4 border-b">
+                        {amount1 && <div className="flex justify-between py-4 border-b">
 
                             <div>
 
@@ -305,10 +307,10 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                                 {amount1?.toFixed(2)}
                             </p>
 
-                        </div>
+                        </div>}
 
 
-                        <div className="flex justify-between py-4 border-b">
+                        {amount2  && <div className="flex justify-between py-4 border-b">
 
                             <div>
 
@@ -326,10 +328,10 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                                 {amount2?.toFixed(2)}
                             </p>
 
-                        </div>
+                        </div>}
 
 
-                        <div className="flex justify-between py-4 border-b">
+                        {amount3 && <div className="flex justify-between py-4 border-b">
 
                             <div>
 
@@ -347,7 +349,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                                 {amount3?.toFixed(2)}
                             </p>
 
-                        </div>
+                        </div>}
 
                     </>
 

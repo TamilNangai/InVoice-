@@ -27,8 +27,19 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
     // phone numbers only
     if (name === "phone" && !/^\d*$/.test(value)) return
+    if (name === "email") {
+      let error;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
 
-    // GST uppercase + limit
+      if (!emailRegex.test(value)) {
+        error = "Please enter a valid email address"
+      }
+    }
+
+
+
+
+    // GST uppercase + limit to 15 chars
     if (name === "gst") {
 
       const gstValue = value.toUpperCase().slice(0, 15)

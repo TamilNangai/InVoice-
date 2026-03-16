@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
@@ -7,6 +7,10 @@ import PriceForm from "@/Components/Form/Priceform"
 import Buttons from "@/Components/Button/Buttons"
 import vectora from "@/assets/Vectora.png"
 import { saveInvoice } from "@/utils/SaveInvoice"
+import { validateForm } from "@/utils/useInvoiceValidation"
+import { generateInvoiceId } from "@/utils/generateInvoiceId"
+import { saveAndPrint } from "@/utils/saveAndPrint";
+
 
 
 type Product = {
@@ -41,6 +45,7 @@ type InvoiceData = {
 }
 
 const Product_invoice = () => {
+  const [invoiceId] = useState(generateInvoiceId())
 
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     customer: {
@@ -111,22 +116,96 @@ const Product_invoice = () => {
 
 
   /* ---------------- SAVE + PRINT ---------------- */
+  const billRef = useRef<HTMLDivElement>(null);
+
+  const formRef = useRef<HTMLFormElement>(null)
 
   const handlePrintAndSave = async () => {
 
+    if (!validateForm(formRef.current)) return
+
+    /* CUSTOMER VALIDATION */
+
+    const { customer, email, office, phone, address } = invoiceData.customer
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      alert("Phone number must be 10 digits")
+      return
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
+
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address")
+      return
+    }
+
+     const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
+
+    const gst = invoiceData.customer.gst
+
+    if (gst?.trim() && !gstRegex.test(gst)) {
+      alert("Invalid GST number")
+      return
+    }
+
+
+    if (!customer || !email || !office || !phone || !address) {
+      alert("Please fill all customer details.")
+      return
+    }
+
+    /* PRODUCT VALIDATION */
+
+    const invalidProduct = invoiceData.product.some(
+      p =>
+        !p.productName ||
+        !p.sub ||
+        p.price <= 0 ||
+        isNaN(p.price) ||
+        p.tax < 0 ||
+        p.tax > 100 ||
+        isNaN(p.tax)
+    )
+
+    if (invalidProduct) {
+      alert("Please fill all product details correctly.")
+      return
+    }
+
+    /* FILTER EMPTY ROWS */
+
+    const validProducts = invoiceData.product.filter(
+      p => p.productName && p.price > 0
+    )
+
+    /* PRICE VALIDATION */
+
+    const { paid, duedate, paymentMethod } = invoiceData.price
+
+    if (!duedate || !paymentMethod || isNaN(paid)) {
+      alert("Please fill all price details correctly.")
+      return
+    }
+    if (paid <= 0) {
+      alert("Please fill the paid Amount correctly.")
+      return
+    }
+
+    const today = new Date().toISOString().split("T")[0]
+
+    if (duedate <= today) {
+      alert("Due date must be a future date")
+      return
+    }
+
+    /* SAVE */
+
     await saveInvoice({
+      invoiceId,
       invoiceType: "product",
-
       customer: invoiceData.customer,
-
-
-      product: invoiceData.product.map(p => ({
-        productName: p.productName,
-        sub: p.sub,
-        price: p.price,
-        tax: p.tax
-      })),
-
+      product: validProducts,
       price: {
         ...invoiceData.price,
         total: totalAmount,
@@ -134,8 +213,22 @@ const Product_invoice = () => {
       }
     })
 
-    window.print()
+    await saveAndPrint(
+      {
+        invoiceId,
+        invoiceType: "product",
+        customer: invoiceData.customer,
+        product: validProducts,
+        price: {
+          ...invoiceData.price,
+          total: totalAmount,
+          due: dueAmount
+        }
+      },
+    billRef
+  )
   }
+
 
   const rows = invoiceData.product.map((item, index) => ({
     title: item.productName,
@@ -155,7 +248,7 @@ const Product_invoice = () => {
 
         <Header
           h1="Product Invoice"
-          para="#INV-2026-001"
+          para={`#${invoiceId}`}
         />
 
         <div className="absolute right-10 top-4">
@@ -170,7 +263,20 @@ const Product_invoice = () => {
       </div>
 
 
-      <section className="flex">
+      <form
+        className="flex"
+        ref={formRef}
+        onSubmit={(e) => {
+          e.preventDefault()
+
+          if (!formRef.current?.checkValidity()) {
+            formRef.current?.reportValidity()
+            return
+          }
+
+          handlePrintAndSave()
+        }}
+      >
 
         {/* LEFT SIDE */}
 
@@ -221,6 +327,7 @@ const Product_invoice = () => {
         <div className="w-[50%] p-4">
 
           <Bill
+            ref={billRef}
             type="product"
 
             rows={rows}
@@ -239,7 +346,7 @@ const Product_invoice = () => {
             phone={Number(invoiceData.customer.phone)}
             college={invoiceData.customer.office}
 
-            invoiceid="INV-2026-001"
+            invoiceid={invoiceId}
             date={new Date().toLocaleDateString()}
             duedate={invoiceData.price.duedate}
 
@@ -267,7 +374,7 @@ const Product_invoice = () => {
 
         </div>
 
-      </section>
+      </form>
 
     </div>
   )

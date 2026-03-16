@@ -9,6 +9,7 @@ import vectora from "@/assets/Vectora.png"
 import { saveInvoice } from "@/utils/SaveInvoice"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { validateForm } from "@/utils/useInvoiceValidation"
+import { saveAndPrint } from "@/utils/saveAndPrint"
 
 
 type Service = {
@@ -118,9 +119,10 @@ const Service_invoice = () => {
 
   /* ================= SAVE + PRINT ================= */
 
+  const billRef = useRef<HTMLDivElement>(null);
 
   const formRef = useRef<HTMLFormElement>(null)
-  
+
   const handlePrintAndSave = async () => {
 
     if (!validateForm(formRef.current)) return
@@ -133,6 +135,25 @@ const Service_invoice = () => {
       alert("Phone number must be 10 digits")
       return
     }
+
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
+
+    if (!emailRegex.test(invoiceData.customer.email)) {
+      alert("Please enter a valid email address")
+      return
+    }
+
+    const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
+
+    const gst = invoiceData.customer.gst
+
+    if (gst?.trim() && !gstRegex.test(gst)) {
+      alert("Invalid GST number")
+      return
+    }
+
+
 
 
     if (!customer || !email || !office || !phone || !address) {
@@ -167,10 +188,21 @@ const Service_invoice = () => {
 
     const { paid, duedate, paymentMethod } = invoiceData.price
 
-    if (!duedate || !paymentMethod ||!paid || paid < 0 || isNaN(paid)) {
+    if (!duedate || !paymentMethod || !paid || isNaN(paid)) {
       alert("Please fill all price details correctly.")
       return
     }
+    if (paid<=0) {
+      alert("Please fill the paid Amount correctly.")
+      return
+    }
+    const today = new Date().toISOString().split("T")[0]
+
+    if (duedate <= today) {
+      alert("Due date must be a future date")
+      return
+    }
+
 
     /* SAVE */
 
@@ -184,9 +216,22 @@ const Service_invoice = () => {
         total: totalAmount,
         due: dueAmount
       }
-    })
+    }
+    );
 
-    window.print()
+    await saveAndPrint({
+        invoiceId,
+        invoiceType: "service",
+        customer: invoiceData.customer,
+        service: validServices,
+        price: {
+          ...invoiceData.price,
+          total: totalAmount,
+          due: dueAmount
+    }
+  },
+            billRef
+          );
   }
 
 
@@ -218,7 +263,7 @@ const Service_invoice = () => {
 
 
       <form
-      className="flex"
+        className="flex"
         ref={formRef}
         onSubmit={(e) => {
           e.preventDefault()
@@ -290,19 +335,19 @@ const Service_invoice = () => {
 
           <Bill
             type="service"
-
+            ref={billRef}
             rows={invoiceData.service.map(item => ({
               title: item.serviceName,
               subtitle: "Service",
               amount: item.price
             }))}
-            
+
 
             boxdate={new Date().toLocaleDateString()}
             boxduedate={invoiceData.price.duedate}
             boxreference="Po-12345"
 
-            button={<Buttons src1="" src2="" h1="Service Invoice" h2=""  />}
+            button={<Buttons src1="" src2="" h1="Service Invoice" h2="" />}
 
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
@@ -328,7 +373,8 @@ const Service_invoice = () => {
 
             conditionPara="Thank you for your business. Please remit payment within 30 days."
 
-            onPrint={() => formRef.current?.requestSubmit()}
+            // onPrint={() => formRef.current?.requestSubmit()}
+            onPrint={handlePrintAndSave}
 
           />
 
