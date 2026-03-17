@@ -54,7 +54,7 @@ const FeeForm = ({ data, setData }: Props) => {
   };
 
   return (
-    <form className="p-6 font-iceberg rounded-xl border border-black shadow">
+    <main className="p-6 font-iceberg rounded-xl border border-black shadow">
 
       <h2 className="text-xl font-semibold mb-4 pl-8">Fee Breakdown</h2>
 
@@ -120,7 +120,7 @@ const FeeForm = ({ data, setData }: Props) => {
 
       </section>
 
-    </form>
+    </main>
   );
 };
 

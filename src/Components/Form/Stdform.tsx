@@ -72,7 +72,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
 
 
   return (
-    <form className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
+    <main className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
 
       <h2 className="text-xl font-semibold mb-4 pl-8">
         Student Details
@@ -142,7 +142,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
         </div>
 
       </section>
-    </form>
+    </main>
   );
 };
 

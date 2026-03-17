@@ -66,6 +66,13 @@ type BillProps = {
 
     conditionPara: string
 
+    companyName?:string
+    companyEmail?:string
+    companyPhone?:string
+    companyAddress?:string
+    
+
+
 }
 
 const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
@@ -121,6 +128,10 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
         paymentMethod,
 
         conditionPara,
+        companyAddress,
+        companyEmail,
+        companyName,
+        companyPhone,
         onPrint
 
     } = props;
@@ -138,15 +149,15 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                 <div>
 
                     <h1 className="font-iceberg text-[32px]">
-                        DesFlyer
+                        {companyName}
                     </h1>
 
                     <p className="font-sanchez text-[13px]">
-                        237 DesFlyer, Kings College of Engineering
+                        {companyAddress}
                     </p>
 
                     <p className="font-sanchez text-[13px]">
-                        Desflyer.tech@gmail.com | +91 8525913433
+                        {companyEmail}| +91 {companyPhone}
                     </p>
 
                 </div>
@@ -310,7 +321,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                         </div>}
 
 
-                        {amount2  && <div className="flex justify-between py-4 border-b">
+                        {amount2 && <div className="flex justify-between py-4 border-b">
 
                             <div>
 

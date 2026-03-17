@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
@@ -10,7 +10,7 @@ import { saveInvoice } from "@/utils/SaveInvoice"
 import { validateForm } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { saveAndPrint } from "@/utils/saveAndPrint";
-
+import { getSettings } from "@/utils/getSettings"
 
 
 type Product = {
@@ -19,7 +19,6 @@ type Product = {
   price: number
   tax: number
 }
-
 
 type InvoiceData = {
   customer: {
@@ -47,6 +46,10 @@ type InvoiceData = {
 const Product_invoice = () => {
   const [invoiceId] = useState(generateInvoiceId())
 
+
+
+  const [company, setCompany] = useState<any>(null)
+
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     customer: {
       customer: "",
@@ -65,8 +68,6 @@ const Product_invoice = () => {
         tax: 0
       }
     ],
-      
-  
 
     price: {
       total: 0,
@@ -78,6 +79,27 @@ const Product_invoice = () => {
 
     discount: 0
   })
+
+
+  /* ---------------- FETCH COMPANY ---------------- */
+
+  useEffect(() => {
+
+    const fetchCompany = async () => {
+
+      const data = await getSettings()
+
+      console.log("Company Data:", data)
+
+      setCompany(data)
+
+    }
+
+    fetchCompany()
+
+  }, [])
+
+
 
   /* ---------------- SUBTOTAL ---------------- */
 
@@ -98,19 +120,11 @@ const Product_invoice = () => {
 
   }, 0)
 
-  /* ---------------- DISCOUNT ---------------- */
-
   const discount = Number(invoiceData.discount || 0)
-
-  /* ---------------- TOTAL ---------------- */
 
   const totalAmount = subtotal + gstTotal - discount
 
-  /* ---------------- PAID ---------------- */
-
   const paidAmount = Number(invoiceData.price.paid || 0)
-
-  /* ---------------- DUE ---------------- */
 
   const dueAmount = totalAmount - paidAmount
 
@@ -206,11 +220,15 @@ const Product_invoice = () => {
       invoiceType: "product",
       customer: invoiceData.customer,
       product: validProducts,
+
+      // product: invoiceData.product,
+
       price: {
         ...invoiceData.price,
         total: totalAmount,
         due: dueAmount
       }
+
     })
 
     await saveAndPrint(
@@ -231,35 +249,36 @@ const Product_invoice = () => {
 
 
   const rows = invoiceData.product.map((item, index) => ({
+
     title: item.productName,
     subtitle: `Prd:${String(index + 1).padStart(4, "0")}`,
     sub: item.sub,
     amount: item.price
+
   }))
 
-  
+
+  if (!company) return <div>Loading...</div>
+
+
+
   return (
 
     <div className="w-[1500px]">
 
-      {/* HEADER */}
+      <Header
+        h1="Product Invoice"
+        para={`#${invoiceId}`}
+      />
 
-      <div>
-
-        <Header
-          h1="Product Invoice"
-          para={`#${invoiceId}`}
+     
+      <div className="absolute right-10 top-4">
+        <Buttons
+          h1="Issue Invoice"
+          h2="Save Draft"
+          src2={vectora}
+          src1=""
         />
-
-        <div className="absolute right-10 top-4">
-          <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-          />
-        </div>
-
       </div>
 
 
@@ -295,14 +314,16 @@ const Product_invoice = () => {
           <ProductForm
             data={invoiceData.product}
             setData={(data) =>
-              setInvoiceData(prev => ({ ...prev, product: data }))
+              setInvoiceData(prev => ({
+                ...prev,
+                product: data
+              }))
             }
             title="Product Details"
             nameLabel="Product Name"
             addButton="+ Add Product Line"
             showSub={true}
           />
-
 
 
           <PriceForm
@@ -322,6 +343,7 @@ const Product_invoice = () => {
         </div>
 
 
+
         {/* RIGHT SIDE BILL */}
 
         <div className="w-[50%] p-4">
@@ -330,16 +352,14 @@ const Product_invoice = () => {
             ref={billRef}
             type="product"
 
+            companyName={company.companyName}
+            companyEmail={company.companyEmail}
+            companyPhone={company.companyPhone}
+            companyAddress={company.companyAddress}
+
             rows={rows}
 
-            button={
-              <Buttons
-                src1=""
-                src2=""
-                h1="Product Invoice"
-                h2=""
-              />
-            }
+            button={<Buttons src1="" src2="" h1="Product Invoice" h2="" />}
 
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
@@ -347,11 +367,15 @@ const Product_invoice = () => {
             college={invoiceData.customer.office}
 
             invoiceid={invoiceId}
+
             date={new Date().toLocaleDateString()}
+
             duedate={invoiceData.price.duedate}
 
             boxdate={new Date().toLocaleDateString()}
+
             boxduedate={invoiceData.price.duedate}
+
             boxreference="Po-12345"
 
             detailhead="Product Details"
@@ -364,12 +388,14 @@ const Product_invoice = () => {
             subamount22={paidAmount}
             subamount23={dueAmount}
 
-            taxPercent={invoiceData.product[0]?.tax}
+            taxPercent={invoiceData.product[0]?.tax || 0}
+
             paymentMethod={invoiceData.price.paymentMethod}
 
-            conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
+            conditionPara="Payment is due within 7 days of invoice issuance."
 
             onPrint={handlePrintAndSave}
+
           />
 
         </div>

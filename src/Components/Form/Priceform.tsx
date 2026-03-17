@@ -149,7 +149,7 @@ const PriceForm = ({ data, setData }: Props) => {
             value={data.duedate}
             onChange={handleChange}
             onBlur={handleBlur}
-            required
+           
           />
           {errors.duedate && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.duedate}</p>}
 
@@ -172,7 +172,7 @@ const PriceForm = ({ data, setData }: Props) => {
             onChange={handleChange}
             onBlur={(e) => validate(e.target.name, e.target.value)}
             className="py-2 px-3 border-2 border-black rounded-md"
-            required
+           
           >
             {errors.paymentMethod && (
               <p className="text-red-500 text-xs">

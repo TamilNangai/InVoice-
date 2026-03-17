@@ -8,7 +8,7 @@ import Stdform from "@/Components/Form/Stdform"
 import Buttons from '@/Components/Button/Buttons'
 import vectora from "@/assets/Vectora.png"
 import PriceForm from "@/Components/Form/Priceform"
-
+import { getSettings } from "@/utils/getSettings";
 import { saveInvoice } from "@/utils/SaveInvoice"
 import { validateForm } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
@@ -16,36 +16,36 @@ import { generateInvoiceId } from "@/utils/generateInvoiceId"
 
 type InvoiceData = {
   student: {
-    studentName: string
-    email: string
-    phone: string
-    college: string
-  }
+    studentName: string;
+    email: string;
+    phone: string;
+    college: string;
+  };
 
   program: {
-    internship: string
-    batch: string
-    start: string
-    trainer: string
-    enddate: string
-  }
+    internship: string;
+    batch: string;
+    start: string;
+    trainer: string;
+    enddate: string;
+  };
 
   fees: {
-    training: number
-    certificate: number
-    tax: number
-    internship: number
-    discount: number
-  }
+    training: number;
+    certificate: number;
+    tax: number;
+    internship: number;
+    discount: number;
+  };
 
   price: {
-    total: number
-    due: number
-    paid: number
-    duedate: string
-    paymentMethod: string
-  }
-}
+    total: number;
+    due: number;
+    paid: number;
+    duedate: string;
+    paymentMethod: string;
+  };
+};
 
 const Internship_invoice = () => {
   const [invoiceId] = useState(generateInvoiceId())
@@ -54,7 +54,7 @@ const Internship_invoice = () => {
       studentName: "",
       email: "",
       phone: "",
-      college: ""
+      college: "",
     },
 
     program: {
@@ -62,7 +62,7 @@ const Internship_invoice = () => {
       batch: "",
       start: "",
       trainer: "",
-      enddate: ""
+      enddate: "",
     },
 
     fees: {
@@ -70,7 +70,7 @@ const Internship_invoice = () => {
       certificate: 0,
       tax: 0,
       internship: 0,
-      discount: 0
+      discount: 0,
     },
 
     price: {
@@ -246,33 +246,45 @@ const Internship_invoice = () => {
     )
   }
 
+  const [company, setCompany] = useState<any>(null);
 
 
+  // FETCH COMPANY DETAILS
+  useEffect(() => {
+    const fetchCompany = async () => {
+      const data = await getSettings();
+      console.log("Company Data:", data);
+      setCompany(data);
+    };
+
+    fetchCompany();
+  }, []);
+
+  // CALCULATE TOTAL
   useEffect(() => {
 
-    const training = Number(invoiceData.fees.training) || 0
-    const certificate = Number(invoiceData.fees.certificate) || 0
-    const internship = Number(invoiceData.fees.internship) || 0
-    const discount = Number(invoiceData.fees.discount) || 0
-    const taxRate = Number(invoiceData.fees.tax) || 0
+    const training = Number(invoiceData.fees.training) || 0;
+    const certificate = Number(invoiceData.fees.certificate) || 0;
+    const internship = Number(invoiceData.fees.internship) || 0;
+    const discount = Number(invoiceData.fees.discount) || 0;
+    const taxRate = Number(invoiceData.fees.tax) || 0;
 
-    const subtotal = training + certificate + internship
-
-    const taxAmount = (subtotal * taxRate) / 100
-
-    const total = Math.round(subtotal + taxAmount - discount)
+    const subtotal = training + certificate + internship;
+    const taxAmount = (subtotal * taxRate) / 100;
+    const total = Math.round(subtotal + taxAmount - discount);
 
     setInvoiceData(prev => ({
       ...prev,
       price: {
         ...prev.price,
         total: total,
-        due: total - prev.price.paid
+        due: total - prev.price.paid,
       }
-    }))
+    }));
 
-  }, [invoiceData.fees, invoiceData.price.paid])
+  }, [invoiceData.fees, invoiceData.price.paid]);
 
+  if (!company) return <div>Loading...</div>;
 
   return (
     <div className="w-[1500px]">
@@ -282,16 +294,13 @@ const Internship_invoice = () => {
           h1="New Internship Invoice"
           para={`#${invoiceId}`}
         />
+      
 
-        <div className="absolute right-10 top-4">
-          <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-          />
-        </div>
+      <div className="absolute right-10 top-4">
+        <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
       </div>
+
+      
 
       <form
         className="flex"
@@ -308,31 +317,39 @@ const Internship_invoice = () => {
         }}
       >
 
+        {/* LEFT SIDE FORM */}
 
         <div className="w-[50%] space-y-7 p-4">
 
           <Stdform
             data={invoiceData.student}
-            setData={(data) => setInvoiceData(prev => ({ ...prev, student: data }))}
+            setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, student: data }))
+            }
           />
 
           <Programform
             data={invoiceData.program}
-            setData={(data) => setInvoiceData(prev => ({ ...prev, program: data }))}
+            setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, program: data }))
+            }
           />
 
           <Feeform
             data={invoiceData.fees}
-            setData={(data) => setInvoiceData(prev => ({ ...prev, fees: data }))}
+            setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, fees: data }))
+            }
           />
 
           <PriceForm
             data={invoiceData.price}
-            setData={(data) => setInvoiceData(prev => ({ ...prev, price: data }))}
+            setData={(data) =>
+              setInvoiceData(prev => ({ ...prev, price: data }))
+            }
           />
 
         </div>
-
 
         {/* RIGHT SIDE BILL */}
 
@@ -354,6 +371,10 @@ const Internship_invoice = () => {
             invoiceid={invoiceId}
             date={new Date().toLocaleDateString()}
             duedate={invoiceData.price.duedate}
+            companyName={company?.companyName}
+            companyEmail={company?.companyEmail}
+            companyPhone={company?.companyPhone}
+            companyAddress={company?.companyAddress}
 
             boxhead="Program Enrolled"
             boxprogram={invoiceData.program.internship}
@@ -374,20 +395,18 @@ const Internship_invoice = () => {
             head32="Digital and physical certificate"
             amount3={invoiceData.fees.certificate}
 
-            subamount11={Number(invoiceData.price.total)}
+            subamount11={invoiceData.price.total}
             subamount12={invoiceData.fees.discount}
-            subamount13={(Number(invoiceData.price.total) * invoiceData.fees.tax) / 100}
+            subamount13={(invoiceData.price.total * invoiceData.fees.tax) / 100}
 
-            subamount21={Number(invoiceData.price.total)}
-            subamount22={Number(invoiceData.price.paid)}
-            subamount23={Number(invoiceData.price.due)}
+            subamount21={invoiceData.price.total}
+            subamount22={invoiceData.price.paid}
+            subamount23={invoiceData.price.due}
 
             taxPercent={invoiceData.fees.tax}
             paymentMethod={invoiceData.price.paymentMethod}
 
-
-
-            conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced. This internship does not guarantee full-time employment. Certificate will be issued upon successful completion of all assigned projects."
+            conditionPara="Payment is due within 7 days of invoice issuance. Fees are non-refundable once the internship program has commenced."
           />
 
         </div>
@@ -395,9 +414,9 @@ const Internship_invoice = () => {
       </form>
 
     </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Internship_invoice
 
-
+export default Internship_invoice;

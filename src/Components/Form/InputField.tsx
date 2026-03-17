@@ -1,10 +1,10 @@
-
 interface InputFieldProps {
   label: string
   name: string
   type?: string
   value?: string | number
   placeholder?: string
+
   required?: boolean
   maxLength?: number
   disabled?: boolean
@@ -44,6 +44,7 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         name={name}
         value={value}
+
         placeholder={placeholder}
         onChange={onChange}
         onBlur={onBlur}
@@ -52,6 +53,7 @@ const InputField: React.FC<InputFieldProps> = ({
         pattern={pattern}
         required={required}
         className="border-b border-black outline-none w-full bg-transparent text-[15px] font-sanchez"
+
       />
 
 

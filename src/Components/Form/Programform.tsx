@@ -52,7 +52,7 @@ const ProgramForm = ({ data, setData }: Props) => {
   };
 
   return (
-    <form className="p-6 font-iceberg rounded-xl border border-black shadow">
+    <main className="p-6 font-iceberg rounded-xl border border-black shadow">
 
       <h2 className="text-xl font-semibold mb-4 pl-8">Program Details</h2>
 
@@ -119,7 +119,7 @@ const ProgramForm = ({ data, setData }: Props) => {
         </div>
 
       </section>
-    </form>
+    </main>
   );
 };
 
