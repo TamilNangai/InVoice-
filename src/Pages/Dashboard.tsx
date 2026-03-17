@@ -11,45 +11,47 @@ import Invoicetable from "@/Components/Table/Invoicetable"
 function Dashboard() {
         return (
 
-                <div className="w-[1500px]">
-                        <div className="bg-[#DFDFDF99] pl-10 h-20">
-                                <h1 className="text-black font-iceberg text-3xl font-extralight absolute left-90 top-6">Dashboard</h1>
-                        </div>
-                        <div className="absolute right-10 top-4">
-                                <Create popup1={Popup1}
-                                        popup2={Popup2}
-                                        popup3={Popup3}
-                                        popup4={Popup4}
-                                        src1={src1}
-                                        src2={src2}
+                <div className="w-full h-full">
+                        <div className="w-full h-20 bg-[#DFDFDF99]  flex items-center justify-between px-4">
+                                <div className=" ">
+                                        <h1 className="text-black font-iceberg text-3xl font-extralight ">Dashboard</h1>
+                                </div>
+                                <div className="">
+                                        <Create popup1={Popup1}
+                                                popup2={Popup2}
+                                                popup3={Popup3}
+                                                popup4={Popup4}
+                                                src1={src1}
+                                                src2={src2}
 
-                                        h1="Select Invoice Type"
-                                        para1="Choose the type of invoice you want to create. "
-                                        para6="This will customize the form fields for your needs. "
-                                        h2="Student Internship"
-                                        para2="Internship fees, training
+                                                h1="Select Invoice Type"
+                                                para1="Choose the type of invoice you want to create. "
+                                                para6="This will customize the form fields for your needs. "
+                                                h2="Student Internship"
+                                                para2="Internship fees, training
 programs, certifications"
-                                        h3="Product Invoice"
-                                        para3="Physical or digital product
+                                                h3="Product Invoice"
+                                                para3="Physical or digital product
 billing and shipping"
-                                        h4="Service Invoice"
+                                                h4="Service Invoice"
 
-                                        para4="Physical or digital product
+                                                para4="Physical or digital product
 billing and shipping"
-                                        h5="Other Invoice"
-                                        para5="Customer or miscellaneous
+                                                h5="Other Invoice"
+                                                para5="Customer or miscellaneous
 service billing"
-                                        h6="Create Invoice" />
+                                                h6="Create Invoice" />
+                                </div>
                         </div>
 
-                        <div className="w-[94%] max-h-40 gap-[2%] flex justify-center items-center mt-5 pl-16 ">
+                        <div className="w-full max-h-40 flex justify-center gap-5 items-center mt-5 px-5 ">
                                 < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                                 < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
                                 < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
-                        <div className="pl-16">
+                        <div className="w-full h-full px-5">
                                 <Invoicetable />
                         </div>
                 </div>

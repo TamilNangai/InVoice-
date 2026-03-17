@@ -7,11 +7,13 @@ import Reporttable from "@/Components/Table/Reporttable"
 
 const Reports = () => {
   return (
-    <div className="w-[1500px]">
+    <div className="w-full h-screen overflow-auto">
+      <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
       <Header h1="Products & Inverntory"
         para="Manage Your product catalog and service offerings." />
-      <div className="absolute right-10 top-4">
+      <div className="">
         <button className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-black"><img className="h-8" src={ex} />Export Data</button>
+      </div>
       </div>
       <div className="w-full pl-10">
         <Radiogroup />

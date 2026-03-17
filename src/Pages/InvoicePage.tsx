@@ -80,11 +80,11 @@ const InvoicePage = () => {
 
 
   return (
-    <section className="w-[100%]">
-
+    <section className="w-full h-screen overflow-auto">
+      <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
       <Header h1="Invoice Page" para="Manage your invoices here." />
 
-      <div className="absolute right-10 top-4">
+      <div className="">
         <Create
           popup1={Popup1}
           popup2={Popup2}
@@ -106,6 +106,7 @@ const InvoicePage = () => {
           para5="Customer or miscellaneous service billing"
           h6="Create Invoice"
         />
+      </div>
       </div>
 
       <div className=" flex gap-6 justify-center items-center px-5 m-3 mb-5">

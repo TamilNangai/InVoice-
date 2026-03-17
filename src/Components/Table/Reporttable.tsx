@@ -79,21 +79,21 @@ const RecentInvoices: React.FC = () => {
     <div className="border-[2px] border-black rounded-xl m-5 shadow-[5px_5px_10px_rgba(0,0,0,0.3)]">
       <table className="w-[95%] mx-8 text-center">
         
-        <thead className="h-20 font-iceberg text-2xl">
-          <tr className="border-0 border-b border-black">
+        <thead className="h-20  font-iceberg text-2xl">
+          <div className="border-0 border-b border-black flex justify-between items-center">
             <th className="p-4 text-start font-extralight text-3xl">
               Recent Transaction
             </th>
 
             <th
-              className="absolute right-12 mt-5 pr-5 text-blue-400 cursor-pointer"
+              className=" mt-5 pr-5 text-blue-400 cursor-pointer"
               onClick={() => setShowAll(!showAll)}
             >
               {showAll ? "View Less" : "View All"}
             </th>
-          </tr>
+          </div>
 
-          <tr className="grid grid-cols-5 border-0 border-b border-black text-start text-gray-600 text-xl">
+          <tr className="w-[100%] grid grid-cols-5 border-0 border-b border-black text-start text-gray-600 text-xl">
             <th className="p-4 font-light">Invoice No</th>
             <th className="p-4 font-light">Client/Student</th>
             <th className="p-4 font-light">Type</th>
@@ -106,7 +106,7 @@ const RecentInvoices: React.FC = () => {
           {visibleInvoices.map((invoice) => (
             <tr
               key={invoice.id}
-              className="hover:bg-gray-50 font-sanchez border-0 border-b border-black grid grid-cols-5"
+              className="w-[100%] hover:bg-gray-50 font-sanchez border-0 border-b border-black grid grid-cols-5"
             >
               <td className="p-4">{invoice.id}</td>
               <td className="p-4">{invoice.client}</td>

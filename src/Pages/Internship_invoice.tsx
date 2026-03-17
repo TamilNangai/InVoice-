@@ -211,21 +211,8 @@ const Internship_invoice = () => {
     }
 
 
-    /* ================= SAVE ================= */
-
-    await saveInvoice({
-      invoiceId,
-      invoiceType: "internship",
-      student: invoiceData.student,
-      program: invoiceData.program,
-      fees: invoiceData.fees,
-      price: {
-        ...invoiceData.price,
-        total: totalAmount,
-        due: dueAmount
-      }
-    })
-
+    
+ console.log(invoiceData);
 
     /* ================= PRINT ================= */
 
@@ -287,23 +274,25 @@ const Internship_invoice = () => {
   if (!company) return <div>Loading...</div>;
 
   return (
-    <div className="w-[1500px]">
+    <div className="w-full h-screen overflow-auto">
 
       <div>
-        <Header
-          h1="New Internship Invoice"
-          para={`#${invoiceId}`}
-        />
-      
+        <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
+          <Header
+            h1="New Internship Invoice"
+            para={`#${invoiceId}`}
+          />
 
-      <div className="absolute right-10 top-4">
-        <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
+
+          <div className="">
+            <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
+          </div>
       </div>
 
       
 
       <form
-        className="flex"
+        className="grid grid-cols-2 w-full h-full"
         ref={formRef}
         onSubmit={(e) => {
           e.preventDefault()
@@ -319,7 +308,7 @@ const Internship_invoice = () => {
 
         {/* LEFT SIDE FORM */}
 
-        <div className="w-[50%] space-y-7 p-4">
+        <div className="w-[100%] space-y-7 p-4 grid ">
 
           <Stdform
             data={invoiceData.student}
@@ -353,7 +342,7 @@ const Internship_invoice = () => {
 
         {/* RIGHT SIDE BILL */}
 
-        <div className="w-[50%] p-4">
+        <div className="w-[100%] h-full p-4 grid ">
 
           <Bill
             ref={billRef}

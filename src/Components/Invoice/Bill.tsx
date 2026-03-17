@@ -66,11 +66,11 @@ type BillProps = {
 
     conditionPara: string
 
-    companyName?:string
-    companyEmail?:string
-    companyPhone?:string
-    companyAddress?:string
-    
+    companyName?: string
+    companyEmail?: string
+    companyPhone?: string
+    companyAddress?: string
+
 
 
 }
@@ -140,284 +140,287 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
         <div
             ref={ref}
-            className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
+            className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white flex flex-col items-center justify-between"
         >
-            {/* HEADER */}
+            <main className="w-full">
+                {/* HEADER */}
 
-            <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start">
 
-                <div>
+                    <div>
 
-                    <h1 className="font-iceberg text-[32px]">
-                        {companyName}
-                    </h1>
+                        <h1 className="font-iceberg text-[32px]">
+                            {companyName}
+                        </h1>
 
-                    <p className="font-sanchez text-[13px]">
-                        {companyAddress}
-                    </p>
+                        <p className="font-sanchez text-[13px]">
+                            {companyAddress}
+                        </p>
 
-                    <p className="font-sanchez text-[13px]">
-                        {companyEmail}| +91 {companyPhone}
-                    </p>
+                        <p className="font-sanchez text-[13px]">
+                            {companyEmail}  | +91 {companyPhone}
+                        </p>
 
-                </div>
+                    </div>
 
-                <div>
-                    {button}
-                </div>
-
-            </div>
-
-
-            <hr className="my-4 border-[#00000040]" />
-
-
-            {/* BILL TO */}
-
-            <div className="flex justify-between">
-
-                <div>
-
-                    <p className="font-iceberg text-[18px] mb-2">
-                        BILL TO
-                    </p>
-
-                    <p className="font-iceberg text-[18px]">
-                        {name}
-                    </p>
-
-                    <p className="font-sanchez text-[18px]">
-                        {email}
-                    </p>
-
-                    <p className="font-sanchez text-[18px]">
-                        {phone}
-                    </p>
-
-                    <p className="font-sanchez text-[18px]">
-                        {college}
-                    </p>
+                    <div>
+                        {button}
+                    </div>
 
                 </div>
 
 
-                <div className="text-right">
+                <hr className="my-4 border-[#00000040]" />
 
-                    <p className="font-iceberg text-[18px]">
-                        Invoice Details
-                    </p>
 
-                    <p className="font-sanchez text-[18px]">
-                        Invoice #: {invoiceid}
-                    </p>
+                {/* BILL TO */}
 
-                    {type === "internship" && <>
-                        <p className="font-sanchez text-[18px]">
-                            Date: {date}
+                <div className="flex justify-between">
+
+                    <div>
+
+                        <p className="font-iceberg text-[18px] mb-2">
+                            BILL TO
+                        </p>
+
+                        <p className="font-iceberg text-[18px]">
+                            {name}
                         </p>
 
                         <p className="font-sanchez text-[18px]">
-                            Due Date: {duedate}
-                        </p>
-                    </>}
-
-                </div>
-
-            </div>
-
-
-            {/* BOX SECTION */}
-
-            {type === "internship" ? (
-
-                <div className="border border-[#00000080] rounded-xl p-4 mt-5">
-
-                    <p className="font-sanchez text-[18px]">
-                        {boxhead}
-                    </p>
-
-                    <p className="font-iceberg text-[20px]">
-                        {boxprogram}
-                    </p>
-
-                    <div className="flex justify-between mt-2">
-
-                        <p className="font-sanchez text-[14px]">
-                            {batch}
+                            {email}
                         </p>
 
-                        <p className="font-sanchez text-[14px]">
-                            {duration}
+                        <p className="font-sanchez text-[18px]">
+                            {phone}
+                        </p>
+
+                        <p className="font-sanchez text-[18px]">
+                            {college}
                         </p>
 
                     </div>
 
-                </div>
 
-            ) : (
-                <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
+                    <div className="text-right">
 
-                    <div className="w-1/3">
-                        <p className="font-iceberg text-[18px]">Invoice Date</p>
-                        <p className="font-sanchez text-[18px]">{boxdate}</p>
+                        <p className="font-iceberg text-[18px]">
+                            Invoice Details
+                        </p>
+
+                        <p className="font-sanchez text-[18px]">
+                            Invoice #: {invoiceid}
+                        </p>
+
+                        {type === "internship" && <>
+                            <p className="font-sanchez text-[18px]">
+                                Date: {date}
+                            </p>
+
+                            <p className="font-sanchez text-[18px]">
+                                Due Date: {duedate}
+                            </p>
+                        </>}
+
                     </div>
-
-                    <div className="w-1/3">
-                        <p className="font-iceberg text-[18px]">Due Date</p>
-                        <p className="font-sanchez text-[18px]">{boxduedate}</p>
-                    </div>
-
-                    <div className="w-1/3">
-                        <p className="font-iceberg text-[18px]">Reference</p>
-                        <p className="font-sanchez text-[18px]">{boxreference}</p>
-                    </div>
-
-                </div>
-
-            )}
-
-
-            {/* DETAILS */}
-
-            <div className="mt-6">
-
-                <div className="flex justify-between border-b pb-2">
-
-                    <p className="font-sanchez text-[20px]">
-                        {detailhead}
-                    </p>
-
-                    <p className="font-sanchez text-[20px]">
-                        Amount
-                    </p>
 
                 </div>
 
 
-                {/* INTERNSHIP ROWS */}
+                {/* BOX SECTION */}
 
-                {type === "internship" && (
+                {type === "internship" ? (
 
-                    <>
+                    <div className="border border-[#00000080] rounded-xl p-4 mt-5">
 
-                        {amount1 && <div className="flex justify-between py-4 border-b">
+                        <p className="font-sanchez text-[18px]">
+                            {boxhead}
+                        </p>
 
-                            <div>
+                        <p className="font-iceberg text-[20px]">
+                            {boxprogram}
+                        </p>
 
-                                <p className="font-iceberg text-[18px]">
-                                    {head11}
-                                </p>
+                        <div className="flex justify-between mt-2">
 
-                                <p className="font-sanchez text-[14px] text-gray-500">
-                                    {head12}
-                                </p>
-
-                            </div>
-
-                            <p className="font-sanchez text-[18px]">
-                                {amount1?.toFixed(2)}
+                            <p className="font-sanchez text-[14px]">
+                                {batch}
                             </p>
 
-                        </div>}
-
-
-                        {amount2 && <div className="flex justify-between py-4 border-b">
-
-                            <div>
-
-                                <p className="font-iceberg text-[18px]">
-                                    {head21}
-                                </p>
-
-                                <p className="font-sanchez text-[14px] text-gray-500">
-                                    {head22}
-                                </p>
-
-                            </div>
-
-                            <p className="font-sanchez text-[18px]">
-                                {amount2?.toFixed(2)}
+                            <p className="font-sanchez text-[14px]">
+                                {duration}
                             </p>
 
-                        </div>}
+                        </div>
 
+                    </div>
 
-                        {amount3 && <div className="flex justify-between py-4 border-b">
+                ) : (
+                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
 
-                            <div>
+                        <div className="w-1/3">
+                            <p className="font-iceberg text-[18px]">Invoice Date</p>
+                            <p className="font-sanchez text-[18px]">{boxdate}</p>
+                        </div>
 
-                                <p className="font-iceberg text-[18px]">
-                                    {head31}
-                                </p>
+                        <div className="w-1/3">
+                            <p className="font-iceberg text-[18px]">Due Date</p>
+                            <p className="font-sanchez text-[18px]">{boxduedate}</p>
+                        </div>
 
-                                <p className="font-sanchez text-[14px] text-gray-500">
-                                    {head32}
-                                </p>
+                        <div className="w-1/3">
+                            <p className="font-iceberg text-[18px]">Reference</p>
+                            <p className="font-sanchez text-[18px]">{boxreference}</p>
+                        </div>
 
-                            </div>
-
-                            <p className="font-sanchez text-[18px]">
-                                {amount3?.toFixed(2)}
-                            </p>
-
-                        </div>}
-
-                    </>
+                    </div>
 
                 )}
 
 
-                {/* SERVICE ROWS */}
+                {/* DETAILS */}
 
-                {(type === "service" || type === "product") && rows?.map((rows, index) => (
+                <div className="mt-6">
 
-                    <div key={index} className="flex justify-between items-start py-4 border-b">
+                    <div className="flex justify-between border-b pb-2">
 
-                        {/* LEFT SIDE */}
-                        <div className="flex flex-col w-full">
+                        <p className="font-sanchez text-[20px]">
+                            {detailhead}
+                        </p>
 
-                            <div className="flex items-center">
-                                <div className={`${type === "product" ? "w-1/3" : "w-2/3"} flex flex-col justify-center items-start px-3`}>
-                                    {/* Product Name */}
-                                    <p className="font-sanchez text-[18px]">
-                                        {rows.title}
-                                    </p>
-                                    {rows.subtitle && (
-                                        <p className="font-sanchez text-[14px] text-gray-500 mt-1">
-                                            {rows.subtitle}
-                                        </p>
-                                    )}</div>
-
-                                {/* Subscription (only for product) */}
-                                {type === "product" && (
-                                    <div className="w-1/3 mx-2 flex flex-col justify-center items-start px-3 border-x border-[#000000]">
-                                        <p className="font-iceberg text-[18px] leading-[100%] mb-1">
-                                            Subscription
-                                        </p>
-
-                                        <p className="font-sanchez text-[14px] leading-[100%]">
-                                            {rows.sub}
-                                        </p>
-                                    </div>
-                                )}
-
-                                <p className="w-1/3 font-sanchez text-[18px] flex  justify-center items-center ">
-                                    {rows.amount.toFixed(2)}
-                                </p>
-
-                            </div>
-
-                        </div>
-
+                        <p className="font-sanchez text-[20px]">
+                            Amount
+                        </p>
 
                     </div>
 
-                ))}
+
+                    {/* INTERNSHIP ROWS */}
+
+                    {type === "internship" && (
+
+                        <>
+
+                            {amount1 && <div className="flex justify-between py-4 border-b">
+
+                                <div>
+
+                                    <p className="font-iceberg text-[18px]">
+                                        {head11}
+                                    </p>
+
+                                    <p className="font-sanchez text-[14px] text-gray-500">
+                                        {head12}
+                                    </p>
+
+                                </div>
+
+                                <p className="font-sanchez text-[18px]">
+                                    {amount1?.toFixed(2)}
+                                </p>
+
+                            </div>}
 
 
+                            {amount2 && <div className="flex justify-between py-4 border-b">
+
+                                <div>
+
+                                    <p className="font-iceberg text-[18px]">
+                                        {head21}
+                                    </p>
+
+                                    <p className="font-sanchez text-[14px] text-gray-500">
+                                        {head22}
+                                    </p>
+
+                                </div>
+
+                                <p className="font-sanchez text-[18px]">
+                                    {amount2?.toFixed(2)}
+                                </p>
+
+                            </div>}
+
+
+                            {amount3 && <div className="flex justify-between py-4 border-b">
+
+                                <div>
+
+                                    <p className="font-iceberg text-[18px]">
+                                        {head31}
+                                    </p>
+
+                                    <p className="font-sanchez text-[14px] text-gray-500">
+                                        {head32}
+                                    </p>
+
+                                </div>
+
+                                <p className="font-sanchez text-[18px]">
+                                    {amount3?.toFixed(2)}
+                                </p>
+
+                            </div>}
+
+                        </>
+
+                    )}
+
+
+                    {/* SERVICE ROWS */}
+
+                    {(type === "service" || type === "product") && rows?.map((rows, index) => (
+
+                        <div key={index} className="flex justify-between items-start py-4 border-b">
+
+                            {/* LEFT SIDE */}
+                            <div className="flex flex-col w-full">
+
+                                <div className="flex items-center">
+                                    <div className={`${type === "product" ? "w-1/3" : "w-2/3"} flex flex-col justify-center items-start px-3`}>
+                                        {/* Product Name */}
+                                        <p className="font-sanchez text-[18px]">
+                                            {rows.title}
+                                        </p>
+                                        {rows.subtitle && (
+                                            <p className="font-sanchez text-[14px] text-gray-500 mt-1">
+                                                {rows.subtitle}
+                                            </p>
+                                        )}</div>
+
+                                    {/* Subscription (only for product) */}
+                                    {type === "product" && (
+                                        <div className="w-1/3 mx-2 flex flex-col justify-center items-start px-3 border-x border-[#000000]">
+                                            <p className="font-iceberg text-[18px] leading-[100%] mb-1">
+                                                Subscription
+                                            </p>
+
+                                            <p className="font-sanchez text-[14px] leading-[100%]">
+                                                {rows.sub}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    <p className="w-1/3 font-sanchez text-[18px] flex  justify-center items-center ">
+                                        {rows.amount.toFixed(2)}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    ))}
+                    </div>
+            </main>
+
+            <main className="w-full">
                 {/* TOTALS */}
 
-                <div className="flex flex-col items-end mt-6 space-y-2">
+                <div className="flex flex-col  items-end mt-6 space-y-2">
 
                     <div className="flex justify-between w-[60%]">
                         <p className="font-sanchez text-[18px] text-[#666666]">Subtotal</p>
@@ -497,8 +500,9 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 </div>
 
-            </div>
-        </div>
+        
+            </main >
+        </div >
     );
 });
 

@@ -439,7 +439,7 @@ const RecentInvoices: React.FC = () => {
       </h2>
 
       <div className="">
-        <div className="w-[93.5%] rounded-xl overflow-hidden border-2 border-black">
+        <div className="w-full rounded-xl overflow-hidden border-2 border-black">
 
           <div className="flex justify-between items-center p-5">
 
@@ -475,7 +475,7 @@ const RecentInvoices: React.FC = () => {
 
             </div>
 
-            <div className="absolute right-28 w-[24%]">
+            <div className=" w-3/4 max-w-[450px]">
 
               <Searchinput
                 icon={searchIcon}
