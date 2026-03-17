@@ -1,17 +1,21 @@
 import { saveAndPrint } from "@/utils/saveAndPrint";
-import { useState, useEffect, useRef } from "react"
-import Bill from '@/Components/Invoice/Bill'
-import Header from "@/Components/Nav/Header"
-import Feeform from "@/Components/Form/Feeform"
-import Programform from "@/Components/Form/Programform"
-import Stdform from "@/Components/Form/Stdform"
-import Buttons from '@/Components/Button/Buttons'
-import vectora from "@/assets/Vectora.png"
-import PriceForm from "@/Components/Form/Priceform"
 import { getSettings } from "@/utils/getSettings";
-import { saveInvoice } from "@/utils/SaveInvoice"
-import { validateForm } from "@/utils/useInvoiceValidation"
-import { generateInvoiceId } from "@/utils/generateInvoiceId"
+import { useState, useEffect, useRef } from "react";
+import Bill from "@/Components/Invoice/Bill";
+import Header from "@/Components/Nav/Header";
+import Feeform from "@/Components/Form/Feeform";
+import Programform from "@/Components/Form/Programform";
+import Stdform from "@/Components/Form/Stdform";
+import Buttons from "@/Components/Button/Buttons";
+import vectora from "@/assets/Vectora.png";
+import PriceForm from "@/Components/Form/Priceform";
+// ✅ TYPE (add this at top)
+type CompanyData = {
+  companyName: string;
+  companyEmail: string;
+  companyPhone: string;
+  companyAddress: string;
+};
 
 
 type InvoiceData = {
@@ -48,7 +52,9 @@ type InvoiceData = {
 };
 
 const Internship_invoice = () => {
-  const [invoiceId] = useState(generateInvoiceId())
+
+  
+
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     student: {
       studentName: "",
@@ -78,176 +84,26 @@ const Internship_invoice = () => {
       due: 0,
       paid: 0,
       duedate: "",
-      paymentMethod: ""
-    }
-  })
+      paymentMethod: "",
+    },
+  });
 
-  /* ================= SUBTOTAL ================= */
-
-  const subtotal =
-    Number(invoiceData.fees.training || 0) +
-    Number(invoiceData.fees.certificate || 0) +
-    Number(invoiceData.fees.internship || 0)
-
-
-  /* ================= GST ================= */
-
-  const gstTotal =
-    (subtotal * Number(invoiceData.fees.tax || 0)) / 100
-
-
-  /* ================= DISCOUNT ================= */
-
-  const discount = Number(invoiceData.fees.discount || 0)
-
-
-  /* ================= TOTAL ================= */
-
-  const totalAmount = subtotal + gstTotal - discount
-
-
-  /* ================= PAID ================= */
-
-  const paidAmount = Number(invoiceData.price.paid || 0)
-
-
-  /* ================= DUE ================= */
-
-  const dueAmount = totalAmount - paidAmount
-
+  const [company, setCompany] = useState<any>(null);
 
   const billRef = useRef<HTMLDivElement>(null);
 
-  const formRef = useRef<HTMLFormElement>(null)
-
   const handlePrintAndSave = async () => {
-
-    if (!validateForm(formRef.current)) return
-
-    /* ================= STUDENT VALIDATION ================= */
-
-    const { studentName, email, phone, college } = invoiceData.student
-
-    if (!studentName || !email || !phone || !college) {
-      alert("Please fill all student details.")
-      return
-    }
-
-    if (!/^[0-9]{10}$/.test(phone)) {
-      alert("Phone number must be 10 digits")
-      return
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
-
-    if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address")
-      return
-    }
-
-
-    /* ================= PROGRAM VALIDATION ================= */
-
-    const { internship, batch, start, enddate } = invoiceData.program
-
-    if (!internship || !batch || !start || !enddate) {
-      alert("Please fill all program details.")
-      return
-    }
-
-    if (new Date(enddate) <= new Date(start)) {
-      alert("End date must be after start date")
-      return
-    }
-
-
-    /* ================= FEE VALIDATION ================= */
-
-    const { training, internship: internshipFee, certificate, tax, discount } = invoiceData.fees
-
-    if (training <= 0 || internshipFee <= 0 || certificate <= 0) {
-      alert("Please fill Fees details correctly.")
-      return
-    }
-
-    if (tax <= 0 || tax > 100) {
-      alert("Tax rate must be between 0 and 100")
-      return
-    }
-
-    const subtotal =
-      Number(training) +
-      Number(certificate) +
-      Number(internshipFee)
-
-    if (discount < 0 || discount > subtotal) {
-      alert("Discount cannot be greater than subtotal")
-      return
-    }
-
-
-    /* ================= PRICE VALIDATION ================= */
-
-    const { paid, duedate, paymentMethod } = invoiceData.price
-
-    if (!paymentMethod) {
-      alert("Please select payment method")
-      return
-    }
-
-    if (paid <= 0 || paid > totalAmount) {
-      alert("Paid amount is invalid")
-      return
-    }
-
-
-    /* ================= DUE DATE VALIDATION ================= */
-
-    const today = new Date().toISOString().split("T")[0]
-
-    if (!duedate || duedate <= today) {
-      alert("Due date must be a future date")
-      return
-    }
-
-
-    /* ================= SAVE ================= */
-
-    await saveInvoice({
-      invoiceId,
-      invoiceType: "internship",
-      student: invoiceData.student,
-      program: invoiceData.program,
-      fees: invoiceData.fees,
-      price: {
-        ...invoiceData.price,
-        total: totalAmount,
-        due: dueAmount
-      }
-    })
-
-
-    /* ================= PRINT ================= */
-
     await saveAndPrint(
       {
-        invoiceId,
         invoiceType: "internship",
         student: invoiceData.student,
         program: invoiceData.program,
         fees: invoiceData.fees,
-        price: {
-          ...invoiceData.price,
-          total: totalAmount,
-          due: dueAmount
-        }
+        price: invoiceData.price,
       },
       billRef
-    )
-  }
-
-  const [company, setCompany] = useState<any>(null);
-
+    );
+  };
 
   // FETCH COMPANY DETAILS
   useEffect(() => {
@@ -284,38 +140,27 @@ const Internship_invoice = () => {
 
   }, [invoiceData.fees, invoiceData.price.paid]);
 
-  if (!company) return <div>Loading...</div>;
 
   return (
     <div className="w-[1500px]">
 
-      <div>
-        <Header
-          h1="New Internship Invoice"
-          para={`#${invoiceId}`}
-        />
-      
+      <Header h1="New Internship Invoice" para="#INV-2026-001" />
+
+      {/* <div className="absolute right-10 top-4">
+        <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
+      </div> */}
 
       <div className="absolute right-10 top-4">
-        <Buttons h1="Issue Invoice" h2="Save Draft" src2={vectora} src1="" />
+        <Buttons
+          h1="Issue Invoice"
+          h2="Save Draft"
+          src2={vectora}
+          src1=""
+          onClick={handlePrintAndSave}
+        />
       </div>
 
-      
-
-      <form
-        className="flex"
-        ref={formRef}
-        onSubmit={(e) => {
-          e.preventDefault()
-
-          if (!formRef.current?.checkValidity()) {
-            formRef.current?.reportValidity()
-            return
-          }
-
-          handlePrintAndSave()
-        }}
-      >
+      <section className="flex">
 
         {/* LEFT SIDE FORM */}
 
@@ -368,8 +213,8 @@ const Internship_invoice = () => {
             phone={Number(invoiceData.student.phone)}
             college={invoiceData.student.college}
 
-            invoiceid={invoiceId}
-            date={new Date().toLocaleDateString()}
+            invoiceid="INV-2026-001"
+            date={invoiceData.program.start}
             duedate={invoiceData.price.duedate}
             companyName={company?.companyName}
             companyEmail={company?.companyEmail}
@@ -411,12 +256,9 @@ const Internship_invoice = () => {
 
         </div>
 
-      </form>
-
-    </div>
+      </section>
     </div>
   );
 };
-
 
 export default Internship_invoice;

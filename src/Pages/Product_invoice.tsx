@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import Bill from "@/Components/Invoice/Bill"
+// import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
 import ProductForm from "@/Components/Form/Productform"
@@ -348,7 +348,7 @@ const Product_invoice = () => {
 
         <div className="w-[50%] p-4">
 
-          <Bill
+          {/* <Bill
             ref={billRef}
             type="product"
 
@@ -396,7 +396,7 @@ const Product_invoice = () => {
 
             onPrint={handlePrintAndSave}
 
-          />
+          /> */}
 
         </div>
 
