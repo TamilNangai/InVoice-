@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-// import Bill from "@/Components/Invoice/Bill"
+import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
 import ProductForm from "@/Components/Form/Productform"
@@ -213,23 +213,11 @@ const Product_invoice = () => {
       return
     }
 
-    /* SAVE */
-
-    await saveInvoice({
-      invoiceId,
-      invoiceType: "product",
-      customer: invoiceData.customer,
-      product: validProducts,
+   
 
       // product: invoiceData.product,
 
-      price: {
-        ...invoiceData.price,
-        total: totalAmount,
-        due: dueAmount
-      }
-
-    })
+      
 
     await saveAndPrint(
       {
@@ -264,15 +252,15 @@ const Product_invoice = () => {
 
   return (
 
-    <div className="w-[1500px]">
-
+    <div className="w-full h-screen overflow-auto">
+      <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
       <Header
         h1="Product Invoice"
         para={`#${invoiceId}`}
       />
 
      
-      <div className="absolute right-10 top-4">
+      <div className="">
         <Buttons
           h1="Issue Invoice"
           h2="Save Draft"
@@ -280,10 +268,10 @@ const Product_invoice = () => {
           src1=""
         />
       </div>
-
+</div>
 
       <form
-        className="flex"
+        className="grid grid-cols-2 w-full h-full"
         ref={formRef}
         onSubmit={(e) => {
           e.preventDefault()
@@ -299,7 +287,7 @@ const Product_invoice = () => {
 
         {/* LEFT SIDE */}
 
-        <div className="w-[50%] space-y-7 p-4">
+        <div className="w-[100%] space-y-7 p-4 grid">
 
           <CustomerForm
             data={invoiceData.customer}
@@ -346,9 +334,10 @@ const Product_invoice = () => {
 
         {/* RIGHT SIDE BILL */}
 
-        <div className="w-[50%] p-4">
+        <div className="w-[100%] h-full grid p-4">
 
-          {/* <Bill
+
+          <Bill
             ref={billRef}
             type="product"
 
@@ -396,7 +385,7 @@ const Product_invoice = () => {
 
             onPrint={handlePrintAndSave}
 
-          /> */}
+          />
 
         </div>
 

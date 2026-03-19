@@ -23,21 +23,24 @@ function Banner(props: Bannerprops) {
         <p className="font-sanchez">{props.para1}</p>
         <div className="space-y-6 mt-5 ">
 
-          <aside className=" flex border-2 border-black  h-20 rounded-lg p-6 mx-2">
-            <img className="w-8 h-7" src={props.src1} />
+          <aside className=" flex justify-between border-2 border-black  h-20 rounded-lg p-6 mx-2">
+            <div className="flex items-center justify-center">
+              <img className="w-8 h-7" src={props.src1} />
 
-            <div className="space-y-1 -mt-3 pl-5">
-              <h1 className="text-xl font-iceberg">{props.h2}</h1>
-              <p className="text-md font-sanchez">{props.para2}</p>
-            </div>
-            <div className="absolute right-80 border-2 border-black w-44 h-10 rounded-lg -mt-1">
-              <h1 className="font-sanchez m-2"> {props.h5}</h1>
-            </div>
-            <div className="absolute right-32">
-              <label className="flex items-center space-x-3 cursor-pointer">
-                <span className="font-sanchez">Enable</span>
-                <input type="checkbox" className="sr-only peer" />
-                <div className="w-12 h-6 bg-gray-300 rounded-full 
+              <div className="space-y-1 -mt-3 pl-5">
+                <h1 className="text-xl font-iceberg">{props.h2}</h1>
+                <p className="text-md font-sanchez">{props.para2}</p>
+              </div>
+           </div>
+           <main className="flex gap-5">
+              <div className="border-2 border-black w-44 h-10 rounded-lg -mt-1">
+                <h1 className="font-sanchez m-2"> {props.h5}</h1>
+              </div>
+              <div className="">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <span className="font-sanchez">Enable</span>
+                  <input type="checkbox" className="sr-only peer" />
+                  <div className="w-12 h-6 bg-gray-300 rounded-full 
               peer-checked:bg-green-500 
               relative 
               after:content-[''] after:absolute 
@@ -46,28 +49,32 @@ function Banner(props: Bannerprops) {
               after:h-4 after:w-4 
               after:transition-all 
               peer-checked:after:translate-x-6">
-                </div>
+                  </div>
 
-              </label>
-            </div>
+                </label>
+              </div>
+           </main>
           </aside>
 
-          <aside className=" flex border-2 border-black mx-2 h-20 rounded-lg p-6">
-            <img className="w-8 h-7" src={props.src2} />
+          <aside className=" flex items-center justify-between border-2 border-black mx-2 h-20 p-6 rounded-lg">
+            <div className="flex items-center justify-center">
+              <img className="w-8 h-7" src={props.src2} />
 
-            <div className="space-y-1 -mt-3 pl-5">
-              <h1 className="text-xl font-iceberg">{props.h3}</h1>
-              <p className="text-md font-sanchez">{props.para3}</p>
-            </div>
-            <div className="absolute right-80 border-2 border-black w-44 h-10 rounded-lg -mt-1">
-              <h1 className="font-sanchez m-2"> {props.h5}</h1>
-
-            </div>
-            <div className="absolute right-32">
-              <label className="flex items-center space-x-3 cursor-pointer">
-                <span className="font-sanchez">Enable</span>
-                <input type="checkbox" className="sr-only peer" />
-                <div className="w-12 h-6 bg-gray-300 rounded-full 
+              <div className="space-y-1 -mt-3 pl-5">
+                <h1 className="text-xl font-iceberg">{props.h3}</h1>
+                <p className="text-md font-sanchez">{props.para3}</p>
+              </div>
+              </div>
+            
+            <main className="flex gap-5">
+              <div className="border-2 border-black w-44 h-10 rounded-lg -mt-1">
+                <h1 className="font-sanchez m-2"> {props.h5}</h1>
+              </div>
+              <div className="">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <span className="font-sanchez">Enable</span>
+                  <input type="checkbox" className="sr-only peer" />
+                  <div className="w-12 h-6 bg-gray-300 rounded-full 
               peer-checked:bg-green-500 
               relative 
               after:content-[''] after:absolute 
@@ -76,23 +83,27 @@ function Banner(props: Bannerprops) {
               after:h-4 after:w-4 
               after:transition-all 
               peer-checked:after:translate-x-6">
-                </div>
+                  </div>
 
-              </label>
-            </div>
+                </label>
+              </div>
+            </main>
           </aside>
 
-          <aside className=" flex border-2 border-black mx-2 h-20 rounded-lg p-6">
+          <aside className=" flex items-center justify-between border-2 border-black mx-2 h-20 rounded-lg p-6">
+            <div className="flex items-center justify-center">
             <img className="w-8 h-7" src={props.src3} />
 
             <div className="space-y-1 -mt-3 pl-5">
               <h1 className="text-xl font-iceberg">{props.h4}</h1>
               <p className="text-md font-sanchez">{props.para4}</p>
             </div>
-            <div className="absolute right-80 border-2 border-black w-44 h-10 rounded-lg -mt-1">
+            </div>
+            <main className="flex gap-5">
+            <div className=" border-2 border-black w-44 h-10 rounded-lg -mt-1">
               <h1 className="font-sanchez m-2"> {props.h5}</h1>
             </div>
-            <div className="absolute right-32">
+            <div className="">
               <label className="flex items-center space-x-3 cursor-pointer">
                 <span className="font-sanchez">Enable</span>
                 <input type="checkbox" className="sr-only peer" />
@@ -109,6 +120,7 @@ function Banner(props: Bannerprops) {
 
               </label>
             </div>
+            </main>
           </aside>
 
 

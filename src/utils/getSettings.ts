@@ -36,3 +36,6 @@ export const getSettings = async (): Promise<CompanyData | null> => {
 
   return null;
 };
+
+
+

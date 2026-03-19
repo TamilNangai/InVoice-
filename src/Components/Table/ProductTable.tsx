@@ -65,7 +65,7 @@ const ProductTable = () => {
 
                     {currentRows.map((item) => (
 
-                        <BaseTable.Row key={item.id}>
+                        <BaseTable.Row key={item.invoice}>
 
                             <BaseTable.Cell>
                                 <div className="font-iceberg text-[20px] text-gray-800">
@@ -91,7 +91,7 @@ const ProductTable = () => {
 
                             <BaseTable.Cell>
                                 <div className="text-[18px] text-center font-sanchez">
-                                    {item.id}
+                                    {item.invoice}
                                 </div>
                             </BaseTable.Cell>
 

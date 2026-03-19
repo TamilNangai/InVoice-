@@ -60,7 +60,7 @@ const RecentInvoices: React.FC = () => {
       </h2>
 
       <div className="">
-        <div className="w-[93.5%] rounded-xl overflow-hidden border-2 border-black">
+        <div className="w-full rounded-xl overflow-hidden border-2 border-black">
 
           <div className="flex justify-between items-center p-5">
 
@@ -89,7 +89,7 @@ const RecentInvoices: React.FC = () => {
 
             </div>
 
-            <div className="absolute right-28 w-[24%]">
+            <div className=" w-3/4 max-w-[450px]">
 
               <Searchinput
                 icon={searchIcon}
@@ -108,14 +108,14 @@ const RecentInvoices: React.FC = () => {
 
             <thead className="text-xl">
 
-              <tr className="grid grid-cols-6 font-iceberg font-normal">
+              <tr className="grid grid-cols-6 font-iceberg">
 
-                <th className="p-3 border">Invoice No</th>
-                <th className="p-3 border">Type</th>
-                <th className="p-3 border">Client</th>
-                <th className="p-3 border">Date Issued</th>
-                <th className="p-3 border">Amount</th>
-                <th className="p-3 border">Status</th>
+                <th className="p-3 border font-normal">Invoice No</th>
+                <th className="p-3 border font-normal">Type</th>
+                <th className="p-3 border font-normal">Client</th>
+                <th className="p-3 border font-normal">Date Issued</th>
+                <th className="p-3 border font-normal">Amount</th>
+                <th className="p-3 border font-normal">Status</th>
 
               </tr>
 

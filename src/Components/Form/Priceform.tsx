@@ -103,7 +103,7 @@ const PriceForm = ({ data, setData }: Props) => {
       <h2 className="text-xl font-semibold mb-4 pl-8">
         Price Details
       </h2>
-
+<main className="grid grid-rows-subgrid w-full h-fit">
       <section className="grid grid-cols-2 gap-10 text-lg w-full h-full">
 
         <div>
@@ -157,7 +157,7 @@ const PriceForm = ({ data, setData }: Props) => {
 
       </section>
 
-      <div className="flex items-center justify-center mt-6">
+      <div className="w-full h-fit grid grid-rows-1 place-items-center">
 
         <div className="text-sm font-sanchez">
 
@@ -193,6 +193,7 @@ const PriceForm = ({ data, setData }: Props) => {
         </div>
 
       </div>
+      </main>
 
     </div>
 
