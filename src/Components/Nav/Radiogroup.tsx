@@ -1,10 +1,18 @@
 import { useState } from "react";
 
-const Radiogroup = () => {
-    const [selected, setSelected] = useState("Overall Revenue");
-    const options = ["Overall Revenue", "Internship Revenue", "Product Sales", "Other Invoice"];
+const Radiogroup = ({ selected, setSelected }: any) => {
+
+    // const [selected, setSelected] = useState("Overall Revenue");
+    const options = [
+        "Overall Revenue",
+        "Internship Revenue",
+        "Product Sales",
+        "Service Invoice",   
+        "Other Invoice"
+    ];
+
     return (
-        <div className="flex justify-around items-center font-iceberg m-5  w-[600px] h-[48px] rounded-[4px] border-[2px] border-[#000000] bg-[#136CED33]">
+        <div className="flex  justify-around items-center font-iceberg m-5  w-[60%] h-[48px] rounded-[4px] border-[2px] border-[#000000] bg-[#136CED33]">
             {options.map((label) => {
                 return (
                     <label key={label} className=" flex justify-center items-center">

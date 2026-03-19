@@ -179,8 +179,10 @@ type Invoice = {
   client: string
   date: string
   amount: number
-  status: "Paid" | "Pending"
+  status: "paid" | "pending" | "overdue"
 }
+
+
 
 export const getInvoices = async (): Promise<Invoice[]> => {
 
@@ -190,21 +192,23 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
     const data: any = doc.data()
 
-    const status: "Paid" | "Pending" =
-      data.price?.due > 0 ? "Pending" : "Paid"
+    const status: "paid" | "pending" =
+      data.price?.due > 0 ? "pending" : "paid"
 
     return {
       id: doc.id,   // ✅ Firestore unique id
-      type: data.invoiceType || "",
+      type: (data.invoiceType || "").toLowerCase(),
       client:
         data.student?.studentName ||
         data.customer?.customer ||
         data.product?.[0]?.productName ||
         data.service?.[0]?.serviceName ||
         "N/A",
-      date: data.createdAt
-        ? new Date(data.createdAt).toLocaleDateString()
-        : "",
+      // date: data.createdAt
+      //   ? new Date(data.createdAt).toLocaleDateString()
+      //   : "",
+      date: new Date(data.createdAt).toLocaleDateString("en-IN"),
+
       amount: data.price?.total || 0,
       status
     }

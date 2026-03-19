@@ -8,7 +8,7 @@
 //   client: string;
 //   date: string;
 //   amount: number;
-//   status: "Paid" | "Pending";
+//   status: "paid" | "pending";
 // }
 
 // const invoices: Invoice[] = [
@@ -18,7 +18,7 @@
 //     client: "Hariharan",
 //     date: "25-12-2025",
 //     amount: 120000,
-//     status: "Paid",
+//     status: "paid",
 //   },
 //   {
 //     id: "INV-2025-003",
@@ -26,7 +26,7 @@
 //     client: "Akash",
 //     date: "24-12-2025",
 //     amount: 140500,
-//     status: "Pending",
+//     status: "pending",
 //   },
 //   {
 //     id: "INV-2025-002",
@@ -34,7 +34,7 @@
 //     client: "Swetha",
 //     date: "23-12-2025",
 //     amount: 120500,
-//     status: "Paid",
+//     status: "paid",
 //   },
 //   {
 //     id: "INV-2025-004",
@@ -42,7 +42,7 @@
 //     client: "Hariharan",
 //     date: "25-12-2025",
 //     amount: 120000,
-//     status: "Paid",
+//     status: "paid",
 //   },
 //   {
 //     id: "INV-2025-003",
@@ -50,7 +50,7 @@
 //     client: "Akash",
 //     date: "24-12-2025",
 //     amount: 140500,
-//     status: "Pending",
+//     status: "pending",
 //   },
 //   {
 //     id: "INV-2025-002",
@@ -58,12 +58,12 @@
 //     client: "Swetha",
 //     date: "23-12-2025",
 //     amount: 120500,
-//     status: "Paid",
+//     status: "paid",
 //   },
 // ];
 
 // const RecentInvoices: React.FC = () => {
-//   const [filter, setFilter] = useState<"All" | "Paid" | "Pending" | "Type">("All");
+//   const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
 //   const [search, setSearch] = useState("");
 
 //   // const filteredInvoices = invoices.filter((item) => {
@@ -71,7 +71,7 @@
 //   //     item.id.toLowerCase().includes(search.toLowerCase()) ||
 //   //     item.client.toLowerCase().includes(search.toLowerCase());
 
-//   //   const matchStatus = filter === "All" ? true : item.status === filter;
+//   //   const matchStatus = filter === "all" ? true : item.status === filter;
 
 //   //   return matchSearch && matchStatus;
 //   // });
@@ -83,9 +83,9 @@
 //       item.type.toLowerCase().includes(search.toLowerCase());
 
 //     const matchStatus =
-//       filter === "All"
+//       filter === "all"
 //         ? true
-//         : filter === "Type"
+//         : filter === "type"
 //           ? true
 //           : item.status === filter;
 
@@ -104,33 +104,33 @@
 //           <div className="flex justify-between items-center p-5">
 //             <div className="flex gap-14 font-iceberg text-xl">
 //               <button
-//                 className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "All" ? "bg-[#136CED80]" : ""
+//                 className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "all" ? "bg-[#136CED80]" : ""
 //                   }`}
-//                 onClick={() => setFilter("All")}
+//                 onClick={() => setFilter("all")}
 //               >
-//                 All Invoices
+//                 all Invoices
 //               </button>
 
 //               <button
-//                 className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "Paid" ? "bg-[#136CED80]" : ""
+//                 className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "paid" ? "bg-[#136CED80]" : ""
 //                   }`}
-//                 onClick={() => setFilter("Paid")}
+//                 onClick={() => setFilter("paid")}
 //               >
-//                 Paid
+//                 paid
 //               </button>
 
 //               <button
-//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""
+//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "pending" ? "bg-[#136CED80]" : ""
 //                   }`}
-//                 onClick={() => setFilter("Pending")}
+//                 onClick={() => setFilter("pending")}
 //               >
-//                 Pending
+//                 pending
 //               </button>
 //               <button
-//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Type" ? "bg-[#136CED80]" : ""}`}
-//                 onClick={() => setFilter("Type")}
+//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "type" ? "bg-[#136CED80]" : ""}`}
+//                 onClick={() => setFilter("type")}
 //               >
-//                 Type
+//                 type
 //               </button>
 
 //             </div>
@@ -150,7 +150,7 @@
 //             <thead className="text-xl">
 //               <tr className="grid grid-cols-6 font-iceberg font-normal">
 //                 <th className="p-3 border">Invoice No</th>
-//                 <th className="p-3 border">Type</th>
+//                 <th className="p-3 border">type</th>
 //                 <th className="p-3 border">Client</th>
 //                 <th className="p-3 border">Date Issued</th>
 //                 <th className="p-3 border">Amount</th>
@@ -207,13 +207,13 @@
 //   client: string;
 //   date: string;
 //   amount: number;
-//   status: "Paid" | "Pending";
+//   status: "paid" | "pending";
 // }
 
 // const RecentInvoices: React.FC = () => {
 
 //   const [invoices, setInvoices] = useState<Invoice[]>([]);
-//   const [filter, setFilter] = useState<"All" | "Paid" | "Pending" | "Type">("All");
+//   const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
 //   const [search, setSearch] = useState("");
 
 //   // FETCH INVOICES FROM FIRESTORE
@@ -239,9 +239,9 @@
 //       item.type.toLowerCase().includes(search.toLowerCase());
 
 //     const matchStatus =
-//       filter === "All"
+//       filter === "all"
 //         ? true
-//         : filter === "Type"
+//         : filter === "type"
 //         ? true
 //         : item.status === filter;
 
@@ -265,31 +265,31 @@
 //             <div className="flex gap-14 font-iceberg text-xl">
 
 //               <button
-//                 className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "All" ? "bg-[#136CED80]" : ""}`}
-//                 onClick={() => setFilter("All")}
+//                 className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "all" ? "bg-[#136CED80]" : ""}`}
+//                 onClick={() => setFilter("all")}
 //               >
-//                 All Invoices
+//                 all Invoices
 //               </button>
 
 //               <button
-//                 className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "Paid" ? "bg-[#136CED80]" : ""}`}
-//                 onClick={() => setFilter("Paid")}
+//                 className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "paid" ? "bg-[#136CED80]" : ""}`}
+//                 onClick={() => setFilter("paid")}
 //               >
-//                 Paid
+//                 paid
 //               </button>
 
 //               <button
-//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""}`}
-//                 onClick={() => setFilter("Pending")}
+//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "pending" ? "bg-[#136CED80]" : ""}`}
+//                 onClick={() => setFilter("pending")}
 //               >
-//                 Pending
+//                 pending
 //               </button>
 
 //               <button
-//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Type" ? "bg-[#136CED80]" : ""}`}
-//                 onClick={() => setFilter("Type")}
+//                 className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "type" ? "bg-[#136CED80]" : ""}`}
+//                 onClick={() => setFilter("type")}
 //               >
-//                 Type
+//                 type
 //               </button>
 
 //             </div>
@@ -316,7 +316,7 @@
 //               <tr className="grid grid-cols-6 font-iceberg font-normal">
 
 //                 <th className="p-3 border">Invoice No</th>
-//                 <th className="p-3 border">Type</th>
+//                 <th className="p-3 border">type</th>
 //                 <th className="p-3 border">Client</th>
 //                 <th className="p-3 border">Date Issued</th>
 //                 <th className="p-3 border">Amount</th>
@@ -379,22 +379,22 @@
 import React, { useState, useEffect } from "react";
 import searchIcon from "@/assets/filter/search.svg";
 import Searchinput from "../Filter/Searchinput";
-// import { getInvoices } from "@/utils/getInvoices";
 import { getInvoices } from "@/utils/getInvoice";
 
 export interface Invoice {
   id: string;
   type: string;
   client: string;
-  date: string;
+  date: String;
   amount: number;
-  status: "Paid" | "Pending";
+  status: "paid" | "pending";
+
 }
 
 const RecentInvoices: React.FC = () => {
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [filter, setFilter] = useState<"All" | "Paid" | "Pending" | "Type">("All");
+  const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
   const [search, setSearch] = useState("");
 
   // FETCH INVOICES FROM FIRESTORE
@@ -404,7 +404,19 @@ const RecentInvoices: React.FC = () => {
 
       const data = await getInvoices();
 
-      setInvoices(data);
+      const formattedData: Invoice[] = data.map((item: any) => ({
+        id: item.id,
+        type: item.type,
+        client: item.client,
+        amount: item.amount,
+
+        // 🔥 FIX STATUS HERE
+        status: item.status.toLowerCase(),
+
+        date: item.date?.toDate ? item.date.toDate() : item.date,
+      }));
+
+      setInvoices(formattedData);
 
     };
 
@@ -420,11 +432,11 @@ const RecentInvoices: React.FC = () => {
       item.type.toLowerCase().includes(search.toLowerCase());
 
     const matchStatus =
-      filter === "All"
+      filter === "all"
         ? true
-        : filter === "Type"
+        : filter === "type"
         ? true
-        : item.status === filter;
+          : item.status === filter.toLowerCase() as "paid" | "pending";
 
     return matchSearch && matchStatus;
 
@@ -446,29 +458,29 @@ const RecentInvoices: React.FC = () => {
             <div className="flex gap-14 font-iceberg text-xl">
 
               <button
-                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "All" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("All")}
+                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "all" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("all")}
               >
                 All Invoices
               </button>
 
               <button
-                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "Paid" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("Paid")}
+                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "paid" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("paid")}
               >
                 Paid
               </button>
 
               <button
-                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("Pending")}
+                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "pending" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("pending")}
               >
                 Pending
               </button>
 
               <button
-                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Type" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("Type")}
+                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "type" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("type")}
               >
                 Type
               </button>
@@ -497,7 +509,7 @@ const RecentInvoices: React.FC = () => {
               <tr className="grid grid-cols-6 font-iceberg font-normal">
 
                 <th className="p-3 border">Invoice No</th>
-                <th className="p-3 border">Type</th>
+                <th className="p-3 border">type</th>
                 <th className="p-3 border">Client</th>
                 <th className="p-3 border">Date Issued</th>
                 <th className="p-3 border">Amount</th>
@@ -519,7 +531,9 @@ const RecentInvoices: React.FC = () => {
                   <td className="p-3 border">{invoice.id}</td>
                   <td className="p-3 border">{invoice.type}</td>
                   <td className="p-3 border">{invoice.client}</td>
-                  <td className="p-3 border">{invoice.date}</td>
+                  <td className="p-3 border"> {invoice.date}
+
+</td>
 
                   <td className="p-3 border">
                     ₹{invoice.amount.toLocaleString()}

@@ -6,6 +6,7 @@ export interface Invoice {
   client: string;
   date: string;
   amount: number;
+  status: "paid" | "pending" | "overdue";
 }
 
 const invoices: Invoice[] = [
@@ -15,6 +16,7 @@ const invoices: Invoice[] = [
     client: "Hariharan",
     date: "Jan 20 2026",
     amount: 100000.00,
+   status: "paid" 
   },
   {
     id: "INV-2025-003",
@@ -22,6 +24,7 @@ const invoices: Invoice[] = [
     client: "Akash Kodiyarasan",
     date: "Jan 14 2026",
     amount: 15000.00,
+   status: "paid" 
   },
   
   {
@@ -30,6 +33,7 @@ const invoices: Invoice[] = [
     client: "Swetha S",
     date: "Jan 12 2026",
     amount: 120000.00,
+   status: "paid" 
   },
   {
     id: "INV-2025-000",
@@ -37,6 +41,7 @@ const invoices: Invoice[] = [
     client: "Naveen Kumar",
     date: "Jan 01 2026",
     amount: 50000.00,
+   status: "paid" 
   },
     {
     id: "INV-2025-004",
@@ -44,6 +49,7 @@ const invoices: Invoice[] = [
     client: "Hariharan",
     date: "Jan 20 2026",
     amount: 100000.00,
+   status: "paid" 
   },
   {
     id: "INV-2025-003",
@@ -51,6 +57,7 @@ const invoices: Invoice[] = [
     client: "Akash Kodiyarasan",
     date: "Jan 14 2026",
     amount: 15000.00,
+   status: "paid" 
   },
   
   {
@@ -59,6 +66,7 @@ const invoices: Invoice[] = [
     client: "Swetha S",
     date: "Jan 12 2026",
     amount: 120000.00,
+   status: "paid" 
   },
   {
     id: "INV-2025-000",
@@ -66,6 +74,7 @@ const invoices: Invoice[] = [
     client: "Naveen Kumar",
     date: "Jan 01 2026",
     amount: 50000.00,
+   status: "paid" 
   },
 ];
 
@@ -80,7 +89,7 @@ const RecentInvoices: React.FC = () => {
       <table className="w-[95%] mx-8 text-center">
         
         <thead className="h-20  font-iceberg text-2xl">
-          <div className="border-0 border-b border-black flex justify-between items-center">
+          <tr className="border-0 border-b border-black flex justify-between items-center">
             <th className="p-4 text-start font-extralight text-3xl">
               Recent Transaction
             </th>
@@ -91,7 +100,7 @@ const RecentInvoices: React.FC = () => {
             >
               {showAll ? "View Less" : "View All"}
             </th>
-          </div>
+          </tr>
 
           <tr className="w-[100%] grid grid-cols-5 border-0 border-b border-black text-start text-gray-600 text-xl">
             <th className="p-4 font-light">Invoice No</th>

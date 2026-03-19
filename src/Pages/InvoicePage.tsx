@@ -8,7 +8,6 @@ import Searchinput from "@/Components/Filter/Searchinput";
 import searchIcon from "@/assets/filter/search.svg";
 import filterIcon from "@/assets/filter/filter.svg";
 import statusIcon from "@/assets/filter/circle.svg";
-import dateIcon from "@/assets/filter/date.svg";
 
 
 import Header from "@/Components/Nav/Header"
@@ -45,7 +44,6 @@ const invoices = [
 
 const InvoicePage = () => {
 
-  const dateRef = useRef<HTMLInputElement>(null);
 
 
 
