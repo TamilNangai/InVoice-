@@ -2,7 +2,7 @@ import { collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
 
 export type Product = {
-  invoice: string
+  invoiceId: string
   name: string
   description: string
   category: string
@@ -18,7 +18,7 @@ export const getProducts = async (): Promise<Product[]> => {
     const data = doc.data()
 
     return {
-      id: doc.id,
+      invoiceId: data.invoiceId || doc.id,
       name: data.name || "",
       description: data.description || "",
       category: data.category || "",

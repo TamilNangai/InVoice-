@@ -7,11 +7,38 @@ import Popup4 from "@/assets/Popup4.png"
 import src1 from '@/assets/Vectorw.png'
 import src2 from '@/assets/Vector.png'
 import Invoicetable from "@/Components/Table/Invoicetable"
+import { reportAnalytics } from "@/utils/reportAnalytics"
+import { useEffect, useState } from "react"
+import { getInvoices } from "@/utils/getInvoice"
+import { Invoice } from "@/utils/getInvoice"
 
 function Dashboard() {
+   
+    const [report, setReport] = useState<any>(null)
+
+    useEffect(() => {
+        const loadData = async () => {
+
+            const invoices = await getInvoices()
+            console.log("STATUS:", invoices.map(i => i.status))
+            const formatted: Invoice[] = invoices.map(inv => ({
+                ...inv,
+                status: inv.status.toLowerCase() as "paid" | "pending" | "overdue"
+            }))
+            console.log("STATUS FIXED:", formatted.map(i => i.status)) 
+            const result = reportAnalytics(formatted, "monthly", "overall")
+
+            setReport(result)
+        }
+
+        loadData()
+    }, [])
+
+    if (!report) return <div>Loading...</div>
+
         return (
 
-                <div className="w-full h-full">
+                <div className="w-full h-screen overflow-hidden">
                         <div className="w-full h-20 bg-[#DFDFDF99]  flex items-center justify-between px-4">
                                 <div className=" ">
                                         <h1 className="text-black font-iceberg text-3xl font-extralight ">Dashboard</h1>
@@ -45,10 +72,12 @@ service billing"
                         </div>
 
                         <div className="w-full max-h-40 flex justify-center gap-5 items-center mt-5 px-5 ">
-                                < Cards head="Total Revenue" symbol="$" amount={1000.00} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                                < Cards head="Invoice Issued" amount={1200} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                                < Cards head="Pending Payments" symbol="$" amount={1200.00} para="-- 25 Invoice Pending" cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
-                                < Cards head="Clients" amount={2400} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                                
+                    < Cards head="Total Revenue" symbol="$" amount={report.totalRevenue || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                    < Cards head="Invoice Issued" amount={report.totalInvoices || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                    < Cards head="Pending Payments" symbol="$" amount={report.pendingAmount || 0}
+                        para={`- ${report.pendingCount || 0} Invoice Pending`} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
+                    < Cards head="Clients" amount={report.uniqueClients || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
                         <div className="w-full h-full px-5">

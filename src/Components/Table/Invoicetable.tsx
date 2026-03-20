@@ -9,14 +9,15 @@ export interface Invoice {
   client: string;
   date: string;
   amount: number;
-  status: "Paid" | "Pending";
+  status: "paid" | "pending" | "overdue";
 }
 
 const RecentInvoices: React.FC = () => {
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [filter, setFilter] = useState<"All" | "Paid" | "Pending" | "Type">("All");
+  const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
   const [search, setSearch] = useState("");
+  
 
   // FETCH INVOICES FROM FIRESTORE
   useEffect(() => {
@@ -25,7 +26,21 @@ const RecentInvoices: React.FC = () => {
 
       const data = await getInvoices();
 
-      setInvoices(data);
+      const formattedData: Invoice[] = data.map((item: any) => ({
+        invoiceId: item.invoiceId,
+        type: item.type,
+        client: item.client,
+        amount: item.amount,
+
+        // ✅ FIX STATUS
+        status: item.status.toLowerCase() as "paid" | "pending"| "overdue",
+
+        // ✅ FIX DATE
+        date: item.date,
+      }));
+
+
+      setInvoices(formattedData);
 
     };
 
@@ -33,27 +48,28 @@ const RecentInvoices: React.FC = () => {
 
   }, []);
 
+  const searchText = search.toLowerCase();
+
   const filteredInvoices = invoices.filter((item) => {
 
     const matchSearch =
-      item.invoiceId.toLowerCase().includes(search.toLowerCase()) ||
-      item.client.toLowerCase().includes(search.toLowerCase()) ||
-      item.type.toLowerCase().includes(search.toLowerCase());
+      (item.invoiceId?.toLowerCase() || "").includes(searchText) ||
+      (item.client?.toLowerCase() || "").includes(searchText) ||
+      (item.type?.toLowerCase() || "").includes(searchText);
 
     const matchStatus =
-      filter === "All"
+      filter === "all"
         ? true
-        : filter === "Type"
-          ? true
-          : item.status === filter;
+        : item.status === filter;
 
     return matchSearch && matchStatus;
 
   });
 
+
   return (
 
-    <div>
+    <div className="w-full h-full">
 
       <h2 className="text-3xl font-iceberg mb-4 mt-10">
         Recent Invoices
@@ -67,22 +83,22 @@ const RecentInvoices: React.FC = () => {
             <div className="flex gap-14 font-iceberg text-xl">
 
               <button
-                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "All" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("All")}
+                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "all" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("all")}
               >
                 All Invoices
               </button>
 
               <button
-                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "Paid" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("Paid")}
+                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "paid" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("paid")}
               >
                 Paid
               </button>
 
               <button
-                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "Pending" ? "bg-[#136CED80]" : ""}`}
-                onClick={() => setFilter("Pending")}
+                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "pending" ? "bg-[#136CED80]" : ""}`}
+                onClick={() => setFilter("pending")}
               >
                 Pending
               </button>
@@ -123,17 +139,18 @@ const RecentInvoices: React.FC = () => {
 
             <tbody>
 
-              {filteredInvoices.map((invoice) => (
-
-                <tr
-                  key={invoice.invoiceId}
+              {filteredInvoices.length > 0 ? (
+                filteredInvoices.slice(0, 6).map((invoice) => (
+                  <tr key={invoice.invoiceId} 
                   className="hover:bg-gray-50 grid grid-cols-6"
                 >
 
-                  <td className="p-3 border">{invoice.invoiceId}</td>
+                    <td className="p-3 border">{invoice.invoiceId}</td>
                   <td className="p-3 border">{invoice.type}</td>
                   <td className="p-3 border">{invoice.client}</td>
-                  <td className="p-3 border">{invoice.date}</td>
+                  <td className="p-3 border"> {invoice.date}
+
+</td>
 
                   <td className="p-3 border">
                     ${invoice.amount.toFixed(2)}
@@ -145,9 +162,9 @@ const RecentInvoices: React.FC = () => {
 
                 </tr>
 
-              ))}
+              ))):
 
-              {filteredInvoices.length === 0 && (
+              (
 
                 <tr>
                   <td colSpan={6} className="p-5">
@@ -155,7 +172,8 @@ const RecentInvoices: React.FC = () => {
                   </td>
                 </tr>
 
-              )}
+              )
+              }
 
             </tbody>
 

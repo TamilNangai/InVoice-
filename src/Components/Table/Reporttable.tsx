@@ -4,7 +4,6 @@ import { getInvoices, Invoice } from "@/utils/getInvoice"
 
 
 
-
 const RecentInvoices: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [showAll, setShowAll] = useState(false)
@@ -21,11 +20,11 @@ const RecentInvoices: React.FC = () => {
   const visibleInvoices = showAll ? invoices : invoices.slice(0, 4)
 
   return (
-        <div className="border-[2px] border-black rounded-xl m-5 shadow-[5px_5px_10px_rgba(0,0,0,0.3)]">
+        <div className="border-[2px] border-black rounded-xl m-5 shadow-[5px_5px_10px_rgba(0,0,0,0.3)] ">
       <table className="w-[95%] mx-8 text-center">
 
         <thead className="h-20  font-iceberg text-2xl">
-          <div className="border-0 border-b border-black flex justify-between items-center">
+          <tr className="border-0 border-b border-black flex justify-between items-center">
             <th className="p-4 text-start font-extralight text-3xl">
               Recent Transaction
             </th>
@@ -36,8 +35,9 @@ const RecentInvoices: React.FC = () => {
             >
               {showAll ? "View Less" : "View All"}
             </th>
-          </div>
-          <tr className="w-[100%]  grid grid-cols-5 border-0 border-b border-black text-start text-gray-600 text-xl">
+          </tr>
+
+          <tr className="w-[100%] grid grid-cols-5 border-0 border-b border-black text-start text-gray-600 text-xl">
             <th className="p-4 font-light">Invoice No</th>
             <th className="p-4 font-light">Client/Student</th>
             <th className="p-4 font-light">Type</th>

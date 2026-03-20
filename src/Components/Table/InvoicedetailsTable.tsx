@@ -10,36 +10,23 @@ export type Invoice = {
     type: string;           
     client: string;        
     amount: number;        
-    status: "Paid" | "Pending" | "Over Due";
+    status: "paid" | "pending" | "overdue";
     pending?: number;       
     date: string;         
     sub?: string;          
 };
-const InvoicedetailsTable: React.FC = () => {
-    const [invoices, setInvoices] = useState<Invoice[]>([]);
+
+interface InvoiceDetailsTableProps {
+    invoices: Invoice[];
+}
+
+const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 6;
 
-    // Fetch invoices from Firestore
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getInvoices();
-            setInvoices(data);
-        };
-        fetchData();
-    }, []);
-
-
     const totalPages = Math.ceil(invoices.length / rowsPerPage);
-
     const startIndex = (currentPage - 1) * rowsPerPage;
-
-    const currentRows = invoices.slice(
-        startIndex,
-        startIndex + rowsPerPage
-    );
-
-
+    const currentRows = invoices.slice(startIndex, startIndex + rowsPerPage);
 
     const typeBadge = (type: string) => {
         const t = type.toLowerCase();
@@ -47,16 +34,17 @@ const InvoicedetailsTable: React.FC = () => {
         if (t === "internship") return "px-3 py-1 text-xs rounded-md font-medium bg-blue-500 text-white";
         if (t === "product") return "px-3 py-1 text-xs rounded-md font-medium bg-green-500 text-white";
         if (t === "others") return "px-3 py-1 text-xs rounded-md font-medium bg-gray-400 text-white";
-        if (t === "service") return "px-3 py-1 text-xs rounded-md font-medium bg-red-500 text-white";
+        if (t === "service") return "px-3 py-1 text-xs rounded-md font-medium bg-[#FFCC00] text-white";
 
 
         return "px-3 py-1 text-xs rounded-md font-medium";
     };
     const statusColor = (status: string) => {
-        switch (status) {
-            case "Paid": return "text-green-500";
-            case "Pending": return "text-yellow-500";
-            case "Over Due": return "text-red-500";
+        const s = status.toLowerCase();
+        switch (s) {
+            case "paid": return "text-green-500";
+            case "pending": return "text-yellow-500";
+            case "overdue": return "text-red-500";
             default: return "";
 
         }

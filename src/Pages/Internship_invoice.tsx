@@ -8,10 +8,11 @@ import Stdform from "@/Components/Form/Stdform"
 import Buttons from '@/Components/Button/Buttons'
 import vectora from "@/assets/Vectora.png"
 import PriceForm from "@/Components/Form/Priceform"
-import { getSettings } from "@/utils/getSettings";
-// import { saveInvoice } from "@/utils/SaveInvoice"
+import { getSettings } from "@/utils/getSettings"
 import { validateForm } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
+import { showError, showSuccess, showConfirm } from "@/utils/alert";
+
 
 
 type InvoiceData = {
@@ -129,19 +130,19 @@ const Internship_invoice = () => {
     const { studentName, email, phone, college } = invoiceData.student
 
     if (!studentName || !email || !phone || !college) {
-      alert("Please fill all student details.")
+      await showError("Please fill all student details.")
       return
     }
 
     if (!/^[0-9]{10}$/.test(phone)) {
-      alert("Phone number must be 10 digits")
+      await showError("Phone number must be 10 digits")
       return
     }
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
 
     if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address")
+      await showError("Please enter a valid email address")
       return
     }
 
@@ -151,12 +152,12 @@ const Internship_invoice = () => {
     const { internship, batch, start, enddate } = invoiceData.program
 
     if (!internship || !batch || !start || !enddate) {
-      alert("Please fill all program details.")
+      await showError("Please fill all program details.")
       return
     }
 
     if (new Date(enddate) <= new Date(start)) {
-      alert("End date must be after start date")
+      await showError("End date must be after start date")
       return
     }
 
@@ -166,12 +167,12 @@ const Internship_invoice = () => {
     const { training, internship: internshipFee, certificate, tax, discount } = invoiceData.fees
 
     if (training <= 0 || internshipFee <= 0 || certificate <= 0) {
-      alert("Please fill Fees details correctly.")
+      await showError("Please fill Fees details correctly.")
       return
     }
 
     if (tax <= 0 || tax > 100) {
-      alert("Tax rate must be between 0 and 100")
+      await showError("Tax rate must be between 0 and 100")
       return
     }
 
@@ -181,7 +182,7 @@ const Internship_invoice = () => {
       Number(internshipFee)
 
     if (discount < 0 || discount > subtotal) {
-      alert("Discount cannot be greater than subtotal")
+      await showError("Discount cannot be greater than subtotal")
       return
     }
 
@@ -191,12 +192,12 @@ const Internship_invoice = () => {
     const { paid, duedate, paymentMethod } = invoiceData.price
 
     if (!paymentMethod) {
-      alert("Please select payment method")
+      await showError("Please select payment method")
       return
     }
 
     if (paid <= 0 || paid > totalAmount) {
-      alert("Paid amount is invalid")
+      await showError("Paid amount is invalid")
       return
     }
 
@@ -206,13 +207,21 @@ const Internship_invoice = () => {
     const today = new Date().toISOString().split("T")[0]
 
     if (!duedate || duedate <= today) {
-      alert("Due date must be a future date")
+      await showError("Due date must be a future date")
       return
     }
 
 
     
  console.log(invoiceData);
+
+
+
+    // ✅ CONFIRMATION BEFORE SAVE
+    const confirm = await showConfirm("Do you want to save this invoice?");
+
+    if (!confirm.isConfirmed) return; // ⛔ user cancelled
+
 
     /* ================= PRINT ================= */
 
@@ -231,6 +240,10 @@ const Internship_invoice = () => {
       },
       billRef
     )
+
+    await showSuccess("Invoice saved successfully");
+
+
   }
 
   const [company, setCompany] = useState<any>(null);
@@ -274,7 +287,7 @@ const Internship_invoice = () => {
   if (!company) return <div>Loading...</div>;
 
   return (
-    <div className="w-full h-screen overflow-auto">
+    <div className="w-full h-screen ">
 
       <div>
         <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">

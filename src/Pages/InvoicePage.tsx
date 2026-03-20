@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import InvoicedetailsTable, { Invoice } from "@/Components/Table/InvoicedetailsTable";
 import Searchinput from "@/Components/Filter/Searchinput";
 import searchIcon from "@/assets/filter/search.svg";
@@ -15,7 +15,6 @@ import src2 from '@/assets/Vector.png';
 import { getInvoices } from "@/utils/getInvoice";
 
 const InvoicePage = () => {
-  const dateRef = useRef<HTMLInputElement>(null);
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [search, setSearch] = useState("");
@@ -28,7 +27,7 @@ const InvoicePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getInvoices();
-      setInvoices(data);
+      setInvoices(data); // ✅ this is fine here
     };
     fetchData();
   }, []);
@@ -39,21 +38,19 @@ const InvoicePage = () => {
       item.invoiceId.toLowerCase().includes(search.toLowerCase()) ||
       item.client.toLowerCase().includes(search.toLowerCase());
 
-    const matchType = type ? item.type === type : true;
-
+    const matchType = type ? item.type === type : true; // ✅ make sure this matches the dropdown
     const matchStatus = status ? item.status === status : true;
-
     const matchDate =
       fromDate && toDate
         ? new Date(item.date) >= new Date(fromDate) &&
-          new Date(item.date) <= new Date(toDate)
+        new Date(item.date) <= new Date(toDate)
         : true;
 
     return matchSearch && matchType && matchStatus && matchDate;
   });
 
   return (
-    <section className="w-full h-screen overflow-auto">
+    <section className="w-full h-screen ">
       
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
         <Header h1="Invoice Page" para="Manage your invoices here." />
@@ -82,56 +79,63 @@ const InvoicePage = () => {
 
       {/* Filters */}
       <div className="flex gap-6 justify-center items-center px-5 m-3 mb-5">
-
-        <div className="w-2/6">
-          <Searchinput
-            icon={searchIcon}
-            para="Search by Invoice no or client Name"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        
+          <div className="w-2/6">
+            <Searchinput
+              icon={searchIcon}
+              para="Search by Invoice no or client Name"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
         </div>
-
-        <div className="flex items-center gap-2 border rounded-md px-7 py-2 w-1/6 h-[50px]">
+              
+        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
           <img src={filterIcon} className="w-4 h-4" />
           <select
-            className="bg-transparent outline-none w-full"
+            className="bg-transparent outline-none w-full font-iceberg text-[18px]"
+            value={type}
             onChange={(e) => setType(e.target.value)}
           >
             <option value="">Type</option>
-            <option value="Internship">Internship</option>
-            <option value="Product">Product</option>
-            <option value="Others">Others</option>
+            <option value="internship">Internship</option>
+            <option value="product">Product</option>
+            <option value="service">Service</option>
+            <option value="others">Others</option>
           </select>
         </div>
-
-        <div className="flex items-center gap-2 border rounded-md px-7 py-2 w-1/6 h-[50px]">
+      
+        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
           <img src={statusIcon} className="w-4 h-4" />
           <select
-            className="bg-transparent outline-none w-full"
+            className="bg-transparent outline-none w-full font-iceberg text-[18px]"
+            value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
             <option value="">Status</option>
-            <option value="Paid">Paid</option>
-            <option value="Pending">Pending</option>
-            <option value="Over Due">Over Due</option>
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="overdue">Over Due</option>
           </select>
         </div>
 
         <div className="flex gap-3 w-2/6">
+         
           <input
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            className="border rounded-md px-3 py-2 w-1/2 h-[50px]"
+            className="font-iceberg text-lg border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
           />
+
           <input
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            className="border rounded-md px-3 py-2 w-1/2 h-[50px]"
+            className="font-iceberg text-lg border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
           />
+
         </div>
+
       </div>
 
       <div className="m-3 ms-10">
@@ -141,6 +145,7 @@ const InvoicePage = () => {
       {/* ✅ Pass filtered data */}
       <div className="w-full flex justify-center">
         <InvoicedetailsTable invoices={filteredInvoices} />
+
       </div>
     </section>
   );

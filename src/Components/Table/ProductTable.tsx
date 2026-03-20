@@ -40,6 +40,11 @@ const ProductTable = () => {
                                 Product Details
                             </div>
                         </BaseTable.HeadCell>
+                        <BaseTable.HeadCell>
+                            <div className="font-iceberg font-extralight text-[28px]">
+                                Product ID
+                            </div>
+                        </BaseTable.HeadCell>
 
                         <BaseTable.HeadCell>
                             <div className="font-iceberg font-extralight text-[28px]">
@@ -53,19 +58,12 @@ const ProductTable = () => {
                             </div>
                         </BaseTable.HeadCell>
 
-                        <BaseTable.HeadCell>
-                            <div className="font-iceberg font-extralight text-[28px]">
-                                Product ID
-                            </div>
-                        </BaseTable.HeadCell>
                     </BaseTable.Row>
                 </BaseTable.Header>
 
                 <BaseTable.Body>
-
                     {currentRows.map((item) => (
-
-                        <BaseTable.Row key={item.invoice}>
+                        <BaseTable.Row key={item.invoiceId}>
 
                             <BaseTable.Cell>
                                 <div className="font-iceberg text-[20px] text-gray-800">
@@ -74,6 +72,12 @@ const ProductTable = () => {
 
                                 <div className="text-[15px] font-sanchez text-gray-500">
                                     {item.description}
+                                </div>
+                            </BaseTable.Cell>
+
+                            <BaseTable.Cell>
+                                <div className="text-[18px] text-center font-sanchez">
+                                    {item.invoiceId}
                                 </div>
                             </BaseTable.Cell>
 
@@ -89,11 +93,6 @@ const ProductTable = () => {
                                 </div>
                             </BaseTable.Cell>
 
-                            <BaseTable.Cell>
-                                <div className="text-[18px] text-center font-sanchez">
-                                    {item.invoice}
-                                </div>
-                            </BaseTable.Cell>
 
                         </BaseTable.Row>
 
