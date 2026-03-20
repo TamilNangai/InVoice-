@@ -10,7 +10,7 @@ import Invoicetable from "@/Components/Table/Invoicetable"
 import { reportAnalytics } from "@/utils/reportAnalytics"
 import { useEffect, useState } from "react"
 import { getInvoices } from "@/utils/getInvoice"
-import { Invoice } from "@/Components/Table/Reporttable"
+import { Invoice } from "@/utils/getInvoice"
 
 function Dashboard() {
    
@@ -38,7 +38,7 @@ function Dashboard() {
 
         return (
 
-                <div className="w-full h-full">
+                <div className="w-full h-screen overflow-hidden">
                         <div className="w-full h-20 bg-[#DFDFDF99]  flex items-center justify-between px-4">
                                 <div className=" ">
                                         <h1 className="text-black font-iceberg text-3xl font-extralight ">Dashboard</h1>
@@ -73,11 +73,11 @@ service billing"
 
                         <div className="w-full max-h-40 flex justify-center gap-5 items-center mt-5 px-5 ">
                                 
-                                < Cards head="Total Revenue" symbol="$" amount={report.totalRevenue} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                                < Cards head="Invoice Issued" amount={report.totalInvoices} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                                < Cards head="Pending Payments" symbol="$" amount={report.pendingAmount}
-                                        para={`- ${report.pendingCount} Invoice Pending`} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
-                                < Cards head="Clients" amount={report.uniqueClients} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                    < Cards head="Total Revenue" symbol="$" amount={report.totalRevenue || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                    < Cards head="Invoice Issued" amount={report.totalInvoices || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                    < Cards head="Pending Payments" symbol="$" amount={report.pendingAmount || 0}
+                        para={`- ${report.pendingCount || 0} Invoice Pending`} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
+                    < Cards head="Clients" amount={report.uniqueClients || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
                         </div>
                         <div className="w-full h-full px-5">

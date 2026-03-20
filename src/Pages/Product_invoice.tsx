@@ -6,11 +6,12 @@ import ProductForm from "@/Components/Form/Productform"
 import PriceForm from "@/Components/Form/Priceform"
 import Buttons from "@/Components/Button/Buttons"
 import vectora from "@/assets/Vectora.png"
-import { saveInvoice } from "@/utils/SaveInvoice"
 import { validateForm } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { getSettings } from "@/utils/getSettings"
+import { showError, showSuccess, showConfirm } from "@/utils/alert";
+
 
 
 type Product = {
@@ -143,14 +144,14 @@ const Product_invoice = () => {
     const { customer, email, office, phone, address } = invoiceData.customer
 
     if (!/^[0-9]{10}$/.test(phone)) {
-      alert("Phone number must be 10 digits")
+      await showError("Phone number must be 10 digits")
       return
     }
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
 
     if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address")
+      await showError("Please enter a valid email address")
       return
     }
 
@@ -159,13 +160,13 @@ const Product_invoice = () => {
     const gst = invoiceData.customer.gst
 
     if (gst?.trim() && !gstRegex.test(gst)) {
-      alert("Invalid GST number")
+      await showError("Invalid GST number")
       return
     }
 
 
     if (!customer || !email || !office || !phone || !address) {
-      alert("Please fill all customer details.")
+      await showError("Please fill all customer details.")
       return
     }
 
@@ -183,7 +184,7 @@ const Product_invoice = () => {
     )
 
     if (invalidProduct) {
-      alert("Please fill all product details correctly.")
+      await showError("Please fill all product details correctly.")
       return
     }
 
@@ -198,24 +199,29 @@ const Product_invoice = () => {
     const { paid, duedate, paymentMethod } = invoiceData.price
 
     if (!duedate || !paymentMethod || isNaN(paid)) {
-      alert("Please fill all price details correctly.")
+      await showError("Please fill all price details correctly.")
       return
     }
     if (paid <= 0) {
-      alert("Please fill the paid Amount correctly.")
+      await showError("Please fill the paid Amount correctly.")
       return
     }
 
     const today = new Date().toISOString().split("T")[0]
 
     if (duedate <= today) {
-      alert("Due date must be a future date")
+      await showError("Due date must be a future date")
       return
     }
 
    
 
       // product: invoiceData.product,
+
+    // ✅ CONFIRMATION BEFORE SAVE
+    const confirm = await showConfirm("Do you want to save this invoice?");
+
+    if (!confirm.isConfirmed) return; // ⛔ user cancelled
 
       
 
@@ -233,6 +239,10 @@ const Product_invoice = () => {
       },
     billRef
   )
+
+    await showSuccess("Invoice saved successfully");
+
+
   }
 
 
@@ -252,7 +262,7 @@ const Product_invoice = () => {
 
   return (
 
-    <div className="w-full h-screen overflow-auto">
+    <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
       <Header
         h1="Product Invoice"

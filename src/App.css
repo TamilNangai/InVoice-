@@ -1,8 +1,54 @@
-.date-input::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    width: 100%;
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Hide scrollbar for Chrome, Safari and Edge */
+/* .no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+} */
+
+/* Hide scrollbar for Firefox */
+/* .no-scrollbar {
+    scrollbar-width: none !important;
+} */
+
+/* Hide scrollbar for IE and old Edge */
+/* .no-scrollbar {
+    -ms-overflow-style: none !important;
+} */
+
+/* body {
+    overflow: hidden;
+}
+html,
+body,
+#root {
     height: 100%;
-    cursor: pointer;
+    overflow: hidden;
+} */
+
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+}
+
+.no-scrollbar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    overflow: hidden;
 }

@@ -22,10 +22,10 @@ function App() {
   return (
     <>
       <HashRouter>
-        <section className="w-screen min-h-screen max-h-screen flex items-center justify-center overflow-hidden">
+        <section className="w-screen min-h-screen max-h-screen flex">
           {/* <div className="min-w-screen min-h-screen flex"> */}
           <Sidebar />
-          <main className="w-full h-screen overflow-auto">
+          <main className="flex-1 h-screen overflow-auto no-scrollbar">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="products" element={<Products />} />

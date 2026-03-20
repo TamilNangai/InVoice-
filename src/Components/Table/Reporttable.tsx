@@ -1,101 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"
+// import { getInvoices, Invoice } from "../utils/getInvoices"
+import { getInvoices, Invoice } from "@/utils/getInvoice"
 
-export interface Invoice {
-  id: string;
-  type: string;
-  client: string;
-  date: string;
-  amount: number;
-  status: "paid" | "pending" | "overdue";
-}
 
-const invoices: Invoice[] = [
-  {
-    id: "INV-2025-004",
-    type: "Product",
-    client: "Hariharan",
-    date: "Jan 20 2026",
-    amount: 100000.00,
-   status: "paid" 
-  },
-  {
-    id: "INV-2025-003",
-    type: "Internship",
-    client: "Akash Kodiyarasan",
-    date: "Jan 14 2026",
-    amount: 15000.00,
-   status: "paid" 
-  },
-  
-  {
-    id: "INV-2025-001",
-    type: "Internship",
-    client: "Swetha S",
-    date: "Jan 12 2026",
-    amount: 120000.00,
-   status: "paid" 
-  },
-  {
-    id: "INV-2025-000",
-    type: "Service",
-    client: "Naveen Kumar",
-    date: "Jan 01 2026",
-    amount: 50000.00,
-   status: "paid" 
-  },
-    {
-    id: "INV-2025-004",
-    type: "Product",
-    client: "Hariharan",
-    date: "Jan 20 2026",
-    amount: 100000.00,
-   status: "paid" 
-  },
-  {
-    id: "INV-2025-003",
-    type: "Internship",
-    client: "Akash Kodiyarasan",
-    date: "Jan 14 2026",
-    amount: 15000.00,
-   status: "paid" 
-  },
-  
-  {
-    id: "INV-2025-001",
-    type: "Internship",
-    client: "Swetha S",
-    date: "Jan 12 2026",
-    amount: 120000.00,
-   status: "paid" 
-  },
-  {
-    id: "INV-2025-000",
-    type: "Service",
-    client: "Naveen Kumar",
-    date: "Jan 01 2026",
-    amount: 50000.00,
-   status: "paid" 
-  },
-];
 
 const RecentInvoices: React.FC = () => {
+  const [invoices, setInvoices] = useState<Invoice[]>([])
+  const [showAll, setShowAll] = useState(false)
 
-  const [showAll, setShowAll] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getInvoices()
+      setInvoices(data)
+    }
 
-  const visibleInvoices = showAll ? invoices : invoices.slice(0,4);
+    fetchData()
+  }, [])
+
+  const visibleInvoices = showAll ? invoices : invoices.slice(0, 4)
 
   return (
-    <div className="border-[2px] border-black rounded-xl m-5 shadow-[5px_5px_10px_rgba(0,0,0,0.3)]">
+        <div className="border-[2px] border-black rounded-xl m-5 shadow-[5px_5px_10px_rgba(0,0,0,0.3)] ">
       <table className="w-[95%] mx-8 text-center">
-        
+
         <thead className="h-20  font-iceberg text-2xl">
           <tr className="border-0 border-b border-black flex justify-between items-center">
             <th className="p-4 text-start font-extralight text-3xl">
               Recent Transaction
             </th>
-
             <th
-              className=" mt-5 pr-5 text-blue-400 cursor-pointer"
+
+              className="mt-5 pr-5 text-blue-400 cursor-pointer"
               onClick={() => setShowAll(!showAll)}
             >
               {showAll ? "View Less" : "View All"}
@@ -114,21 +49,20 @@ const RecentInvoices: React.FC = () => {
         <tbody>
           {visibleInvoices.map((invoice) => (
             <tr
-              key={invoice.id}
-              className="w-[100%] hover:bg-gray-50 font-sanchez border-0 border-b border-black grid grid-cols-5"
-            >
-              <td className="p-4">{invoice.id}</td>
+              key={invoice.invoiceId}
+              className="w-[100%]  hover:bg-gray-50 font-sanchez border-0 border-b last:border-b-0 border-black grid grid-cols-5">
+              <td className="p-4 ">{invoice.invoiceId}</td>
               <td className="p-4">{invoice.client}</td>
               <td className="p-4">{invoice.type}</td>
               <td className="p-4">{invoice.date}</td>
-              <td className="p-4">{invoice.amount}</td>
+              <td className="p-4 ">{invoice.amount.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
 
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default RecentInvoices;
+export default RecentInvoices

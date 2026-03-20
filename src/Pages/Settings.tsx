@@ -33,7 +33,7 @@ const Settings = () => {
   }
 
   return (
-    <div className="w-full h-screen overflow-auto">
+    <div className="w-full h-screen ">
 
       {/* HEADER */}
 

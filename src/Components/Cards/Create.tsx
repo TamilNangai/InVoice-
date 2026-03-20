@@ -41,7 +41,7 @@ function Create(props: CreateProps) {
     <div className="flex items-center justify-center">
       <button
         onClick={() => setShow(true)}
-        className="flex bg-[#136CEDCC] font-iceberg text-2xl text-white px-2 py-1 mt-1 rounded-lg"
+        className="flex bg-[#136CEDCC] font-iceberg text-xl text-white px-2 py-2 mt-1 rounded-lg"
       >
         <img className="mt-2 h-4 mr-2" src={props.src1} />
         {props.h6}
@@ -119,7 +119,7 @@ function Create(props: CreateProps) {
             <div className="flex gap-3 items-center justify-end mt-5 mr-10">
               <button
                 onClick={() => setShow(false)}
-                className="flex font-iceberg text-2xl text-black px-5 py-2 rounded-lg border-2 border-gray-400"
+                className="flex font-iceberg text-xl text-black px-5 py-1 rounded-lg border-2 border-gray-400"
               >
                 Cancel
               </button>

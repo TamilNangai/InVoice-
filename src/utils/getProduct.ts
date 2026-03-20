@@ -1,49 +1,8 @@
-// import { collection, getDocs } from "firebase/firestore"
-// import { db } from "../firebase"
-
-// export type Product = {
-//   id: string
-//   name: string
-//   description: string
-//   category: string
-//   price: number
-// }
-
-// export const getProducts = async (): Promise<Product[]> => {
-
-//   try {
-
-//     const querySnapshot = await getDocs(
-//       collection(db, "Product-Details")
-//     )
-
-//     const products: Product[] = querySnapshot.docs.map((doc) => ({
-//       id: doc.id,
-//       name: doc.data().name,
-//       description: doc.data().description,
-//       category: doc.data().category,
-//       price: doc.data().price
-//     }))
-
-//     console.log("Fetched Products:", products)
-
-//     return products
-
-//   } catch (error) {
-
-//     console.error("Error fetching products:", error)
-
-//     return []
-
-//   }
-
-// }
-
 import { collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
 
 export type Product = {
-  id: string
+  invoiceId: string
   name: string
   description: string
   category: string
@@ -59,7 +18,7 @@ export const getProducts = async (): Promise<Product[]> => {
     const data = doc.data()
 
     return {
-      id: doc.id,
+      invoiceId: data.invoiceId || doc.id,
       name: data.name || "",
       description: data.description || "",
       category: data.category || "",

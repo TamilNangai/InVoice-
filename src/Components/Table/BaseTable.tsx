@@ -31,8 +31,8 @@ const Table = ({
 }: TableProps) => {
     return (
         <TableContext.Provider value={{ variant }}>
-            <div className=" overflow-hidden">
-                <table className={`w-full border-collapse ${className}`}>
+            <div className="overflow-hidden">
+                <table className={`w-full border-collapse  ${className}`}>
                     {children}
                 </table>
             </div>

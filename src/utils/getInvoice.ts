@@ -1,221 +1,73 @@
-// import { db } from "@/firebase"
-// import { collection, addDoc } from "firebase/firestore"
+import { db } from "@/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
-// type SaveInvoiceData = {
-//   invoiceType: string;
-
-//   invoiceId: string;
-
-//   student?: {
-//     studentName: string;
-//     email: string;
-//     phone: string;
-//     college: string;
-//   };
-
-//   program?: {
-//     internship: string;
-//     batch: string;
-//     start: string;
-//     trainer: string;
-//     enddate: string;
-//   };
-
-//   fees?: {
-//     training: number;
-//     certificate: number;
-//     tax: number;
-//     internship: number;
-//     discount: number;
-//   };
-
-//   customer?: {
-//     customer: string;
-//     email: string;
-//     office: string;
-//     gst: string;
-//     phone: string;
-//     address: string;
-//   };
-
-//   product?: 
-//     {
-//       productName: string,
-//       sub?:  string,
-//       price: number,
-//       tax:number
-//     }[];
-
-//   service?: {
-//     serviceName: string;
-//     price: number;
-//     tax: number;
-//   }[];
-
-
-//   price: {
-//     total: number;
-//     due: number;
-//     paid: number;
-//     duedate: string;
-//     paymentMethod: string;
-//   };
-// };
-
-
-// export const saveInvoice = async (data: SaveInvoiceData) => {
-
-//   try {
-
-//     await addDoc(collection(db, "invoices"), {
-//       ...data,
-//       createdAt: new Date()
-//     })
-
-//     console.log("Invoice saved successfully")
-
-//   } catch (error) {
-
-//     console.error("Error saving invoice", error)
-
-//   }
-
-// }
-
-
-// import { db } from "@/firebase"
-// import { collection, getDocs } from "firebase/firestore"
-
-// export const getInvoices = async () => {
-
-//   const snapshot = await getDocs(collection(db, "invoices"))
-
-//   const invoices = snapshot.docs.map((doc) => {
-
-//     const data: any = doc.data()
-
-//     return {
-
-//       id: data.invoiceId,
-
-//       type: data.invoiceType,
-
-//       client:
-//         data.student?.studentName ||
-//         data.customer?.customer ||
-//         data.product?.[0]?.productName ||
-//         data.service?.[0]?.serviceName ||
-//         "N/A",
-
-//       date: data.createdAt
-//         ? new Date(data.createdAt).toLocaleDateString()
-//         : "",
-
-//       amount: data.price?.total || 0,
-
-//       status: data.price?.due > 0 ? "Pending" : "Paid"
-
-//     }
-
-//   })
-
-//   return invoices
-
-// }
-
-
-// import { db } from "@/firebase"
-// import { collection, getDocs } from "firebase/firestore"
-
-// type Invoice = {
-//   id: string
-//   type: string
-//   client: string
-//   date: string
-//   amount: number
-//   status: "Paid" | "Pending"
-// }
-
-// export const getInvoices = async (): Promise<Invoice[]> => {
-
-//   const snapshot = await getDocs(collection(db, "invoices"))
-
-//   const invoices: Invoice[] = snapshot.docs.map((doc) => {
-
-//     const data: any = doc.data()
-
-//     const status: "Paid" | "Pending" =
-//       data.price?.due > 0 ? "Pending" : "Paid"
-
-//     return {
-//       id: data.invoiceId || doc.id,
-//       type: data.invoiceType || "",
-//       client:
-//         data.student?.studentName ||
-//         data.customer?.customer ||
-//         data.product?.[0]?.productName ||
-//         data.service?.[0]?.serviceName ||
-//         "N/A",
-//       date: data.createdAt
-//         ? new Date(data.createdAt).toLocaleDateString()
-//         : "",
-//       amount: data.price?.total || 0,
-//       status
-//     }
-
-//   })
-
-//   return invoices
-
-// }
-
-
-import { db } from "@/firebase"
-import { collection, getDocs } from "firebase/firestore"
-
-type Invoice = {
-  id: string
-  type: string
-  client: string
-  date: string
-  amount: number
-  status: "paid" | "pending" | "overdue"
-}
+export type Invoice = {
+  uniqueId: string;  // 🔹 NEW
+  invoiceId: string;
+  type: string;
+  client: string;
+  date: string;
+  amount: number;
+  status: "paid" | "pending" |"overdue";
+  pending: number;
+  sub: string;
+};
 
 
 
 export const getInvoices = async (): Promise<Invoice[]> => {
-
-  const snapshot = await getDocs(collection(db, "invoices"))
+  const snapshot = await getDocs(collection(db, "invoices"));
 
   const invoices: Invoice[] = snapshot.docs.map((doc) => {
-
-    const data: any = doc.data()
-
+    const data: any = doc.data();
     const status: "paid" | "pending" =
-      data.price?.due > 0 ? "pending" : "paid"
+      data.price?.due && data.price.due > 0 ? "pending" : "paid";
+
+    const getFormattedDate = (createdAt: any) => {
+      if (!createdAt) return "";
+
+      const dateObj = createdAt.toDate
+        ? createdAt.toDate()
+        : new Date(createdAt);
+
+      return dateObj
+        .toLocaleDateString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(",", "");
+    };
+
+
 
     return {
-      id: doc.id,   // ✅ Firestore unique id
-      type: (data.invoiceType || "").toLowerCase(),
+
+      uniqueId: doc.id,          
+      invoiceId: data.invoiceId || doc.id,
+      type: data.invoiceType || "",
       client:
         data.student?.studentName ||
         data.customer?.customer ||
         data.product?.[0]?.productName ||
         data.service?.[0]?.serviceName ||
         "N/A",
-      // date: data.createdAt
-      //   ? new Date(data.createdAt).toLocaleDateString()
-      //   : "",
-      date: new Date(data.createdAt).toLocaleDateString("en-IN"),
-
+      // sub: data.sub || "" ,
+      sub:
+        data.product?.[0]?.productName ||          
+        data.program?.internship ||       
+        data.service?.[0]?.serviceName ||  
+        "",
+      // sub: String(data.price?.subTotal || 0),
+      pending: data.price?.due || 0,
+      date: getFormattedDate(data.createdAt),
       amount: data.price?.total || 0,
-      status
-    }
+      status,
+    };
+  });
 
-  })
+  // Optional: sort latest first
+  invoices.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  return invoices
-
-}
-
+  return invoices;
+};

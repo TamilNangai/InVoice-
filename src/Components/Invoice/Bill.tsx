@@ -1,5 +1,12 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
+import { getSettings } from "@/utils/getSettings";
 
+type CompanyData = {
+    companyName: string;
+    companyEmail: string;
+    companyPhone: string;
+    companyAddress: string;
+};
 
 type BillProps = {
 
@@ -136,6 +143,43 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
     } = props;
 
+   // STATE
+    const [company, setCompany] = useState<CompanyData>({
+        companyName: "",
+        companyEmail: "",
+        companyPhone: "",
+        companyAddress: "",
+    });
+
+    // FETCH FROM FIREBASE
+    useEffect(() => {
+
+        if (companyName && companyEmail) return;
+
+        const fetchCompany = async () => {
+            const data = await getSettings();
+            if (data) {
+                setCompany({
+                    companyName: data.companyName || "",
+                    companyEmail: data.companyEmail || "",
+                    companyPhone: data.companyPhone || "",
+                    companyAddress: data.companyAddress || "",
+                });
+            }
+        };
+
+        fetchCompany();
+
+    }, [companyName, companyEmail]);
+
+    const Company = {
+        companyName: companyName || company.companyName || "",
+        companyEmail: companyEmail || company.companyEmail || "",
+        companyPhone: companyPhone || company.companyPhone || "",
+        companyAddress: companyAddress || company.companyAddress || "",
+    };
+
+
     return (
 
         <div
@@ -147,21 +191,20 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 <div className="flex justify-between items-start">
 
-                    <div>
+ <div>
+                    <h1 className="text-[32px] font-iceberg">
+                        {Company.companyName}
+                    </h1>
 
-                        <h1 className="font-iceberg text-[32px]">
-                            {companyName}
-                        </h1>
+                    <p className="text-[14px] font-sanchez">
+                        {Company.companyAddress}
+                    </p>
 
-                        <p className="font-sanchez text-[13px]">
-                            {companyAddress}
-                        </p>
-
-                        <p className="font-sanchez text-[13px]">
-                            {companyEmail}  | +91 {companyPhone}
-                        </p>
-
-                    </div>
+                    <p className="text-[14px] font-sanchez">
+                        {Company.companyEmail} | +91 {Company.companyPhone}
+                        
+                    </p>
+                </div>
 
                     <div>
                         {button}
@@ -507,5 +550,288 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 });
 
 Bill.displayName = "Bill";
-
 export default Bill;
+// export default Bill;
+
+
+// import React, { forwardRef, useEffect, useState } from "react";
+// import { getSettings } from "@/utils/getSettings";
+
+// type BillProps = {
+
+//     data?: any
+
+//     onPrint: () => void
+
+//     companyName?: string
+//     companyEmail?: string
+//     companyPhone?: string
+//     companyAddress?: string
+// };
+// const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
+
+//     const {
+    
+
+//         // ✅ PROPS (FIRST PRIORITY)
+//         companyName,
+//         companyEmail,
+//         companyPhone,
+//         companyAddress,
+
+//         onPrint
+
+//     } = props;
+
+//     // ✅ LOCAL STATE (FALLBACK)
+//     const [company, setCompany] = useState({
+//         companyName: "",
+//         companyEmail: "",
+//         companyPhone: "",
+//         companyAddress: "",
+//     });
+
+//     // ✅ FETCH ONLY IF PROPS NOT AVAILABLE
+//     useEffect(() => {
+
+//         if (companyName && companyEmail) return; // already coming from props
+
+//         const fetchCompany = async () => {
+//             const data = await getSettings();
+//             if (data) setCompany(data);
+//         };
+
+//         fetchCompany();
+
+//     }, [companyName, companyEmail]);
+
+//     // ✅ FINAL DATA (props > firebase > default)
+//     const finalCompany = {
+//         companyName: companyName || company.companyName || "Your Company",
+//         companyEmail: companyEmail || company.companyEmail || "",
+//         companyPhone: companyPhone || company.companyPhone || "",
+//         companyAddress: companyAddress || company.companyAddress || "",
+//     };
+
+//     return (
+
+//         <div
+//             ref={ref}
+//             className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
+//         >
+
+//             {/* HEADER */}
+
+//             <div className="flex justify-between items-start">
+
+//                 <div>
+
+//                     <h1 className="font-iceberg text-[32px]">
+//                         {finalCompany.companyName}
+//                     </h1>
+
+//                     <p className="font-sanchez text-[13px]">
+//                         {finalCompany.companyAddress}
+//                     </p>
+
+//                     <p className="font-sanchez text-[13px]">
+//                         {finalCompany.companyEmail}
+//                         {finalCompany.companyPhone ? ` | +91 ${finalCompany.companyPhone}` : ""}
+//                     </p>
+
+//                 </div>
+
+//                 <div>
+//                     {button}
+//                 </div>
+
+//             </div>
+
+//             <hr className="my-4 border-[#00000040]" />
+
+//             {/* REST OF YOUR CODE = NO CHANGE */}
+
+//             <div className="flex justify-between">
+
+//                 <div>
+
+//                     <p className="font-iceberg text-[18px] mb-2">
+//                         BILL TO
+//                     </p>
+
+//                     <p className="font-iceberg text-[18px]">
+//                         {name}
+//                     </p>
+
+//                     <p className="font-sanchez text-[18px]">
+//                         {email}
+//                     </p>
+
+//                     <p className="font-sanchez text-[18px]">
+//                         {phone}
+//                     </p>
+
+//                     <p className="font-sanchez text-[18px]">
+//                         {college}
+//                     </p>
+
+//                 </div>
+
+//                 <div className="text-right">
+
+//                     <p className="font-iceberg text-[18px]">
+//                         Invoice Details
+//                     </p>
+
+//                     <p className="font-sanchez text-[18px]">
+//                         Invoice #: {invoiceid}
+//                     </p>
+
+//                     {type === "internship" && <>
+//                         <p className="font-sanchez text-[18px]">
+//                             Date: {date}
+//                         </p>
+
+//                         <p className="font-sanchez text-[18px]">
+//                             Due Date: {duedate}
+//                         </p>
+//                     </>}
+
+//                 </div>
+
+//             </div>
+
+//             {/* KEEP REST SAME */}
+
+//         </div>
+//     );
+// });
+
+// Bill.displayName = "Bill";
+
+// export default Bill;
+
+
+// import React, { forwardRef, useEffect, useState } from "react";
+// import { getSettings } from "@/utils/getSettings";
+
+// // ✅ TYPE
+// type CompanyData = {
+//     companyName: string;
+//     companyEmail: string;
+//     companyPhone: string;
+//     companyAddress: string;
+// };
+
+// type BillProps = {
+//     onPrint: () => void;
+
+//     // optional button
+//     button?: React.ReactNode;
+
+//     // company (optional → fallback from firebase)
+//     companyName?: string;
+//     companyEmail?: string;
+//     companyPhone?: string;
+//     companyAddress?: string;
+// };
+
+// const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
+
+//     const {
+//         button,
+//         onPrint,
+
+//         companyName,
+//         companyEmail,
+//         companyPhone,
+//         companyAddress,
+//     } = props;
+
+//     // ✅ STATE
+//     const [company, setCompany] = useState<CompanyData>({
+//         companyName: "",
+//         companyEmail: "",
+//         companyPhone: "",
+//         companyAddress: "",
+//     });
+
+//     // ✅ FETCH FROM FIREBASE
+//     useEffect(() => {
+
+//         if (companyName && companyEmail) return;
+
+//         const fetchCompany = async () => {
+//             const data = await getSettings();
+//             if (data) {
+//                 setCompany({
+//                     companyName: data.companyName || "",
+//                     companyEmail: data.companyEmail || "",
+//                     companyPhone: data.companyPhone || "",
+//                     companyAddress: data.companyAddress || "",
+//                 });
+//             }
+//         };
+
+//         fetchCompany();
+
+//     }, [companyName, companyEmail]);
+
+//     // ✅ FINAL DATA
+//     const finalCompany = {
+//         companyName: companyName || company.companyName || "Your Company",
+//         companyEmail: companyEmail || company.companyEmail || "",
+//         companyPhone: companyPhone || company.companyPhone || "",
+//         companyAddress: companyAddress || company.companyAddress || "",
+//     };
+
+//     return (
+
+//         <div
+//             ref={ref}
+//             className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
+//         >
+
+//             {/* HEADER */}
+//             <div className="flex justify-between items-start">
+
+//                 <div>
+//                     <h1 className="text-[32px] font-bold">
+//                         {finalCompany.companyName}
+//                     </h1>
+
+//                     <p className="text-[13px]">
+//                         {finalCompany.companyAddress}
+//                     </p>
+
+//                     <p className="text-[13px]">
+//                         {finalCompany.companyEmail}
+//                         {finalCompany.companyPhone
+//                             ? ` | +91 ${finalCompany.companyPhone}`
+//                             : ""}
+//                     </p>
+//                 </div>
+
+//                 <div>{button}</div>
+
+//             </div>
+
+//             <hr className="my-4 border-[#00000040]" />
+
+//             {/* PRINT BUTTON */}
+//             <div className="flex justify-end mt-6">
+//                 <button
+//                     onClick={onPrint}
+//                     className="bg-blue-500 text-white px-6 py-2 rounded-md"
+//                 >
+//                     Print
+//                 </button>
+//             </div>
+
+//         </div>
+//     );
+// });
+
+// Bill.displayName = "Bill";
+
+// export default Bill;

@@ -8,7 +8,7 @@ import vectorw from '@/assets/Vectorw.png'
 const Products = () => {
   return (
     <>
-      <div className="w-full h-screen overflow-auto">
+      <div className="w-full h-screen ">
         <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
         <Header h1="Products & Inverntory"
           para="Manage Your product catalog and service offerings." />

@@ -1,10 +1,11 @@
-import { Invoice } from "@/Components/Table/Reporttable"
+import { Invoice } from "@/utils/getInvoice"
 
 
 export const reportAnalytics = (
     invoices: Invoice[],
     mode: "monthly" | "yearly" = "monthly",
     filter: "overall" | "internship" | "product" | "service" | "other" = "overall"
+    
 ) => {
 
     
@@ -32,7 +33,7 @@ export const reportAnalytics = (
 
     // ✅ FILTER BY TYPE (Radiogroup)
     const finalInvoices = filteredByTime.filter(inv => {
-        const type = inv.type.toLowerCase() 
+        const type = (inv.type || "").toLowerCase()
         if (filter === "overall") return true
         if (filter === "internship") return type === "internship"
         if (filter === "product") return type === "product"
@@ -45,7 +46,7 @@ export const reportAnalytics = (
     const data = finalInvoices
 
 
-    /* ================= TOTAL REVENUE ================= */
+//     /* ================= TOTAL REVENUE ================= */
 
    
     const totalRevenue = data.reduce(
@@ -58,7 +59,7 @@ export const reportAnalytics = (
     const totalInvoices = data.length
 
 
-    /* ================= PAID ================= */
+//     /* ================= PAID ================= */
 
     const paidInvoices = data.filter(
         inv => inv.status === "paid"
@@ -82,7 +83,7 @@ export const reportAnalytics = (
     const pendingCount = pendingInvoices.length
 
 
-    /* ================= OVERDUE ================= */
+//     /* ================= OVERDUE ================= */
 
     const overdueInvoices = data.filter(
         inv => inv.status === "overdue"
@@ -103,14 +104,14 @@ export const reportAnalytics = (
     ).size
 
 
-    /* ================= COLLECTION RATE ================= */
+//     /* ================= COLLECTION RATE ================= */
 
     const collectionRate = data.length
         ? Math.round((paidCount / data.length) * 100)
         : 0
 
 
-    /* ================= MONTHLY GROWTH ================= */
+//     /* ================= MONTHLY GROWTH ================= */
 
     
 
@@ -140,13 +141,20 @@ export const reportAnalytics = (
         })
         .reduce((sum, inv) => sum + inv.amount, 0)
 
-    const growth =
-        lastMonthRevenue === 0
-            ? 0
-            : ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
+    
 
 
-    /* ================= REVENUE BY TYPE ================= */
+    const growthValue =
+        !isNaN(thisMonthRevenue) && !isNaN(lastMonthRevenue) && lastMonthRevenue !== 0
+            ? ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
+            : 0
+
+    
+    
+
+
+
+//     /* ================= REVENUE BY TYPE ================= */
 
     const product = data
         .filter(inv => inv.type.toLowerCase() === "product")
@@ -197,7 +205,7 @@ export const reportAnalytics = (
         collectionRate,
 
         // Growth
-        growth: growth.toFixed(0),
+        growth: growthValue.toFixed(0),
 
         // Revenue Bars
         productPercent,
