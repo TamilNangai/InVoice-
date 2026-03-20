@@ -218,7 +218,7 @@ const Reports = () => {
         </div>
       </div>
 
-      <div ref={captureRef} className="bg-white p-5" style={{ position: "absolute", left: "-9999px", top: 0 }}>
+      <div ref={captureRef} className="bg-white p-5" style={{  }}>
         {allReports.map((section, i) => (
           <div key={i} className="mb-10">
             <h2 className="text-2xl font-bold mb-4">{section.title}</h2>
