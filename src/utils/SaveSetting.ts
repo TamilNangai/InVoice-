@@ -22,13 +22,13 @@ export const saveSettings = async (data: SaveSettingData) => {
 
     await setDoc(doc(db, "company-Details", "company"), companyData);
 
-    console.log("Company saved:", companyData);
+    // console.log("Company saved:", companyData);
 
     alert("Settings Saved Successfully!");
 
   } catch (error) {
 
-    console.error("Error saving settings:", error);
+    // console.error("Error saving settings:", error);
 
     alert("Failed to Save Settings");
 

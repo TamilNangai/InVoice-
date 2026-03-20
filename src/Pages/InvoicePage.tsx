@@ -140,7 +140,7 @@ const InvoicePage = () => {
 
       {/* ✅ Pass filtered data */}
       <div className="w-full flex justify-center">
-        {/* <InvoicedetailsTable invoices={filteredInvoices} /> */}
+        <InvoicedetailsTable invoices={filteredInvoices} />
       </div>
     </section>
   );

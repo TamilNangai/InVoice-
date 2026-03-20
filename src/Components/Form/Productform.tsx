@@ -115,7 +115,7 @@ const ProductForm: React.FC<Props> = ({
 
   return (
 
-    <div className="p-6 rounded-2xl border border-black shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white">
+    <div className="p-6 rounded-2xl border border-black shadow-[5px_5px_15px_rgba(0,0,0,0.2)] bg-white">
 
       <h2 className="text-xl font-iceberg mb-6 font-bold pl-2">
         {title}

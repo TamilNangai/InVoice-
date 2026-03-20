@@ -52,7 +52,7 @@ const ProgramForm = ({ data, setData }: Props) => {
   };
 
   return (
-    <main className="p-6 font-iceberg rounded-xl border border-black shadow">
+    <main className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_15px_rgba(0,0,0,0.2)]">
 
       <h2 className="text-xl font-semibold mb-4 pl-8">Program Details</h2>
 
