@@ -69,8 +69,7 @@ const ProgramForm = ({ data, setData }: Props) => {
             placeholder="Web Development Internship"
             required
           />
-          {errors.internship && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.internship}</p>}
-
+          
           <InputField
             label="Batch Name"
             name="batch"
@@ -79,8 +78,7 @@ const ProgramForm = ({ data, setData }: Props) => {
             onBlur={handleBlur}
             required
           />
-          {errors.batch && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.batch}</p>}
-
+         
           <InputField
             label="Start Date"
             type="date"
@@ -90,8 +88,7 @@ const ProgramForm = ({ data, setData }: Props) => {
             onBlur={handleBlur}
             required
           />
-          {errors.start && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.start}</p>}
-
+          
         </div>
 
         <div className="mt-20">
@@ -114,8 +111,7 @@ const ProgramForm = ({ data, setData }: Props) => {
             onBlur={handleBlur}
             required
           />
-          {errors.enddate && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.enddate}</p>}
-
+         
         </div>
 
       </section>

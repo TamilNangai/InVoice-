@@ -168,7 +168,7 @@ export const reportAnalytics = (
         .filter(inv => inv.type.toLowerCase() === "internship")
         .reduce((sum, inv) => sum + inv.amount, 0)
 
-
+ 
     const totalType = product + service + internship
 
     const productPercent = totalType

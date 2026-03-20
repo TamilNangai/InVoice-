@@ -184,15 +184,18 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
         <div
             ref={ref}
-            className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white flex flex-col items-center justify-between"
-        >
+            className="w-full border border-[#00000040] rounded-xl p-6 bg-white flex flex-col justify-between"
+            style={{ pageBreakInside: "avoid" }} >
             <main className="w-full">
                 {/* HEADER */}
 
-                <div className="flex justify-between items-start">
+                {/* className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white flex flex-col items-center justify-between" */}
+                <div className="flex justify-between items-start gap-4">
+
 
  <div>
-                    <h1 className="text-[32px] font-iceberg">
+                    <h1 className="text-[32px] font-iceberg leading-none">
+
                         {Company.companyName}
                     </h1>
 
@@ -214,6 +217,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
 
                 <hr className="my-4 border-[#00000040]" />
+
 
 
                 {/* BILL TO */}
@@ -274,7 +278,8 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 {type === "internship" ? (
 
-                    <div className="border border-[#00000080] rounded-xl p-4 mt-5">
+                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
+
 
                         <p className="font-sanchez text-[18px]">
                             {boxhead}
@@ -299,19 +304,20 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                     </div>
 
                 ) : (
-                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
+                        <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
 
-                        <div className="w-1/3">
+
+                        <div className="w-1/3 text-center">
                             <p className="font-iceberg text-[18px]">Invoice Date</p>
                             <p className="font-sanchez text-[18px]">{boxdate}</p>
                         </div>
 
-                        <div className="w-1/3">
+                        <div className="w-1/3 text-center">
                             <p className="font-iceberg text-[18px]">Due Date</p>
                             <p className="font-sanchez text-[18px]">{boxduedate}</p>
                         </div>
 
-                        <div className="w-1/3">
+                        <div className="w-1/3 text-center">
                             <p className="font-iceberg text-[18px]">Reference</p>
                             <p className="font-sanchez text-[18px]">{boxreference}</p>
                         </div>
@@ -516,7 +522,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 {/* TERMS */}
 
-                <div className="mt-6">
+                <div className="mt-6 print:hidden">
 
                     <p className="font-iceberg text-[18px]">
                         Terms & Conditions:
@@ -531,7 +537,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 {/* PRINT */}
 
-                <div className="flex justify-end mt-6">
+                <div className="flex justify-end mt-6 print:hidden">
 
                     <button
                         onClick={onPrint}

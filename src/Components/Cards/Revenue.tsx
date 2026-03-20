@@ -11,8 +11,13 @@ type RevenueProps = {
     }
 }
 
+
+
 const Revenue = ({ data }: RevenueProps) => {
     if (data === undefined) return <div>Loading...</div>;
+
+   
+
     return (
         <div 
  className="w-[100%] h-[330px]  flex flex-col  p-5 gap-7 rounded-[12px] border-[2px] border-[#000000] shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
@@ -28,7 +33,9 @@ const Revenue = ({ data }: RevenueProps) => {
                     <span style={{ width: `${data.productPercent}%` }} className="absolute  h-[8px] rounded-full  bg-[#34C759]"></span>
                     </div>
                 {/* </div> */}
-                <p className="sanchez-regular text-[12px] leading-[22px] text-[#34C759]">{data.productAmount ?? 0}</p>
+                <p className="sanchez-regular text-[12px] leading-[22px] text-[#34C759]">{(data.productAmount ?? 0).toLocaleString("en-IN", {
+                    maximumFractionDigits: 0,
+                })}</p>
             </div>
             {/* service */}
             <div>
@@ -41,7 +48,9 @@ const Revenue = ({ data }: RevenueProps) => {
                         <span style={{ width: `${data.servicePercent}%` }} className="absolute h-[8px] rounded-full  bg-[#FFCC00]"></span>
                     </div>
                 {/* </div> */}
-                <p className="sanchez-regular text-[12px] leading-[22px] text-[#FFCC00]">{data.serviceAmount ?? 0}</p>
+                <p className="sanchez-regular text-[12px] leading-[22px] text-[#FFCC00]">{(data.serviceAmount ?? 0).toLocaleString("en-IN", {
+                    maximumFractionDigits: 0,
+                })}</p>
             </div>
             {/* internship */}
             <div>
@@ -54,7 +63,9 @@ const Revenue = ({ data }: RevenueProps) => {
                     <span style={{ width: `${data.internshipPercent}%` }} className="absolute  h-[8px] rounded-full  bg-[#FF383C]"></span>
                     </div>
                 {/* </div> */}
-                <p className="sanchez-regular text-[12px] leading-[22px] text-[#FF383C] ">{data.internshipAmount ?? 0}</p>
+                <p className="sanchez-regular text-[12px] leading-[22px] text-[#FF383C] ">{(data.internshipAmount ?? 0).toLocaleString("en-IN", {
+                    maximumFractionDigits: 0,
+                })}</p>
             </div>
         </div>
     )

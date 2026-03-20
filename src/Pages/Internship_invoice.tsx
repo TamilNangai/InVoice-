@@ -408,7 +408,7 @@ const Internship_invoice = () => {
             taxPercent={invoiceData.fees.tax}
             paymentMethod={invoiceData.price.paymentMethod}
 
-            conditionPara="Payment is due within 7 days of invoice issuance. Fees are non-refundable once the internship program has commenced."
+              conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced. This internship does not guarantee full-time employment. Certificate will be issued upon successful completion of all assigned projects."
           />
 
         </div>

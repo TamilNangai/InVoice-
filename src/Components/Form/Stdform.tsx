@@ -92,8 +92,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             required
           />
 
-          {errors.studentName && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.studentName}</p>}
-
+          
           <InputField
             label="College Name"
             name="college"
@@ -104,8 +103,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             required
           />
 
-          {errors.college && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.college}</p>}
-
+         
         </div>
 
         <div>
@@ -123,8 +121,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
           />
 
           
-          {touched.phone && errors.phone && (<p className="text-red-500 text-xs font-sanchez mb-4">{errors.phone}</p>)}
-
+          
 
           <InputField
             label="Email Address"
@@ -137,8 +134,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             required
           />
 
-          {errors.email && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.email}</p>}
-
+         
         </div>
 
       </section>

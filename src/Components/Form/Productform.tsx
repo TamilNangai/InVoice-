@@ -248,7 +248,6 @@ const ProductForm: React.FC<Props> = ({
           </button>
 
         </div>
-         { errors[`productName-${index}`] && <p className="text-red-500 text-xs font-sanchez my-4 col-span-full">{errors[`productName-${index}`]}</p> }   
          </div>
 
       ))}

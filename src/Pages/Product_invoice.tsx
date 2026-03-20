@@ -393,7 +393,7 @@ const Product_invoice = () => {
 
             paymentMethod={invoiceData.price.paymentMethod}
 
-            conditionPara="Payment is due within 7 days of invoice issuance."
+            conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
 
             onPrint={handlePrintAndSave}
 
