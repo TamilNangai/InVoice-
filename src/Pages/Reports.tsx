@@ -45,7 +45,7 @@ const Reports = () => {
         }
     }
 
-
+ 
 
   useEffect(() => {
     const loadData = async () => {
@@ -115,13 +115,20 @@ const Reports = () => {
 
         <div className="w-full flex justify-center items-center ">
           <div className="w-[50%] m-5  grid grid-cols-2 gap-[30px]  place-items-center ">
-                      < Cards head="Total Revenue" amount={report.totalRevenue || 0} para={`${report.growth || 0}% from last month`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
-                      < Cards head="Paid Invoice" amount={report.paidCount || 0}
-                          para={`${report.collectionRate || 0}% Collection rate`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
-                      < Cards head="Pending Amount" amount={report.pendingAmount || 0}
-                          para={`${report.pendingCount || 0} Invoice pending`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px]  text-[#FFCC00] " />
-                      < Cards head="Overdue" amount={report.overdueAmount || 0}
-                          para={`${report.overdueCount || 0} invoice overdue`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FF383C]" />
+            < Cards head="Total Revenue" amount={report?.totalRevenue ?? 0} para={`${report?.growth || 0}% from last month`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
+
+
+                      < Cards head="Paid Invoice" amount={report?.paidCount ?? 0}
+                          para={`${report?.collectionRate ?? 0}% Collection rate`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
+
+
+
+            < Cards head="Pending Amount" amount={report?.pendingAmount ?? 0} 
+              para={`${report?.pendingCount ?? 0} Invoice pending`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px]  text-[#FFCC00] " />
+
+                          
+            < Cards head="Overdue" amount={report?.overdueAmount ?? 0}
+              para={`${report?.overdueCount ?? 0} invoice overdue`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FF383C]" />
           </div>
                   {report && <div className="w-[50%] mr-10 pl-3"><Revenue data={report} />
 </div>}

@@ -73,9 +73,9 @@ service billing"
 
                         <div className="w-full max-h-40 flex justify-center gap-5 items-center mt-5 px-5 ">
                                 
-                    < Cards head="Total Revenue" symbol="$" amount={report.totalRevenue || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                    < Cards head="Total Revenue" symbol="₹" amount={report.totalRevenue || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
                     < Cards head="Invoice Issued" amount={report.totalInvoices || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                    < Cards head="Pending Payments" symbol="$" amount={report.pendingAmount || 0}
+                    < Cards head="Pending Payments" symbol="₹" amount={report.pendingAmount || 0}
                         para={`- ${report.pendingCount || 0} Invoice Pending`} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
                     < Cards head="Clients" amount={report.uniqueClients || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
 
