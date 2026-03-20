@@ -116,7 +116,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
-          {errors.customer && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.customer}</p>}
+          
 
           <InputField
             label="Email Address"
@@ -129,7 +129,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             required
             pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
           />
-          {errors.email && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.email}</p>}
+       
 
           <InputField
             label="Office Name"
@@ -140,7 +140,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
-          {errors.office && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.office}</p>}
+          
 
           <InputField
             label="GST Number"
@@ -153,7 +153,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$"
           />
 
-          {errors.gst && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.gst}</p>}
 
         </div>
 
@@ -170,7 +169,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             maxLength={10}
             required
           />
-          {errors.phone && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.phone}</p>}
 
           <InputField
             label="Office Address"
@@ -181,7 +179,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
-          {errors.address && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.address}</p>}
 
         </div>
 

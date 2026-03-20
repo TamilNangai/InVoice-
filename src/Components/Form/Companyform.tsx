@@ -26,7 +26,7 @@ const CompanyForm = ({ data, setData }: Props) => {
 
   return (
 
-    <div className="p-6 mx-5 mt-5 rounded-xl font-iceberg border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.5)]">
+    <div className="p-6 mx-5 mt-5 rounded-xl font-iceberg border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
 
       <h2 className="text-[28px] font-extralight pl-5">
         Company Details
@@ -49,17 +49,15 @@ const CompanyForm = ({ data, setData }: Props) => {
             required
           />
 
-           <InputField
-            label="Email Address"
+          <InputField
+            label="Company Email"
+            name="companyEmail"
             type="email"
-            name="email"
             value={data.companyEmail}
             onChange={handleChange}
-            placeholder="swetha@gmail.com"
+            placeholder="sweatha@gmail.com"
             required
           />
-
-
 
         </div>
 

@@ -11,7 +11,7 @@ import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
-
+import { getFunctions, httpsCallable } from "firebase/functions"
 
 
 type Product = {
@@ -139,6 +139,8 @@ const Product_invoice = () => {
 
     if (!validateForm(formRef.current)) return
 
+
+    
     /* CUSTOMER VALIDATION */
 
     const { customer, email, office, phone, address } = invoiceData.customer
@@ -391,7 +393,7 @@ const Product_invoice = () => {
 
             paymentMethod={invoiceData.price.paymentMethod}
 
-            conditionPara="Payment is due within 7 days of invoice issuance."
+            conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
 
             onPrint={handlePrintAndSave}
 

@@ -184,7 +184,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
         <div
             ref={ref}
-            className="w-full border border-[#00000040] rounded-xl p-6 bg-white"
+            className="w-full border border-[#00000040] rounded-xl p-6 bg-white flex flex-col justify-between"
             style={{ pageBreakInside: "avoid" }} >
             <main className="w-full">
                 {/* HEADER */}
@@ -557,6 +557,8 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
 Bill.displayName = "Bill";
 export default Bill;
+
+
 // export default Bill;
 
 

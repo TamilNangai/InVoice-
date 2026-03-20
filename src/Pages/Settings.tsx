@@ -50,6 +50,7 @@ const Settings = () => {
             src1=""
             src2=""
             onClick={handleSave}
+            
           />
         </div>
       </div>

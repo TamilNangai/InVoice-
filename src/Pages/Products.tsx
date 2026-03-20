@@ -33,10 +33,6 @@ const Products = () => {
           <ProductTable />
           </div>
         </div>
-
-
-     
-
     </>
   )
 }

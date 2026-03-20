@@ -17,10 +17,8 @@ type AddProps = {
 
 function Add(props: AddProps) {
 
-
-    
     const [show, setShow] = useState(false)
-
+const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -36,41 +34,72 @@ function Add(props: AddProps) {
         }))
     }
 
-    const handleSave = async () => {
+    // const handleSave = async () => {
 
-        try {
+    //     try {
 
-            await saveProduct({
-                name: formData.name,
-                description: formData.description,
-                category: formData.category,
-                price: Number(formData.price)
-            })
-            window.location.reload()
+    //         await saveProduct({
+    //             name: formData.name,
+    //             description: formData.description,
+    //             category: formData.category,
+    //             price: Number(formData.price)
+    //         })
+    //         window.location.reload()
 
-            console.log("Product saved")
+    //         console.log("Product saved")
 
-            alert("Product saved successfully!")
+    //         alert("Product saved successfully!")
 
-            setShow(false)
+    //         setShow(false)
 
-            setFormData({
-                name: "",
-                description: "",
-                category: "",
-                price: ""
-            })
+    //         setFormData({
+    //             name: "",
+    //             description: "",
+    //             category: "",
+    //             price: ""
+    //         })
 
-        } catch (error) {
+    //     } catch (error) {
 
-            console.error("Error saving:", error)
+    //         console.error("Error saving:", error)
 
-            alert("Failed to save product")
+    //         alert("Failed to save product")
 
-        }
+    //     }
 
+    // }
+const handleSave = async () => {
+    if (loading) return // ✅ prevent multiple clicks
+    setLoading(true) // ✅ start loading
+
+    try {
+        await saveProduct({
+            name: formData.name,
+            description: formData.description,
+            category: formData.category,
+            price: Number(formData.price)
+        })
+          window.location.reload()
+
+        console.log("Product saved")
+        alert("Product saved successfully!")
+
+        // reset form and close modal
+        setFormData({
+            name: "",
+            description: "",
+            category: "",
+            price: ""
+        })
+        setShow(false)
+
+    } catch (error) {
+        console.error("Error saving:", error)
+        alert("Failed to save product")
+    } finally {
+        setLoading(false) // ✅ re-enable button
     }
-    
+}
 
     return (
         <section>
@@ -175,12 +204,22 @@ function Add(props: AddProps) {
                                 Cancel
                             </button>
 
-                            <button
+                            {/* <button
                                 onClick={handleSave}
                                 className="bg-[#136CED] text-white px-5 py-2 rounded-lg font-iceberg"
                             >
                                 Save Changes
-                            </button>
+                            </button> */}
+
+                        <button
+    onClick={handleSave}
+    disabled={loading}
+    className={`bg-[#136CED] text-white px-5 py-2 rounded-lg font-iceberg ${
+        loading ? "opacity-50 cursor-not-allowed" : ""
+    }`}
+>
+    {loading ? "Saving..." : "Save Changes"}
+</button>
                         </div>
 
                     </div>

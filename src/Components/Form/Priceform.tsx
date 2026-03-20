@@ -137,7 +137,6 @@ const PriceForm = ({ data, setData }: Props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {errors.paid && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.paid}</p>}
 
 
 
@@ -151,7 +150,6 @@ const PriceForm = ({ data, setData }: Props) => {
             onBlur={handleBlur}
            
           />
-          {errors.duedate && <p className="text-red-500 text-xs font-sanchez mb-4">{errors.duedate}</p>}
 
         </div>
 
@@ -174,12 +172,7 @@ const PriceForm = ({ data, setData }: Props) => {
             className="py-2 px-3 border-2 border-black rounded-md"
            
           >
-            {errors.paymentMethod && (
-              <p className="text-red-500 text-xs">
-                {errors.paymentMethod}
-              </p>
-            )}
-
+            
 
 
             <option value="">Select Payment Method</option>

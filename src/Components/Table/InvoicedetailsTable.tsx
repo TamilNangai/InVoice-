@@ -16,8 +16,6 @@ export type Invoice = {
     sub?: string;          
 };
 
- 
-
 interface InvoiceDetailsTableProps {
     invoices: Invoice[];
 }
@@ -83,7 +81,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices }) =
                                 </div>
                             </BaseTable.Cell>
                             <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {item.amount}/-</div></BaseTable.Cell>
-                            <BaseTable.Cell><span className={`font-medium text-[16px] font-sanchez text-center ${statusColor(item.status)}`} >• {item.status}</span></BaseTable.Cell>
+                            <BaseTable.Cell><span className={`font-medium text-[16px] font-sanchez text-center ${statusColor(item.status)}`} >•   {item.status}</span></BaseTable.Cell>
                             <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {item.pending}/-</div></BaseTable.Cell>
                             <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">{item.date}</div></BaseTable.Cell>
                             <BaseTable.Cell>  <div className="flex justify-center items-center">

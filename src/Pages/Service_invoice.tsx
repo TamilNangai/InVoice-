@@ -207,10 +207,9 @@ const Service_invoice = () => {
       return
     }
 
-    // ✅ CONFIRMATION BEFORE SAVE
     const confirm = await showConfirm("Do you want to save this invoice?");
 
-    if (!confirm.isConfirmed) return; // ⛔ user cancelled
+    if (!confirm.isConfirmed) return; 
 
     
     await saveAndPrint({
