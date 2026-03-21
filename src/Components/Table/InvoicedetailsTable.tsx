@@ -2,6 +2,11 @@ import { useState } from "react";
 import BaseTable from "./BaseTable";
 import { getInvoices } from "@/utils/getInvoice";
 import { useEffect } from "react";
+import EditInvoiceModal from "@/Components/Invoice/EditInvoiceModal";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+import download from "@/assets/download.png"
+
 
 
 export type Invoice = {
@@ -18,10 +23,17 @@ export type Invoice = {
 
 interface InvoiceDetailsTableProps {
     invoices: Invoice[];
+    onUpdateInvoice: (updated: Invoice) => void;
 }
 
-const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices }) => {
+const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onUpdateInvoice }) => {
+
     const [currentPage, setCurrentPage] = useState(1);
+
+    const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+    const [showModal, setShowModal] = useState(false);
+
+
     const rowsPerPage = 6;
 
     const totalPages = Math.ceil(invoices.length / rowsPerPage);
@@ -49,6 +61,41 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices }) =
 
         }
     };
+
+    const handleDownload = async () => {
+        const zip = new JSZip();
+
+        // Convert each invoice to a CSV row
+        const headers = ["Invoice ID", "Type", "Client", "Sub", "Amount", "Pending", "Status", "Date"];
+        const rows = invoices.map(inv => [
+            inv.invoiceId,
+            inv.type,
+            inv.client,
+            inv.sub || "",
+            Math.round(inv.amount),
+            Math.round(inv.pending ?? 0),
+            inv.status,
+            inv.date
+        ]);
+
+        // Build CSV content
+        const csvContent = [
+            headers.join(","),          // header row
+            ...rows.map(r => r.join(",")) // data rows
+        ].join("\n");
+
+        // Add the CSV to the ZIP
+        zip.file("invoices.csv", csvContent);
+
+        // Generate the ZIP blob
+        const blob = await zip.generateAsync({ type: "blob" });
+
+        // Trigger download
+        saveAs(blob, "invoices.zip");
+    };
+
+
+    
     return (
         <div className="w-[95%]   border-2 border-black rounded-2xl  overflow-hidden">
             <BaseTable variant="grid" >
@@ -61,12 +108,21 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices }) =
                         <BaseTable.HeadCell><div className="font-iceberg  font-normal text-[22px]">Status</div></BaseTable.HeadCell>
                         <BaseTable.HeadCell><div className="font-iceberg  font-normal text-[22px]">Pending</div></BaseTable.HeadCell>
                         <BaseTable.HeadCell><div className="font-iceberg  font-normal text-[22px]">Date</div></BaseTable.HeadCell>
-                        <BaseTable.HeadCell><button className="border-2 rounded-md hover:bg-blue-400 bg-blue-500 text-white px-2 py-2" >Download</button> </BaseTable.HeadCell>
+                        <BaseTable.HeadCell>
+                            <button className="border-2 rounded-md hover:bg-gray-200  px-2 py-2" onClick={handleDownload}>
+                        <img src={download} alt={download} />
+                        </button> 
+                        </BaseTable.HeadCell>
                     </BaseTable.Row>
                 </BaseTable.Header>
                 <BaseTable.Body>
-                    {currentRows.map((item) => (
-                        <BaseTable.Row key={item.uniqueId}> 
+                   {currentRows.map((item) => {
+
+  const roundedAmount = Math.round(item.amount);
+                    const roundedPending = Math.round(item.pending ?? 0);
+                    const displayStatus = roundedPending === 0 ? "paid" : item.status;
+                       return (  
+                    <BaseTable.Row key={item.uniqueId}> 
                             <BaseTable.Cell><div className="font-sanchez text-[16px] text-center">{item.invoiceId}</div> </BaseTable.Cell>
                             <BaseTable.Cell>  <div className="flex justify-center items-center">
                                 <span className={`font-iceberg text-[14px] ${typeBadge(item.type)}`}>{item.type}</span></div></BaseTable.Cell>
@@ -80,16 +136,31 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices }) =
                                     </span>
                                 </div>
                             </BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {item.amount}/-</div></BaseTable.Cell>
-                            <BaseTable.Cell><span className={`font-medium text-[16px] font-sanchez text-center ${statusColor(item.status)}`} >•   {item.status}</span></BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {item.pending}/-</div></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {roundedAmount}/-</div></BaseTable.Cell>
+                            <BaseTable.Cell><span className={`font-medium text-[16px] font-sanchez text-center ${statusColor(displayStatus)}`} >•   {displayStatus}</span></BaseTable.Cell>
+                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {roundedPending}/-</div></BaseTable.Cell>
                             <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">{item.date}</div></BaseTable.Cell>
                             <BaseTable.Cell>  <div className="flex justify-center items-center">
-                                <button className="text-3xl font-bold hover:text-gray-700"> ⋮ </button></div></BaseTable.Cell>
-                        </BaseTable.Row>))
-                    }
+                                <button onClick={() => {
+                                    setSelectedInvoice(item);
+                                    setShowModal(true);
+                                }} className="text-3xl font-bold hover:text-gray-700"> ⋮ </button></div></BaseTable.Cell>
+                           </BaseTable.Row>);
+})}
                 </BaseTable.Body >
             </BaseTable >
+            {showModal && selectedInvoice && (
+                <EditInvoiceModal
+                    invoice={selectedInvoice}
+                    onClose={() => setShowModal(false)}
+                    onUpdate={(updated) => {
+                        onUpdateInvoice(updated);
+                        setShowModal(false);
+                    }}
+                />
+            )}
+
+
 
             < div className="flex justify-between items-center px-5 py-4 border-t" >
                 < div className="font-sanchez text-[20px] text-gray-700 " >

@@ -278,7 +278,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 {type === "internship" ? (
 
-                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
+                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex flex-col justify-between ">
 
 
                         <p className="font-sanchez text-[18px]">
