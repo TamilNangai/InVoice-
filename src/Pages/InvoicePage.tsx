@@ -122,15 +122,17 @@ const InvoicePage = () => {
          
           <input
             type="date"
-            value={fromDate}
+            value={fromDate || ""}
             onChange={(e) => setFromDate(e.target.value)}
+            placeholder="Start date"
             className="font-iceberg text-lg border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
           />
 
           <input
             type="date"
-            value={toDate}
+            value={toDate || ""}
             onChange={(e) => setToDate(e.target.value)}
+            placeholder="End date"
             className="font-iceberg text-lg border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
           />
 
@@ -141,10 +143,22 @@ const InvoicePage = () => {
       <div className="m-3 ms-10">
         <h1 className="text-[32px] font-iceberg">Invoice Details</h1>
       </div>
+      
+
 
       {/* ✅ Pass filtered data */}
       <div className="w-full flex justify-center">
-        <InvoicedetailsTable invoices={filteredInvoices} />
+        <InvoicedetailsTable
+          invoices={filteredInvoices}
+          onUpdateInvoice={(updated) => {
+            setInvoices((prev) =>
+              prev.map((inv) =>
+                inv.uniqueId === updated.uniqueId ? updated : inv
+              )
+            );
+          }}
+        />
+
 
       </div>
     </section>

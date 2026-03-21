@@ -101,13 +101,14 @@ import { showSuccess } from "./alert"; // optional: to show success message
  * @param fileName - name for PDF file (e.g., Invoice_1234.pdf)
  */
 export const saveAndPrint = async (
+  
   invoicePayload: any,
   billRef: React.RefObject<HTMLDivElement>,
   fileName?: string
 ) => {
+  
   // 1️⃣ Save invoice to database
   await saveInvoice(invoicePayload);
-
   if (!billRef.current) return;
 
   // 2️⃣ EXISTING IFRAME PRINT
@@ -168,6 +169,7 @@ export const saveAndPrint = async (
     // 4️⃣ SEND PDF VIA EMAIL
     const reader = new FileReader();
     reader.readAsDataURL(pdfBlob);
+    
     reader.onloadend = async () => {
       const base64data = (reader.result as string).split(",")[1];
 
@@ -185,5 +187,18 @@ export const saveAndPrint = async (
     };
 
     return pdfBlob;
+    
   }
 };
+
+
+
+//   const printContent = billRef.current.innerHTML;
+//   const originalContent = document.body.innerHTML;
+
+//   document.body.innerHTML = printContent;
+//   window.print();
+//   document.body.innerHTML = originalContent;
+
+//   window.location.reload();
+// };

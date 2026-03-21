@@ -81,8 +81,9 @@ const PriceForm = ({ data, setData }: Props) => {
 
       setData({
         ...data,
-        paid,
-        due
+        total: total, 
+        paid: paid,     
+        due: due,
       })
 
       return
@@ -112,7 +113,7 @@ const PriceForm = ({ data, setData }: Props) => {
             label="Total Amount"
             name="total"
             type="number"
-            value={data.total}
+              value={Math.round(data.total)}
             disabled
           />
 
@@ -120,7 +121,7 @@ const PriceForm = ({ data, setData }: Props) => {
             label="Due Amount"
             name="due"
             type="number"
-            value={data.due}
+              value={Math.round(data.due)}
             disabled
           />
 
@@ -132,7 +133,7 @@ const PriceForm = ({ data, setData }: Props) => {
             label="Paid Amount"
             name="paid"
             type="number"
-            value={data.paid}
+              value={Math.round(data.paid)}
             required
             onChange={handleChange}
             onBlur={handleBlur}

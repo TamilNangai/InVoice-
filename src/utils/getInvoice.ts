@@ -20,8 +20,10 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
   const invoices: Invoice[] = snapshot.docs.map((doc) => {
     const data: any = doc.data();
-    const status: "paid" | "pending" =
-      data.price?.due && data.price.due > 0 ? "pending" : "paid";
+    const status: "paid" | "pending" | "overdue" =
+      data.status ||
+      (data.price?.due && data.price.due > 0 ? "pending" : "paid");
+
 
     const getFormattedDate = (createdAt: any) => {
       if (!createdAt) return "";
@@ -42,28 +44,34 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
 
     return {
-
-      uniqueId: doc.id,          
+      uniqueId: doc.id,
       invoiceId: data.invoiceId || doc.id,
       type: data.invoiceType || "",
+
       client:
         data.student?.studentName ||
         data.customer?.customer ||
         data.product?.[0]?.productName ||
         data.service?.[0]?.serviceName ||
         "N/A",
-      // sub: data.sub || "" ,
+
       sub:
-        data.product?.[0]?.productName ||          
-        data.program?.internship ||       
-        data.service?.[0]?.serviceName ||  
+        data.product?.[0]?.productName ||
+        data.program?.internship ||
+        data.service?.[0]?.serviceName ||
         "",
-      // sub: String(data.price?.subTotal || 0),
-      pending: data.price?.due || 0,
+
+      pending: data.pending ?? data.price?.due ?? 0,
+
       date: getFormattedDate(data.createdAt),
-      amount: data.price?.total || 0,
-      status,
+
+      amount: data.price?.total ?? data.amount ?? 0,
+
+      status:
+        data.status ||
+        (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
     };
+
   });
 
   // Optional: sort latest first
