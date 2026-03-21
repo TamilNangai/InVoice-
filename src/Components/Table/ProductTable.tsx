@@ -48,13 +48,13 @@ const ProductTable = () => {
 
                         <BaseTable.HeadCell>
                             <div className="font-iceberg font-extralight text-[28px]">
-                                Category
+                                Max Price
                             </div>
                         </BaseTable.HeadCell>
 
                         <BaseTable.HeadCell>
                             <div className="font-iceberg font-extralight text-[28px]">
-                                Price
+                              Min  Price
                             </div>
                         </BaseTable.HeadCell>
 
@@ -83,13 +83,13 @@ const ProductTable = () => {
 
                             <BaseTable.Cell>
                                 <div className="text-[18px] text-center font-sanchez">
-                                    {item.category}
+                                    {item.maxprice}
                                 </div>
                             </BaseTable.Cell>
 
                             <BaseTable.Cell>
                                 <div className="text-[18px] text-center font-sanchez">
-                                    ₹ {item.price}
+                              {item.minprice}
                                 </div>
                             </BaseTable.Cell>
 

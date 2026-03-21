@@ -2,10 +2,12 @@ import { doc, setDoc, Timestamp } from "firebase/firestore"
 import { db } from "../firebase"
 
 type SaveProductData = {
+    
     name: string
     description: string
     category: string
-    price: number
+    maxprice: string
+    minprice: string
 }
 
 export const saveProduct = async (data: SaveProductData) => {
@@ -18,7 +20,8 @@ export const saveProduct = async (data: SaveProductData) => {
             name: data.name || "",
             description: data.description || "",
             category: data.category || "",
-            price: data.price || 0,
+            minprice: data.minprice || "",
+            maxprice: data.maxprice || "",
             createdAt: Timestamp.now()
         }
 

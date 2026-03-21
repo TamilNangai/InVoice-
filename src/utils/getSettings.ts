@@ -31,7 +31,7 @@ export const getSettings = async (): Promise<CompanyData | null> => {
   const snapshot = await getDoc(ref);
 
   if (snapshot.exists()) {
-    return snapshot.data() as CompanyData; // ✅ FIX
+    return snapshot.data() as CompanyData; 
   }
 
   return null;

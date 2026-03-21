@@ -6,7 +6,8 @@ export type Product = {
   name: string
   description: string
   category: string
-  price: number
+  maxprice: string
+  minprice: string
 }
 
 export const getProducts = async (): Promise<Product[]> => {
@@ -22,7 +23,8 @@ export const getProducts = async (): Promise<Product[]> => {
       name: data.name || "",
       description: data.description || "",
       category: data.category || "",
-      price: data.price || 0
+      minprice: data.minprice || "",
+      maxprice: data.maxprice || "",
     }
 
   })

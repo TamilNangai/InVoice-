@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, globalShortcut } from "electron";
+import { ipcMain, shell, app, BrowserWindow, Menu, globalShortcut } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -14,7 +14,9 @@ function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
-      preload: path.join(__dirname$1, "preload.mjs")
+      preload: path.join(__dirname$1, "preload.mjs"),
+      contextIsolation: true,
+      nodeIntegration: false
     }
   });
   Menu.setApplicationMenu(null);
@@ -24,7 +26,10 @@ function createWindow() {
     });
   });
   win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+    win == null ? void 0 : win.webContents.send(
+      "main-process-message",
+      (/* @__PURE__ */ new Date()).toLocaleString()
+    );
   });
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -32,6 +37,18 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, "index.html"));
   }
 }
+ipcMain.handle("open-email", async (_, emailData) => {
+  try {
+    const { to, subject = "", body = "" } = emailData;
+    if (!to) throw new Error("Email address required");
+    const mailtoLink = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    await shell.openExternal(mailtoLink);
+    return { success: true };
+  } catch (error) {
+    console.error("Email open failed:", error);
+    return { success: false };
+  }
+});
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import React from "react"
 import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
@@ -12,6 +13,34 @@ import { saveAndPrint } from "@/utils/saveAndPrint";
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 import { getFunctions, httpsCallable } from "firebase/functions"
+
+
+// ✅ UPDATED EmailButton: uses parent email
+const EmailButton: React.FC<{ email: string }> = ({ email }) => {
+  const handleClick = async () => {
+    if (!email) {
+      alert("Please enter customer email first!");
+      return;
+    }
+
+    try {
+      const result = await window.electronAPI.openEmail({
+        to: email,
+        subject: "Your Invoice is Ready 📄",
+        body: "Hello, your invoice is attached.",
+      });
+
+      if (!result.success) {
+        alert("Unable to open email client");
+      }
+    } catch (error) {
+      console.error("Failed to open email:", error);
+      alert("Error opening email client");
+    }
+  };
+
+  return <button onClick={handleClick}>Send Email</button>;
+};
 
 
 type Product = {
@@ -46,11 +75,7 @@ type InvoiceData = {
 
 const Product_invoice = () => {
   const [invoiceId] = useState(generateInvoiceId())
-
-
-
   const [company, setCompany] = useState<any>(null)
-
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     customer: {
       customer: "",
@@ -81,67 +106,39 @@ const Product_invoice = () => {
     discount: 0
   })
 
-
-  /* ---------------- FETCH COMPANY ---------------- */
+  const [customerEmail, setCustomerEmail] = useState(""); // <-- new state for email
 
   useEffect(() => {
-
     const fetchCompany = async () => {
-
       const data = await getSettings()
-
       console.log("Company Data:", data)
-
       setCompany(data)
-
     }
-
     fetchCompany()
-
   }, [])
-
-
-
-  /* ---------------- SUBTOTAL ---------------- */
 
   const subtotal = invoiceData.product.reduce((acc, item) => {
     return acc + (Number(item.price) || 0)
   }, 0)
 
-  /* ---------------- GST ---------------- */
-
   const gstTotal = invoiceData.product.reduce((acc, item) => {
-
     const price = Number(item.price) || 0
     const tax = Number(item.tax) || 0
-
     const gst = (price * tax) / 100
-
     return acc + gst
-
   }, 0)
 
   const discount = Number(invoiceData.discount || 0)
-
   const totalAmount = subtotal + gstTotal - discount
-
   const paidAmount = Number(invoiceData.price.paid || 0)
-
   const dueAmount = totalAmount - paidAmount
 
-
-  /* ---------------- SAVE + PRINT ---------------- */
   const billRef = useRef<HTMLDivElement>(null);
-
   const formRef = useRef<HTMLFormElement>(null)
 
   const handlePrintAndSave = async () => {
 
     if (!validateForm(formRef.current)) return
-
-
-    
-    /* CUSTOMER VALIDATION */
 
     const { customer, email, office, phone, address } = invoiceData.customer
 
@@ -157,8 +154,7 @@ const Product_invoice = () => {
       return
     }
 
-     const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
-
+    const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
     const gst = invoiceData.customer.gst
 
     if (gst?.trim() && !gstRegex.test(gst)) {
@@ -166,13 +162,10 @@ const Product_invoice = () => {
       return
     }
 
-
     if (!customer || !email || !office || !phone || !address) {
       await showError("Please fill all customer details.")
       return
     }
-
-    /* PRODUCT VALIDATION */
 
     const invalidProduct = invoiceData.product.some(
       p =>
@@ -190,13 +183,9 @@ const Product_invoice = () => {
       return
     }
 
-    /* FILTER EMPTY ROWS */
-
     const validProducts = invoiceData.product.filter(
       p => p.productName && p.price > 0
     )
-
-    /* PRICE VALIDATION */
 
     const { paid, duedate, paymentMethod } = invoiceData.price
 
@@ -204,6 +193,7 @@ const Product_invoice = () => {
       await showError("Please fill all price details correctly.")
       return
     }
+
     if (paid <= 0) {
       await showError("Please fill the paid Amount correctly.")
       return
@@ -216,16 +206,8 @@ const Product_invoice = () => {
       return
     }
 
-   
-
-      // product: invoiceData.product,
-
-    // ✅ CONFIRMATION BEFORE SAVE
     const confirm = await showConfirm("Do you want to save this invoice?");
-
-    if (!confirm.isConfirmed) return; // ⛔ user cancelled
-
-      
+    if (!confirm.isConfirmed) return;
 
     await saveAndPrint(
       {
@@ -239,48 +221,38 @@ const Product_invoice = () => {
           due: dueAmount
         }
       },
-    billRef
-  )
+      billRef
+    )
 
     await showSuccess("Invoice saved successfully");
-
-
   }
 
-
   const rows = invoiceData.product.map((item, index) => ({
-
     title: item.productName,
     subtitle: `Prd:${String(index + 1).padStart(4, "0")}`,
     sub: item.sub,
     amount: item.price
-
   }))
-
 
   if (!company) return <div>Loading...</div>
 
-
-
   return (
-
     <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
-      <Header
-        h1="Product Invoice"
-        para={`#${invoiceId}`}
-      />
+        <Header h1="Product Invoice" para={`#${invoiceId}`} />
 
-     
-      <div className="">
-        <Buttons
-          h1="Issue Invoice"
-          h2="Save Draft"
-          src2={vectora}
-          src1=""
-        />
+        <div className="">
+          <Buttons
+            h1="Issue Invoice"
+            h2="Save Draft"
+            src2={vectora}
+            src1=""
+          />
+
+          {/* ✅ UPDATED BUTTON: pass customerEmail */}
+          <EmailButton email={customerEmail} />
+        </div>
       </div>
-</div>
 
       <form
         className="grid grid-cols-2 w-full h-full"
@@ -297,8 +269,6 @@ const Product_invoice = () => {
         }}
       >
 
-        {/* LEFT SIDE */}
-
         <div className="w-[100%] space-y-7 p-4 grid">
 
           <CustomerForm
@@ -309,6 +279,7 @@ const Product_invoice = () => {
                 customer: data
               }))
             }
+            onEmailChange={setCustomerEmail} // <-- pass email up
           />
 
           <ProductForm
@@ -324,7 +295,6 @@ const Product_invoice = () => {
             addButton="+ Add Product Line"
             showSub={true}
           />
-
 
           <PriceForm
             data={{
@@ -342,61 +312,38 @@ const Product_invoice = () => {
 
         </div>
 
-
-
-        {/* RIGHT SIDE BILL */}
-
         <div className="w-[100%] h-full grid p-4">
-
 
           <Bill
             ref={billRef}
             type="product"
-
             companyName={company.companyName}
             companyEmail={company.companyEmail}
             companyPhone={company.companyPhone}
             companyAddress={company.companyAddress}
-
             rows={rows}
-
             button={<Buttons src1="" src2="" h1="Product Invoice" h2="" />}
-
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
             phone={Number(invoiceData.customer.phone)}
             college={invoiceData.customer.office}
-
             invoiceid={invoiceId}
-
             date={new Date().toLocaleDateString()}
-
             duedate={invoiceData.price.duedate}
-
             boxdate={new Date().toLocaleDateString()}
-
             boxduedate={invoiceData.price.duedate}
-
             boxreference="Po-12345"
-
             detailhead="Product Details"
-
             subamount11={subtotal}
             subamount12={discount}
             subamount13={gstTotal}
-
             subamount21={totalAmount}
             subamount22={paidAmount}
             subamount23={dueAmount}
-
             taxPercent={invoiceData.product[0]?.tax || 0}
-
             paymentMethod={invoiceData.price.paymentMethod}
-
             conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
-
             onPrint={handlePrintAndSave}
-
           />
 
         </div>
@@ -408,3 +355,4 @@ const Product_invoice = () => {
 }
 
 export default Product_invoice
+
