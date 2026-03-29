@@ -23,7 +23,7 @@ const Cards = forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
-        className=" w-full  grid   place-self-auto p-4 gap-4  flex-col  min-h-[150px] max-h-[200px] rounded-[8px] border-[2px] border-[#000000] bg-[#FFFFFF] shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
+        className=" w-full  grid   place-self-auto p-4 gap-4  flex-col  min-h-[100px] max-h-[150px] rounded-[8px] border-[2px] border-[#000000] bg-[#FFFFFF] shadow-[5px_5px_10px_rgba(0,0,0,0.2)]"
       >
         <p className={`text-[24px] leading-[100%]  ${cardhead || ""}`}>
           {head}

@@ -335,7 +335,7 @@ function Add(props: AddProps) {
             </div>
 
             {show && (
-                <div className="fixed inset-0 translate-x-2/5 translate-y-1/4 z-50">
+                <div className="fixed inset-0 translate-x-2/6 translate-y-1/4 z-50">
 
                     <div className="border border-black rounded-xl w-2/5 space-y-3 absolute right-72 h-[500px] bg-white">
 

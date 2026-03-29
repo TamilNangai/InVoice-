@@ -12,7 +12,44 @@ import { saveAndPrint } from "@/utils/saveAndPrint"
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 
+const EmailButton: React.FC<{ email: string }> = ({ email }) => {
+  const handleClick = async () => {
+    if (!email) {
+      alert("Please enter customer email first!");
+      return;
+    }
 
+    try {
+      const result = await window.electronAPI.openEmail({
+        to: email,
+        subject: "Your Invoice is Ready 📄",
+        body: "Hello, your invoice is attached.",
+      });
+
+      if (!result.success) {
+        alert("Unable to open email client");
+      }
+    } catch (error) {
+      console.error("Failed to open email:", error);
+      alert("Error opening email client");
+    }
+  };
+
+  return (
+      <button
+      onClick={handleClick}
+      className="px-4 py-2 text-black rounded-md ml-2"
+    >
+      <Buttons
+            h1="Issue Invoice"
+            h2="Save Draft"
+            src2={vectora}
+            src1=""
+            type="submit"
+          />
+    </button>
+  );
+};
 
 type Service = {
   serviceName: string
@@ -196,7 +233,7 @@ const Service_invoice = () => {
       await showError("Please fill all price details correctly.")
       return
     }
-    if (paid<=0) {
+    if (paid <= 0) {
       await showError("Please fill the paid Amount correctly.")
       return
     }
@@ -209,22 +246,22 @@ const Service_invoice = () => {
 
     const confirm = await showConfirm("Do you want to save this invoice?");
 
-    if (!confirm.isConfirmed) return; 
+    if (!confirm.isConfirmed) return;
 
-    
+
     await saveAndPrint({
-        invoiceId,
-        invoiceType: "service",
-        customer: invoiceData.customer,
-        service: validServices,
-        price: {
-          ...invoiceData.price,
-          total: totalAmount,
-          due: dueAmount
-    }
-  },
-            billRef
-          );
+      invoiceId,
+      invoiceType: "service",
+      customer: invoiceData.customer,
+      service: validServices,
+      price: {
+        ...invoiceData.price,
+        total: totalAmount,
+        due: dueAmount
+      }
+    },
+      billRef
+    );
 
     await showSuccess("Invoice saved successfully");
 
@@ -240,12 +277,12 @@ const Service_invoice = () => {
 
     <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
-      <Header
-        h1="New Service Invoice"
-        para={`#${invoiceId}`}
-      />
+        <Header
+          h1="New Service Invoice"
+          para={`#${invoiceId}`}
+        />
 
-      <div className="">
+        {/* <div className="">
         <Buttons
           h1="Issue Invoice"
           h2="Save Draft"
@@ -253,13 +290,19 @@ const Service_invoice = () => {
           src1=""
           type="submit"
         />
-      </div>
+      </div> */}
+        <div>
+        
+
+          {/* ✅ Correct email usage */}
+          <EmailButton email={invoiceData.customer.email} />
+        </div>
       </div>
 
 
 
       <form
-         className="grid grid-cols-2 w-full h-full"
+        className="grid grid-cols-2 w-full h-full"
         ref={formRef}
         onSubmit={(e) => {
           e.preventDefault()

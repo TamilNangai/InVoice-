@@ -3,8 +3,8 @@ import BaseTable from "./BaseTable";
 import { getInvoices } from "@/utils/getInvoice";
 import { useEffect } from "react";
 import EditInvoiceModal from "@/Components/Invoice/EditInvoiceModal";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
+// import JSZip from "jszip";
+// import { saveAs } from "file-saver";
 import download from "@/assets/download.png"
 
 
@@ -63,7 +63,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
     };
 
     const handleDownload = async () => {
-        const zip = new JSZip();
+        // const zip = new JSZip();
 
         // Convert each invoice to a CSV row
         const headers = ["Invoice ID", "Type", "Client", "Sub", "Amount", "Pending", "Status", "Date"];
@@ -85,13 +85,13 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
         ].join("\n");
 
         // Add the CSV to the ZIP
-        zip.file("invoices.csv", csvContent);
+        // zip.file("invoices.csv", csvContent);
 
-        // Generate the ZIP blob
-        const blob = await zip.generateAsync({ type: "blob" });
+        // // Generate the ZIP blob
+        // const blob = await zip.generateAsync({ type: "blob" });
 
-        // Trigger download
-        saveAs(blob, "invoices.zip");
+        // // Trigger download
+        // saveAs(blob, "invoices.zip");
     };
 
 

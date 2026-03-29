@@ -48,7 +48,7 @@ function Create(props: CreateProps) {
       </button>
 
       {show && (
-        <div className="fixed inset-0 flex translate-x-[400px] translate-y-1/4  z-50">
+        <div className="fixed inset-0 flex translate-x-1/4 translate-y-1/4  z-50">
           <section className="border-2 border-[#136CEDCC] w-[970px] h-[410px] rounded-lg bg-white">
 
             <h1 className="font-iceberg text-2xl pl-10 mt-5 h-12 font-extralight border-b border-black">

@@ -96,11 +96,11 @@ const InvoicePage = () => {
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="">Type</option>
-            <option value="internship">Internship</option>
-            <option value="product">Product</option>
-            <option value="service">Service</option>
-            <option value="others">Others</option>
+            <option className="font-sanchez text-sm" value="">Type</option>
+            <option className="font-sanchez text-sm" value="internship">Internship</option>
+            <option className="font-sanchez text-sm" value="product">Product</option>
+            <option className="font-sanchez text-sm" value="service">Service</option>
+            <option className="font-sanchez text-sm" value="others">Others</option>
           </select>
         </div>
       
@@ -111,10 +111,10 @@ const InvoicePage = () => {
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
-            <option value="">Status</option>
-            <option value="paid">Paid</option>
-            <option value="pending">Pending</option>
-            <option value="overdue">Over Due</option>
+            <option  className="font-sanchez text-sm" value="">Status</option>
+            <option  className="font-sanchez text-sm" value="paid">Paid</option>
+            <option  className="font-sanchez text-sm" value="pending">Pending</option>
+            <option  className="font-sanchez text-sm" value="overdue">Over Due</option>
           </select>
         </div>
 

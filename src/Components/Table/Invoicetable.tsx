@@ -19,7 +19,6 @@ const RecentInvoices: React.FC = () => {
   const [search, setSearch] = useState("");
   
 
-  // FETCH INVOICES FROM FIRESTORE
   useEffect(() => {
 
     const fetchInvoices = async () => {
@@ -32,10 +31,8 @@ const RecentInvoices: React.FC = () => {
         client: item.client,
         amount: item.amount,
 
-        // ✅ FIX STATUS
         status: item.status.toLowerCase() as "paid" | "pending"| "overdue",
 
-        // ✅ FIX DATE
         date: item.date,
       }));
 
@@ -65,7 +62,6 @@ const RecentInvoices: React.FC = () => {
     return matchSearch && matchStatus;
 
   });
-
 
   return (
 
@@ -119,6 +115,7 @@ const RecentInvoices: React.FC = () => {
             </div>
 
           </div>
+          <div className="w-full ">
 
           <table className="w-full text-center">
 
@@ -148,10 +145,7 @@ const RecentInvoices: React.FC = () => {
                     <td className="p-3 border">{invoice.invoiceId}</td>
                   <td className="p-3 border">{invoice.type}</td>
                   <td className="p-3 border">{invoice.client}</td>
-                  <td className="p-3 border"> {invoice.date}
-
-</td>
-
+                  <td className="p-3 border"> {invoice.date}</td>
                   <td className="p-3 border">
                     ${invoice.amount.toFixed(2)}
                   </td>
@@ -178,6 +172,7 @@ const RecentInvoices: React.FC = () => {
             </tbody>
 
           </table>
+          </div>
 
         </div>
       </div>

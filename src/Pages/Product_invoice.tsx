@@ -15,7 +15,6 @@ import { showError, showSuccess, showConfirm } from "@/utils/alert";
 import { getFunctions, httpsCallable } from "firebase/functions"
 
 
-// ✅ UPDATED EmailButton: uses parent email
 const EmailButton: React.FC<{ email: string }> = ({ email }) => {
   const handleClick = async () => {
     if (!email) {
@@ -39,7 +38,20 @@ const EmailButton: React.FC<{ email: string }> = ({ email }) => {
     }
   };
 
-  return <button onClick={handleClick}>Send Email</button>;
+  // ✅ FIX: return JSX
+  return (
+    <button
+      onClick={handleClick}
+      className="px-4 py-2  text-black rounded-md ml-2"
+    >
+       <Buttons
+            h1="Issue Invoice"
+            h2="Save Draft"
+            src2={vectora}
+            src1=""
+          />
+    </button>
+  );
 };
 
 
@@ -242,12 +254,12 @@ const Product_invoice = () => {
         <Header h1="Product Invoice" para={`#${invoiceId}`} />
 
         <div className="">
-          <Buttons
+          {/* <Buttons
             h1="Issue Invoice"
             h2="Save Draft"
             src2={vectora}
             src1=""
-          />
+          /> */}
 
           {/* ✅ UPDATED BUTTON: pass customerEmail */}
           <EmailButton email={customerEmail} />
