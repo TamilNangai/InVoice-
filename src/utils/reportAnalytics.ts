@@ -184,7 +184,6 @@ export const reportAnalytics = (
         : 0
 
 
-    console.log("FINAL DATA:", data)
 
 
     /* ================= RETURN ================= */

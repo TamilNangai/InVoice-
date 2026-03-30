@@ -46,10 +46,9 @@ function Create(props: CreateProps) {
         <img className="mt-2 h-4 mr-2" src={props.src1} />
         {props.h6}
       </button>
-
       {show && (
-        <div className="fixed inset-0 flex translate-x-[400px] translate-y-1/4  z-50">
-          <section className="border-2 border-[#136CEDCC] w-[970px] h-[410px] rounded-lg bg-white">
+        <div className=" fixed bg-black/20 inset-0 flex justify-center  items-center   z-50">
+          <section className="border-2 border-[#136CEDCC] w-8/12 h-fit p-5 rounded-lg bg-white">
 
             <h1 className="font-iceberg text-2xl pl-10 mt-5 h-12 font-extralight border-b border-black">
               {props.h1}
@@ -63,11 +62,11 @@ function Create(props: CreateProps) {
             </p>
 
             
-            <div className="flex space-x-8 items-center justify-center mt-4">
+            <div className="flex md:space-x-3 xl:space-x-10 items-center justify-center mt-4">
 
               <section
                 onClick={() => setSelectedRoute("/internship-invoice")}
-                className={`border-2 w-[200px] h-40 rounded-lg cursor-pointer
+                className={`border-2 w-1/4 h-fit pb-4  rounded-lg cursor-pointer
                 ${selectedRoute === "/internship-invoice" ? "border-blue-500 bg-blue-50" : "border-black"}`}
               >
                 <div className="flex items-center justify-center">
@@ -79,7 +78,7 @@ function Create(props: CreateProps) {
 
               <section
                 onClick={() => setSelectedRoute("/product-invoice")}
-                className={`border-2 w-[200px] h-40 rounded-lg cursor-pointer
+                className={`border-2 w-1/4 h-fit pb-4  rounded-lg cursor-pointer
                 ${selectedRoute === "/product-invoice" ? "border-blue-500 bg-blue-50" : "border-black"}`}
               >
                 <div className="flex items-center justify-center">
@@ -91,7 +90,7 @@ function Create(props: CreateProps) {
 
               <section
                 onClick={() => setSelectedRoute("/service-invoice")}
-                className={`border-2 w-[200px] h-40 rounded-lg cursor-pointer
+                className={`border-2 w-1/4 h-fit pb-4  rounded-lg cursor-pointer
                 ${selectedRoute === "/service-invoice" ? "border-blue-500 bg-blue-50" : "border-black"}`}
               >
                 <div className="flex items-center justify-center">
@@ -103,7 +102,7 @@ function Create(props: CreateProps) {
 
               <section
                 onClick={() => setSelectedRoute("/other-invoice")}
-                className={`border-2 w-[200px] h-40 rounded-lg cursor-pointer
+                className={`border-2 w-1/4 h-fit pb-4  rounded-lg cursor-pointer
                 ${selectedRoute === "/other-invoice" ? "border-blue-500 bg-blue-50" : "border-black"}`}
               >
                 <div className="flex items-center justify-center">

@@ -87,7 +87,6 @@ const Service_invoice = () => {
 
       const data = await getSettings()
 
-      console.log("Company Data:", data)
 
       setCompany(data)
 
@@ -232,7 +231,13 @@ const Service_invoice = () => {
 
 
 
-  if (!company) return <div>Loading...</div>
+  if (company === null)
+
+    return (
+      <div className="flex items-center justify-center min-h-screen min-w-screen">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
 
 
 

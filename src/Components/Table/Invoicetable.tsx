@@ -4,6 +4,7 @@ import Searchinput from "../Filter/Searchinput";
 import { getInvoices } from "@/utils/getInvoice";
 
 export interface Invoice {
+  uniqueId: string;      
   invoiceId: string;
   type: string;
   client: string;
@@ -17,7 +18,7 @@ const RecentInvoices: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
   const [search, setSearch] = useState("");
-  
+
 
   // FETCH INVOICES FROM FIRESTORE
   useEffect(() => {
@@ -27,13 +28,14 @@ const RecentInvoices: React.FC = () => {
       const data = await getInvoices();
 
       const formattedData: Invoice[] = data.map((item: any) => ({
+        uniqueId:item.uniqueId,
         invoiceId: item.invoiceId,
         type: item.type,
         client: item.client,
         amount: item.amount,
 
         // ✅ FIX STATUS
-        status: item.status.toLowerCase() as "paid" | "pending"| "overdue",
+        status: item.status.toLowerCase() as "paid" | "pending" | "overdue",
 
         // ✅ FIX DATE
         date: item.date,
@@ -120,7 +122,7 @@ const RecentInvoices: React.FC = () => {
 
           </div>
 
-          <table className="w-full text-center">
+          <table className="w-full h-full text-center">
 
             <thead className="text-xl">
 
@@ -140,39 +142,40 @@ const RecentInvoices: React.FC = () => {
             <tbody>
 
               {filteredInvoices.length > 0 ? (
-                filteredInvoices.slice(0, 6).map((invoice) => (
-                  <tr key={invoice.invoiceId} 
-                  className="hover:bg-gray-50 grid grid-cols-6"
-                >
+                filteredInvoices.slice(0, 10).map((invoice) => (
+
+                  <tr key={invoice.uniqueId}
+                    className="hover:bg-gray-50 grid grid-cols-6"
+                  >
 
                     <td className="p-3 border">{invoice.invoiceId}</td>
-                  <td className="p-3 border">{invoice.type}</td>
-                  <td className="p-3 border">{invoice.client}</td>
-                  <td className="p-3 border"> {invoice.date}
+                    <td className="p-3 border">{invoice.type}</td>
+                    <td className="p-3 border">{invoice.client}</td>
+                    <td className="p-3 border"> {invoice.date}
 
-</td>
+                    </td>
 
-                  <td className="p-3 border">
-                    ${invoice.amount.toFixed(2)}
-                  </td>
+                    <td className="p-3 border">
+                      ${invoice.amount.toFixed(2)}
+                    </td>
 
-                  <td className="p-3 border">
-                   •   {invoice.status}
-                  </td>
+                    <td className="p-3 border">
+                      •   {invoice.status}
+                    </td>
 
-                </tr>
+                  </tr>
 
-              ))):
+                ))) :
 
-              (
+                (
 
-                <tr>
-                  <td colSpan={6} className="p-5">
-                    No invoices found
-                  </td>
-                </tr>
+                  <tr>
+                    <td colSpan={10} className="p-5">
+                      No invoices found
+                    </td>
+                  </tr>
 
-              )
+                )
               }
 
             </tbody>

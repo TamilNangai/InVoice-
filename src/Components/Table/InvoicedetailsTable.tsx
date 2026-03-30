@@ -1,25 +1,13 @@
 import { useState } from "react";
 import BaseTable from "./BaseTable";
-import { getInvoices } from "@/utils/getInvoice";
 import { useEffect } from "react";
 import EditInvoiceModal from "@/Components/Invoice/EditInvoiceModal";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import download from "@/assets/download.png"
+import { generateInvoicePDF } from "@/utils/generateInvoicePDF";
+import { Invoice } from "@/types/invoice";
 
-
-
-export type Invoice = {
-    uniqueId: string;      
-    invoiceId: string;    
-    type: string;           
-    client: string;        
-    amount: number;        
-    status: "paid" | "pending" | "overdue";
-    pending?: number;       
-    date: string;         
-    sub?: string;          
-};
 
 interface InvoiceDetailsTableProps {
     invoices: Invoice[];
@@ -29,10 +17,15 @@ interface InvoiceDetailsTableProps {
 const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onUpdateInvoice }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
-
     const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
+    useEffect(() => {
+        const closeMenu = () => setOpenMenuId(null);
+        window.addEventListener("click", closeMenu);
+        return () => window.removeEventListener("click", closeMenu);
+    }, []);
 
     const rowsPerPage = 6;
 
@@ -62,40 +55,145 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
         }
     };
 
-    const handleDownload = async () => {
+    // const handleDownload = async () => {
+    //     const zip = new JSZip();
+
+    //     // Convert each invoice to a CSV row
+    //     const headers = ["Invoice ID", "Type", "Client", "Sub", "Amount", "Pending", "Status", "Date"];
+    //     const rows = invoices.map(inv => [
+    //         inv.invoiceId,
+    //         inv.type,
+    //         inv.client,
+    //         inv.sub || "",
+    //         Math.round(inv.amount),
+    //         Math.round(inv.pending ?? 0),
+    //         inv.status,
+    //         inv.date
+    //     ]);
+
+    //     // Build CSV content
+    //     const csvContent = [
+    //         headers.join(","),          // header row
+    //         ...rows.map(r => r.join(",")) // data rows
+    //     ].join("\n");
+
+    //     // Add the CSV to the ZIP
+    //     zip.file("invoices.csv", csvContent);
+
+    //     // Generate the ZIP blob
+    //     const blob = await zip.generateAsync({ type: "blob" });
+
+    //     // Trigger download
+    //     saveAs(blob, "invoices.zip");
+    // };
+
+    // const handleDownload = async () => {
+    //     const zip = new JSZip();
+
+    //     for (const inv of invoices) {
+    //         const doc = generateInvoicePDF(inv);
+    //         const blob = doc.output("blob");
+
+    //         zip.file(`${inv.invoiceId}.pdf`, blob);
+    //     }
+
+    //     const zipBlob = await zip.generateAsync({ type: "blob" });
+
+    //     saveAs(zipBlob, "All_Invoices.zip");
+    // };
+
+
+
+
+    // const handleBulkDownload = async () => {
+    //     const zip = new JSZip();
+
+    //     for (const inv of invoices) {
+    //         const doc = generateInvoicePDF(inv);
+    //         const blob = doc.output("blob");
+    //         zip.file(`${inv.invoiceId}.pdf`, blob);
+    //     }
+
+    //     const zipBlob = await zip.generateAsync({ type: "blob" });
+    //     saveAs(zipBlob, "All_Invoices.zip");
+    // };
+
+
+    // const handleDownload = (invoice: Invoice) => {
+    //     const doc = generateInvoicePDF(invoice);
+    //     doc.save(`invoice-${invoice.invoiceId}.pdf`);
+    // };
+
+
+  
+
+    // const handleBulkDownload = async () => {
+    //     const zip = new JSZip();
+
+    //     // If invoices is a large array, this might take a second, 
+    //     // so we use for...of to keep it clean.
+    //     for (const inv of invoices) {
+    //         const doc = generateInvoicePDF(inv);
+
+    //         // Generate a Blob from the PDF
+    //         const pdfBlob = doc.output("blob");
+
+    //         // Add to zip: filename should ideally be unique
+    //         zip.file(`Invoice_${inv.invoiceId}.pdf`, pdfBlob);
+    //     }
+
+    //     // Generate the zip file and trigger download
+    //     const zipBlob = await zip.generateAsync({ type: "blob" });
+    //     saveAs(zipBlob, `Invoices_Batch_${new Date().toLocaleDateString()}.zip`);
+    // };
+
+    // const handleDownload = (invoice: Invoice) => {
+    //     const doc = generateInvoicePDF(invoice);
+    //     // .save() triggers an immediate browser download
+    //     doc.save(`Invoice_${invoice.invoiceId}.pdf`);
+    // };
+
+
+
+    const handleBulkDownload = async () => {
         const zip = new JSZip();
 
-        // Convert each invoice to a CSV row
-        const headers = ["Invoice ID", "Type", "Client", "Sub", "Amount", "Pending", "Status", "Date"];
-        const rows = invoices.map(inv => [
-            inv.invoiceId,
-            inv.type,
-            inv.client,
-            inv.sub || "",
-            Math.round(inv.amount),
-            Math.round(inv.pending ?? 0),
-            inv.status,
-            inv.date
-        ]);
+        for (const inv of invoices) {
+            // MAP DATA HERE
+            const formattedInvoice = {
+                ...inv,
+                subtotal: inv.subtotal || inv.amount || 0,
+                paidAmount: inv.paidAmount || (inv.amount - (inv.pending ?? 0)) || 0,
+                gstRate: inv.gstRate || 0,
+                discount: inv.discount || 0
+            };
 
-        // Build CSV content
-        const csvContent = [
-            headers.join(","),          // header row
-            ...rows.map(r => r.join(",")) // data rows
-        ].join("\n");
+            const doc = generateInvoicePDF(formattedInvoice);
+            const pdfBlob = doc.output("blob");
+            zip.file(`Invoice_${inv.invoiceId}.pdf`, pdfBlob);
+        }
 
-        // Add the CSV to the ZIP
-        zip.file("invoices.csv", csvContent);
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        saveAs(zipBlob, `Invoices_Batch_${new Date().toLocaleDateString()}.zip`);
+    };
 
-        // Generate the ZIP blob
-        const blob = await zip.generateAsync({ type: "blob" });
+    const handleDownload = (invoice: Invoice) => {
+        // MAP DATA HERE: Ensure the PDF generator sees 'subtotal' and 'paidAmount'
+        const formattedInvoice = {
+            ...invoice,
+            subtotal: invoice.subtotal || invoice.amount || 0,
+            paidAmount: invoice.paidAmount || (invoice.amount - (invoice.pending ?? 0)) || 0,
+            gstRate: invoice.gstRate || 0,
+            discount: invoice.discount || 0
+        };
 
-        // Trigger download
-        saveAs(blob, "invoices.zip");
+        const doc = generateInvoicePDF(formattedInvoice);
+        doc.save(`Invoice_${invoice.invoiceId}.pdf`);
     };
 
 
-    
+
+
     return (
         <div className="w-[95%]   border-2 border-black rounded-2xl  overflow-hidden">
             <BaseTable variant="grid" >
@@ -109,44 +207,121 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                         <BaseTable.HeadCell><div className="font-iceberg  font-normal text-[22px]">Pending</div></BaseTable.HeadCell>
                         <BaseTable.HeadCell><div className="font-iceberg  font-normal text-[22px]">Date</div></BaseTable.HeadCell>
                         <BaseTable.HeadCell>
-                            <button className="border-2 rounded-md hover:bg-gray-200  px-2 py-2" onClick={handleDownload}>
-                        <img src={download} alt={download} />
-                        </button> 
+                            <button className="border-2 rounded-md hover:bg-gray-200  px-2 py-2" onClick={handleBulkDownload}>
+                                <img src={download} alt={download} />
+                            </button>
                         </BaseTable.HeadCell>
                     </BaseTable.Row>
                 </BaseTable.Header>
                 <BaseTable.Body>
-                   {currentRows.map((item) => {
+                    {currentRows.map((item) => {
+                        const roundedAmount = Math.round(item.amount);
+                        const roundedPending = Math.round(item.pending ?? 0);
+                        const displayStatus = roundedPending === 0 ? "paid" : item.status;
+                        return (
+                            <BaseTable.Row key={item.uniqueId}>
+                                <BaseTable.Cell><div className="font-sanchez text-[16px] text-center">{item.invoiceId}</div> </BaseTable.Cell>
+                                <BaseTable.Cell>  <div className="flex justify-center items-center">
+                                    <span className={`font-iceberg text-[14px] ${typeBadge(item.type)}`}>{item.type}</span></div></BaseTable.Cell>
+                                <BaseTable.Cell>
+                                    <div className="flex flex-col">
+                                        <span className="font-iceberg text-[18px] text-black">
+                                            {item.client}
+                                        </span>
+                                        <span className="font-sanchez text-[13px] text-gray-500 leading-tight">
+                                            {item.sub || ""}
+                                        </span>
+                                    </div>
+                                </BaseTable.Cell>
+                                <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {roundedAmount}/-</div></BaseTable.Cell>
+                                <BaseTable.Cell><span className={`font-medium text-[16px] font-sanchez text-center ${statusColor(displayStatus)}`} >•   {displayStatus}</span></BaseTable.Cell>
+                                <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {roundedPending}/-</div></BaseTable.Cell>
+                                <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">{item.date}</div></BaseTable.Cell>
+                                <BaseTable.Cell>
+                                    <div className="relative flex justify-center ">
 
-  const roundedAmount = Math.round(item.amount);
-                    const roundedPending = Math.round(item.pending ?? 0);
-                    const displayStatus = roundedPending === 0 ? "paid" : item.status;
-                       return (  
-                    <BaseTable.Row key={item.uniqueId}> 
-                            <BaseTable.Cell><div className="font-sanchez text-[16px] text-center">{item.invoiceId}</div> </BaseTable.Cell>
-                            <BaseTable.Cell>  <div className="flex justify-center items-center">
-                                <span className={`font-iceberg text-[14px] ${typeBadge(item.type)}`}>{item.type}</span></div></BaseTable.Cell>
-                            <BaseTable.Cell>
-                                <div className="flex flex-col">
-                                    <span className="font-iceberg text-[18px] text-black">
-                                        {item.client}
-                                    </span>
-                                    <span className="font-sanchez text-[13px] text-gray-500 leading-tight">
-                                        {item.sub || ""}
-                                    </span>
-                                </div>
-                            </BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {roundedAmount}/-</div></BaseTable.Cell>
-                            <BaseTable.Cell><span className={`font-medium text-[16px] font-sanchez text-center ${statusColor(displayStatus)}`} >•   {displayStatus}</span></BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">₹ {roundedPending}/-</div></BaseTable.Cell>
-                            <BaseTable.Cell><div className="text-[16px] font-sanchez text-center">{item.date}</div></BaseTable.Cell>
-                            <BaseTable.Cell>  <div className="flex justify-center items-center">
-                                <button onClick={() => {
-                                    setSelectedInvoice(item);
-                                    setShowModal(true);
-                                }} className="text-3xl font-bold hover:text-gray-700"> ⋮ </button></div></BaseTable.Cell>
-                           </BaseTable.Row>);
-})}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setOpenMenuId(openMenuId === item.uniqueId ? null : item.uniqueId);
+                                            }}
+                                            className="text-3xl font-bold"
+                                        >
+                                            ⋮
+                                        </button>
+
+                                        {openMenuId === item.uniqueId && (
+                                            <div className="absolute top-8 right-0 bg-white border rounded shadow-md z-50 w-32">
+
+                                                {/* EDIT */}
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedInvoice(item);
+                                                        setShowModal(true);
+                                                        setOpenMenuId(null);
+                                                    }}
+                                                    className="w-full px-3 py-2 hover:bg-gray-100 text-left z-50"
+                                                >
+                                                    Edit
+                                                </button>
+
+                                                {/* DOWNLOAD PDF */}
+                                                <button
+                                                    // onClick={() => {
+                                                    //     console.log(item)
+                                                    //     const doc = generateInvoicePDF(item);
+
+                                                    //     doc.save(`${item.invoiceId}.pdf`);
+                                                    //     setOpenMenuId(null);
+                                                    // }}
+                                                    onClick={() => handleDownload(item)}
+                                                    className="w-full px-3 py-2 hover:bg-gray-100 text-left z-50"
+                                                >
+                                                    Download
+                                                </button>
+
+                                            </div>
+                                        )}
+                                    </div>
+                                </BaseTable.Cell>
+
+
+                                {/* <BaseTable.Cell>  <div className="relative  flex justify-center items-center">
+                                   <button onClick={() =>
+                                       setOpenMenuId(openMenuId === item.uniqueId ? null : item.uniqueId)
+                                   }
+                                       className="text-3xl font-bold hover:text-gray-700"
+                                   > ⋮ </button>
+                                   {openMenuId === item.uniqueId && (
+                                       <div className="absolute top-8 right-0 bg-white border rounded shadow-md z-10 w-28">
+
+                                           <button
+                                               onClick={() => {
+                                                   setSelectedInvoice(item);
+                                                   setShowModal(true);
+                                                   setOpenMenuId(null);
+                                               }}
+                                               className="block border w-full text-left px-3 py-2 hover:text-blue-400 hover:bg-gray-100"
+                                           >
+                                               Edit
+                                           </button>
+
+                                           <button
+                                               onClick={() => {
+                                                   const doc = generateInvoicePDF(item);
+                                                   doc.save(`${item.invoiceId}.pdf`);
+                                                   setOpenMenuId(null);
+                                               }}
+                                               className="block border w-full text-left px-3 py-2 hover:text-blue-400 hover:bg-gray-100"
+                                           >
+                                               Download
+                                           </button>
+
+                                       </div>
+                                   )}
+                                   </div></BaseTable.Cell> */}
+                            </BaseTable.Row>);
+                    })}
                 </BaseTable.Body >
             </BaseTable >
             {showModal && selectedInvoice && (

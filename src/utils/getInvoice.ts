@@ -7,10 +7,15 @@ export type Invoice = {
   type: string;
   client: string;
   date: string;
+  dueDate:string;
   amount: number;
   status: "paid" | "pending" |"overdue";
   pending: number;
   sub: string;
+  email?:string;
+  phone?:string;
+  gst?:number;
+  payment?:string;
 };
 
 
@@ -38,7 +43,7 @@ export const getInvoices = async (): Promise<Invoice[]> => {
           day: "2-digit",
           year: "numeric",
         })
-        .replace(",", "");
+        .replace(",", ""); 
     };
 
 
@@ -47,13 +52,20 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       uniqueId: doc.id,
       invoiceId: data.invoiceId || doc.id,
       type: data.invoiceType || "",
-
+      email: data.customer?.email || data.student?.email || "",
+      phone: data.customer?.phone || data.student?.phone || "",
+      dueDate:data.price?.duedate || "",
+      payment: data.price?.paymentMethod || "",
+      gst: data.gst || 0,
+      startDate: data.program?.start || "",
+      endDate: data.program?.enddate || "",
       client:
         data.student?.studentName ||
         data.customer?.customer ||
         data.product?.[0]?.productName ||
         data.service?.[0]?.serviceName ||
         "N/A",
+
 
       sub:
         data.product?.[0]?.productName ||
@@ -70,6 +82,8 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       status:
         data.status ||
         (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+      
+      
     };
 
   });

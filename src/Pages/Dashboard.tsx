@@ -20,12 +20,10 @@ function Dashboard() {
         const loadData = async () => {
 
             const invoices = await getInvoices()
-            console.log("STATUS:", invoices.map(i => i.status))
             const formatted: Invoice[] = invoices.map(inv => ({
                 ...inv,
                 status: inv.status.toLowerCase() as "paid" | "pending" | "overdue"
             }))
-            console.log("STATUS FIXED:", formatted.map(i => i.status)) 
             const result = reportAnalytics(formatted, "monthly", "overall")
 
             setReport(result)
@@ -34,11 +32,17 @@ function Dashboard() {
         loadData()
     }, [])
 
-    if (!report) return <div>Loading...</div>
+        if (report === null)
+
+                return (
+                        <div className="flex items-center justify-center min-h-screen min-w-screen">
+                                <p className="text-lg font-semibold">Loading...</p>
+                        </div>
+                );
 
         return (
 
-                <div className="w-full h-screen overflow-hidden">
+                <div className="w-full h-screen ">
                         <div className="w-full h-20 bg-[#DFDFDF99]  flex items-center justify-between px-4">
                                 <div className=" ">
                                         <h1 className="text-black font-iceberg text-3xl font-extralight ">Dashboard</h1>

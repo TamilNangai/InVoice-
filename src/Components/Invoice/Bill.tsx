@@ -184,7 +184,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
         <div
             ref={ref}
-            className="w-full border border-[#00000040] rounded-xl p-6 bg-white flex flex-col justify-between"
+            className="w-full border border-[#00000040] rounded-xl p-6 bg-white flex flex-col "
             style={{ pageBreakInside: "avoid" }} >
             <main className="w-full">
                 {/* HEADER */}
@@ -239,7 +239,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                         </p>
 
                         <p className="font-sanchez text-[18px]">
-                            {phone}
+                            {phone == 0 ? "" : phone}
                         </p>
 
                         <p className="font-sanchez text-[18px]">

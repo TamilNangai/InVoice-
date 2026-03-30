@@ -26,7 +26,6 @@ const Settings = () => {
 
   const handleSave = async () => {
 
-    console.log("Settings Data:", settingsData)
 
     await saveSettings(settingsData)  
 

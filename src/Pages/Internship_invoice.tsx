@@ -212,8 +212,6 @@ const Internship_invoice = () => {
     }
 
 
-    
- console.log(invoiceData);
 
 
 
@@ -253,7 +251,6 @@ const Internship_invoice = () => {
   useEffect(() => {
     const fetchCompany = async () => {
       const data = await getSettings();
-      console.log("Company Data:", data);
       setCompany(data);
     };
 
@@ -284,7 +281,15 @@ const Internship_invoice = () => {
 
   }, [invoiceData.fees, invoiceData.price.paid]);
 
-  if (!company) return <div>Loading...</div>;
+  
+  if (company === null)
+
+    return (
+      <div className="flex items-center justify-center min-h-screen min-w-screen">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
+
 
   return (
     <div className="w-full h-screen ">

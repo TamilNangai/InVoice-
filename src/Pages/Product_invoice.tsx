@@ -11,7 +11,6 @@ import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
-import { getFunctions, httpsCallable } from "firebase/functions"
 
 
 type Product = {
@@ -90,7 +89,6 @@ const Product_invoice = () => {
 
       const data = await getSettings()
 
-      console.log("Company Data:", data)
 
       setCompany(data)
 
@@ -150,12 +148,12 @@ const Product_invoice = () => {
       return
     }
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
 
-    if (!emailRegex.test(email)) {
-      await showError("Please enter a valid email address")
-      return
-    }
+    // if (!emailRegex.test(email)) {
+    //   await showError("Please enter a valid email address")
+    //   return
+    // }
 
      const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
 
@@ -258,9 +256,13 @@ const Product_invoice = () => {
   }))
 
 
-  if (!company) return <div>Loading...</div>
+  if (company === null)
 
-
+    return (
+      <div className="flex items-center justify-center min-h-screen min-w-screen">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
 
   return (
 
