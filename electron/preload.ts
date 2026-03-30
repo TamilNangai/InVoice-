@@ -41,4 +41,21 @@ contextBridge.exposeInMainWorld("electron", {
   invoke: (channel: string, data?: any) => {
     return ipcRenderer.invoke(channel, data);
   }
+
+  
 });
+
+contextBridge.exposeInMainWorld("electronAPI", {
+  openEmail: (data: {
+    to: string;
+    subject?: string;
+    body?: string;
+  }) => ipcRenderer.invoke("open-email", data),
+});
+
+interface Window {
+  electronAPI: {
+    openEmail: (data: { to: string; subject?: string; body?: string }) => Promise<{ success: boolean }>;
+    sendInvoicePDF: (data: { to: string; subject: string; body: string; pdfBase64: string; filename: string }) => Promise<{ success: boolean; error?: string }>;
+  };
+}

@@ -20,8 +20,9 @@ const Products = () => {
             h4="Product or Service Name"
             h5="Product or Service ID"
             h6="Price Details"
-            h7="Price"
+            h7="Max Price"
             h8="Add Product"
+            h9="Min Price"
             para1="Manage your product catalog and service offerings."
             src1={vectorw}
             src2="" />

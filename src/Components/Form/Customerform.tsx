@@ -1,6 +1,5 @@
 
-
-import React, { useState } from "react"
+import React, { useState} from "react"
 import InputField from "@/Components/Form/InputField"
 
 type CustomerData = {
@@ -15,9 +14,10 @@ type CustomerData = {
 type Props = {
   data: CustomerData
   setData: (data: CustomerData) => void
+  onEmailChange?: (email: string) => void // <-- new prop to pass email up
 }
 
-const CustomerForm: React.FC<Props> = ({ data, setData }) => {
+const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
 
   const [errors, setErrors] = useState<Partial<CustomerData>>({})
 
@@ -27,6 +27,7 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
     // phone numbers only
     if (name === "phone" && !/^\d*$/.test(value)) return
+
     if (name === "email") {
       let error;
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
@@ -34,21 +35,20 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
       if (!emailRegex.test(value)) {
         error = "Please enter a valid email address"
       }
+
+      // Pass email to parent if callback exists
+      if (onEmailChange) {
+        onEmailChange(value)
+      }
     }
-
-
-
 
     // GST uppercase + limit to 15 chars
     if (name === "gst") {
-
       const gstValue = value.toUpperCase().slice(0, 15)
-
       setData({
         ...data,
         [name]: gstValue
       })
-
       return
     }
 
@@ -57,7 +57,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
       [name]: value
     })
   }
-
 
   const validateField = (name: string, value: string) => {
 
@@ -79,15 +78,11 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
       error = "Phone must be 10 digits"
 
     if (name === "gst") {
-
       const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$/
-
       if (value && !gstRegex.test(value)) {
         error = "Enter a valid GST number"
       }
-
     }
-
 
     setErrors(prev => ({
       ...prev,
@@ -116,7 +111,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
-          
 
           <InputField
             label="Email Address"
@@ -129,7 +123,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             required
             pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
           />
-       
 
           <InputField
             label="Office Name"
@@ -140,7 +133,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
-          
 
           <InputField
             label="GST Number"
@@ -152,7 +144,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
             maxLength={15}
             pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$"
           />
-
 
         </div>
 

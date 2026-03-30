@@ -57,6 +57,7 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       dueDate:data.price?.duedate || "",
       payment: data.price?.paymentMethod || "",
       gst: data.gst || 0,
+      batch: data.program?.batch || "",
       startDate: data.program?.start || "",
       endDate: data.program?.enddate || "",
       client:

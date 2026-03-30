@@ -24,6 +24,7 @@ export type Invoice = {
     paidAmount?: number;
     startDate?: string; 
     endDate?: string;  
+    
 };
 
 

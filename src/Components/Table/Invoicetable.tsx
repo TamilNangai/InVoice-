@@ -20,7 +20,6 @@ const RecentInvoices: React.FC = () => {
   const [search, setSearch] = useState("");
 
 
-  // FETCH INVOICES FROM FIRESTORE
   useEffect(() => {
 
     const fetchInvoices = async () => {
@@ -37,7 +36,6 @@ const RecentInvoices: React.FC = () => {
         // ✅ FIX STATUS
         status: item.status.toLowerCase() as "paid" | "pending" | "overdue",
 
-        // ✅ FIX DATE
         date: item.date,
       }));
 
@@ -67,7 +65,6 @@ const RecentInvoices: React.FC = () => {
     return matchSearch && matchStatus;
 
   });
-
 
   return (
 
@@ -121,6 +118,7 @@ const RecentInvoices: React.FC = () => {
             </div>
 
           </div>
+          <div className="w-full ">
 
           <table className="w-full h-full text-center">
 
@@ -181,6 +179,7 @@ const RecentInvoices: React.FC = () => {
             </tbody>
 
           </table>
+          </div>
 
         </div>
       </div>
