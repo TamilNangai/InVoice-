@@ -1,5 +1,3 @@
-
-
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { useState, useEffect, useRef } from "react"
 import Bill from '@/Components/Invoice/Bill'

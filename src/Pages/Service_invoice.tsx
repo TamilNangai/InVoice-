@@ -222,7 +222,8 @@ const Service_invoice = () => {
         due: dueAmount
       }
     },
-      billRef
+      billRef,
+      `Service_Invoice_${invoiceId}_${invoiceData.customer.customer.replace(/\s+/g, '_')}.pdf`
     );
 
     await showSuccess("Invoice saved successfully");

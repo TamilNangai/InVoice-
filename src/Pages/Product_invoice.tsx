@@ -196,7 +196,8 @@ const Product_invoice = () => {
           due: dueAmount
         }
       },
-      billRef
+      billRef,
+      `Product_Invoice_${invoiceId}_${invoiceData.customer.customer.replace(/\s+/g, '_')}.pdf`
     )
 
     await showSuccess("Invoice saved successfully");
