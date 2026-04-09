@@ -12,44 +12,7 @@ import { saveAndPrint } from "@/utils/saveAndPrint"
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 
-const EmailButton: React.FC<{ email: string }> = ({ email }) => {
-  const handleClick = async () => {
-    if (!email) {
-      alert("Please enter customer email first!");
-      return;
-    }
 
-    try {
-      const result = await window.electronAPI.openEmail({
-        to: email,
-        subject: "Your Invoice is Ready 📄",
-        body: "Hello, your invoice is attached.",
-      });
-
-      if (!result.success) {
-        alert("Unable to open email client");
-      }
-    } catch (error) {
-      console.error("Failed to open email:", error);
-      alert("Error opening email client");
-    }
-  };
-
-  return (
-      <button
-      onClick={handleClick}
-      className="px-4 py-2 text-black rounded-md ml-2"
-    >
-      <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-            type="submit"
-          />
-    </button>
-  );
-};
 
 type Service = {
   serviceName: string
@@ -82,7 +45,7 @@ type InvoiceData = {
 
 const Service_invoice = () => {
 
-  const [invoiceId] = useState(generateInvoiceId())
+  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
 
   const [company, setCompany] = useState<any>(null)
 
@@ -264,6 +227,34 @@ const Service_invoice = () => {
 
     await showSuccess("Invoice saved successfully");
 
+    // Reset form after successful save
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData({
+      customer: {
+        customer: "",
+        email: "",
+        office: "",
+        gst: "",
+        phone: "",
+        address: ""
+      },
+      service: [
+        {
+          serviceName: "",
+          price: 0,
+          tax: 0
+        }
+      ],
+      price: {
+        total: 0,
+        due: 0,
+        paid: 0,
+        duedate: "",
+        paymentMethod: ""
+      },
+      discount: 0
+    })
+    formRef.current?.reset()
   }
 
 
@@ -297,10 +288,18 @@ const Service_invoice = () => {
         />
       </div> */}
         <div>
-        
+          <button
+            type="button"
 
-          {/* ✅ Correct email usage */}
-          <EmailButton email={invoiceData.customer.email} />
+            className="px-4 py-2 text-black rounded-md ml-2"
+          >
+            <Buttons
+              h1="Issue Invoice"
+              h2="Save Draft"
+              src2={vectora}
+              src1=""
+            />
+          </button>
         </div>
       </div>
 

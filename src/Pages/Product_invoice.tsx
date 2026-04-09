@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import React from "react"
+// import React from "react"
 import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
@@ -14,44 +14,7 @@ import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 
 
-const EmailButton: React.FC<{ email: string }> = ({ email }) => {
-  const handleClick = async () => {
-    if (!email) {
-      alert("Please enter customer email first!");
-      return;
-    }
 
-    try {
-      const result = await window.electronAPI.openEmail({
-        to: email,
-        subject: "Your Invoice is Ready 📄",
-        body: "Hello, your invoice is attached.",
-      });
-
-      if (!result.success) {
-        alert("Unable to open email client");
-      }
-    } catch (error) {
-      console.error("Failed to open email:", error);
-      alert("Error opening email client");
-    }
-  };
-
-  // ✅ FIX: return JSX
-  return (
-    <button
-      onClick={handleClick}
-      className="px-4 py-2  text-black rounded-md ml-2"
-    >
-       <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-          />
-    </button>
-  );
-};
 
 
 type Product = {
@@ -85,7 +48,7 @@ type InvoiceData = {
 }
 
 const Product_invoice = () => {
-  const [invoiceId] = useState(generateInvoiceId())
+  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
   const [company, setCompany] = useState<any>(null)
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     customer: {
@@ -117,7 +80,7 @@ const Product_invoice = () => {
     discount: 0
   })
 
-  const [customerEmail, setCustomerEmail] = useState(""); // <-- new state for email
+
 
   useEffect(() => {
     const fetchCompany = async () => {
@@ -237,6 +200,36 @@ const Product_invoice = () => {
     )
 
     await showSuccess("Invoice saved successfully");
+
+    // Reset form after successful save
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData({
+      customer: {
+        customer: "",
+        email: "",
+        office: "",
+        gst: "",
+        phone: "",
+        address: ""
+      },
+      product: [
+        {
+          productName: "",
+          sub: "",
+          price: 0,
+          tax: 0
+        }
+      ],
+      price: {
+        total: 0,
+        due: 0,
+        paid: 0,
+        duedate: "",
+        paymentMethod: ""
+      },
+      discount: 0
+    })
+    formRef.current?.reset()
   }
 
   const rows = invoiceData.product.map((item, index) => ({
@@ -261,15 +254,18 @@ const Product_invoice = () => {
         <Header h1="Product Invoice" para={`#${invoiceId}`} />
 
         <div className="">
-          {/* <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-          /> */}
+          <button
+            type="button"
 
-          {/* ✅ UPDATED BUTTON: pass customerEmail */}
-          <EmailButton email={customerEmail} />
+            className="px-4 py-2 text-black rounded-md ml-2"
+          >
+            <Buttons
+              h1="Issue Invoice"
+              h2="Save Draft"
+              src2={vectora}
+              src1=""
+            />
+          </button>
         </div>
       </div>
 
@@ -298,7 +294,6 @@ const Product_invoice = () => {
                 customer: data
               }))
             }
-            onEmailChange={setCustomerEmail} // <-- pass email up
           />
 
           <ProductForm

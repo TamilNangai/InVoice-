@@ -16,44 +16,6 @@ import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 
 
-const EmailButton: React.FC<{ email: string }> = ({ email }) => {
-  const handleClick = async () => {
-    if (!email) {
-      alert("Please enter customer email first!");
-      return;
-    }
-
-    try {
-      const result = await window.electronAPI.openEmail({
-        to: email,
-        subject: "Your Invoice is Ready 📄",
-        body: "Hello, your invoice is attached.",
-      });
-
-      if (!result.success) {
-        alert("Unable to open email client");
-      }
-    } catch (error) {
-      console.error("Failed to open email:", error);
-      alert("Error opening email client");
-    }
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      className="px-4 py-2 text-black rounded-md ml-2"
-    >
-      <Buttons
-        h1="Issue Invoice"
-        h2="Save Draft"
-        src2={vectora}
-        src1=""
-      />
-    </button>
-  );
-};
-
 type InvoiceData = {
   student: {
     studentName: string;
@@ -88,7 +50,7 @@ type InvoiceData = {
 };
 
 const Internship_invoice = () => {
-  const [invoiceId] = useState(generateInvoiceId())
+  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     student: {
       studentName: "",
@@ -239,6 +201,16 @@ const Internship_invoice = () => {
     )
 
     await showSuccess("Invoice saved successfully");
+
+    // Reset form after successful save
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData({
+      student: { studentName: "", email: "", phone: "", college: "" },
+      program: { internship: "", batch: "", start: "", trainer: "", enddate: "" },
+      fees: { training: 0, certificate: 0, tax: 0, internship: 0, discount: 0 },
+      price: { total: 0, due: 0, paid: 0, duedate: "", paymentMethod: "" }
+    })
+    formRef.current?.reset()
   }
 
   const [company, setCompany] = useState<any>(null);
@@ -272,7 +244,7 @@ const Internship_invoice = () => {
     }));
   }, [invoiceData.fees, invoiceData.price.paid]);
 
-  
+
   if (company === null)
 
     return (
@@ -292,8 +264,18 @@ const Internship_invoice = () => {
           />
 
           <div className="">
-            {/* ✅ FIX HERE */}
-            <EmailButton email={invoiceData.student.email} />
+            <button
+              type="button"
+
+              className="px-4 py-2 text-black rounded-md ml-2"
+            >
+              <Buttons
+                h1="Issue Invoice"
+                h2="Save Draft"
+                src2={vectora}
+                src1=""
+              />
+            </button>
           </div>
         </div>
 
