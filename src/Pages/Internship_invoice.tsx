@@ -89,11 +89,11 @@ const Internship_invoice = () => {
 
   const discount = Number(invoiceData.fees.discount || 0)
 
-  const totalAmount = subtotal + gstTotal - discount
+  const totalAmount = Math.round(subtotal + gstTotal - discount)
 
   const paidAmount = Number(invoiceData.price.paid || 0)
 
-  const dueAmount = totalAmount - paidAmount
+  const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
@@ -107,6 +107,8 @@ const Internship_invoice = () => {
       await showError("Please fill all student details.")
       return
     }
+
+
 
     if (!/^[0-9]{10}$/.test(phone)) {
       await showError("Phone number must be 10 digits")
@@ -144,6 +146,7 @@ const Internship_invoice = () => {
       return
     }
 
+
     const subtotal =
       Number(training) +
       Number(certificate) +
@@ -160,9 +163,8 @@ const Internship_invoice = () => {
       await showError("Please select payment method")
       return
     }
-
-    if (paid <= 0 || paid > totalAmount) {
-      await showError("Paid amount is invalid")
+    if (paid < 0 || paid > totalAmount) {
+      await showError("Invalid paid amount")
       return
     }
 
@@ -172,8 +174,10 @@ const Internship_invoice = () => {
       await showError("Due date must be a future date")
       return
     }
-
-    console.log(invoiceData);
+    if (paid > totalAmount) {
+      await showError("Paid amount cannot exceed total amount")
+      return
+    }
 
 
 
@@ -195,7 +199,7 @@ const Internship_invoice = () => {
           due: dueAmount
         }
       },
-      billRef
+
     )
 
     await showSuccess("Invoice saved successfully");
@@ -221,26 +225,7 @@ const Internship_invoice = () => {
     fetchCompany();
   }, []);
 
-  useEffect(() => {
-    const training = Number(invoiceData.fees.training) || 0;
-    const certificate = Number(invoiceData.fees.certificate) || 0;
-    const internship = Number(invoiceData.fees.internship) || 0;
-    const discount = Number(invoiceData.fees.discount) || 0;
-    const taxRate = Number(invoiceData.fees.tax) || 0;
 
-    const subtotal = training + certificate + internship;
-    const taxAmount = (subtotal * taxRate) / 100;
-    const total = Math.round(subtotal + taxAmount - discount);
-
-    setInvoiceData(prev => ({
-      ...prev,
-      price: {
-        ...prev.price,
-        total: total,
-        due: total - prev.price.paid,
-      }
-    }));
-  }, [invoiceData.fees, invoiceData.price.paid]);
 
 
   if (company === null)
@@ -278,19 +263,15 @@ const Internship_invoice = () => {
         </div>
 
         <form
-          className="grid grid-cols-2 w-full h-full"
+          className="w-full h-fit grid grid-cols-2"
           ref={formRef}
           onSubmit={(e) => {
             e.preventDefault()
-            if (!formRef.current?.checkValidity()) {
-              formRef.current?.reportValidity()
-              return
-            }
-            handlePrintAndSave()
+
           }}
         >
 
-          <div className="w-[100%] space-y-7 p-4 grid ">
+          <div className="w-full space-y-7 p-4 grid ">
             <Stdform
               data={invoiceData.student}
               setData={(data) =>
@@ -320,7 +301,7 @@ const Internship_invoice = () => {
             />
           </div>
 
-          <div className="w-[100%] h-full p-4 grid ">
+          <div className="w-full h-fit p-4 grid ">
             <Bill
               ref={billRef}
               type="internship"
@@ -352,12 +333,12 @@ const Internship_invoice = () => {
               head31="Certification Issuance"
               head32="Digital and physical certificate"
               amount3={invoiceData.fees.certificate}
-              subamount11={invoiceData.price.total}
+              subamount11={subtotal}
               subamount12={invoiceData.fees.discount}
-              subamount13={(invoiceData.price.total * invoiceData.fees.tax) / 100}
-              subamount21={invoiceData.price.total}
-              subamount22={invoiceData.price.paid}
-              subamount23={invoiceData.price.due}
+              subamount13={gstTotal}
+              subamount21={totalAmount}
+              subamount22={paidAmount}
+              subamount23={dueAmount}
               taxPercent={invoiceData.fees.tax}
               paymentMethod={invoiceData.price.paymentMethod}
               conditionPara="Payment is due within 7 days..."

@@ -4,7 +4,7 @@ import Searchinput from "../Filter/Searchinput";
 import { getInvoices } from "@/utils/getInvoice";
 
 export interface Invoice {
-  uniqueId: string;      
+  uniqueId: string;
   invoiceId: string;
   type: string;
   client: string;
@@ -27,7 +27,7 @@ const RecentInvoices: React.FC = () => {
       const data = await getInvoices();
 
       const formattedData: Invoice[] = data.map((item: any) => ({
-        uniqueId:item.uniqueId,
+        uniqueId: item.uniqueId,
         invoiceId: item.invoiceId,
         type: item.type,
         client: item.client,
@@ -120,65 +120,65 @@ const RecentInvoices: React.FC = () => {
           </div>
           <div className="w-full ">
 
-          <table className="w-full h-full text-center">
+            <table className="w-full h-full text-center">
 
-            <thead className="text-xl">
+              <thead className="text-xl">
 
-              <tr className="grid grid-cols-6 font-iceberg">
+                <tr className="grid grid-cols-6 font-iceberg">
 
-                <th className="p-3 border font-normal">Invoice No</th>
-                <th className="p-3 border font-normal">Type</th>
-                <th className="p-3 border font-normal">Client</th>
-                <th className="p-3 border font-normal">Date Issued</th>
-                <th className="p-3 border font-normal">Amount</th>
-                <th className="p-3 border font-normal">Status</th>
+                  <th className="p-3 border font-normal">Invoice No</th>
+                  <th className="p-3 border font-normal">Type</th>
+                  <th className="p-3 border font-normal">Client</th>
+                  <th className="p-3 border font-normal">Date Issued</th>
+                  <th className="p-3 border font-normal">Amount</th>
+                  <th className="p-3 border font-normal">Status</th>
 
-              </tr>
+                </tr>
 
-            </thead>
+              </thead>
 
-            <tbody>
+              <tbody>
 
-              {filteredInvoices.length > 0 ? (
-                filteredInvoices.slice(0, 10).map((invoice) => (
+                {filteredInvoices.length > 0 ? (
+                  filteredInvoices.slice(0, 10).map((invoice) => (
 
-                  <tr key={invoice.uniqueId}
-                    className="hover:bg-gray-50 grid grid-cols-6"
-                  >
+                    <tr key={invoice.uniqueId}
+                      className="hover:bg-gray-50 grid grid-cols-6"
+                    >
 
-                    <td className="p-3 border">{invoice.invoiceId}</td>
-                    <td className="p-3 border">{invoice.type}</td>
-                    <td className="p-3 border">{invoice.client}</td>
-                    <td className="p-3 border"> {invoice.date}
+                      <td className="p-3 border">{invoice.invoiceId}</td>
+                      <td className="p-3 border">{invoice.type}</td>
+                      <td className="p-3 border">{invoice.client}</td>
+                      <td className="p-3 border"> {invoice.date}
 
-                    </td>
+                      </td>
 
-                    <td className="p-3 border">
-                      ${invoice.amount.toFixed(2)}
-                    </td>
+                      <td className="p-3 border">
+                        ₹{invoice.amount.toFixed(2)}
+                      </td>
 
-                    <td className="p-3 border">
-                      •   {invoice.status}
-                    </td>
+                      <td className="p-3 border">
+                        •   {invoice.status}
+                      </td>
 
-                  </tr>
+                    </tr>
 
-                ))) :
+                  ))) :
 
-                (
+                  (
 
-                  <tr>
-                    <td colSpan={10} className="p-5">
-                      No invoices found
-                    </td>
-                  </tr>
+                    <tr>
+                      <td colSpan={10} className="p-5">
+                        No invoices found
+                      </td>
+                    </tr>
 
-                )
-              }
+                  )
+                }
 
-            </tbody>
+              </tbody>
 
-          </table>
+            </table>
           </div>
 
         </div>

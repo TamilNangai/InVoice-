@@ -2,20 +2,21 @@ import { db } from "@/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 export type Invoice = {
-  uniqueId: string;  // 🔹 NEW
+  uniqueId: string;
   invoiceId: string;
   type: string;
   client: string;
   date: string;
-  dueDate:string;
+  dueDate: string;
   amount: number;
-  status: "paid" | "pending" |"overdue";
+  status: "paid" | "pending" | "overdue";
   pending: number;
   sub: string;
-  email?:string;
-  phone?:string;
-  gst?:number;
-  payment?:string;
+  email?: string;
+  phone?: string;
+  gst?: number;
+  payment?: string;
+  rawData?: any; // 🔹 Add rawData to store full database record
 };
 
 
@@ -25,8 +26,8 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
   const invoices: Invoice[] = snapshot.docs.map((doc) => {
     const data: any = doc.data();
-    const status: "paid" | "pending" | "overdue" =
-      data.status ||
+    // Status check
+    data.status ||
       (data.price?.due && data.price.due > 0 ? "pending" : "paid");
 
 
@@ -43,7 +44,7 @@ export const getInvoices = async (): Promise<Invoice[]> => {
           day: "2-digit",
           year: "numeric",
         })
-        .replace(",", ""); 
+        .replace(",", "");
     };
 
 
@@ -54,8 +55,9 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       type: data.invoiceType || "",
       email: data.customer?.email || data.student?.email || "",
       phone: data.customer?.phone || data.student?.phone || "",
-      dueDate:data.price?.duedate || "",
+      dueDate: data.price?.duedate || "",
       payment: data.price?.paymentMethod || "",
+      paid: data.price?.paid || 0,
       gst: data.gst || 0,
       batch: data.program?.batch || "",
       startDate: data.program?.start || "",
@@ -83,8 +85,8 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       status:
         data.status ||
         (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
-      
-      
+
+      rawData: data, // 🔹 Store the full record for detailed PDF generation
     };
 
   });

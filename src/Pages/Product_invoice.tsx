@@ -103,10 +103,12 @@ const Product_invoice = () => {
     return acc + gst
   }, 0)
 
+
+
   const discount = Number(invoiceData.discount || 0)
-  const totalAmount = subtotal + gstTotal - discount
+  const totalAmount = Math.round(subtotal + gstTotal - discount)
   const paidAmount = Number(invoiceData.price.paid || 0)
-  const dueAmount = totalAmount - paidAmount
+  const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
@@ -122,12 +124,7 @@ const Product_invoice = () => {
       return
     }
 
-    // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
 
-    // if (!emailRegex.test(email)) {
-    //   await showError("Please enter a valid email address")
-    //   return
-    // }
 
     const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
     const gst = invoiceData.customer.gst
@@ -169,11 +166,10 @@ const Product_invoice = () => {
       return
     }
 
-    if (paid <= 0) {
-      await showError("Please fill the paid Amount correctly.")
+    if (paid < 0 || paid > totalAmount) {
+      await showError("Invalid paid amount")
       return
     }
-
     const today = new Date().toISOString().split("T")[0]
 
     if (duedate <= today) {
@@ -196,8 +192,7 @@ const Product_invoice = () => {
           due: dueAmount
         }
       },
-      billRef,
-      `Product_Invoice_${invoiceId}_${invoiceData.customer.customer.replace(/\s+/g, '_')}.pdf`
+
     )
 
     await showSuccess("Invoice saved successfully");
@@ -276,12 +271,7 @@ const Product_invoice = () => {
         onSubmit={(e) => {
           e.preventDefault()
 
-          if (!formRef.current?.checkValidity()) {
-            formRef.current?.reportValidity()
-            return
-          }
 
-          handlePrintAndSave()
         }}
       >
 
@@ -355,7 +345,7 @@ const Product_invoice = () => {
             subamount21={totalAmount}
             subamount22={paidAmount}
             subamount23={dueAmount}
-            taxPercent={invoiceData.product[0]?.tax || 0}
+            taxPercent={invoiceData.product.length > 0 ? invoiceData.product[0].tax : 0}
             paymentMethod={invoiceData.price.paymentMethod}
             conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
             onPrint={handlePrintAndSave}

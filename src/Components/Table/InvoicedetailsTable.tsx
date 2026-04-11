@@ -55,7 +55,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
         }
     };
 
-   
+
 
 
 
@@ -72,7 +72,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                 discount: inv.discount || 0
             };
 
-            const doc = generateInvoicePDF(formattedInvoice);
+            const doc = await generateInvoicePDF(formattedInvoice);
             const pdfBlob = doc.output("blob");
             zip.file(`Invoice_${inv.invoiceId}.pdf`, pdfBlob);
         }
@@ -81,7 +81,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
         saveAs(zipBlob, `Invoices_Batch_${new Date().toLocaleDateString()}.zip`);
     };
 
-    const handleDownload = (invoice: Invoice) => {
+    const handleDownload = async (invoice: Invoice) => {
         // MAP DATA HERE: Ensure the PDF generator sees 'subtotal' and 'paidAmount'
         const formattedInvoice = {
             ...invoice,
@@ -91,7 +91,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
             discount: invoice.discount || 0
         };
 
-        const doc = generateInvoicePDF(formattedInvoice);
+        const doc = await generateInvoicePDF(formattedInvoice);
         doc.save(`Invoice_${invoice.invoiceId}.pdf`);
     };
 
@@ -99,7 +99,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
 
 
     return (
-        <div className="w-[95%]   border-2 border-black rounded-2xl  overflow-hidden">
+        <div className="w-[95%]   border-2 border-black rounded-2xl overflow-x-auto overflow-y-visible">
             <BaseTable variant="grid" >
                 <BaseTable.Header>
                     <BaseTable.Row>
@@ -155,8 +155,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                                         </button>
 
                                         {openMenuId === item.uniqueId && (
-                                            <div className="absolute top-8 right-0 bg-white border rounded shadow-md z-50 w-32">
-
+                                            <div className="absolute bottom-8 mt-2 right-0 bg-white border rounded shadow-md z-50 w-32">
                                                 {/* EDIT */}
                                                 <button
                                                     onClick={() => {
@@ -171,7 +170,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
 
                                                 {/* DOWNLOAD PDF */}
                                                 <button
-                                                    
+
                                                     onClick={() => handleDownload(item)}
                                                     className="w-full px-3 py-2 hover:bg-gray-100 text-left z-50"
                                                 >
@@ -184,7 +183,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                                 </BaseTable.Cell>
 
 
-                                
+
                             </BaseTable.Row>);
                     })}
                 </BaseTable.Body >

@@ -121,11 +121,11 @@ const Service_invoice = () => {
 
   const discount = Number(invoiceData.discount || 0)
 
-  const totalAmount = subtotal + gstTotal - discount
+  const totalAmount = Math.round(subtotal + gstTotal - discount)
 
   const paidAmount = Number(invoiceData.price.paid || 0)
 
-  const dueAmount = totalAmount - paidAmount
+  const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
 
   /* ================= SAVE + PRINT ================= */
@@ -221,9 +221,10 @@ const Service_invoice = () => {
         total: totalAmount,
         due: dueAmount
       }
-    },
-      billRef,
-      `Service_Invoice_${invoiceId}_${invoiceData.customer.customer.replace(/\s+/g, '_')}.pdf`
+    }
+
+
+
     );
 
     await showSuccess("Invoice saved successfully");
@@ -279,15 +280,7 @@ const Service_invoice = () => {
           para={`#${invoiceId}`}
         />
 
-        {/* <div className="">
-        <Buttons
-          h1="Issue Invoice"
-          h2="Save Draft"
-          src2={vectora}
-          src1=""
-          type="submit"
-        />
-      </div> */}
+
         <div>
           <button
             type="button"
@@ -309,10 +302,7 @@ const Service_invoice = () => {
       <form
         className="grid grid-cols-2 w-full h-full"
         ref={formRef}
-        onSubmit={(e) => {
-          e.preventDefault()
-          handlePrintAndSave()
-        }}
+
       >
 
 
@@ -412,12 +402,11 @@ const Service_invoice = () => {
             subamount22={paidAmount}
             subamount23={dueAmount}
 
-            taxPercent={invoiceData.service[0]?.tax || 0}
+            taxPercent={invoiceData.service.length > 0 ? invoiceData.service[0].tax : 0}
             paymentMethod={invoiceData.price.paymentMethod}
 
             conditionPara="Thank you for your business. Please remit payment within 30 days."
 
-            // onPrint={() => formRef.current?.requestSubmit()}
             onPrint={handlePrintAndSave}
 
           />

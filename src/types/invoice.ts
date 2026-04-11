@@ -1,7 +1,7 @@
 export type Invoice = {
     uniqueId: string;
     invoiceId: string;
-    type: string; 
+    type: string;
     client: string;
     date: string;
     amount: number;
@@ -20,11 +20,11 @@ export type Invoice = {
     items?: Array<{ name: string; id: string; subType?: string; amount: number }>;
     subtotal?: number;
     discount?: number;
-    gstRate?: number; 
+    gstRate?: number;
     paidAmount?: number;
-    startDate?: string; 
-    endDate?: string;  
-    
+    startDate?: string;
+    endDate?: string;
+    rawData?: any;
 };
 
 

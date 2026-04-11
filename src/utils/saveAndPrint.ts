@@ -1,325 +1,294 @@
-// import { saveInvoice } from "./SaveInvoice";
-// import html2canvas from "html2canvas";
-// import { jsPDF } from "jspdf";
-// import { showSuccess, showError } from "./alert";
-
-// /**
-//  * saveAndPrint - saves invoice, generates PDF, downloads it, emails it, and prints it.
-//  * @param invoicePayload - the invoice data to save
-//  * @param billRef - ref to the Bill DOM element
-//  * @param fileName - name for PDF file (e.g., Invoice_1234.pdf)
-//  */
-// export const saveAndPrint = async (
-//   invoicePayload: any,
-//   billRef: React.RefObject<HTMLDivElement>,
-//   fileName: string = `Invoice_${Date.now()}.pdf`
-// ) => {
-//   try {
-//     // 1️⃣ Save invoice to database (reuse existing logic)
-//     await saveInvoice(invoicePayload);
-
-//     if (!billRef.current) {
-//       throw new Error("Bill reference not found");
-//     }
-
-//     // 2️⃣ Generate PDF from existing Bill component
-//     const canvas = await html2canvas(billRef.current, {
-//       scale: 2,
-//       useCORS: true,
-//       logging: false,
-//       onclone: (clonedDoc) => {
-//         // Find the cloned bill element
-//         const clonedBill = clonedDoc.querySelector('.w-full.border.rounded-xl');
-//         if (clonedBill instanceof HTMLElement) {
-//           // Reduce font size for PDF fit
-//           clonedBill.style.fontSize = "12px";
-//           // Target all elements with specific font sizes and scale them down
-//           const allTextElements = clonedBill.querySelectorAll('*');
-//           allTextElements.forEach((el: any) => {
-//             if (el instanceof HTMLElement) {
-//               const currentSize = window.getComputedStyle(el).fontSize;
-//               if (currentSize) {
-//                 const numericSize = parseFloat(currentSize);
-//                 el.style.fontSize = `${numericSize * 0.8}px`; // Scale down by 20%
-//               }
-//             }
-//           });
-
-//           // Hide elements that shouldn't be in the PDF
-//           // (Print button and Terms & Conditions are usually marked with print:hidden)
-//           const elementsToHide = clonedDoc.querySelectorAll(".print\\:hidden");
-//           elementsToHide.forEach((el: any) => {
-//             if (el instanceof HTMLElement) {
-//               el.style.display = "none";
-//             }
-//           });
-
-//           // Also hide the small header button if it's there
-//           const headerButton = clonedBill.querySelector('div > div > div > button');
-//           if (headerButton instanceof HTMLElement) {
-//             headerButton.style.display = 'none';
-//           }
-//         }
-//       }
-//     });
-
-//     const imgData = canvas.toDataURL("image/png");
-//     const pdf = new jsPDF("p", "mm", "a4");
-
-//     const pdfWidth = pdf.internal.pageSize.getWidth();
-//     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-//     const pageHeight = pdf.internal.pageSize.getHeight();
-
-//     // Scale down if the content is taller than A4
-//     let finalWidth = pdfWidth;
-//     let finalHeight = pdfHeight;
-
-//     if (pdfHeight > pageHeight) {
-//       const ratio = pageHeight / pdfHeight;
-//       finalWidth = pdfWidth * ratio;
-//       finalHeight = pageHeight;
-
-//       // Center horizontally if scaled down
-//       const xOffset = (pdfWidth - finalWidth) / 2;
-//       pdf.addImage(imgData, "PNG", xOffset, 0, finalWidth, finalHeight);
-//     } else {
-//       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-//     }
-
-//     // 3️⃣ Save/download PDF to user's PC
-//     pdf.save(fileName);
-
-//     // 4️⃣ Prepare PDF for email attachment (Base64)
-//     const pdfBase64 = pdf.output("datauristring").split(",")[1];
-
-//     // 5️⃣ Send email automatically by node mailer (via Electron IPC)
-//     const recipientEmail = invoicePayload.student?.email || invoicePayload.customer?.email;
-
-//     if (recipientEmail && (window as any).electronAPI?.sendInvoiceEmail) {
-//       const emailResult = await (window as any).electronAPI.sendInvoiceEmail({
-//         to: recipientEmail,
-//         subject: `Your Invoice - ${invoicePayload.invoiceId}`,
-//         body: `Dear ${invoicePayload.student?.studentName || "Customer"},\n\nPlease find your invoice #${invoicePayload.invoiceId} attached.\n\nThank you!`,
-//         pdfBase64: pdfBase64,
-//         fileName: fileName,
-//       });
-
-//       if (!emailResult.success) {
-//         console.error("Email sending failed:", emailResult.error);
-//         // We still continue as the invoice is saved and PDF downloaded
-//       }
-//     }
-
-//     // 6️⃣ Open default browser print dialog
-//     // We can use a temporary iframe to print just the bill content without the full window
-//     const printWindow = document.createElement("iframe");
-//     printWindow.style.position = "absolute";
-//     printWindow.style.top = "-1000px";
-//     document.body.appendChild(printWindow);
-
-//     const doc = printWindow.contentWindow?.document;
-//     if (doc) {
-//       doc.open();
-//       doc.write(`
-//         <html>
-//           <head>
-//             <title>Print Invoice</title>
-//             <style>
-//               body { margin: 0; padding: 0; }
-//               @media print {
-//                 @page { margin: 10mm; }
-//               }
-//             </style>
-//             <link rel="stylesheet" href="/src/index.css" />
-//           </head>
-//           <body>
-//             ${billRef.current.outerHTML}
-//           </body>
-//         </html>
-//       `);
-//       doc.close();
-
-//       setTimeout(() => {
-//         printWindow.contentWindow?.focus();
-//         printWindow.contentWindow?.print();
-//         setTimeout(() => {
-//           document.body.removeChild(printWindow);
-//         }, 1000);
-//       }, 500);
-//     }
-
-//     showSuccess("Invoice saved, PDF generated, and email sent successfully!");
-
-//   } catch (error: any) {
-//     console.error("Save and Print failed:", error);
-//     showError(`Operation failed: ${error.message}`);
-//   }
-// };
-
 import { saveInvoice } from "./SaveInvoice";
-import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { showSuccess, showError } from "./alert";
 
-/**
- * saveAndPrint - saves invoice, generates PDF, downloads it, emails it, and prints it.
- * @param invoicePayload - the invoice data to save
- * @param billRef - ref to the Bill DOM element
- * @param fileName - name for PDF file (e.g., Invoice_1234.pdf)
- */
 export const saveAndPrint = async (
   invoicePayload: any,
-  billRef: React.RefObject<HTMLDivElement>,
   fileName: string = `Invoice_${Date.now()}.pdf`
 ) => {
   try {
-    // 1️⃣ Save invoice to database (reuse existing logic)
+    // 1️⃣ Save to Firebase
     await saveInvoice(invoicePayload);
+    showSuccess("Invoice saved successfully!");
 
-    if (!billRef.current) {
-      throw new Error("Bill reference not found");
-    }
+    // 2️⃣ Background PDF + Email
+    (async () => {
+      try {
+        const doc = new jsPDF("p", "mm", "a4");
 
-    // 2️⃣ Generate PDF from existing Bill component
-    const canvas = await html2canvas(billRef.current, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      onclone: (clonedDoc) => {
-        const clonedBill = clonedDoc.querySelector('.w-full.border.rounded-xl');
+        const data = invoicePayload || {};
+        const fees = data.fees || {};
+        const type = data.invoiceType || "invoice";
+        const price = data.price || {};
+        const margin = 15;
+        const paytype = price.paymentMethod || "N/A";
+        const dis = data.discount || fees.discount || 0;
+        const tax = fees.tax || data.product?.[0]?.tax || data.service?.[0]?.tax || 0;
+        const invoiceDate = data.date || new Date().toLocaleDateString();
+        const dueDate = price.duedate || data.dueDate || "-";
 
-        if (clonedBill instanceof HTMLElement) {
-          // 🔹 Adjust height & padding to remove empty space
-          clonedBill.style.height = "auto";
-          clonedBill.style.minHeight = "auto";
-          clonedBill.style.paddingBottom = "0px";
-          clonedBill.style.marginBottom = "0px";
+        let y = 20;
 
-          // 🔹 Hide empty divs that may create space
-          const emptyDivs = clonedBill.querySelectorAll("div");
-          emptyDivs.forEach((el) => {
-            if (el instanceof HTMLElement) {
-              if (!el.innerText.trim() && el.children.length === 0) {
-                el.style.display = "none";
-              }
-            }
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const contentWidth = pageWidth - margin * 2;
+
+        const formatCurrency = (num: any) => {
+          const val = parseFloat(num) || 0;
+          return val.toLocaleString("en-IN", { minimumFractionDigits: 2 });
+        };
+
+        const drawLine = (yPos: number) => {
+          doc.setDrawColor(200);
+          doc.line(margin, yPos, margin + contentWidth, yPos);
+        };
+
+        const drawItem = (name: string, sub: string, amt: number) => {
+          doc.setFont("courier", "bold");
+          doc.text(name, margin + 5, y);
+          doc.text(formatCurrency(amt), margin + contentWidth - 5, y, {
+            align: "right",
           });
 
-          // 🔹 Hide print-hidden elements
-          const elementsToHide = clonedDoc.querySelectorAll(".print\\:hidden");
-          elementsToHide.forEach((el) => {
-            if (el instanceof HTMLElement) el.style.display = "none";
+          if (sub) {
+            y += 7;
+            doc.setFont("courier", "normal");
+            doc.setFontSize(12);
+            doc.setTextColor("#000");
+            doc.text(sub, margin + 5, y);
+            doc.setTextColor("#000");
+            doc.setFontSize(14);
+          }
+          y += 10;
+          doc.line(margin, y - 5, margin + contentWidth, y - 5);
+        };
+
+        const drawTotalRow = (label: string, value: any, isTotal = false) => {
+          doc.setFontSize(14)
+          if (isTotal) {
+            doc.setFont("courier", "bold");
+            doc.setTextColor(19, 108, 237);
+          } else {
+            doc.setFont("courier", "normal");
+            doc.setTextColor(0);
+          }
+
+          doc.text(label, margin + contentWidth * 0.4, y);
+          doc.text(formatCurrency(value), margin + contentWidth - 5, y, {
+            align: "right",
           });
 
-          // 🔹 Adjust font sizes
-          const allTextElements = clonedBill.querySelectorAll("*");
-          allTextElements.forEach((el: any) => {
-            if (el instanceof HTMLElement) {
-              const currentSize = window.getComputedStyle(el).fontSize;
-              if (currentSize) {
-                const numericSize = parseFloat(currentSize);
-                el.style.fontSize = `${numericSize * 0.8}px`; // Scale down by 20%
-              }
-            }
-          });
+          doc.setTextColor(0);
+          y += 6;
+        };
+
+        // =========================
+        // 1. HEADER
+        // =========================
+        doc.setFont("courier", "bold");
+        doc.setFontSize(28);
+        doc.text("DesFlyer", margin, y);
+
+        const badgeText = (data.invoiceType || "INVOICE").toUpperCase();
+        doc.setFontSize(10);
+
+        const badgeWidth = doc.getTextWidth(badgeText) + 10;
+        doc.setFillColor(59, 130, 246);
+        doc.roundedRect(pageWidth - margin - badgeWidth, y - 7, badgeWidth, 8, 1, 1, "F");
+
+        doc.setTextColor(255);
+        doc.text(badgeText, pageWidth - margin - badgeWidth + 5, y - 1);
+        doc.setTextColor(0);
+
+        y += 8;
+
+        doc.setFontSize(10);
+        doc.setFont("courier", "normal");
+        doc.text("Incubation Cell, Kings College of Engineering, Punalkumlam", margin, y);
+        y += 5;
+        doc.text("desflyer.tech@gmail.com | +91 8525913433", margin, y);
+
+        drawLine(y + 5);
+        y += 15;
+
+        // =========================
+        // 2. BILL TO + INVOICE DETAILS
+        // =========================
+        const customer = data.student || data.customer;
+
+        doc.setFont("courier", "bold");
+        doc.setTextColor('#000');
+        doc.setFontSize(12);
+        doc.text("BILL TO", margin, y);
+        doc.text("Invoice Details", margin + contentWidth / 2 + 10, y);
+
+        y += 8;
+
+        doc.setFont("courier", "bold");
+        doc.setTextColor('#000');
+        doc.setFontSize(14)
+        doc.text(
+          customer?.studentName || customer?.customer || "N/A",
+          margin,
+          y
+        );
+        doc.setFontSize(12)
+        doc.setTextColor('#000');
+        doc.text(
+          `Invoice #: ${data.invoiceId}`,
+          margin + contentWidth / 2 + 10,
+          y
+        );
+
+        y += 6;
+        doc.setTextColor('#000');
+        doc.setFontSize(12);
+        doc.text(customer?.email || "", margin, y);
+        doc.text(
+          `Date: ${new Date().toLocaleDateString()}`,
+          margin + contentWidth / 2 + 10,
+          y
+        );
+
+        y += 6;
+        doc.setTextColor('#000');
+        doc.text(customer?.phone || "", margin, y);
+        doc.text(
+          `Due Date: ${price.duedate || "-"}`,
+          margin + contentWidth / 2 + 10,
+          y
+        );
+
+        // =========================
+        // 3. BOX SECTION
+        // =========================
+        y += 12;
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.2);
+        doc.roundedRect(margin, y, contentWidth, 25, 3, 3);
+
+        if (type.toLowerCase() === "internship") {
+          doc.setFontSize(12);
+          doc.text(data.program?.traininghead || "Training Program", margin + 5, y + 8);
+          doc.setFont("courier", "bold");
+          doc.setFontSize(14);
+          doc.text(data.program?.internship || data.sub || "", margin + 5, y + 15);
+          doc.setFont("courier", "normal");
+          doc.setFontSize(9);
+          doc.text(`Batch: ${data.program?.batch || "N/A"}`, margin + 5, y + 21);
+          doc.text(`Duration: ${data.program?.start || ""} - ${data.program?.enddate || ""}`, margin + contentWidth - 70, y + 21);
+        } else {
+          const colWidth = contentWidth / 3;
+          doc.setFont("courier", "bold");
+          doc.setFontSize(12);
+          doc.text("Invoice Date", margin + 10, y + 8);
+          doc.text("Due Date", margin + colWidth + 10, y + 8);
+          doc.text("Reference", margin + (colWidth * 2) + 10, y + 8);
+
+          doc.setFont("courier", "normal");
+          doc.text(invoiceDate, margin + 10, y + 16);
+          doc.text(dueDate, margin + colWidth + 10, y + 16);
+          doc.text(data.invoiceId || "-", margin + (colWidth * 2) + 10, y + 16);
         }
 
-        // Optional: shrink full-screen layouts like min-h-screen
-        const fullHeightElements = clonedDoc.querySelectorAll(".min-h-screen");
-        fullHeightElements.forEach((el) => {
-          if (el instanceof HTMLElement) el.style.minHeight = "auto";
-        });
+        // =========================
+        // 4. ITEMS
+        // =========================
+        y += 40;
+        doc.setFont("courier", "bold");
+        doc.setFontSize(14);
+        doc.text("Description", margin + 5, y);
+        doc.text("Amount", margin + contentWidth - 25, y);
+
+        y += 10;
+        drawLine(y);
+        y += 10;
+
+        doc.setFont("courier", "normal");
+
+        if (fees.training) drawItem("Training Fee", "Program fee", fees.training);
+        if (fees.certificate)
+          drawItem("Certification Fee", "Certificate processing", fees.certificate);
+        if (fees.internship)
+          drawItem("Internship Fee", "Hands-on training", fees.internship);
+
+        data.product?.forEach((p: any) =>
+          drawItem(p.productName, p.sub || "Product", p.price)
+        );
+
+        data.service?.forEach((s: any) =>
+          drawItem(s.serviceName, "Service", s.price)
+        );
+
+        // =========================
+        // 5. TOTALS
+        // =========================
+        y += 5;
+
+        const subtotal =
+          fees.training + fees.certificate + fees.internship ||
+          data.product?.reduce((a: number, b: any) => a + b.price, 0) ||
+          data.service?.reduce((a: number, b: any) => a + b.price, 0) ||
+          price.total;
+
+        drawTotalRow("Subtotal", subtotal);
+        drawTotalRow("Discount", dis);
+        drawTotalRow(
+          `GST(${tax}%)`,
+          (subtotal * tax) / 100
+        );
+
+        y += 5;
+        drawLine(y);
+        y += 6;
+
+        drawTotalRow("Total Amount", price.total || subtotal, true);
+        drawTotalRow(`Paid Amount(${paytype})`, price.paid || 0);
+        drawTotalRow("Due Amount", price.due || 0);
+
+        // =========================
+        // 6. FOOTER
+        // =========================
+        y += 20;
+        doc.setFontSize(10);
+        doc.text("© 2025 DesFlyer. All rights reserved", margin, y);
+        y += 5;
+        doc.text(
+          "If you have any questions, please contact support.",
+          margin,
+          y
+        );
+        y += 5;
+        doc.text("Thank you for Choosing us!", margin, y);
+
+        // =========================
+        // SAVE
+        // =========================
+        doc.save(fileName);
+
+        // =========================
+        // EMAIL
+        // =========================
+        const pdfBase64 = doc.output("datauristring").split(",")[1];
+
+        const recipientEmail =
+          customer?.email || data.student?.email || data.customer?.email;
+
+        if (recipientEmail && (window as any).electronAPI?.sendInvoiceEmail) {
+          await (window as any).electronAPI.sendInvoiceEmail({
+            to: recipientEmail,
+            subject: `Invoice - ${data.invoiceId}`,
+            body: `Dear ${customer?.studentName || customer?.customer || "Customer"},\n\nPlease find your invoice attached.`,
+            pdfBase64,
+            fileName,
+          });
+        }
+      } catch (err) {
+        console.error("PDF generation failed:", err);
       }
-    });
-
-    // Optional: crop canvas if needed
-    const croppedCanvas = document.createElement("canvas");
-    const ctx = croppedCanvas.getContext("2d");
-    const trimmedHeight = canvas.height; // Adjust if needed, e.g., canvas.height - 50
-    croppedCanvas.width = canvas.width;
-    croppedCanvas.height = trimmedHeight;
-    ctx?.drawImage(canvas, 0, 0, canvas.width, trimmedHeight);
-
-    const imgData = croppedCanvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (croppedCanvas.height * pdfWidth) / croppedCanvas.width;
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    // Scale down if taller than A4
-    let finalWidth = pdfWidth;
-    let finalHeight = pdfHeight;
-
-    if (pdfHeight > pageHeight) {
-      const ratio = pageHeight / pdfHeight;
-      finalWidth = pdfWidth * ratio;
-      finalHeight = pageHeight;
-      const xOffset = (pdfWidth - finalWidth) / 2;
-      pdf.addImage(imgData, "PNG", xOffset, 0, finalWidth, finalHeight);
-    } else {
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    }
-
-    // 3️⃣ Save/download PDF to user's PC
-    pdf.save(fileName);
-
-    // 4️⃣ Prepare PDF for email (Base64)
-    const pdfBase64 = pdf.output("datauristring").split(",")[1];
-
-    // 5️⃣ Send email automatically via Electron IPC
-    const recipientEmail = invoicePayload.student?.email || invoicePayload.customer?.email;
-    if (recipientEmail && (window as any).electronAPI?.sendInvoiceEmail) {
-      const emailResult = await (window as any).electronAPI.sendInvoiceEmail({
-        to: recipientEmail,
-        subject: `Your Invoice - ${invoicePayload.invoiceId}`,
-        body: `Dear ${invoicePayload.student?.studentName || "Customer"},\n\nPlease find your invoice #${invoicePayload.invoiceId} attached.\n\nThank you!`,
-        pdfBase64,
-        fileName,
-      });
-
-      if (!emailResult.success) {
-        console.error("Email sending failed:", emailResult.error);
-      }
-    }
-
-    // 6️⃣ Open default print dialog
-    const printWindow = document.createElement("iframe");
-    printWindow.style.position = "absolute";
-    printWindow.style.top = "-1000px";
-    document.body.appendChild(printWindow);
-
-    const doc = printWindow.contentWindow?.document;
-    if (doc) {
-      doc.open();
-      doc.write(`
-        <html>
-          <head>
-            <title>Print Invoice</title>
-            <style>
-              body { margin: 0; padding: 0; }
-              @media print { @page { margin: 10mm; } }
-            </style>
-            <link rel="stylesheet" href="/src/index.css" />
-          </head>
-          <body>
-            ${billRef.current.outerHTML}
-          </body>
-        </html>
-      `);
-      doc.close();
-
-      setTimeout(() => {
-        printWindow.contentWindow?.focus();
-        printWindow.contentWindow?.print();
-        setTimeout(() => document.body.removeChild(printWindow), 1000);
-      }, 500);
-    }
-
-    showSuccess("Invoice saved, PDF generated, and email sent successfully!");
-
+    })();
   } catch (error: any) {
-    console.error("Save and Print failed:", error);
-    showError(`Operation failed: ${error.message}`);
+    console.error("Save failed:", error);
+    showError(error.message);
   }
 };
+
