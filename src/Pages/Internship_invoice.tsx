@@ -95,6 +95,18 @@ const Internship_invoice = () => {
 
   const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
+  useEffect(() => {
+    setInvoiceData(prev => ({
+      ...prev,
+      price: {
+        ...prev.price,
+        total: totalAmount,
+        due: dueAmount
+      }
+    }))
+  }, [totalAmount, dueAmount])
+
+
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -147,10 +159,17 @@ const Internship_invoice = () => {
     }
 
 
-    const subtotal =
-      Number(training) +
-      Number(certificate) +
-      Number(internshipFee)
+    // const subtotal =
+    //   Number(training) +
+    //   Number(certificate) +
+    //   Number(internshipFee)
+    console.log({
+      subtotal,
+      gstTotal,
+      totalAmount,
+      paidAmount,
+      dueAmount
+    });
 
     if (discount < 0 || discount > subtotal) {
       await showError("Discount cannot be greater than subtotal")
@@ -178,7 +197,6 @@ const Internship_invoice = () => {
       await showError("Paid amount cannot exceed total amount")
       return
     }
-
 
 
 

@@ -12,6 +12,10 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     const pageWidth = doc.internal.pageSize.getWidth();
     const contentWidth = pageWidth - (margin * 2);
 
+    const latestPayment =
+        inv.paymentHistory && inv.paymentHistory.length > 0
+            ? inv.paymentHistory[inv.paymentHistory.length - 1]
+            : null;
     // --- HELPERS ---
     const formatCurrency = (num: any): string => {
         const val = parseFloat(num) || 0;
@@ -110,7 +114,7 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
         doc.text("Reference", margin + (colWidth * 2) + 10, y + 8);
 
         doc.setFont("courier", "normal");
-        doc.text(inv.date, margin + 10, y + 16);
+        doc.text(latestPayment?.DueDate || inv.date, margin + 10, y + 16);
         doc.text(inv.dueDate || "-", margin + colWidth + 10, y + 16);
         doc.text(inv.invoiceId, margin + (colWidth * 2) + 10, y + 16);
     }
@@ -187,16 +191,25 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
         ? (fees.training + fees.certificate + fees.internship)
         : (data.product?.reduce((acc: any, p: any) => acc + p.price, 0) || data.service?.reduce((acc: any, s: any) => acc + s.price, 0) || inv.amount);
 
+    const totalAmount = price.total || inv.amount;
+
+    const paidAmount = latestPayment
+        ? latestPayment.paid
+        : price.paid || (inv.amount - (inv.pending || 0));
+
+    const dueAmount = latestPayment
+        ? latestPayment.pending
+        : price.due || (inv.pending || 0);
     drawTotalRow("Subtotal", subtotal);
     drawTotalRow("Discount", fees.discount || 0);
     drawTotalRow(`GST ${data.gst ? `(${data.gst}%)` : ""}`, (subtotal * (data.gst || 0) / 100));
 
     doc.line(totalsX, y - 2, margin + contentWidth, y - 2);
     y += 5;
-    drawTotalRow("Total Amount", price.total || inv.amount, true);
+    drawTotalRow("Total Amount", totalAmount, true);
     y += 3;
-    drawTotalRow("Paid Amount", price.paid || (inv.amount - (inv.pending || 0)));
-    drawTotalRow("Due Amount", price.due || (inv.pending || 0));
+    drawTotalRow("Paid Amount", paidAmount);
+    drawTotalRow("Due Amount", dueAmount);
 
     // footer
     y += 20;

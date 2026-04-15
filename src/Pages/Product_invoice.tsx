@@ -104,7 +104,8 @@ const Product_invoice = () => {
   }, 0)
 
 
-
+  const effectiveTaxPercent =
+    Math.round(subtotal > 0 ? (gstTotal / subtotal) * 100 : 0)
   const discount = Number(invoiceData.discount || 0)
   const totalAmount = Math.round(subtotal + gstTotal - discount)
   const paidAmount = Number(invoiceData.price.paid || 0)
@@ -345,7 +346,7 @@ const Product_invoice = () => {
             subamount21={totalAmount}
             subamount22={paidAmount}
             subamount23={dueAmount}
-            taxPercent={invoiceData.product.length > 0 ? invoiceData.product[0].tax : 0}
+            taxPercent={effectiveTaxPercent}
             paymentMethod={invoiceData.price.paymentMethod}
             conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
             onPrint={handlePrintAndSave}

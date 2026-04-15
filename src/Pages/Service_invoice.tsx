@@ -118,6 +118,8 @@ const Service_invoice = () => {
 
   }, 0)
 
+  const effectiveTaxPercent =
+    Math.round(subtotal > 0 ? (gstTotal / subtotal) * 100 : 0)
 
   const discount = Number(invoiceData.discount || 0)
 
@@ -402,7 +404,7 @@ const Service_invoice = () => {
             subamount22={paidAmount}
             subamount23={dueAmount}
 
-            taxPercent={invoiceData.service.length > 0 ? invoiceData.service[0].tax : 0}
+            taxPercent={effectiveTaxPercent}
             paymentMethod={invoiceData.price.paymentMethod}
 
             conditionPara="Thank you for your business. Please remit payment within 30 days."

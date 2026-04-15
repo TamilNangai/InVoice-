@@ -29,7 +29,8 @@ export const getInvoices = async (): Promise<Invoice[]> => {
     // Status check
     data.status ||
       (data.price?.due && data.price.due > 0 ? "pending" : "paid");
-
+    const history = data.paymentHistory || [];
+    const latestPayment = history.length > 0 ? history[history.length - 1] : null;
 
     const getFormattedDate = (createdAt: any) => {
       if (!createdAt) return "";
@@ -53,15 +54,7 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       uniqueId: doc.id,
       invoiceId: data.invoiceId || doc.id,
       type: data.invoiceType || "",
-      email: data.customer?.email || data.student?.email || "",
-      phone: data.customer?.phone || data.student?.phone || "",
-      dueDate: data.price?.duedate || "",
-      payment: data.price?.paymentMethod || "",
-      paid: data.price?.paid || 0,
-      gst: data.gst || 0,
-      batch: data.program?.batch || "",
-      startDate: data.program?.start || "",
-      endDate: data.program?.enddate || "",
+
       client:
         data.student?.studentName ||
         data.customer?.customer ||
@@ -69,24 +62,43 @@ export const getInvoices = async (): Promise<Invoice[]> => {
         data.service?.[0]?.serviceName ||
         "N/A",
 
-
       sub:
         data.product?.[0]?.productName ||
         data.program?.internship ||
         data.service?.[0]?.serviceName ||
         "",
 
-      pending: data.pending ?? data.price?.due ?? 0,
+      email: data.customer?.email || data.student?.email || "",
+      phone: data.customer?.phone || data.student?.phone || "",
 
       date: getFormattedDate(data.createdAt),
 
+      // ✅ USE latest payment history
+      dueDate: latestPayment?.DueDate || data.price?.duedate || "",
+
       amount: data.price?.total ?? data.amount ?? 0,
 
-      status:
-        data.status ||
-        (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+      // ✅ IMPORTANT MAPPING
+      paidAmount: latestPayment?.paid ?? data.price?.paid ?? 0,
+      pending: latestPayment?.due ?? data.price?.due ?? 0,
 
-      rawData: data, // 🔹 Store the full record for detailed PDF generation
+      gst: data.gst || 0,
+      payment: data.price?.paymentMethod || "",
+
+      batch: data.program?.batch || "",
+      startDate: data.program?.start || "",
+      endDate: data.program?.enddate || "",
+
+      status:
+        latestPayment?.due === 0
+          ? "paid"
+          : latestPayment?.due > 0
+            ? "pending"
+            : data.status ||
+            (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+
+      rawData: data,
+      paymentHistory: history,
     };
 
   });

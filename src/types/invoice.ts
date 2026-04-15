@@ -13,6 +13,12 @@ export type Invoice = {
     gst?: number;
     payment?: string;
     dueDate: string;
+    paymentHistory?: Array<{
+        pending: number;
+        DueDate: string;
+        paid: number;
+        due: number;
+    }>;
     university?: string;
     programName?: string;
     batch?: string;
