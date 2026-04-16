@@ -19,15 +19,14 @@ export type Invoice = {
 };
 
 
-
 export const getInvoices = async (): Promise<Invoice[]> => {
   const snapshot = await getDocs(collection(db, "invoices"));
 
   const invoices: Invoice[] = snapshot.docs.map((doc) => {
     const data: any = doc.data();
-    const status: "paid" | "pending" | "overdue" =
-      data.status ||
-      (data.price?.due && data.price.due > 0 ? "pending" : "paid");
+    // const status: "paid" | "pending" | "overdue" =
+    //   data.status ||
+    //   (data.price?.due && data.price.due > 0 ? "pending" : "paid");
 
 
     const getFormattedDate = (createdAt: any) => {
