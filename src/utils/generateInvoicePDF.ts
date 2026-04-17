@@ -212,7 +212,7 @@ if (inv.type.toLowerCase() === "internship") {
         return acc + ((p.price || 0) * tax / 100);
     }, 0);
 
-    gstPercent = subtotal > 0 ? (gstAmount / subtotal) * 100 : 0;
+    gstPercent = Math.round(subtotal > 0 ? (gstAmount / subtotal) * 100: 0);
 
 } else if (data.service) {
 

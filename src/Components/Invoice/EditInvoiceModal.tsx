@@ -15,6 +15,11 @@ const EditInvoiceModal: React.FC<Props> = ({ invoice, onClose }) => {
     const totalAmount = Math.round(invoice.amount ?? 0);
     const paid = Math.round(invoice.paidAmount ?? 0);
     const initialPending = Math.round(invoice.pending ?? 0);
+    const parseDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split("-").map(Number);
+    return new Date(year, month - 1, day);
+};
+const dueDateFromInvoice = invoice.dueDate;
 
     const [dueAmount, setDueAmount] = useState(0);
 
@@ -28,10 +33,18 @@ const EditInvoiceModal: React.FC<Props> = ({ invoice, onClose }) => {
     ).padStart(2, "0")}-${now.getFullYear()}`;
 
     console.log(dueDate);
-    const status =
-        updatedPending === 0
-            ? "paid"
-            : "pending";
+  let status = "pending";
+
+if (updatedPending === 0) {
+    status = "paid";
+} else if (dueDateFromInvoice) {
+    const today = new Date();
+    const dueDateObj = parseDate(dueDateFromInvoice);
+
+    if (today > dueDateObj) {
+        status = "overdue";
+    }
+}
     const handleSave = async () => {
         try {
             const updatedData = {
