@@ -17,7 +17,7 @@ const RecentInvoices: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
   const [search, setSearch] = useState("");
-  
+
 
   useEffect(() => {
 
@@ -31,7 +31,7 @@ const RecentInvoices: React.FC = () => {
         client: item.client,
         amount: item.amount,
 
-        status: item.status.toLowerCase() as "paid" | "pending"| "overdue",
+        status: item.status.toLowerCase() as "paid" | "pending" | "overdue",
 
         date: item.date,
       }));
@@ -46,6 +46,8 @@ const RecentInvoices: React.FC = () => {
   }, []);
 
   const searchText = search.toLowerCase();
+
+
 
   const filteredInvoices = invoices.filter((item) => {
 
@@ -79,21 +81,22 @@ const RecentInvoices: React.FC = () => {
             <div className="flex gap-14 font-iceberg text-xl">
 
               <button
-                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "all" ? "bg-[#136CED80]" : ""}`}
+                className="rounded-md h-8 w-28 transition-none bg-blue-500 text-white"
                 onClick={() => setFilter("all")}
               >
                 All Invoices
               </button>
 
               <button
-                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "paid" ? "bg-[#136CED80]" : ""}`}
+                className="rounded-md h-8 w-12 transition-none bg-green-500 text-white"
+
                 onClick={() => setFilter("paid")}
               >
                 Paid
               </button>
 
               <button
-                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "pending" ? "bg-[#136CED80]" : ""}`}
+                className="rounded-md h-8 w-20 bg-yellow-400 text-white transition-none"
                 onClick={() => setFilter("pending")}
               >
                 Pending
@@ -117,61 +120,69 @@ const RecentInvoices: React.FC = () => {
           </div>
           <div className="w-full ">
 
-          <table className="w-full text-center">
+            <table className="w-full text-center">
 
-            <thead className="text-xl">
+              <thead className="text-xl">
 
-              <tr className="grid grid-cols-6 font-iceberg">
+                <tr className="grid grid-cols-6 font-iceberg">
 
-                <th className="p-3 border font-normal">Invoice No</th>
-                <th className="p-3 border font-normal">Type</th>
-                <th className="p-3 border font-normal">Client</th>
-                <th className="p-3 border font-normal">Date Issued</th>
-                <th className="p-3 border font-normal">Amount</th>
-                <th className="p-3 border font-normal">Status</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {filteredInvoices.length > 0 ? (
-                filteredInvoices.slice(0, 6).map((invoice) => (
-                  <tr key={invoice.invoiceId} 
-                  className="hover:bg-gray-50 grid grid-cols-6"
-                >
-
-                    <td className="p-3 border">{invoice.invoiceId}</td>
-                  <td className="p-3 border">{invoice.type}</td>
-                  <td className="p-3 border">{invoice.client}</td>
-                  <td className="p-3 border"> {invoice.date}</td>
-                  <td className="p-3 border">
-                    ${invoice.amount.toFixed(2)}
-                  </td>
-
-                  <td className="p-3 border">
-                   •   {invoice.status}
-                  </td>
+                  <th className="p-3 border font-normal">Invoice No</th>
+                  <th className="p-3 border font-normal">Type</th>
+                  <th className="p-3 border font-normal">Client</th>
+                  <th className="p-3 border font-normal">Date Issued</th>
+                  <th className="p-3 border font-normal">Amount</th>
+                  <th className="p-3 border font-normal">Status</th>
 
                 </tr>
 
-              ))):
+              </thead>
 
-              (
+              <tbody>
 
-                <tr>
-                  <td colSpan={6} className="p-5">
-                    No invoices found
-                  </td>
-                </tr>
+                {filteredInvoices.length > 0 ? (
+                  filteredInvoices.slice(0, 6).map((invoice) => (
+                    <tr key={invoice.invoiceId}
+                      className="hover:bg-gray-50 grid grid-cols-6"
+                    >
 
-              )
-              }
+                      <td className="p-3 border">{invoice.invoiceId}</td>
+                      <td className="p-3 border">{invoice.type}</td>
+                      <td className="p-3 border">{invoice.client}</td>
+                      <td className="p-3 border"> {invoice.date}</td>
+                      <td className="p-3 border">
+                        ${invoice.amount.toFixed(2)}
+                      </td>
 
-            </tbody>
+                   <td className="p-3 border">
+  <span
+    className={`font-semibold
+      ${invoice.status === "pending" ? "text-yellow-300" : ""}
+      ${invoice.status === "paid" ? "text-green-500" : ""}
+      ${invoice.status === "overdue" ? "text-red-500" : ""}
+    `}
+  >
+    • {invoice.status}
+  </span>
+</td>
 
-          </table>
+                    </tr>
+
+                  ))) :
+
+                  (
+
+                    <tr>
+                      <td colSpan={6} className="p-5">
+                        No invoices found
+                      </td>
+                    </tr>
+
+                  )
+                }
+
+              </tbody>
+
+            </table>
           </div>
 
         </div>
