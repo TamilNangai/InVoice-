@@ -7,6 +7,8 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     const settings = await getSettings();
     const data = inv.rawData || {};
 
+
+
     let y = 20;
     const margin = 15;
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -75,7 +77,7 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     doc.setFont("courier", "normal");
     doc.setFontSize(12);
     doc.setTextColor('#000');
-    doc.text(`Invoice #: ${inv.invoiceId}`, margin + (contentWidth / 2) + 10, y);
+    doc.text(`Invoice :#${inv.invoiceId}`, margin + (contentWidth / 2) + 10, y);
 
     y += 6;
     doc.setTextColor('#000');
@@ -187,6 +189,46 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     const fees = data.fees || {};
     const price = data.price || {};
 
+let gstAmount = 0;
+let gstPercent = 0;
+
+if (inv.type.toLowerCase() === "internship") {
+    const taxPercent = data.fees?.tax || 0;
+
+    const internshipSubtotal =
+        (fees.training || 0) +
+        (fees.certificate || 0) +
+        (fees.internship || 0);
+
+    gstAmount = (internshipSubtotal * taxPercent) / 100;
+    gstPercent = taxPercent;
+
+} else if (data.product) {
+
+    const subtotal = data.product.reduce((acc: number, p: any) => {
+        return acc + (p.price || 0);
+    }, 0);
+
+    gstAmount = data.product.reduce((acc: number, p: any) => {
+        const tax = p.tax || 0;
+        return acc + ((p.price || 0) * tax / 100);
+    }, 0);
+
+    gstPercent = subtotal > 0 ? (gstAmount / subtotal) * 100 : 0;
+
+} else if (data.service) {
+
+    const subtotal = data.service.reduce((acc: number, s: any) => {
+        return acc + (s.price || 0);
+    }, 0);
+
+    gstAmount = data.service.reduce((acc: number, s: any) => {
+        const tax = s.tax || 0;
+        return acc + ((s.price || 0) * tax / 100);
+    }, 0);
+
+    gstPercent = subtotal > 0 ? (gstAmount / subtotal) * 100 : 0;
+}
     const subtotal = data.invoiceType === "internship"
         ? (fees.training + fees.certificate + fees.internship)
         : (data.product?.reduce((acc: any, p: any) => acc + p.price, 0) || data.service?.reduce((acc: any, s: any) => acc + s.price, 0) || inv.amount);
@@ -202,7 +244,7 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
         : price.due || (inv.pending || 0);
     drawTotalRow("Subtotal", subtotal);
     drawTotalRow("Discount", fees.discount || 0);
-    drawTotalRow(`GST ${data.gst ? `(${data.gst}%)` : ""}`, (subtotal * (data.gst || 0) / 100));
+    drawTotalRow(`GST (${gstPercent}%)`, gstAmount);
 
     doc.line(totalsX, y - 2, margin + contentWidth, y - 2);
     y += 5;
