@@ -7,8 +7,6 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     const settings = await getSettings();
     const data = inv.rawData || {};
 
-
-
     let y = 20;
     const margin = 15;
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -242,6 +240,9 @@ if (inv.type.toLowerCase() === "internship") {
     const dueAmount = latestPayment
         ? latestPayment.pending
         : price.due || (inv.pending || 0);
+    // const gst = data.invoiceType == 'internship'
+    //             ? (data.fees.tax) : (data.gst)
+    console.log(data.gst)
     drawTotalRow("Subtotal", subtotal);
     drawTotalRow("Discount", fees.discount || 0);
     drawTotalRow(`GST (${gstPercent}%)`, gstAmount);

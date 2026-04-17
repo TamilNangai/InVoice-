@@ -20,7 +20,6 @@ export type Invoice = {
 };
 
 
-
 export const getInvoices = async (): Promise<Invoice[]> => {
   const snapshot = await getDocs(collection(db, "invoices"));
 
@@ -47,7 +46,6 @@ export const getInvoices = async (): Promise<Invoice[]> => {
         })
         .replace(",", "");
     };
-
 
 
     return {
@@ -80,9 +78,9 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
       // ✅ IMPORTANT MAPPING
       paidAmount: latestPayment?.paid ?? data.price?.paid ?? 0,
-      pending: latestPayment?.due ?? data.price?.due ?? 0,
+      pending: latestPayment?.pending ?? data.price?.due ?? 0,
 
-      gst: data.gst || 0,
+      gst: data?.gst || 0,
       payment: data.price?.paymentMethod || "",
 
       batch: data.program?.batch || "",
@@ -102,7 +100,6 @@ export const getInvoices = async (): Promise<Invoice[]> => {
     };
 
   });
-
   // Optional: sort latest first
   invoices.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
