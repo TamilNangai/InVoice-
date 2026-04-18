@@ -134,7 +134,7 @@ export const saveAndPrint = async (
         doc.setFontSize(12)
         doc.setTextColor('#000');
         doc.text(
-          `Invoice #: ${data.invoiceId}`,
+          `Invoice : #${data.invoiceId}`,
           margin + contentWidth / 2 + 10,
           y
         );
