@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 const Radiogroup = ({ selected, setSelected }: any) => {
 
@@ -12,7 +11,7 @@ const Radiogroup = ({ selected, setSelected }: any) => {
     ];
 
     return (
-        <div className="flex justify-around items-center gap-4 font-iceberg m-5  w-fit h-[48px] rounded border-2 border-[#000000] bg-[#136CED33] ">
+        <div className="flex justify-around items-center gap-4 font-iceberg m-5  w-fit h-[48px] px-1 py-6 rounded border-2 border-[#000000] bg-[#136CED33] ">
             {options.map((label) => {
                 return (
                     <label key={label} className=" flex justify-center items-center text-nowrap">

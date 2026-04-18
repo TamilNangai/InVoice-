@@ -5,6 +5,7 @@ import Searchinput from "@/Components/Filter/Searchinput";
 import searchIcon from "@/assets/filter/search.svg";
 import filterIcon from "@/assets/filter/filter.svg";
 import statusIcon from "@/assets/filter/circle.svg";
+import dropdownIcon from "@/assets/filter/arrow.png";
 import Header from "@/Components/Nav/Header";
 import Create from "@/Components/Cards/Create";
 import Popup1 from "@/assets/Popup1.png";
@@ -14,6 +15,7 @@ import Popup4 from "@/assets/Popup4.png";
 import src1 from '@/assets/Vectorw.png';
 import src2 from '@/assets/Vector.png';
 import { getInvoices } from "@/utils/getInvoice";
+import { formatLabel } from "@/utils/formatLabel";
 
 const InvoicePage = () => {
 
@@ -99,7 +101,7 @@ const InvoicePage = () => {
             />
         </div>
               
-        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
+        {/* <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
           <img src={filterIcon} className="w-4 h-4" />
           <select
             className="bg-transparent outline-none w-full font-iceberg text-[18px]"
@@ -112,9 +114,39 @@ const InvoicePage = () => {
             <option className="font-sanchez text-sm" value="service">Service</option>
             <option className="font-sanchez text-sm" value="others">Others</option>
           </select>
+        </div> */}
+        <div className="relative flex items-center justify-between border border-[#00000033] rounded-md px-4 py-2 w-1/6 h-[50px]">
+
+          {/* Left section */}
+          <div className="flex items-center gap-2 z-10 relative">
+            <img src={filterIcon} className="w-4 h-4" />
+            <span className="font-iceberg text-[18px]">
+              {type ? formatLabel(type) : "Type"}
+            </span>
+          </div>
+
+          {/* Right dropdown arrow */}
+          <span className="z-10 relative text-gray-600"><img className="w-3 h-auto" src={dropdownIcon} alt="Dropdown" /></span>
+
+          {/* Hidden Select */}
+          <select
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          >
+            <option value="">Type</option>
+            <option value="internship">Internship</option>
+            <option value="product">Product</option>
+            <option value="service">Service</option>
+            <option value="others">Others</option>
+          </select>
+
         </div>
+
+
+
       
-        <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
+        {/* <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
           <img src={statusIcon} className="w-4 h-4" />
           <select
             className="bg-transparent outline-none w-full font-iceberg text-[18px]"
@@ -126,7 +158,37 @@ const InvoicePage = () => {
             <option  className="font-sanchez text-sm" value="pending">Pending</option>
             <option  className="font-sanchez text-sm" value="overdue">Over Due</option>
           </select>
+        </div> */}
+
+        <div className="relative flex items-center justify-between border border-[#00000033] rounded-md px-4 py-2 w-1/6 h-[50px]">
+
+          {/* Left section */}
+          <div className="flex items-center gap-2 z-10 relative">
+            <img src={statusIcon} className="w-4 h-4" />
+            <span className="font-iceberg text-[18px]">
+              {status ? formatLabel(status) : "Status"}
+            </span>
+          </div>
+
+          {/* Right dropdown arrow */}
+          <span className="z-10 relative">
+            <img className="w-3 h-auto" src={dropdownIcon} alt="Dropdown" />
+          </span>
+
+          {/* Hidden Select */}
+          <select
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="">Status</option>
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="overdue">Over Due</option>
+          </select>
+
         </div>
+
 
         <div className="flex gap-3 w-2/6">
          

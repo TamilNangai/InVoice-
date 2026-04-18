@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 // import { getInvoices, Invoice } from "../utils/getInvoices"
 import { getInvoices, Invoice } from "@/utils/getInvoice"
+import { formatLabel } from "@/utils/formatLabel"
 
 
 
@@ -51,9 +52,9 @@ const RecentInvoices: React.FC = () => {
             <tr
               key={invoice.invoiceId}
               className="w-[100%]  hover:bg-gray-50 font-sanchez border-0 border-b last:border-b-0 border-black grid grid-cols-5">
-              <td className="p-4 ">{invoice.invoiceId}</td>
+              <td className="p-4">{invoice.invoiceId}</td>
               <td className="p-4">{invoice.client}</td>
-              <td className="p-4">{invoice.type}</td>
+              <td className="p-4">{formatLabel(invoice.type)}</td>
               <td className="p-4">{invoice.date}</td>
               <td className="p-4 ">{invoice.amount.toFixed(2)}</td>
             </tr>

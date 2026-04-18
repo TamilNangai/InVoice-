@@ -1,7 +1,7 @@
 export type Invoice = {
     uniqueId: string;
     invoiceId: string;
-    type: string; 
+    type: string;
     client: string;
     date: string;
     amount: number;
@@ -13,6 +13,12 @@ export type Invoice = {
     gst?: number;
     payment?: string;
     dueDate: string;
+    paymentHistory?: Array<{
+        pending: number;
+        DueDate: string;
+        paid: number;
+        due: number;
+    }>;
     university?: string;
     programName?: string;
     batch?: string;
@@ -20,11 +26,11 @@ export type Invoice = {
     items?: Array<{ name: string; id: string; subType?: string; amount: number }>;
     subtotal?: number;
     discount?: number;
-    gstRate?: number; 
+    gstRate?: number;
     paidAmount?: number;
-    startDate?: string; 
-    endDate?: string;  
-    
+    startDate?: string;
+    endDate?: string;
+    rawData?: any;
 };
 
 

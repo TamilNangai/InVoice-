@@ -15,5 +15,6 @@ electron.contextBridge.exposeInMainWorld("electron", {
   }
 });
 electron.contextBridge.exposeInMainWorld("electronAPI", {
-  openEmail: (data) => electron.ipcRenderer.invoke("open-email", data)
+  openEmail: (data) => electron.ipcRenderer.invoke("open-email", data),
+  sendInvoiceEmail: (data) => electron.ipcRenderer.invoke("send-invoice-email", data)
 });

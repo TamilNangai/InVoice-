@@ -12,44 +12,7 @@ import { saveAndPrint } from "@/utils/saveAndPrint"
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 
-const EmailButton: React.FC<{ email: string }> = ({ email }) => {
-  const handleClick = async () => {
-    if (!email) {
-      alert("Please enter customer email first!");
-      return;
-    }
 
-    try {
-      const result = await window.electronAPI.openEmail({
-        to: email,
-        subject: "Your Invoice is Ready 📄",
-        body: "Hello, your invoice is attached.",
-      });
-
-      if (!result.success) {
-        alert("Unable to open email client");
-      }
-    } catch (error) {
-      console.error("Failed to open email:", error);
-      alert("Error opening email client");
-    }
-  };
-
-  return (
-      <button
-      onClick={handleClick}
-      className="px-4 py-2 text-black rounded-md ml-2"
-    >
-      <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-            type="submit"
-          />
-    </button>
-  );
-};
 
 type Service = {
   serviceName: string
@@ -82,7 +45,7 @@ type InvoiceData = {
 
 const Service_invoice = () => {
 
-  const [invoiceId] = useState(generateInvoiceId())
+  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
 
   const [company, setCompany] = useState<any>(null)
 
@@ -155,14 +118,16 @@ const Service_invoice = () => {
 
   }, 0)
 
+  const effectiveTaxPercent =
+    Math.round(subtotal > 0 ? (gstTotal / subtotal) * 100 : 0)
 
   const discount = Number(invoiceData.discount || 0)
 
-  const totalAmount = subtotal + gstTotal - discount
+  const totalAmount = Math.round(subtotal + gstTotal - discount)
 
   const paidAmount = Number(invoiceData.price.paid || 0)
 
-  const dueAmount = totalAmount - paidAmount
+  const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
 
   /* ================= SAVE + PRINT ================= */
@@ -258,12 +223,42 @@ const Service_invoice = () => {
         total: totalAmount,
         due: dueAmount
       }
-    },
-      billRef
+    }
+
+
+
     );
 
     await showSuccess("Invoice saved successfully");
 
+    // Reset form after successful save
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData({
+      customer: {
+        customer: "",
+        email: "",
+        office: "",
+        gst: "",
+        phone: "",
+        address: ""
+      },
+      service: [
+        {
+          serviceName: "",
+          price: 0,
+          tax: 0
+        }
+      ],
+      price: {
+        total: 0,
+        due: 0,
+        paid: 0,
+        duedate: "",
+        paymentMethod: ""
+      },
+      discount: 0
+    })
+    formRef.current?.reset()
   }
 
 
@@ -287,20 +282,20 @@ const Service_invoice = () => {
           para={`#${invoiceId}`}
         />
 
-        {/* <div className="">
-        <Buttons
-          h1="Issue Invoice"
-          h2="Save Draft"
-          src2={vectora}
-          src1=""
-          type="submit"
-        />
-      </div> */}
-        <div>
-        
 
-          {/* ✅ Correct email usage */}
-          <EmailButton email={invoiceData.customer.email} />
+        <div>
+          <button
+            type="button"
+
+            className="px-4 py-2 text-black rounded-md ml-2"
+          >
+            <Buttons
+              h1="Issue Invoice"
+              h2="Save Draft"
+              src2={vectora}
+              src1=""
+            />
+          </button>
         </div>
       </div>
 
@@ -309,10 +304,7 @@ const Service_invoice = () => {
       <form
         className="grid grid-cols-2 w-full h-full"
         ref={formRef}
-        onSubmit={(e) => {
-          e.preventDefault()
-          handlePrintAndSave()
-        }}
+
       >
 
 
@@ -412,12 +404,11 @@ const Service_invoice = () => {
             subamount22={paidAmount}
             subamount23={dueAmount}
 
-            taxPercent={invoiceData.service[0]?.tax || 0}
+            taxPercent={effectiveTaxPercent}
             paymentMethod={invoiceData.price.paymentMethod}
 
             conditionPara="Thank you for your business. Please remit payment within 30 days."
 
-            // onPrint={() => formRef.current?.requestSubmit()}
             onPrint={handlePrintAndSave}
 
           />

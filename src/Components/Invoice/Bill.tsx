@@ -256,7 +256,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                         </p>
 
                         <p className="font-sanchez text-[18px]">
-                            Invoice #: {invoiceid}
+                            Invoice : #{invoiceid}
                         </p>
 
                         {type === "internship" && <>

@@ -1,5 +1,3 @@
-
-
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { useState, useEffect, useRef } from "react"
 import Bill from '@/Components/Invoice/Bill'
@@ -15,44 +13,6 @@ import { validateForm } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
 
-
-const EmailButton: React.FC<{ email: string }> = ({ email }) => {
-  const handleClick = async () => {
-    if (!email) {
-      alert("Please enter customer email first!");
-      return;
-    }
-
-    try {
-      const result = await window.electronAPI.openEmail({
-        to: email,
-        subject: "Your Invoice is Ready 📄",
-        body: "Hello, your invoice is attached.",
-      });
-
-      if (!result.success) {
-        alert("Unable to open email client");
-      }
-    } catch (error) {
-      console.error("Failed to open email:", error);
-      alert("Error opening email client");
-    }
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      className="px-4 py-2 text-black rounded-md ml-2"
-    >
-      <Buttons
-        h1="Issue Invoice"
-        h2="Save Draft"
-        src2={vectora}
-        src1=""
-      />
-    </button>
-  );
-};
 
 type InvoiceData = {
   student: {
@@ -88,7 +48,7 @@ type InvoiceData = {
 };
 
 const Internship_invoice = () => {
-  const [invoiceId] = useState(generateInvoiceId())
+  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     student: {
       studentName: "",
@@ -129,11 +89,23 @@ const Internship_invoice = () => {
 
   const discount = Number(invoiceData.fees.discount || 0)
 
-  const totalAmount = subtotal + gstTotal - discount
+  const totalAmount = Math.round(subtotal + gstTotal - discount)
 
   const paidAmount = Number(invoiceData.price.paid || 0)
 
-  const dueAmount = totalAmount - paidAmount
+  const dueAmount = Math.max(totalAmount - paidAmount, 0)
+
+  useEffect(() => {
+    setInvoiceData(prev => ({
+      ...prev,
+      price: {
+        ...prev.price,
+        total: totalAmount,
+        due: dueAmount
+      }
+    }))
+  }, [totalAmount, dueAmount])
+
 
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
@@ -147,6 +119,8 @@ const Internship_invoice = () => {
       await showError("Please fill all student details.")
       return
     }
+
+
 
     if (!/^[0-9]{10}$/.test(phone)) {
       await showError("Phone number must be 10 digits")
@@ -184,10 +158,18 @@ const Internship_invoice = () => {
       return
     }
 
-    const subtotal =
-      Number(training) +
-      Number(certificate) +
-      Number(internshipFee)
+
+    // const subtotal =
+    //   Number(training) +
+    //   Number(certificate) +
+    //   Number(internshipFee)
+    console.log({
+      subtotal,
+      gstTotal,
+      totalAmount,
+      paidAmount,
+      dueAmount
+    });
 
     if (discount < 0 || discount > subtotal) {
       await showError("Discount cannot be greater than subtotal")
@@ -200,9 +182,8 @@ const Internship_invoice = () => {
       await showError("Please select payment method")
       return
     }
-
-    if (paid <= 0 || paid > totalAmount) {
-      await showError("Paid amount is invalid")
+    if (paid < 0 || paid > totalAmount) {
+      await showError("Invalid paid amount")
       return
     }
 
@@ -212,9 +193,10 @@ const Internship_invoice = () => {
       await showError("Due date must be a future date")
       return
     }
-
-    console.log(invoiceData);
-
+    if (paid > totalAmount) {
+      await showError("Paid amount cannot exceed total amount")
+      return
+    }
 
 
 
@@ -235,10 +217,20 @@ const Internship_invoice = () => {
           due: dueAmount
         }
       },
-      billRef
+
     )
 
     await showSuccess("Invoice saved successfully");
+
+    // Reset form after successful save
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData({
+      student: { studentName: "", email: "", phone: "", college: "" },
+      program: { internship: "", batch: "", start: "", trainer: "", enddate: "" },
+      fees: { training: 0, certificate: 0, tax: 0, internship: 0, discount: 0 },
+      price: { total: 0, due: 0, paid: 0, duedate: "", paymentMethod: "" }
+    })
+    formRef.current?.reset()
   }
 
   const [company, setCompany] = useState<any>(null);
@@ -251,28 +243,9 @@ const Internship_invoice = () => {
     fetchCompany();
   }, []);
 
-  useEffect(() => {
-    const training = Number(invoiceData.fees.training) || 0;
-    const certificate = Number(invoiceData.fees.certificate) || 0;
-    const internship = Number(invoiceData.fees.internship) || 0;
-    const discount = Number(invoiceData.fees.discount) || 0;
-    const taxRate = Number(invoiceData.fees.tax) || 0;
 
-    const subtotal = training + certificate + internship;
-    const taxAmount = (subtotal * taxRate) / 100;
-    const total = Math.round(subtotal + taxAmount - discount);
 
-    setInvoiceData(prev => ({
-      ...prev,
-      price: {
-        ...prev.price,
-        total: total,
-        due: total - prev.price.paid,
-      }
-    }));
-  }, [invoiceData.fees, invoiceData.price.paid]);
 
-  
   if (company === null)
 
     return (
@@ -292,25 +265,31 @@ const Internship_invoice = () => {
           />
 
           <div className="">
-            {/* ✅ FIX HERE */}
-            <EmailButton email={invoiceData.student.email} />
+            <button
+              type="button"
+
+              className="px-4 py-2 text-black rounded-md ml-2"
+            >
+              <Buttons
+                h1="Issue Invoice"
+                h2="Save Draft"
+                src2={vectora}
+                src1=""
+              />
+            </button>
           </div>
         </div>
 
         <form
-          className="grid grid-cols-2 w-full h-full"
+          className="w-full h-fit grid grid-cols-2"
           ref={formRef}
           onSubmit={(e) => {
             e.preventDefault()
-            if (!formRef.current?.checkValidity()) {
-              formRef.current?.reportValidity()
-              return
-            }
-            handlePrintAndSave()
+
           }}
         >
 
-          <div className="w-[100%] space-y-7 p-4 grid ">
+          <div className="w-full space-y-7 p-4 grid ">
             <Stdform
               data={invoiceData.student}
               setData={(data) =>
@@ -340,7 +319,7 @@ const Internship_invoice = () => {
             />
           </div>
 
-          <div className="w-[100%] h-full p-4 grid ">
+          <div className="w-full h-fit p-4 grid ">
             <Bill
               ref={billRef}
               type="internship"
@@ -372,12 +351,12 @@ const Internship_invoice = () => {
               head31="Certification Issuance"
               head32="Digital and physical certificate"
               amount3={invoiceData.fees.certificate}
-              subamount11={invoiceData.price.total}
+              subamount11={subtotal}
               subamount12={invoiceData.fees.discount}
-              subamount13={(invoiceData.price.total * invoiceData.fees.tax) / 100}
-              subamount21={invoiceData.price.total}
-              subamount22={invoiceData.price.paid}
-              subamount23={invoiceData.price.due}
+              subamount13={gstTotal}
+              subamount21={totalAmount}
+              subamount22={paidAmount}
+              subamount23={dueAmount}
               taxPercent={invoiceData.fees.tax}
               paymentMethod={invoiceData.price.paymentMethod}
               conditionPara="Payment is due within 7 days..."

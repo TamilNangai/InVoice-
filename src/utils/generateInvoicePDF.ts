@@ -1,183 +1,226 @@
 import jsPDF from "jspdf";
 import { Invoice } from "@/types/invoice";
+import { getSettings } from "./getSettings";
 
-export const generateInvoicePDF = (inv: Invoice): jsPDF => {
-    const doc = new jsPDF();
+export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
+    const doc = new jsPDF("p", "mm", "a4");
+    const settings = await getSettings();
+    const data = inv.rawData || {};
+
     let y = 20;
+    const margin = 15;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const contentWidth = pageWidth - (margin * 2);
 
+    const latestPayment =
+        inv.paymentHistory && inv.paymentHistory.length > 0
+            ? inv.paymentHistory[inv.paymentHistory.length - 1]
+            : null;
     // --- HELPERS ---
-    const safeText = (text: any) => (text && text.toString().trim() !== "" ? text.toString() : "-");
-
-    const formatCurrency = (num: number | string | undefined): string => {
-        const value = Number(num);
-        return isNaN(value) ? "0.00" : value.toLocaleString('en-IN', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
+    const formatCurrency = (num: any): string => {
+        const val = parseFloat(num) || 0;
+        return val.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     };
 
-    // --- 1. HEADER (BRANDING) ---
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(24);
-    doc.setTextColor(0, 0, 0);
-    doc.text("DesFlyer", 15, y);
+    const drawLine = (yPos: number) => {
+        doc.setDrawColor(200);
+        doc.line(margin, yPos, margin + contentWidth, yPos);
+    };
 
-    // Blue Badge for Type
-    const badgeText = `${inv.type || "General"} Invoice`;
-    doc.setFillColor(25, 118, 240);
-    doc.roundedRect(145, 12, 50, 10, 2, 2, "F");
-    doc.setTextColor(255, 255, 255);
+    // --- 1. HEADER ---
+    doc.setFont("courier", "bold");  // Changed font family here
+    doc.setFontSize(28);
+    doc.setTextColor("#000");
+    const companyTitle = settings?.companyName || "Your Company";
+    doc.text(companyTitle, margin, y);
+
+    // --- TYPE BADGE (matches table UI) ---
+
+    let badgeColor = [59, 130, 246]; // <-- Changed to bright blue #3B82F6 (service)
+
+    const badgeText = inv.type.toUpperCase();
+    doc.setFontSize(12);
+    const badgeWidth = doc.getTextWidth(badgeText) + 10;
+    doc.setFillColor(badgeColor[0], badgeColor[1], badgeColor[2]);
+    doc.roundedRect(pageWidth - margin - badgeWidth, y - 7, badgeWidth, 8, 1, 1, "F");
+    doc.setTextColor(255);
+    doc.setFont("courier", "bold");  // Use same font in badge text
+    doc.text(badgeText, pageWidth - margin - badgeWidth + 5, y - 1);
+
+    doc.setFont("courier", "normal");  // Set font for the rest of the document
     doc.setFontSize(10);
-    doc.text(badgeText, 150, 18.5);
-
-    // Address & Contact
-    doc.setTextColor(80, 80, 80);
-    doc.setFontSize(8);
-    doc.setFont("helvetica", "normal");
+    doc.setTextColor(80);
     y += 8;
-    doc.text("237 DesFlyer, Kings College of Engineering", 15, y);
-    y += 4;
-    doc.text(`${inv.email || "desflyer.tech@gmail.com"} | +91 85259 13433`, 15, y);
-
-    y += 8;
-    doc.setDrawColor(220, 220, 220);
-    doc.line(15, y, 195, y);
-
-    // --- 2. BILL TO & INVOICE DETAILS ---
-    y += 12;
-    doc.setTextColor(0);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.text(inv.type === "Internship" ? "BILLED TO STUDENT" : "BILL TO", 15, y);
-    doc.text("Invoice Details", 140, y);
-
-    y += 7;
-    doc.setFontSize(11);
-    doc.text(safeText(inv.client), 15, y); // Name
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.text(`Invoice #: ${safeText(inv.invoiceId)}`, 140, y);
-
+    doc.text("Incubation Cell, Kings College of Engineering, Punalkumlam", margin, y);
     y += 5;
-    // Added address line here to fix your "missing address" issue
-    // doc.text(safeText(inv.address || inv.location), 15, y);
-    // doc.text(`Date: ${safeText(inv.date)}`, 140, y);
-    doc.text(safeText(inv.email), 15, y);
-    doc.text(`Date: ${safeText(inv.date || "N/A")}`, 140, y );
-    y += 5;
-    doc.text(safeText(inv.phone), 15, y);
-    doc.text(`Due Date: ${safeText(inv.dueDate)}`, 140, y);
+    doc.text("desflyer.tech@gmail.com | +91 8525913433", margin, y);
 
-    if (inv.university) {
-        y += 7;
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(9);
-        doc.text(safeText(inv.university), 15, y);
-    }
-
-    // --- 3. DYNAMIC HIGHLIGHT BOX ---
     y += 10;
-    doc.setDrawColor(0);
-    doc.roundedRect(15, y, 180, 22, 2, 2);
+    drawLine(y);
 
-    if (inv.type === "internship") {
-        doc.setFontSize(8);
-        doc.text("Program Enrolled", 20, y + 7);
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(10);
-        doc.text(safeText(inv.programName || inv.sub), 20, y + 13);
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(8);
-        doc.text(`Batch: ${safeText(inv.batch || "N/A")}`, 20, y + 18);
-        doc.text(`Duration: ${safeText(inv.startDate + " - " + inv.endDate || "N/A")}`, 110, y + 18);
-    } else {
-        doc.setFontSize(9);
-        doc.setFont("helvetica", "bold");
-        doc.text("Product/Service", 20, y + 8);
-        doc.setFont("helvetica", "normal");
-        doc.text(safeText(inv.sub || "General Service"), 20, y + 15);
-    }
-
-    // --- 4. TABLE SECTION ---
-    y += 35;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.text("Description", 17, y);
-    doc.text("Amount (INR)", 170, y);
-
-    y += 3;
-    doc.setDrawColor(235, 235, 235);
-    doc.line(15, y, 195, y);
+    // --- 2. BILL TO & DETAILS ---
+    y += 15;
+    doc.setFont("courier", "bold");
+    doc.setFontSize(12);
+    doc.setTextColor("#000");
+    doc.text("BILL TO", margin, y);
+    doc.text("Invoice Details", margin + (contentWidth / 2) + 10, y);
 
     y += 8;
-    const itemsList = inv.items && inv.items.length > 0
-        ? inv.items
-        : [{ name: inv.sub || "General Charges", id: inv.invoiceId, amount: inv.amount }];
+    doc.setFont("courier", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor("#000");
+    doc.text(inv.client || "N/A", margin, y);
 
-    let runningSubtotal = 0;
+    doc.setFont("courier", "normal");
+    doc.setFontSize(12);
+    doc.setTextColor('#000');
+    doc.text(`Invoice #: ${inv.invoiceId}`, margin + (contentWidth / 2) + 10, y);
 
-    itemsList.forEach(item => {
-        const itemAmount = Number(item.amount) || 0;
-        runningSubtotal += itemAmount;
+    y += 6;
+    doc.setTextColor('#000');
+    doc.text(inv.email || "", margin, y);
+    doc.setTextColor('#000');
+    doc.text(`Date: ${inv.date}`, margin + (contentWidth / 2) + 10, y);
 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(10);
-        doc.setTextColor(0);
-        doc.text(safeText(item.name), 17, y);
-        doc.text(formatCurrency(itemAmount), 193, y, { align: "right" });
+    y += 6;
+    doc.text(inv.phone || "", margin, y);
+    if (inv.dueDate) {
+        doc.text(`Due Date: ${inv.dueDate}`, margin + (contentWidth / 2) + 10, y);
+    }
 
-        y += 5;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(8);
-        doc.setTextColor(120, 120, 120);
-        doc.text(`${safeText(item.id || inv.invoiceId)} | Service Item`, 17, y);
+    // --- 3. BOX SECTION (Internship / Product / Service) ---
+    y += 12;
+    doc.setDrawColor(0);
+    doc.setLineWidth(0.2);
+    doc.roundedRect(margin, y, contentWidth, 25, 3, 3);
 
-        y += 8;
-        doc.line(15, y - 4, 195, y - 4);
-        doc.setTextColor(0);
-    });
+    if (inv.type.toLowerCase() === "internship") {
+        doc.setFontSize(12);
+        doc.text(data.program?.traininghead || "Training Program", margin + 5, y + 8);
+        doc.setFont("courier", "bold");
+        doc.setFontSize(14);
+        doc.text(data.program?.internship || inv.sub || "", margin + 5, y + 15);
+        doc.setFont("courier", "normal");
+        doc.setFontSize(9);
+        doc.text(`Batch: ${data.program?.batch || "N/A"}`, margin + 5, y + 21);
+        doc.text(`Duration: ${data.program?.start || ""} - ${data.program?.enddate || ""}`, margin + contentWidth - 70, y + 21);
+    } else {
+        const colWidth = contentWidth / 3;
+        doc.setFont("courier", "bold");
+        doc.setFontSize(12);
+        doc.text("Invoice Date", margin + 10, y + 8);
+        doc.text("Due Date", margin + colWidth + 10, y + 8);
+        doc.text("Reference", margin + (colWidth * 2) + 10, y + 8);
 
-    // --- 5. CALCULATION SECTION ---
+        doc.setFont("courier", "normal");
+        doc.text(latestPayment?.DueDate || inv.date, margin + 10, y + 16);
+        doc.text(inv.dueDate || "-", margin + colWidth + 10, y + 16);
+        doc.text(inv.invoiceId, margin + (colWidth * 2) + 10, y + 16);
+    }
+
+    // --- 4. DETAILS TABLE ---
+    y += 35;
+    doc.setFont("courier", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor('#000');
+    doc.text(data.fees?.feehead || "Description", margin + 5, y);
+    doc.text("Amount", margin + contentWidth - 25, y);
+
+    y += 4;
+    doc.setDrawColor(150);
+    doc.line(margin, y, margin + contentWidth, y);
+
+    y += 10;
+    doc.setFont("courier", "normal");
+    doc.setFontSize(14);
+
+    const drawItem = (name: string, sub: string, amt: number) => {
+        doc.setFont("courier", "bold");
+        doc.text(name, margin + 5, y);
+        doc.text(formatCurrency(amt), margin + contentWidth - 5, y, { align: "right" });
+        if (sub) {
+            y += 7;
+            doc.setFont("courier", "normal");
+            doc.setFontSize(12);
+            doc.setTextColor("#000");
+            doc.text(sub, margin + 5, y);
+            doc.setTextColor("#000");
+            doc.setFontSize(14);
+        }
+        y += 10;
+        doc.line(margin, y - 5, margin + contentWidth, y - 5);
+    };
+
+    if (inv.type.toLowerCase() === "internship") {
+        if (data.fees?.training) drawItem("Training Fee", "Professional training program", data.fees.training);
+        if (data.fees?.certificate) drawItem("Certification Fee", "Official certification and processing", data.fees.certificate);
+        if (data.fees?.internship) drawItem("Internship Fee", "Hands-on internship experience", data.fees.internship);
+    } else if (data.product) {
+        data.product.forEach((p: any) => drawItem(p.productName, p.sub || "Product Item", p.price));
+    } else if (data.service) {
+        data.service.forEach((s: any) => drawItem(s.serviceName, "Service Item", s.price));
+    } else {
+        drawItem(inv.sub || "Charges", "General invoice item", inv.amount);
+    }
+
+    // --- 5. TOTALS ---
     y += 5;
+    const totalsX = margin + (contentWidth * 0.4);
+
     const drawTotalRow = (label: string, value: any, isTotal = false) => {
         if (isTotal) {
-            doc.setFont("helvetica", "bold");
-            doc.setTextColor(25, 118, 240);
+            doc.setFont("courier", "bold");
+            doc.setFontSize(14);
+            doc.setTextColor(19, 108, 237); // #136CED (a blue similar to badge color)
         } else {
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(50);
+            doc.setFont("courier", "normal");
+            doc.setFontSize(14);
+            doc.setTextColor('#000');
         }
-        doc.text(label, 130, y);
-        doc.text(isTotal ? `Rs. ${formatCurrency(value)}` : formatCurrency(value), 193, y, { align: "right" });
+        doc.text(label, totalsX, y);
+        doc.text(formatCurrency(value), margin + contentWidth - 5, y, { align: "right" });
+        doc.setTextColor('#000');
         y += 7;
     };
 
-    // Robust Math Logic
-    const subtotalToUse = Number(inv.subtotal) || runningSubtotal;
-    const discount = Number(inv.discount) || 0;
-    const gstRate = Number(inv.gst) || 0;
-    const gstAmt = (subtotalToUse * gstRate) / 100;
-    const finalAmt = subtotalToUse + gstAmt - discount;
-    const paidAmount = Number(inv.paidAmount) || 0;
+    const fees = data.fees || {};
+    const price = data.price || {};
 
-    drawTotalRow("Subtotal", subtotalToUse);
-    drawTotalRow("Discount", discount);
-    drawTotalRow(`GST (${gstRate}%)`, gstAmt);
+    const subtotal = data.invoiceType === "internship"
+        ? (fees.training + fees.certificate + fees.internship)
+        : (data.product?.reduce((acc: any, p: any) => acc + p.price, 0) || data.service?.reduce((acc: any, s: any) => acc + s.price, 0) || inv.amount);
 
-    y += 2;
-    doc.setDrawColor(200);
-    doc.line(130, y, 195, y);
-    y += 7;
+    const totalAmount = price.total || inv.amount;
 
-    drawTotalRow("Total Amount", finalAmt, true);
+    const paidAmount = latestPayment
+        ? latestPayment.paid
+        : price.paid || (inv.amount - (inv.pending || 0));
 
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(0);
+    const dueAmount = latestPayment
+        ? latestPayment.pending
+        : price.due || (inv.pending || 0);
+    drawTotalRow("Subtotal", subtotal);
+    drawTotalRow("Discount", fees.discount || 0);
+    drawTotalRow(`GST ${data.gst ? `(${data.gst}%)` : ""}`, (subtotal * (data.gst || 0) / 100));
+
+    doc.line(totalsX, y - 2, margin + contentWidth, y - 2);
+    y += 5;
+    drawTotalRow("Total Amount", totalAmount, true);
+    y += 3;
     drawTotalRow("Paid Amount", paidAmount);
+    drawTotalRow("Due Amount", dueAmount);
 
-    doc.setFont("helvetica", "bold");
-    drawTotalRow("Balance Due", finalAmt - paidAmount);
+    // footer
+    y += 20;
+    doc.setFont("courier", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(80);
+    doc.text("© 2025 DesFlyer. All rights reserved", margin, y);
+    y += 5;
+    doc.text("If you have any questions about this invoice, Please Contact Us...", margin, y);
+    y += 5;
+    doc.text("Thank you for Choosing us!", margin, y);
 
     return doc;
 };
