@@ -10,7 +10,7 @@ const AddUser = () => {
         city: "Chennai"
       });
 
-      console.log("Data stored");
+  
     } catch (error) {
       console.error(error);
     }

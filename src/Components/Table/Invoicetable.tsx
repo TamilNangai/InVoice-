@@ -4,6 +4,7 @@ import Searchinput from "../Filter/Searchinput";
 import { getInvoices } from "@/utils/getInvoice";
 
 export interface Invoice {
+  uniqueId: string;
   invoiceId: string;
   type: string;
   client: string;
@@ -26,11 +27,13 @@ const RecentInvoices: React.FC = () => {
       const data = await getInvoices();
 
       const formattedData: Invoice[] = data.map((item: any) => ({
+        uniqueId: item.uniqueId,
         invoiceId: item.invoiceId,
         type: item.type,
         client: item.client,
         amount: item.amount,
 
+        // ✅ FIX STATUS
         status: item.status.toLowerCase() as "paid" | "pending" | "overdue",
 
         date: item.date,
@@ -78,10 +81,10 @@ const RecentInvoices: React.FC = () => {
 
           <div className="flex justify-between items-center p-5">
 
-            <div className="flex gap-14 font-iceberg text-xl">
+            <div className="flex gap-14 font-iceberg xl:text-xl md:text-md sm:text-[12px]">
 
               <button
-                className="rounded-md h-8 w-28 transition-none bg-blue-500 text-white"
+                className="rounded-md h-8 xl:w-28 sm:w-20 transition-none bg-blue-500 text-white"
                 onClick={() => setFilter("all")}
               >
                 All Invoices
@@ -104,7 +107,7 @@ const RecentInvoices: React.FC = () => {
 
             </div>
 
-            <div className=" w-3/4 max-w-[450px]">
+            <div className=" w-3/4 max-w-[450px] hidden lg:block">
 
               <Searchinput
                 icon={searchIcon}
@@ -120,9 +123,10 @@ const RecentInvoices: React.FC = () => {
           </div>
           <div className="w-full ">
 
-            <table className="w-full text-center">
+            {/* <table className="w-full text-center"> */}
+            <table className="w-full h-full text-center">
 
-              <thead className="text-xl">
+              <thead className="xl:text-xl md:text-[18px] sm:text-[12px]">
 
                 <tr className="grid grid-cols-6 font-iceberg">
 
@@ -142,7 +146,7 @@ const RecentInvoices: React.FC = () => {
                 {filteredInvoices.length > 0 ? (
                   filteredInvoices.slice(0, 6).map((invoice) => (
                     <tr key={invoice.invoiceId}
-                      className="hover:bg-gray-50 grid grid-cols-6"
+                      className="hover:bg-gray-50 grid grid-cols-6 md:text-sm sm:text-[9px]"
                     >
 
                       <td className="p-3 border">{invoice.invoiceId}</td>

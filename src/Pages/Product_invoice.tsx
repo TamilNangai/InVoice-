@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import React from "react"
+// import React from "react"
 import Bill from "@/Components/Invoice/Bill"
 import Header from "@/Components/Nav/Header"
 import CustomerForm from "@/Components/Form/Customerform"
@@ -12,47 +12,9 @@ import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
-import { getFunctions, httpsCallable } from "firebase/functions"
 
 
-const EmailButton: React.FC<{ email: string }> = ({ email }) => {
-  const handleClick = async () => {
-    if (!email) {
-      alert("Please enter customer email first!");
-      return;
-    }
 
-    try {
-      const result = await window.electronAPI.openEmail({
-        to: email,
-        subject: "Your Invoice is Ready 📄",
-        body: "Hello, your invoice is attached.",
-      });
-
-      if (!result.success) {
-        alert("Unable to open email client");
-      }
-    } catch (error) {
-      console.error("Failed to open email:", error);
-      alert("Error opening email client");
-    }
-  };
-
-  // ✅ FIX: return JSX
-  return (
-    <button
-      onClick={handleClick}
-      className="px-4 py-2  text-black rounded-md ml-2"
-    >
-       <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-          />
-    </button>
-  );
-};
 
 
 type Product = {
@@ -86,7 +48,7 @@ type InvoiceData = {
 }
 
 const Product_invoice = () => {
-  const [invoiceId] = useState(generateInvoiceId())
+  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
   const [company, setCompany] = useState<any>(null)
   const [invoiceData, setInvoiceData] = useState<InvoiceData>({
     customer: {
@@ -118,12 +80,13 @@ const Product_invoice = () => {
     discount: 0
   })
 
-  const [customerEmail, setCustomerEmail] = useState(""); // <-- new state for email
+
 
   useEffect(() => {
     const fetchCompany = async () => {
       const data = await getSettings()
-      console.log("Company Data:", data)
+
+
       setCompany(data)
     }
     fetchCompany()
@@ -140,10 +103,13 @@ const Product_invoice = () => {
     return acc + gst
   }, 0)
 
+
+  const effectiveTaxPercent =
+    Math.round(subtotal > 0 ? (gstTotal / subtotal) * 100 : 0)
   const discount = Number(invoiceData.discount || 0)
-  const totalAmount = subtotal + gstTotal - discount
+  const totalAmount = Math.round(subtotal + gstTotal - discount)
   const paidAmount = Number(invoiceData.price.paid || 0)
-  const dueAmount = totalAmount - paidAmount
+  const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
@@ -159,12 +125,7 @@ const Product_invoice = () => {
       return
     }
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
 
-    if (!emailRegex.test(email)) {
-      await showError("Please enter a valid email address")
-      return
-    }
 
     const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
     const gst = invoiceData.customer.gst
@@ -206,11 +167,10 @@ const Product_invoice = () => {
       return
     }
 
-    if (paid <= 0) {
-      await showError("Please fill the paid Amount correctly.")
+    if (paid < 0 || paid > totalAmount) {
+      await showError("Invalid paid amount")
       return
     }
-
     const today = new Date().toISOString().split("T")[0]
 
     if (duedate <= today) {
@@ -233,10 +193,40 @@ const Product_invoice = () => {
           due: dueAmount
         }
       },
-      billRef
+
     )
 
     await showSuccess("Invoice saved successfully");
+
+    // Reset form after successful save
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData({
+      customer: {
+        customer: "",
+        email: "",
+        office: "",
+        gst: "",
+        phone: "",
+        address: ""
+      },
+      product: [
+        {
+          productName: "",
+          sub: "",
+          price: 0,
+          tax: 0
+        }
+      ],
+      price: {
+        total: 0,
+        due: 0,
+        paid: 0,
+        duedate: "",
+        paymentMethod: ""
+      },
+      discount: 0
+    })
+    formRef.current?.reset()
   }
 
   const rows = invoiceData.product.map((item, index) => ({
@@ -246,7 +236,14 @@ const Product_invoice = () => {
     amount: item.price
   }))
 
-  if (!company) return <div>Loading...</div>
+
+  if (company === null)
+
+    return (
+      <div className="flex items-center justify-center min-h-screen min-w-screen">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
 
   return (
     <div className="w-full h-screen ">
@@ -254,15 +251,18 @@ const Product_invoice = () => {
         <Header h1="Product Invoice" para={`#${invoiceId}`} />
 
         <div className="">
-          {/* <Buttons
-            h1="Issue Invoice"
-            h2="Save Draft"
-            src2={vectora}
-            src1=""
-          /> */}
+          <button
+            type="button"
 
-          {/* ✅ UPDATED BUTTON: pass customerEmail */}
-          <EmailButton email={customerEmail} />
+            className="px-4 py-2 text-black rounded-md ml-2"
+          >
+            <Buttons
+              h1="Issue Invoice"
+              h2=""
+              src2={vectora}
+              src1=""
+            />
+          </button>
         </div>
       </div>
 
@@ -272,12 +272,7 @@ const Product_invoice = () => {
         onSubmit={(e) => {
           e.preventDefault()
 
-          if (!formRef.current?.checkValidity()) {
-            formRef.current?.reportValidity()
-            return
-          }
 
-          handlePrintAndSave()
         }}
       >
 
@@ -291,7 +286,6 @@ const Product_invoice = () => {
                 customer: data
               }))
             }
-            onEmailChange={setCustomerEmail} // <-- pass email up
           />
 
           <ProductForm
@@ -352,7 +346,7 @@ const Product_invoice = () => {
             subamount21={totalAmount}
             subamount22={paidAmount}
             subamount23={dueAmount}
-            taxPercent={invoiceData.product[0]?.tax || 0}
+            taxPercent={effectiveTaxPercent}
             paymentMethod={invoiceData.price.paymentMethod}
             conditionPara="Payment is due within 7 days of invoice issuance, Fees are non-refundable once the internship program has commenced."
             onPrint={handlePrintAndSave}

@@ -95,7 +95,6 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
   : RENDERER_DIST;
 
 let win: BrowserWindow | null;
-let mainWindow: BrowserWindow | null;
 
 // 🔥 MAIN WINDOW CREATION
 function createWindow() {
@@ -107,8 +106,6 @@ function createWindow() {
       nodeIntegration: false,
     },
   });
-
-  mainWindow = win; // ✅ sync both references
 
   Menu.setApplicationMenu(null);
 
@@ -153,12 +150,50 @@ ipcMain.handle("open-email", async (_, emailData) => {
   }
 });
 
+// 🔥 NODEMAILER SERVICE HANDLER
+ipcMain.handle("send-invoice-email", async (_, emailData) => {
+  const nodemailer = require("nodemailer");
+  try {
+    const { to, subject, body, pdfBase64, fileName } = emailData;
+
+    if (!to) throw new Error("Recipient email address required");
+
+    // ✅ CONFIGURE YOUR SMTP HERE
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "swethabo1810@gmail.com", // Replace with your email
+        pass: "mlmx rlev crgc moat",    // Replace with your app password
+      },
+    });
+
+    const mailOptions = {
+      from: `"DesFlyer Billing" <swethabo1810@gmail.com>`,
+      to: to,
+      subject: subject || `Invoice: ${fileName}`,
+      text: body || "Please find your invoice attached.",
+      attachments: [
+        {
+          filename: fileName,
+          content: Buffer.from(pdfBase64, "base64"),
+        },
+      ],
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Nodemailer failed:", error);
+    return { success: false, error: error.message };
+  }
+});
+
 // 🔥 APP EVENTS
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
     win = null;
-    mainWindow = null;
   }
 });
 

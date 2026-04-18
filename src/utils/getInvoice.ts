@@ -2,15 +2,21 @@ import { db } from "@/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 export type Invoice = {
-  uniqueId: string;  // 🔹 NEW
+  uniqueId: string;
   invoiceId: string;
   type: string;
   client: string;
   date: string;
+  dueDate: string;
   amount: number;
-  status: "paid" | "pending" |"overdue";
+  status: "paid" | "pending" | "overdue";
   pending: number;
   sub: string;
+  email?: string;
+  phone?: string;
+  gst?: number;
+  payment?: string;
+  rawData?: any; // 🔹 Add rawData to store full database record
 };
 
 
@@ -20,10 +26,11 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
   const invoices: Invoice[] = snapshot.docs.map((doc) => {
     const data: any = doc.data();
-    const status: "paid" | "pending" | "overdue" =
-      data.status ||
+    // Status check
+    data.status ||
       (data.price?.due && data.price.due > 0 ? "pending" : "paid");
-
+    const history = data.paymentHistory || [];
+    const latestPayment = history.length > 0 ? history[history.length - 1] : null;
 
     const getFormattedDate = (createdAt: any) => {
       if (!createdAt) return "";
@@ -61,15 +68,37 @@ export const getInvoices = async (): Promise<Invoice[]> => {
         data.service?.[0]?.serviceName ||
         "",
 
-      pending: data.pending ?? data.price?.due ?? 0,
+      email: data.customer?.email || data.student?.email || "",
+      phone: data.customer?.phone || data.student?.phone || "",
 
       date: getFormattedDate(data.createdAt),
 
+      // ✅ USE latest payment history
+      dueDate: latestPayment?.DueDate || data.price?.duedate || "",
+
       amount: data.price?.total ?? data.amount ?? 0,
 
+      // ✅ IMPORTANT MAPPING
+      paidAmount: latestPayment?.paid ?? data.price?.paid ?? 0,
+      pending: latestPayment?.due ?? data.price?.due ?? 0,
+
+      gst: data.gst || 0,
+      payment: data.price?.paymentMethod || "",
+
+      batch: data.program?.batch || "",
+      startDate: data.program?.start || "",
+      endDate: data.program?.enddate || "",
+
       status:
-        data.status ||
-        (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+        latestPayment?.due === 0
+          ? "paid"
+          : latestPayment?.due > 0
+            ? "pending"
+            : data.status ||
+            (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+
+      rawData: data,
+      paymentHistory: history,
     };
 
   });

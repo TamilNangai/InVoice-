@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useContext } from "react";
+import { ReactNode, createContext, useContext } from "react";
 
 type TableVariant = "grid" | "rows";
 
@@ -39,7 +39,7 @@ const Table = ({
         </TableContext.Provider>
     );
 };
- 
+
 
 const Header = ({ children }: SectionProps) => {
     return <thead>{children}</thead>;
@@ -89,7 +89,7 @@ const HeadCell = ({ children }: SectionProps) => {
 
 
 Table.Header = Header;
-Table.Body = Body;    
+Table.Body = Body;
 Table.Row = Row;
 Table.Cell = Cell;
 Table.HeadCell = HeadCell;

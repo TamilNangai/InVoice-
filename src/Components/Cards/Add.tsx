@@ -532,128 +532,130 @@ function Add(props: AddProps) {
             <div>
                 <button
                     onClick={() => setShow(true)}
-                    className="flex bg-[#136CEDCC] font-iceberg text-xl text-white px-3 py-2 mt-1 rounded-lg"
+                    className="flex bg-[#136CEDCC] font-iceberg text-xl mt-1 rounded-lg  sm:text-sm md:text-sm xl:text-xl xs:text-[5px]
+        text-white
+        px-4 md:px-2 md:py-2
+        py-2 sm:py-2 sm:px-2"
                 >
-                    <img className="mt-2 h-4 mr-2" src={props.src1} />
+                    <img className="xl:mt-1.5 md:mt-1.5 xl:h-4 md:h-2 sm:h-3 md:mr-1 xl:mr-1.5 sm:mt-1 sm:mr-1.5" src={props.src1} />
                     {props.h8}
                 </button>
             </div>
 
             {show && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
 
-    <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-5 space-y-4">
+                    <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-5 space-y-4">
 
-      <h1 className="font-iceberg text-xl md:text-2xl">{props.h1}</h1>
-      <p className="font-sanchez text-sm">{props.para1}</p>
+                        <h1 className="font-iceberg text-xl md:text-2xl">{props.h1}</h1>
+                        <p className="font-sanchez text-sm">{props.para1}</p>
 
-      <h6 className="font-iceberg text-lg border-b pb-1">
-        {props.h2}
-      </h6>
+                        <h6 className="font-iceberg text-lg border-b pb-1">
+                            {props.h2}
+                        </h6>
 
-      {/* Headings */}
-      <div className="flex justify-between text-sm md:text-lg">
-        <h1 className="font-iceberg">{props.h3}</h1>
-        <h1 className="font-iceberg">{props.h6}</h1>
-      </div>
+                        {/* Headings */}
+                        <div className="flex justify-between text-sm md:text-lg">
+                            <h1 className="font-iceberg">{props.h3}</h1>
+                            <h1 className="font-iceberg">{props.h6}</h1>
+                        </div>
 
-      {/* Form Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 font-sanchez">
+                        {/* Form Section */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 font-sanchez">
 
-        {/* Left Side */}
-        <div className="space-y-4">
+                            {/* Left Side */}
+                            <div className="space-y-4">
 
-          <div>
-            <label className="text-sm">{props.h4}</label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border border-black rounded mt-1 h-9 px-2"
-              type="text"
-            />
-          </div>
+                                <div>
+                                    <label className="text-sm">{props.h4}</label>
+                                    <input
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        className="w-full border border-black rounded mt-1 h-9 px-2"
+                                        type="text"
+                                    />
+                                </div>
 
-          <div>
-            <label className="text-sm">{props.h5}</label>
-            <input
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full border border-black rounded mt-1 h-9 px-2"
-              type="text"
-            />
-          </div>
+                                <div>
+                                    <label className="text-sm">{props.h5}</label>
+                                    <input
+                                        name="description"
+                                        value={formData.description}
+                                        onChange={handleChange}
+                                        className="w-full border border-black rounded mt-1 h-9 px-2"
+                                        type="text"
+                                    />
+                                </div>
 
-          <div>
-            <label className="text-sm mb-1 block">Category</label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="w-full border border-black rounded h-9 px-2"
-            >
-              <option value="">Select Category</option>
-              <option>Product</option>
-              <option>Service</option>
-              <option>Internship</option>
-            </select>
-          </div>
+                                <div>
+                                    <label className="text-sm mb-1 block">Category</label>
+                                    <select
+                                        name="category"
+                                        value={formData.category}
+                                        onChange={handleChange}
+                                        className="w-full border border-black rounded h-9 px-2"
+                                    >
+                                        <option value="">Select Category</option>
+                                        <option>Product</option>
+                                        <option>Service</option>
+                                        <option>Internship</option>
+                                    </select>
+                                </div>
 
-        </div>
+                            </div>
 
-        {/* Right Side */}
-        <div className="space-y-4">
+                            {/* Right Side */}
+                            <div className="space-y-4">
 
-          <div>
-            <label className="text-sm">{props.h7}</label>
-            <input
-              name="maxPrice"
-              value={formData.maxPrice}
-              onChange={handleChange}
-              className="w-full border border-black rounded mt-1 h-9 px-2"
-            />
-          </div>
+                                <div>
+                                    <label className="text-sm">{props.h7}</label>
+                                    <input
+                                        name="maxPrice"
+                                        value={formData.maxPrice}
+                                        onChange={handleChange}
+                                        className="w-full border border-black rounded mt-1 h-9 px-2"
+                                    />
+                                </div>
 
-          <div>
-            <label className="text-sm">{props.h9}</label>
-            <input
-              name="minPrice"
-              value={formData.minPrice}
-              onChange={handleChange}
-              className="w-full border border-black rounded mt-1 h-9 px-2"
-            />
-          </div>
+                                <div>
+                                    <label className="text-sm">{props.h9}</label>
+                                    <input
+                                        name="minPrice"
+                                        value={formData.minPrice}
+                                        onChange={handleChange}
+                                        className="w-full border border-black rounded mt-1 h-9 px-2"
+                                    />
+                                </div>
 
-        </div>
+                            </div>
 
-      </div>
+                        </div>
 
-      {/* Buttons */}
-      <div className="flex flex-col md:flex-row gap-3 justify-center pt-3">
+                        {/* Buttons */}
+                        <div className="flex flex-col md:flex-row gap-3 justify-center pt-3">
 
-        <button
-          onClick={() => setShow(false)}
-          className="font-iceberg text-lg border border-gray-400 px-4 py-2 rounded-lg"
-        >
-          Cancel
-        </button>
+                            <button
+                                onClick={() => setShow(false)}
+                                className="font-iceberg text-lg border border-gray-400 px-4 py-2 rounded-lg"
+                            >
+                                Cancel
+                            </button>
 
-        <button
-          onClick={handleSave}
-          disabled={loading}
-          className={`bg-[#136CED] text-white px-5 py-2 rounded-lg font-iceberg ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          {loading ? "Saving..." : "Save Changes"}
-        </button>
+                            <button
+                                onClick={handleSave}
+                                disabled={loading}
+                                className={`bg-[#136CED] text-white px-5 py-2 rounded-lg font-iceberg ${loading ? "opacity-50 cursor-not-allowed" : ""
+                                    }`}
+                            >
+                                {loading ? "Saving..." : "Save Changes"}
+                            </button>
 
-      </div>
+                        </div>
 
-    </div>
-  </div>
-)}
+                    </div>
+                </div>
+            )}
 
         </section>
     )

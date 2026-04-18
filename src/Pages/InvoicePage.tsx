@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import InvoicedetailsTable, { Invoice } from "@/Components/Table/InvoicedetailsTable";
+import InvoicedetailsTable from "@/Components/Table/InvoicedetailsTable";
+import { Invoice } from "@/types/invoice";
 import Searchinput from "@/Components/Filter/Searchinput";
 import searchIcon from "@/assets/filter/search.svg";
 import filterIcon from "@/assets/filter/filter.svg";
@@ -27,7 +28,7 @@ const InvoicePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getInvoices();
-      setInvoices(data); // ✅ this is fine here
+      setInvoices(data); 
     };
     fetchData();
   }, []);
@@ -40,11 +41,20 @@ const InvoicePage = () => {
 
     const matchType = type ? item.type === type : true; // ✅ make sure this matches the dropdown
     const matchStatus = status ? item.status === status : true;
-    const matchDate =
-      fromDate && toDate
-        ? new Date(item.date) >= new Date(fromDate) &&
-        new Date(item.date) <= new Date(toDate)
-        : true;
+    const matchDate = (() => {
+      if (!fromDate && !toDate) return true;
+
+      const itemDate = new Date(item.date).setHours(0, 0, 0, 0);
+      const start = fromDate ? new Date(fromDate).setHours(0, 0, 0, 0) : null;
+      const end = toDate ? new Date(toDate).setHours(23, 59, 59, 999) : null;
+
+      if (start && end) return itemDate >= start && itemDate <= end;
+      if (start) return itemDate >= start;
+      if (end) return itemDate <= end;
+
+      return true;
+    })();
+
 
     return matchSearch && matchType && matchStatus && matchDate;
   });
