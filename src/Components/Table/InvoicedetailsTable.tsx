@@ -51,6 +51,12 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
         }
     };
 
+        const parseDate = (dateStr?: string) => {
+        if (!dateStr) return null;
+        const [day, month, year] = dateStr.split("-").map(Number);
+        return new Date(year, month - 1, day);
+    };
+
     // ✅ ONLY USE FLAT STRUCTURE (your type)
     const formatInvoice = (inv: Invoice) => ({
         ...inv,
@@ -103,7 +109,19 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
 
                         const total = Math.round(item.amount ?? 0);
                         const pending = Math.round(item.pending ?? 0);
-                        const displayStatus = pending === 0 ? "paid" : item.status;
+                                    let displayStatus = "pending";
+
+                        const dueDateStr = item.dueDate; // 👈 adjust if path differs
+                        const dueDate = parseDate(dueDateStr);
+                        const today = new Date();
+
+                        if (pending === 0) {
+                            displayStatus = "paid";
+                        } else if (dueDate && today > dueDate) {
+                            displayStatus = "overdue";
+                        } else {
+                            displayStatus = "pending";
+                        }
 
                         return (
                             <BaseTable.Row key={item.uniqueId}>
