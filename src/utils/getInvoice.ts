@@ -72,7 +72,9 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       date: getFormattedDate(data.createdAt),
 
       // ✅ USE latest payment history
-      dueDate: latestPayment?.DueDate || data.price?.duedate || "",
+      latestPaymentDate: latestPayment?.DueDate || data.price?.duedate || "",
+
+      dueDate:data.price?.duedate || "",
 
       amount: data.price?.total ?? data.amount ?? 0,
 

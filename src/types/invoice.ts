@@ -30,6 +30,7 @@ export type Invoice = {
     paidAmount?: number;
     startDate?: string;
     endDate?: string;
+    latestPaymentDate?: string;
     rawData?: any;
 };
 

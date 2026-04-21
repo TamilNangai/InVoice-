@@ -50,12 +50,25 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
             default: return "";
         }
     };
+const parseDate = (dateStr?: string) => {
+  if (!dateStr) return null;
 
-        const parseDate = (dateStr?: string) => {
-        if (!dateStr) return null;
-        const [day, month, year] = dateStr.split("-").map(Number);
-        return new Date(year, month - 1, day);
-    };
+  if (dateStr.includes("-")) {
+    const parts = dateStr.split("-");
+
+    // detect format
+    if (parts[0].length === 4) {
+      // YYYY-MM-DD
+      return new Date(dateStr);
+    } else {
+      // DD-MM-YYYY
+      const [day, month, year] = parts.map(Number);
+      return new Date(year, month - 1, day);
+    }
+  }
+
+  return new Date(dateStr);
+};
 
     // ✅ ONLY USE FLAT STRUCTURE (your type)
     const formatInvoice = (inv: Invoice) => ({
@@ -109,10 +122,10 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
 
                         const total = Math.round(item.amount ?? 0);
                         const pending = Math.round(item.pending ?? 0);
-                                    let displayStatus = "pending";
+                        let displayStatus = "pending";
 
-                        const dueDateStr = item.dueDate; // 👈 adjust if path differs
-                        const dueDate = parseDate(dueDateStr);
+                        
+                        const dueDate = parseDate(item.dueDate);
                         const today = new Date();
 
                         if (pending === 0) {
@@ -122,7 +135,6 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                         } else {
                             displayStatus = "pending";
                         }
-
                         return (
                             <BaseTable.Row key={item.uniqueId}>
                                 <BaseTable.Cell>
@@ -160,7 +172,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                                     <div className="text-center">₹ {pending}/-</div>
                                 </BaseTable.Cell>
                                 <BaseTable.Cell>
-                                    <div className="text-center">{item.date}</div>
+                                    <div className="text-center">{item.dueDate}</div>
                                 </BaseTable.Cell>
 
                                 <BaseTable.Cell>
@@ -203,7 +215,7 @@ const InvoicedetailsTable: React.FC<InvoiceDetailsTableProps> = ({ invoices, onU
                                 </BaseTable.Cell>
                             </BaseTable.Row>
                         );
-                    })}
+                    } )}
                 </BaseTable.Body>
             </BaseTable>
 
