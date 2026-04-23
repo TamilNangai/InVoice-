@@ -89,13 +89,7 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       startDate: data.program?.start || "",
       endDate: data.program?.enddate || "",
 
-      status:
-        latestPayment?.due === 0
-          ? "paid"
-          : latestPayment?.due > 0
-            ? "pending"
-            : data.status ||
-            (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+      status: data.status ||"Pending",
 
       rawData: data,
       paymentHistory: history,
