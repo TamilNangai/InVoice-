@@ -1,5 +1,6 @@
-
 // import { useState } from "react"
+
+// type ButtonVariant = "primary" | "secondary" | "outline"
 
 // type ButtonsProps = {
 //   h1: string
@@ -8,6 +9,13 @@
 //   src2?: string
 //   onClick?: () => Promise<void> | void
 //   type?: "button" | "submit"
+//   variant?: ButtonVariant
+// }
+
+// const variantStyles: Record<ButtonVariant, string> = {
+//   primary: "bg-[#136CEDCC] text-white hover:bg-blue-400 sm:text-xs sm:-mt-2",
+//   secondary: "bg-[#136CEDCC] text-white hover:bg-gray-300",
+//   outline: "border border-blue-500 text-blue-500 hover:bg-blue-50",
 // }
 
 // function Buttons({
@@ -17,6 +25,7 @@
 //   src2,
 //   onClick,
 //   type = "button",
+//   variant = "primary",
 // }: ButtonsProps) {
 //   const [loading, setLoading] = useState(false)
 
@@ -35,7 +44,7 @@
 //     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 w-full">
 
 //       {h2 && (
-//         <h1 className="font-iceberg text-base sm:text-lg md:text-xl text-center sm:text-left">
+//         <h1 className="font-iceberg text-base sm:text-lg md:text-xl text-center sm:text-left ">
 //           {h2}
 //         </h1>
 //       )}
@@ -44,20 +53,19 @@
 //         onClick={handleClick}
 //         type={type}
 //         disabled={loading}
-//         className={`flex items-center justify-center
-//         w-full sm:w-auto
-//         bg-[#136CEDCC]
-//         font-iceberg
-//         text-base sm:text-lg md:text-xl
-//         text-white
-//         px-4  md:px-6
-//         py-2 sm:py-2
-//         rounded-lg
-//         whitespace-nowrap
-//         ${loading
-//             ? "opacity-50 cursor-not-allowed"
-//             : "hover:bg-blue-400 active:scale-95"
-//           }`}
+//         className={`
+//           flex items-center justify-center
+//           w-full sm:w-auto
+//           font-iceberg
+//           text-base sm:text-lg md:text-xl
+//           px-4 md:px-6
+//           py-2
+//           rounded-lg
+//           whitespace-nowrap
+//           transition
+//           ${variantStyles[variant]}
+//           ${loading ? "opacity-50 cursor-not-allowed" : "active:scale-95"}
+//         `}
 //       >
 //         {src2 && (
 //           <img className="h-4 w-4 sm:h-5 sm:w-5 mr-2" src={src2} />
@@ -75,7 +83,6 @@
 
 // export default Buttons
 
-
 import { useState } from "react"
 
 type ButtonVariant = "primary" | "secondary" | "outline"
@@ -88,11 +95,12 @@ type ButtonsProps = {
   onClick?: () => Promise<void> | void
   type?: "button" | "submit"
   variant?: ButtonVariant
+  as?: "button" | "div"   // 👈 important fix
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: "bg-[#136CEDCC] text-white hover:bg-blue-400 sm:text-xs sm:-mt-2",
-  secondary: "bg-[#136CEDCC] text-white hover:bg-gray-300",
+  primary: "bg-[#136CEDCC] text-white hover:bg-blue-500",
+  secondary: "bg-gray-500 text-white hover:bg-gray-600",
   outline: "border border-blue-500 text-blue-500 hover:bg-blue-50",
 }
 
@@ -104,7 +112,9 @@ function Buttons({
   onClick,
   type = "button",
   variant = "primary",
+  as = "button",
 }: ButtonsProps) {
+
   const [loading, setLoading] = useState(false)
 
   const handleClick = async () => {
@@ -118,43 +128,45 @@ function Buttons({
     }
   }
 
+  const Component = as // 👈 dynamic tag
+
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 w-full">
+    <div className="flex flex-row flex-wrap items-center gap-2 sm:gap-3 w-full">
 
       {h2 && (
-        <h1 className="font-iceberg text-base sm:text-lg md:text-xl text-center sm:text-left ">
+        <h1 className="font-iceberg text-base sm:text-lg md:text-xl">
           {h2}
         </h1>
       )}
 
-      <button
+      <Component
         onClick={handleClick}
-        type={type}
-        disabled={loading}
+        {...(as === "button" ? { type, disabled: loading } : {})}
         className={`
           flex items-center justify-center
           w-full sm:w-auto
           font-iceberg
           text-base sm:text-lg md:text-xl
-          px-4 md:px-6
-          py-2
+          px-4 sm:px-5 md:px-6
+          py-2 sm:py-2.5
           rounded-lg
           whitespace-nowrap
           transition
+          cursor-pointer
           ${variantStyles[variant]}
           ${loading ? "opacity-50 cursor-not-allowed" : "active:scale-95"}
         `}
       >
         {src2 && (
-          <img className="h-4 w-4 sm:h-5 sm:w-5 mr-2" src={src2} />
+          <img className="h-5 w-5 sm:h-6 sm:w-6 mr-2" src={src2} alt="" />
         )}
 
         {loading ? "Processing..." : h1}
 
         {src1 && (
-          <img className="h-4 w-4 sm:h-5 sm:w-5 ml-2" src={src1} />
+          <img className="h-5 w-5 sm:h-6 sm:w-6 ml-2" src={src1} alt="" />
         )}
-      </button>
+      </Component>
     </div>
   )
 }

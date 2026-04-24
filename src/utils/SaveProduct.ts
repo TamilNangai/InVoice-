@@ -6,8 +6,8 @@ type SaveProductData = {
     name: string
     description: string
     category: string
-    maxprice: string
-    minprice: string
+    maxprice: number
+    minprice: number
 }
 
 export const saveProduct = async (data: SaveProductData) => {
@@ -20,8 +20,8 @@ export const saveProduct = async (data: SaveProductData) => {
             name: data.name || "",
             description: data.description || "",
             category: data.category || "",
-            minprice: data.minprice || "",
-            maxprice: data.maxprice || "",
+            minprice: data.minprice || 0,
+            maxprice: data.maxprice || 0,
             createdAt: Timestamp.now()
         }
 
@@ -30,9 +30,7 @@ export const saveProduct = async (data: SaveProductData) => {
             productData
         )
 
-        // console.log("Product saved:", productData)
-
-        // alert("Product Saved Successfully!")
+        alert("Product Saved Successfully")
 
     } catch (error) {
 

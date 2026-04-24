@@ -17,8 +17,8 @@ type Props = {
 const StudentForm: React.FC<Props> = ({ data, setData }) => {
 
   
-  const [errors, setErrors] = useState<any>({})
-  const [touched, setTouched] = useState<any>({})
+  const [ setErrors] = useState<any>({})
+  const [ setTouched] = useState<any>({})
 
 
   const validate = (name: string, value: string) => {
