@@ -12,6 +12,7 @@ import { generateInvoiceId } from "@/utils/generateInvoiceId"
 import { saveAndPrint } from "@/utils/saveAndPrint";
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -237,6 +238,8 @@ const Product_invoice = () => {
   }))
 
 
+ 
+
   if (company === null)
 
     return (
@@ -248,7 +251,9 @@ const Product_invoice = () => {
   return (
     <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
-        <Header h1="Product Invoice" para={`#${invoiceId}`} />
+       
+        <Header h1="Product Invoice"
+          para={`#${invoiceId}`} />
 
         <div className="">
           <button
@@ -257,10 +262,7 @@ const Product_invoice = () => {
             className="px-4 py-2 text-black rounded-md ml-2"
           >
             <Buttons
-              h1="Issue Invoice"
-              h2=""
-              src2={vectora}
-              src1=""
+            h1="Issue Invoice" variant="secondary" src2={vectora}
             />
           </button>
         </div>
@@ -276,7 +278,7 @@ const Product_invoice = () => {
         }}
       >
 
-        <div className="w-[100%] space-y-7 p-4 grid">
+        <div className="w-[90%] space-y-7 p-4 grid">
 
           <CustomerForm
             data={invoiceData.customer}
@@ -318,7 +320,7 @@ const Product_invoice = () => {
 
         </div>
 
-        <div className="w-[100%] h-full grid p-4">
+        <div className="w-[110%] h-full grid p-4 sm:-ml-12">
 
           <Bill
             ref={billRef}
@@ -328,7 +330,7 @@ const Product_invoice = () => {
             companyPhone={company.companyPhone}
             companyAddress={company.companyAddress}
             rows={rows}
-            button={<Buttons src1="" src2="" h1="Product Invoice" h2="" />}
+            button={<Buttons h1="Product Invoice" variant="primary" />}
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
             phone={Number(invoiceData.customer.phone)}

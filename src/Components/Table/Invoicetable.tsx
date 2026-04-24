@@ -84,22 +84,24 @@ const RecentInvoices: React.FC = () => {
             <div className="flex gap-14 font-iceberg xl:text-xl md:text-md sm:text-[12px]">
 
               <button
-                className="rounded-md h-8 xl:w-28 sm:w-20 transition-none bg-blue-500 text-white"
+                className={`rounded-md h-8 xl:w-28 sm:w-20 text-white 
+    ${filter === "all" ? "bg-blue-500" : "bg-gray-300"}`}
                 onClick={() => setFilter("all")}
               >
                 All Invoices
               </button>
 
               <button
-                className="rounded-md h-8 w-12 transition-none bg-green-500 text-white"
-
+                className={`rounded-md h-8 w-12 text-white 
+    ${filter === "paid" ? "bg-green-500" : "bg-gray-300"}`}
                 onClick={() => setFilter("paid")}
               >
                 Paid
               </button>
 
               <button
-                className="rounded-md h-8 w-20 bg-yellow-400 text-white transition-none"
+                className={`rounded-md h-8 w-20 text-white 
+    ${filter === "pending" ? "bg-yellow-400" : "bg-gray-300"}`}
                 onClick={() => setFilter("pending")}
               >
                 Pending
@@ -126,7 +128,7 @@ const RecentInvoices: React.FC = () => {
             {/* <table className="w-full text-center"> */}
             <table className="w-full h-full text-center">
 
-              <thead className="xl:text-xl md:text-[18px] sm:text-[12px]">
+              <thead className="xl:text-[22px] md:text-[18px] sm:text-[17px]">
 
                 <tr className="grid grid-cols-6 font-iceberg">
 
@@ -146,7 +148,7 @@ const RecentInvoices: React.FC = () => {
                 {filteredInvoices.length > 0 ? (
                   filteredInvoices.slice(0, 6).map((invoice) => (
                     <tr key={invoice.invoiceId}
-                      className="hover:bg-gray-50 grid grid-cols-6 md:text-sm sm:text-[9px]"
+                      className="hover:bg-gray-50 grid grid-cols-6 md:text-sm sm:text-[15px] xl:text-[17px]"
                     >
 
                       <td className="p-3 border">{invoice.invoiceId}</td>
@@ -157,17 +159,17 @@ const RecentInvoices: React.FC = () => {
                         ${invoice.amount.toFixed(2)}
                       </td>
 
-                   <td className="p-3 border">
-  <span
-    className={`font-semibold
+                      <td className="p-3 border">
+                        <span
+                          className={`font-semibold
       ${invoice.status === "pending" ? "text-yellow-300" : ""}
       ${invoice.status === "paid" ? "text-green-500" : ""}
       ${invoice.status === "overdue" ? "text-red-500" : ""}
     `}
-  >
-    • {invoice.status}
-  </span>
-</td>
+                        >
+                          {invoice.status}
+                        </span>
+                      </td>
 
                     </tr>
 

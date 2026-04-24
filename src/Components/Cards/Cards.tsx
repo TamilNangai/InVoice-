@@ -13,11 +13,7 @@ type CardProps = {
 const Cards = forwardRef<HTMLDivElement, CardProps>(
   ({ head, amount, para, cardhead, cardamount, cardpara, symbol }, ref) => {
 
-    const formatMoney = (num: number) =>
-      num.toLocaleString("en-IN", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
+
 
 
     return (
@@ -30,7 +26,11 @@ const Cards = forwardRef<HTMLDivElement, CardProps>(
         </p>
 
         <p className={`iceberg-regular leading-[100%] text-[#000000] ${cardamount || ""}`}>
-          {symbol}{formatMoney(amount)}
+          {symbol}{
+            head === "Total Revenue" || head === "Pending"
+              ? Number(amount).toFixed(2)
+              : amount
+          }
         </p>
 
         {para && (

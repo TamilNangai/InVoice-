@@ -74,18 +74,18 @@ service billing"
                        
                         <div className=" w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5 px-4 sm:px-5">
 
-                                <Cards
+                                <Cards 
                                         head="Total Revenue"
                                         symbol="₹"
                                         amount={report.totalRevenue || 0}
-                                        cardhead="sanchez-regular text-[#000000]"
+                                        cardhead="sanchez-regular "
                                         cardamount="text-2xl sm:text-3xl "
                                 />
 
                                 <Cards
                                         head="Invoice Issued"
                                         amount={report.totalInvoices || 0}
-                                        cardhead="sanchez-regular text-[#000000]"
+                                        cardhead="sanchez-regular"
                                         cardamount="text-2xl sm:text-3xl"
                                 />
 
@@ -94,15 +94,15 @@ service billing"
                                         symbol="₹"
                                         amount={report.pendingAmount || 0}
                                         para={`- ${report.pendingCount || 0} Invoice Pending`}
-                                        cardhead="sanchez-regular text-[#000000]"
+                                        cardhead="sanchez-regular xl:mt-2"
                                         cardamount="text-2xl sm:text-3xl"
-                                        cardpara="text-sm sm:text-xs text-[#000000]"
+                                        cardpara="text-sm sm:text-xs"
                                 />
 
                                 <Cards
                                         head="Clients"
                                         amount={report.uniqueClients || 0}
-                                        cardhead="sanchez-regular text-[#000000]"
+                                        cardhead="sanchez-regular "
                                         cardamount="text-2xl sm:text-3xl"
                                 />
 
