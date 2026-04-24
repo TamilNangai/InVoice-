@@ -11,6 +11,7 @@ import { validateForm } from "@/utils/useInvoiceValidation"
 import { saveAndPrint } from "@/utils/saveAndPrint"
 import { getSettings } from "@/utils/getSettings"
 import { showError, showSuccess, showConfirm } from "@/utils/alert";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -262,7 +263,6 @@ const Service_invoice = () => {
   }
 
 
-
   if (company === null)
 
     return (
@@ -277,8 +277,9 @@ const Service_invoice = () => {
 
     <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
+
         <Header
-          h1="New Service Invoice"
+          h1=" Service Invoice"
           para={`#${invoiceId}`}
         />
 
@@ -290,10 +291,8 @@ const Service_invoice = () => {
             className="px-4 py-2 text-black rounded-md ml-2"
           >
             <Buttons
-              h1="Issue Invoice"
-              h2="Save Draft"
-              src2={vectora}
-              src1=""
+              h1="Issue Invoice" variant="secondary" src2={vectora}
+
             />
           </button>
         </div>
@@ -383,8 +382,7 @@ const Service_invoice = () => {
             boxduedate={invoiceData.price.duedate}
             boxreference="Po-12345"
 
-            button={<Buttons src1="" src2="" h1="Service Invoice" h2="" />}
-
+            button={<Buttons h1="Service Invoice" variant="primary" />}
             name={invoiceData.customer.customer}
             email={invoiceData.customer.email}
             phone={Number(invoiceData.customer.phone)}

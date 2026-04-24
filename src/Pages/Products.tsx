@@ -30,7 +30,7 @@ const Products = () => {
         </div>
         
         <div className="mx-10">
-          <h1 className="font-iceberg font-extralight text-[28px] leading-[100%] mt-8 mb-10">Product Details</h1>
+          <h1 className="font-iceberg font-extralight text-[28px] leading-[100%] mt-8 mb-5">Product Details</h1>
           <ProductTable />
           </div>
         </div>

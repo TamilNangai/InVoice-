@@ -95,15 +95,15 @@ const PriceForm = ({ data, setData }: Props) => {
 
   return (
 
-    <div className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
+    <div className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)] ">
 
-      <h2 className="text-xl font-semibold mb-4 pl-8">
+      <h2 className="xl:text-xl sm:text-[16px] font-semibold mb-4 pl-8">
         Price Details
       </h2>
       <main className="grid grid-rows-subgrid w-full h-fit">
-        <section className="grid grid-cols-2 gap-10 text-lg w-full h-full">
+        <section className="grid grid-cols-2 gap-10 xl:text-lg xl:w-full xl:h-full sm:text-[14px]">
 
-          <div>
+          <div className="">
 
             <InputField
               label="Total Amount"
@@ -154,9 +154,9 @@ const PriceForm = ({ data, setData }: Props) => {
 
         <div className="w-full h-fit grid grid-rows-1 place-items-center">
 
-          <div className="text-sm font-sanchez">
+          <div className="xl:text-md sm:text-[10px] font-sanchez">
 
-            <label className="block mb-1 font-iceberg text-lg">
+            <label className="block mb-1 font-iceberg xl:text-lg sm:text-[14px]">
               Payment Method
             </label>
 
@@ -166,7 +166,7 @@ const PriceForm = ({ data, setData }: Props) => {
               value={data.paymentMethod}
               onChange={handleChange}
               onBlur={(e) => validate(e.target.name, e.target.value)}
-              className="py-2 px-3 border-2 border-black rounded-md"
+              className="py-2 px-3 sm:py-3 border-2 border-black rounded-md"
 
             >
 

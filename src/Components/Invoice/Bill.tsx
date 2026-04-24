@@ -143,7 +143,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
     } = props;
 
-   // STATE
+    // STATE
     const [company, setCompany] = useState<CompanyData>({
         companyName: "",
         companyEmail: "",
@@ -184,7 +184,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
         <div
             ref={ref}
-            className="w-full border border-[#00000040] rounded-xl p-6 bg-white flex flex-col "
+            className="xl:w-full sm:w-[103%] border border-black rounded-xl p-6 bg-white flex flex-col shadow-[5px_5px_15px_rgba(0,0,0,0.2)] "
             style={{ pageBreakInside: "avoid" }} >
             <main className="w-full">
                 {/* HEADER */}
@@ -193,24 +193,24 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                 <div className="flex justify-between items-start gap-4">
 
 
- <div>
-                    <h1 className="text-[32px] font-iceberg leading-none">
-
-                        {Company.companyName}
-                    </h1>
-
-                    <p className="text-[14px] font-sanchez">
-                        {Company.companyAddress}
-                    </p>
-
-                    <p className="text-[14px] font-sanchez">
-                        {Company.companyEmail} | +91 {Company.companyPhone}
-                        
-                    </p>
-                </div>
-
                     <div>
-                        {button}
+                        <h1 className="xl:text-[32px] sm:text-[25px] font-iceberg leading-none mb-2">
+
+                            {Company.companyName}
+                        </h1>
+
+                        <p className="xl:text-[14px] sm:text-[10px] font-sanchez">
+                            {Company.companyAddress}
+                        </p>
+
+                        <p className="xl:text-[14px] sm:text-[10px] font-sanchez">
+                            {Company.companyEmail} | +91 {Company.companyPhone}
+
+                        </p>
+                    </div>
+
+                    <div >
+                      {button}
                     </div>
 
                 </div>
@@ -226,23 +226,23 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                     <div>
 
-                        <p className="font-iceberg text-[18px] mb-2">
+                        <p className="font-iceberg xl:text-[18px] sm:text-[14px] mb-2">
                             BILL TO
                         </p>
 
-                        <p className="font-iceberg text-[18px]">
+                        <p className="font-iceberg xl:text-[18px] sm:text-[12px]">
                             {name}
                         </p>
 
-                        <p className="font-sanchez text-[18px]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[12px]">
                             {email}
                         </p>
 
-                        <p className="font-sanchez text-[18px]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[12px]">
                             {phone == 0 ? "" : phone}
                         </p>
 
-                        <p className="font-sanchez text-[18px]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[12px]">
                             {college}
                         </p>
 
@@ -251,20 +251,20 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                     <div className="text-right">
 
-                        <p className="font-iceberg text-[18px]">
+                        <p className="font-iceberg xl:text-[18px] sm:text-[13px]">
                             Invoice Details
                         </p>
 
-                        <p className="font-sanchez text-[18px]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[13px]">
                             Invoice #: {invoiceid}
                         </p>
 
                         {type === "internship" && <>
-                            <p className="font-sanchez text-[18px]">
+                            <p className="font-sanchez xl:text-[18px] sm:text-[13px]">
                                 Date: {date}
                             </p>
 
-                            <p className="font-sanchez text-[18px]">
+                            <p className="font-sanchez xl:text-[18px] sm:text-[13px]">
                                 Due Date: {duedate}
                             </p>
                         </>}
@@ -281,21 +281,21 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                     <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex flex-col justify-between ">
 
 
-                        <p className="font-sanchez text-[18px]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">
                             {boxhead}
                         </p>
 
-                        <p className="font-iceberg text-[20px]">
+                        <p className="font-iceberg xl:text-[20px] sm:text-[14px]">
                             {boxprogram}
                         </p>
 
                         <div className="flex justify-between mt-2">
 
-                            <p className="font-sanchez text-[14px]">
+                            <p className="font-sanchez xl:text-[14px] sm:text-[10px]">
                                 {batch}
                             </p>
 
-                            <p className="font-sanchez text-[14px]">
+                            <p className="font-sanchez xl:text-[14px] sm:text-[10px]">
                                 {duration}
                             </p>
 
@@ -304,22 +304,22 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                     </div>
 
                 ) : (
-                        <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
+                    <div className="mt-5 border border-[#00000080] rounded-xl p-4 flex justify-between text-center">
 
 
                         <div className="w-1/3 text-center">
-                            <p className="font-iceberg text-[18px]">Invoice Date</p>
-                            <p className="font-sanchez text-[18px]">{boxdate}</p>
+                            <p className="font-iceberg xl:text-[18px] sm:text-[15px]">Invoice Date</p>
+                            <p className="font-sanchez xl:text-[18px] sm:text-[12px]">{boxdate}</p>
                         </div>
 
                         <div className="w-1/3 text-center">
-                            <p className="font-iceberg text-[18px]">Due Date</p>
-                            <p className="font-sanchez text-[18px]">{boxduedate}</p>
+                            <p className="font-iceberg xl:text-[18px] sm:text-[15px]">Due Date</p>
+                            <p className="font-sanchez xl:text-[18px] sm:text-[12px]">{boxduedate}</p>
                         </div>
 
                         <div className="w-1/3 text-center">
-                            <p className="font-iceberg text-[18px]">Reference</p>
-                            <p className="font-sanchez text-[18px]">{boxreference}</p>
+                            <p className="font-iceberg xl:text-[18px] sm:text-[15px]">Reference</p>
+                            <p className="font-sanchez xl:text-[18px] sm:text-[12px]">{boxreference}</p>
                         </div>
 
                     </div>
@@ -333,11 +333,11 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                     <div className="flex justify-between border-b pb-2">
 
-                        <p className="font-sanchez text-[20px]">
+                        <p className="font-sanchez xl:text-[20px] sm:text-[14px]">
                             {detailhead}
                         </p>
 
-                        <p className="font-sanchez text-[20px]">
+                        <p className="font-sanchez xl:text-[20px] sm:text-[14px]">
                             Amount
                         </p>
 
@@ -354,17 +354,17 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                                 <div>
 
-                                    <p className="font-iceberg text-[18px]">
+                                    <p className="font-iceberg xl:text-[18px] sm:text-[14px]">
                                         {head11}
                                     </p>
 
-                                    <p className="font-sanchez text-[14px] text-gray-500">
+                                    <p className="font-sanchez xl:text-[14px] sm:text-[12px] text-gray-500">
                                         {head12}
                                     </p>
 
                                 </div>
 
-                                <p className="font-sanchez text-[18px]">
+                                <p className="font-sanchez xl:text-[18px] sm:text-[14px]">
                                     {amount1?.toFixed(2)}
                                 </p>
 
@@ -375,17 +375,17 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                                 <div>
 
-                                    <p className="font-iceberg text-[18px]">
+                                    <p className="font-iceberg xl:text-[18px] sm:text-[14px]">
                                         {head21}
                                     </p>
 
-                                    <p className="font-sanchez text-[14px] text-gray-500">
+                                    <p className="font-sanchez xl:text-[14px] sm:text-[12px] text-gray-500">
                                         {head22}
                                     </p>
 
                                 </div>
 
-                                <p className="font-sanchez text-[18px]">
+                                <p className="font-sanchez xl:text-[18px] sm:text-[14px]">
                                     {amount2?.toFixed(2)}
                                 </p>
 
@@ -396,17 +396,17 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                                 <div>
 
-                                    <p className="font-iceberg text-[18px]">
+                                    <p className="font-iceberg xl:text-[18px] sm:text-[14px]">
                                         {head31}
                                     </p>
 
-                                    <p className="font-sanchez text-[14px] text-gray-500">
+                                    <p className="font-sanchez xl:text-[14px] sm:text-[12px] text-gray-500">
                                         {head32}
                                     </p>
 
                                 </div>
 
-                                <p className="font-sanchez text-[18px]">
+                                <p className="font-sanchez xl:text-[18px] sm:text-[14px]">
                                     {amount3?.toFixed(2)}
                                 </p>
 
@@ -429,11 +429,11 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                                 <div className="flex items-center">
                                     <div className={`${type === "product" ? "w-1/3" : "w-2/3"} flex flex-col justify-center items-start px-3`}>
                                         {/* Product Name */}
-                                        <p className="font-sanchez text-[18px]">
+                                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">
                                             {rows.title}
                                         </p>
                                         {rows.subtitle && (
-                                            <p className="font-sanchez text-[14px] text-gray-500 mt-1">
+                                            <p className="font-sanchez xl:text-[14px] sm:text-[12px] text-gray-500 mt-1">
                                                 {rows.subtitle}
                                             </p>
                                         )}</div>
@@ -441,17 +441,17 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                                     {/* Subscription (only for product) */}
                                     {type === "product" && (
                                         <div className="w-1/3 mx-2 flex flex-col justify-center items-start px-3 border-x border-[#000000]">
-                                            <p className="font-iceberg text-[18px] leading-[100%] mb-1">
+                                            <p className="font-iceberg xl:text-[18px] sm:text-[14px] leading-[100%] mb-1">
                                                 Subscription
                                             </p>
 
-                                            <p className="font-sanchez text-[14px] leading-[100%]">
+                                            <p className="font-sanchez xl:text-[14px] sm:text-[14px] leading-[100%]">
                                                 {rows.sub}
                                             </p>
                                         </div>
                                     )}
 
-                                    <p className="w-1/3 font-sanchez text-[18px] flex  justify-center items-center ">
+                                    <p className="w-1/3 font-sanchez xl:text-[18px] sm:text-[14px] flex  justify-center items-center ">
                                         {rows.amount.toFixed(2)}
                                     </p>
 
@@ -463,7 +463,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                         </div>
 
                     ))}
-                    </div>
+                </div>
             </main>
 
             <main className="w-full">
@@ -472,32 +472,32 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
                 <div className="flex flex-col  items-end mt-6 space-y-2">
 
                     <div className="flex justify-between w-[60%]">
-                        <p className="font-sanchez text-[18px] text-[#666666]">Subtotal</p>
-                        <p className="font-sanchez text-[18px]">{subamount11.toFixed(2)}</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px] text-[#666666]">Subtotal</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">{subamount11.toFixed(2)}</p>
                     </div>
 
                     <div className="flex justify-between w-[60%]">
-                        <p className="font-sanchez text-[18px] text-[#666666]">Discount</p>
-                        <p className="font-sanchez text-[18px]">{subamount12.toFixed(2)}</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px] text-[#666666]">Discount</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">{subamount12.toFixed(2)}</p>
                     </div>
 
                     <div className="flex justify-between w-[60%]">
-                        <p className="font-sanchez text-[18px] text-[#666666]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px] text-[#666666]">
                             GST {taxPercent ? `(${taxPercent}%)` : ""}
                         </p>
 
-                        <p className="font-sanchez text-[18px]">{subamount13.toFixed(2)}</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">{subamount13.toFixed(2)}</p>
                     </div>
 
                     <hr className="w-[100%]" />
 
                     <div className="flex justify-between w-[60%]">
 
-                        <p className="font-sanchez text-[20px] text-[#136CEDCC]">
+                        <p className="font-sanchez xl:text-[20px] sm:text-[14px] text-[#136CEDCC]">
                             Total Amount
                         </p>
 
-                        <p className="font-sanchez text-[20px] text-[#136CEDCC]">
+                        <p className="font-sanchez xl:text-[20px] sm:text-[14px] text-[#136CEDCC]">
                             {subamount21.toFixed(2)}
                         </p>
 
@@ -505,16 +505,16 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
 
                     <div className="flex justify-between w-[60%]">
-                        <p className="font-sanchez text-[18px] text-[#666666]">
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px] text-[#666666]">
                             Paid Amount {paymentMethod ? `(${paymentMethod})` : ""}
                         </p>
 
-                        <p className="font-sanchez text-[18px]">{subamount22.toFixed(2)}</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">{subamount22.toFixed(2)}</p>
                     </div>
 
                     <div className="flex justify-between w-[60%]">
-                        <p className="font-sanchez text-[18px] text-[#666666]">Due Amount</p>
-                        <p className="font-sanchez text-[18px]">{subamount23.toFixed(2)}</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px] text-[#666666]">Due Amount</p>
+                        <p className="font-sanchez xl:text-[18px] sm:text-[14px]">{subamount23.toFixed(2)}</p>
                     </div>
 
                 </div>
@@ -524,11 +524,11 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 <div className="mt-6 print:hidden">
 
-                    <p className="font-iceberg text-[18px]">
+                    <p className="font-iceberg xl:text-[18px] sm:text-[16px]">
                         Terms & Conditions:
                     </p>
 
-                    <p className="font-sanchez text-[14px] text-gray-500">
+                    <p className="font-sanchez xl:text-[14px] sm:text-[12px] text-gray-500">
                         {conditionPara}
                     </p>
 
@@ -541,7 +541,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                     <button
                         onClick={onPrint}
-                        className="bg-[#136CEDCC] text-white font-iceberg px-6 py-2 rounded-md text-[20px]"
+                        className="bg-[#136CEDCC] text-white font-iceberg px-6 py-2 rounded-md text-[20px] sm:text-[14px]"
                         type="button"
                     >
                         Print
@@ -549,7 +549,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                 </div>
 
-        
+
             </main >
         </div >
     );
@@ -559,287 +559,3 @@ Bill.displayName = "Bill";
 export default Bill;
 
 
-// export default Bill;
-
-
-// import React, { forwardRef, useEffect, useState } from "react";
-// import { getSettings } from "@/utils/getSettings";
-
-// type BillProps = {
-
-//     data?: any
-
-//     onPrint: () => void
-
-//     companyName?: string
-//     companyEmail?: string
-//     companyPhone?: string
-//     companyAddress?: string
-// };
-// const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
-
-//     const {
-    
-
-//         // ✅ PROPS (FIRST PRIORITY)
-//         companyName,
-//         companyEmail,
-//         companyPhone,
-//         companyAddress,
-
-//         onPrint
-
-//     } = props;
-
-//     // ✅ LOCAL STATE (FALLBACK)
-//     const [company, setCompany] = useState({
-//         companyName: "",
-//         companyEmail: "",
-//         companyPhone: "",
-//         companyAddress: "",
-//     });
-
-//     // ✅ FETCH ONLY IF PROPS NOT AVAILABLE
-//     useEffect(() => {
-
-//         if (companyName && companyEmail) return; // already coming from props
-
-//         const fetchCompany = async () => {
-//             const data = await getSettings();
-//             if (data) setCompany(data);
-//         };
-
-//         fetchCompany();
-
-//     }, [companyName, companyEmail]);
-
-//     // ✅ FINAL DATA (props > firebase > default)
-//     const finalCompany = {
-//         companyName: companyName || company.companyName || "Your Company",
-//         companyEmail: companyEmail || company.companyEmail || "",
-//         companyPhone: companyPhone || company.companyPhone || "",
-//         companyAddress: companyAddress || company.companyAddress || "",
-//     };
-
-//     return (
-
-//         <div
-//             ref={ref}
-//             className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
-//         >
-
-//             {/* HEADER */}
-
-//             <div className="flex justify-between items-start">
-
-//                 <div>
-
-//                     <h1 className="font-iceberg text-[32px]">
-//                         {finalCompany.companyName}
-//                     </h1>
-
-//                     <p className="font-sanchez text-[13px]">
-//                         {finalCompany.companyAddress}
-//                     </p>
-
-//                     <p className="font-sanchez text-[13px]">
-//                         {finalCompany.companyEmail}
-//                         {finalCompany.companyPhone ? ` | +91 ${finalCompany.companyPhone}` : ""}
-//                     </p>
-
-//                 </div>
-
-//                 <div>
-//                     {button}
-//                 </div>
-
-//             </div>
-
-//             <hr className="my-4 border-[#00000040]" />
-
-//             {/* REST OF YOUR CODE = NO CHANGE */}
-
-//             <div className="flex justify-between">
-
-//                 <div>
-
-//                     <p className="font-iceberg text-[18px] mb-2">
-//                         BILL TO
-//                     </p>
-
-//                     <p className="font-iceberg text-[18px]">
-//                         {name}
-//                     </p>
-
-//                     <p className="font-sanchez text-[18px]">
-//                         {email}
-//                     </p>
-
-//                     <p className="font-sanchez text-[18px]">
-//                         {phone}
-//                     </p>
-
-//                     <p className="font-sanchez text-[18px]">
-//                         {college}
-//                     </p>
-
-//                 </div>
-
-//                 <div className="text-right">
-
-//                     <p className="font-iceberg text-[18px]">
-//                         Invoice Details
-//                     </p>
-
-//                     <p className="font-sanchez text-[18px]">
-//                         Invoice #: {invoiceid}
-//                     </p>
-
-//                     {type === "internship" && <>
-//                         <p className="font-sanchez text-[18px]">
-//                             Date: {date}
-//                         </p>
-
-//                         <p className="font-sanchez text-[18px]">
-//                             Due Date: {duedate}
-//                         </p>
-//                     </>}
-
-//                 </div>
-
-//             </div>
-
-//             {/* KEEP REST SAME */}
-
-//         </div>
-//     );
-// });
-
-// Bill.displayName = "Bill";
-
-// export default Bill;
-
-
-// import React, { forwardRef, useEffect, useState } from "react";
-// import { getSettings } from "@/utils/getSettings";
-
-// // ✅ TYPE
-// type CompanyData = {
-//     companyName: string;
-//     companyEmail: string;
-//     companyPhone: string;
-//     companyAddress: string;
-// };
-
-// type BillProps = {
-//     onPrint: () => void;
-
-//     // optional button
-//     button?: React.ReactNode;
-
-//     // company (optional → fallback from firebase)
-//     companyName?: string;
-//     companyEmail?: string;
-//     companyPhone?: string;
-//     companyAddress?: string;
-// };
-
-// const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
-
-//     const {
-//         button,
-//         onPrint,
-
-//         companyName,
-//         companyEmail,
-//         companyPhone,
-//         companyAddress,
-//     } = props;
-
-//     // ✅ STATE
-//     const [company, setCompany] = useState<CompanyData>({
-//         companyName: "",
-//         companyEmail: "",
-//         companyPhone: "",
-//         companyAddress: "",
-//     });
-
-//     // ✅ FETCH FROM FIREBASE
-//     useEffect(() => {
-
-//         if (companyName && companyEmail) return;
-
-//         const fetchCompany = async () => {
-//             const data = await getSettings();
-//             if (data) {
-//                 setCompany({
-//                     companyName: data.companyName || "",
-//                     companyEmail: data.companyEmail || "",
-//                     companyPhone: data.companyPhone || "",
-//                     companyAddress: data.companyAddress || "",
-//                 });
-//             }
-//         };
-
-//         fetchCompany();
-
-//     }, [companyName, companyEmail]);
-
-//     // ✅ FINAL DATA
-//     const finalCompany = {
-//         companyName: companyName || company.companyName || "Your Company",
-//         companyEmail: companyEmail || company.companyEmail || "",
-//         companyPhone: companyPhone || company.companyPhone || "",
-//         companyAddress: companyAddress || company.companyAddress || "",
-//     };
-
-//     return (
-
-//         <div
-//             ref={ref}
-//             className="w-full border border-[#00000040] rounded-xl p-6 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] bg-white"
-//         >
-
-//             {/* HEADER */}
-//             <div className="flex justify-between items-start">
-
-//                 <div>
-//                     <h1 className="text-[32px] font-bold">
-//                         {finalCompany.companyName}
-//                     </h1>
-
-//                     <p className="text-[13px]">
-//                         {finalCompany.companyAddress}
-//                     </p>
-
-//                     <p className="text-[13px]">
-//                         {finalCompany.companyEmail}
-//                         {finalCompany.companyPhone
-//                             ? ` | +91 ${finalCompany.companyPhone}`
-//                             : ""}
-//                     </p>
-//                 </div>
-
-//                 <div>{button}</div>
-
-//             </div>
-
-//             <hr className="my-4 border-[#00000040]" />
-
-//             {/* PRINT BUTTON */}
-//             <div className="flex justify-end mt-6">
-//                 <button
-//                     onClick={onPrint}
-//                     className="bg-blue-500 text-white px-6 py-2 rounded-md"
-//                 >
-//                     Print
-//                 </button>
-//             </div>
-
-//         </div>
-//     );
-// });
-
-// Bill.displayName = "Bill";
-
-// export default Bill;

@@ -72,17 +72,17 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
 
 
   return (
-    <main className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
+    <main className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)] ">
 
-      <h2 className="text-xl font-semibold mb-4 pl-8">
+      <h2 className="xl:text-xl sm:text-[16px] font-semibold mb-4 pl-8">
         Student Details
       </h2>
 
-      <section className="grid grid-cols-2 gap-10 text-lg">
+      <section className="grid grid-cols-2 gap-10 xl:text-lg sm:text-[14px]">
 
         <div>
 
-          <InputField
+          <InputField 
             label="Student Name"
             name="studentName"
             value={data.studentName}
@@ -92,7 +92,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             required
           />
 
-          
           <InputField
             label="College Name"
             name="college"
@@ -103,7 +102,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             required
           />
 
-         
         </div>
 
         <div>
@@ -119,9 +117,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             maxLength={10}
             required
           />
-
-          
-          
 
           <InputField
             label="Email Address"

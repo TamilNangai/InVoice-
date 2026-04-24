@@ -50,6 +50,8 @@ const RecentInvoices: React.FC = () => {
 
   const searchText = search.toLowerCase();
 
+
+
   const filteredInvoices = invoices.filter((item) => {
 
     const matchSearch =
@@ -79,24 +81,27 @@ const RecentInvoices: React.FC = () => {
 
           <div className="flex justify-between items-center p-5">
 
-            <div className="flex gap-14 font-iceberg text-xl">
+            <div className="flex gap-14 font-iceberg xl:text-xl md:text-md sm:text-[12px]">
 
               <button
-                className={`rounded-md h-8 w-28 hover:bg-[#136CED80] ${filter === "all" ? "bg-[#136CED80]" : ""}`}
+                className={`rounded-md h-8 xl:w-28 sm:w-20 text-white 
+    ${filter === "all" ? "bg-blue-500" : "bg-gray-300"}`}
                 onClick={() => setFilter("all")}
               >
                 All Invoices
               </button>
 
               <button
-                className={`rounded-md h-8 w-12 hover:bg-[#136CED80] ${filter === "paid" ? "bg-[#136CED80]" : ""}`}
+                className={`rounded-md h-8 w-12 text-white 
+    ${filter === "paid" ? "bg-green-500" : "bg-gray-300"}`}
                 onClick={() => setFilter("paid")}
               >
                 Paid
               </button>
 
               <button
-                className={`rounded-md h-8 w-20 hover:bg-[#136CED80] ${filter === "pending" ? "bg-[#136CED80]" : ""}`}
+                className={`rounded-md h-8 w-20 text-white 
+    ${filter === "pending" ? "bg-yellow-400" : "bg-gray-300"}`}
                 onClick={() => setFilter("pending")}
               >
                 Pending
@@ -104,7 +109,7 @@ const RecentInvoices: React.FC = () => {
 
             </div>
 
-            <div className=" w-3/4 max-w-[450px]">
+            <div className=" w-3/4 max-w-[450px] hidden lg:block">
 
               <Searchinput
                 icon={searchIcon}
@@ -120,9 +125,10 @@ const RecentInvoices: React.FC = () => {
           </div>
           <div className="w-full ">
 
+            {/* <table className="w-full text-center"> */}
             <table className="w-full h-full text-center">
 
-              <thead className="text-xl">
+              <thead className="xl:text-[22px] md:text-[18px] sm:text-[17px]">
 
                 <tr className="grid grid-cols-6 font-iceberg">
 
@@ -140,25 +146,29 @@ const RecentInvoices: React.FC = () => {
               <tbody>
 
                 {filteredInvoices.length > 0 ? (
-                  filteredInvoices.slice(0, 10).map((invoice) => (
-
-                    <tr key={invoice.uniqueId}
-                      className="hover:bg-gray-50 grid grid-cols-6"
+                  filteredInvoices.slice(0, 6).map((invoice) => (
+                    <tr key={invoice.invoiceId}
+                      className="hover:bg-gray-50 grid grid-cols-6 md:text-sm sm:text-[15px] xl:text-[17px]"
                     >
 
                       <td className="p-3 border">{invoice.invoiceId}</td>
                       <td className="p-3 border">{invoice.type}</td>
                       <td className="p-3 border">{invoice.client}</td>
-                      <td className="p-3 border"> {invoice.date}
-
+                      <td className="p-3 border"> {invoice.date}</td>
+                      <td className="p-3 border">
+                        ${invoice.amount.toFixed(2)}
                       </td>
 
                       <td className="p-3 border">
-                        ₹{invoice.amount.toFixed(2)}
-                      </td>
-
-                      <td className="p-3 border">
-                        •   {invoice.status}
+                        <span
+                          className={`font-semibold
+      ${invoice.status === "pending" ? "text-yellow-300" : ""}
+      ${invoice.status === "paid" ? "text-green-500" : ""}
+      ${invoice.status === "overdue" ? "text-red-500" : ""}
+    `}
+                        >
+                          {invoice.status}
+                        </span>
                       </td>
 
                     </tr>
@@ -168,7 +178,7 @@ const RecentInvoices: React.FC = () => {
                   (
 
                     <tr>
-                      <td colSpan={10} className="p-5">
+                      <td colSpan={6} className="p-5">
                         No invoices found
                       </td>
                     </tr>

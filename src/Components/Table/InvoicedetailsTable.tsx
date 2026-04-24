@@ -98,7 +98,7 @@ const parseDate = (dateStr?: string) => {
     };
 
     return (
-        <div className="w-[95%] border-2 border-black rounded-2xl overflow-x-auto overflow-y-visible">
+        <div className="w-[95%] border-2 border-black rounded-2xl overflow-x-auto ">
             <BaseTable variant="grid">
                 <BaseTable.Header>
                     <BaseTable.Row>
