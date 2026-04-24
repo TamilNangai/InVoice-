@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import InvoicedetailsTable from "@/Components/Table/InvoicedetailsTable";
 import { Invoice } from "@/types/invoice";
 import Searchinput from "@/Components/Filter/Searchinput";
 import searchIcon from "@/assets/filter/search.svg";
 import filterIcon from "@/assets/filter/filter.svg";
 import statusIcon from "@/assets/filter/circle.svg";
-import dropdownIcon from "@/assets/filter/arrow.png";
 import Header from "@/Components/Nav/Header";
 import Create from "@/Components/Cards/Create";
 import Popup1 from "@/assets/Popup1.png";
@@ -15,7 +14,7 @@ import Popup4 from "@/assets/Popup4.png";
 import src1 from '@/assets/Vectorw.png';
 import src2 from '@/assets/Vector.png';
 import { getInvoices } from "@/utils/getInvoice";
-import { formatLabel } from "@/utils/formatLabel";
+import Dropdown from "@/Components/Dropdown/Dropdown";
 
 const InvoicePage = () => {
 
@@ -25,7 +24,11 @@ const InvoicePage = () => {
   const [status, setStatus] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-
+  const [isFromFocused, setIsFromFocused] = useState(false);
+  const [isToFocused, setIsToFocused] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<"type" | "status" | null>(null);
+  const fromRef = useRef<HTMLInputElement>(null);
+  const toRef = useRef<HTMLInputElement>(null);
   //  Fetch from Firestore
   useEffect(() => {
     const fetchData = async () => {
@@ -60,12 +63,13 @@ const InvoicePage = () => {
 
     return matchSearch && matchType && matchStatus && matchDate;
   });
-
+  // const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <section className="w-full h-screen ">
       
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
-        <Header h1="Invoice Page" para="Manage your invoices here." />
+        <Header h1="Invoice Page" para="Manage your invoices here." // onMenuClick={() => setMobileOpen(true)} 
+         />
 
         <Create
           popup1={Popup1}
@@ -89,134 +93,185 @@ const InvoicePage = () => {
         />
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-6 justify-center items-center px-5 m-3 mb-5">
-        
-          <div className="w-2/6">
-            <Searchinput
-              icon={searchIcon}
-              para="Search by Invoice no or client Name"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-        </div>
-              
-        {/* <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
-          <img src={filterIcon} className="w-4 h-4" />
-          <select
-            className="bg-transparent outline-none w-full font-iceberg text-[18px]"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option className="font-sanchez text-sm" value="">Type</option>
-            <option className="font-sanchez text-sm" value="internship">Internship</option>
-            <option className="font-sanchez text-sm" value="product">Product</option>
-            <option className="font-sanchez text-sm" value="service">Service</option>
-            <option className="font-sanchez text-sm" value="others">Others</option>
-          </select>
-        </div> */}
-        <div className="relative flex items-center justify-between border border-[#00000033] rounded-md px-4 py-2 w-1/6 h-[50px]">
+     
+      
+      {/* <div className="flex flex-col md:flex-row flex-wrap gap-4 justify-center items-stretch px-4 m-3 mb-5">
 
-          {/* Left section */}
-          <div className="flex items-center gap-2 z-10 relative">
-            <img src={filterIcon} className="w-4 h-4" />
-            <span className="font-iceberg text-[18px]">
-              {type ? formatLabel(type) : "Type"}
-            </span>
-          </div>
-
-          {/* Right dropdown arrow */}
-          <span className="z-10 relative text-gray-600"><img className="w-3 h-auto" src={dropdownIcon} alt="Dropdown" /></span>
-
-          {/* Hidden Select */}
-          <select
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value="">Type</option>
-            <option value="internship">Internship</option>
-            <option value="product">Product</option>
-            <option value="service">Service</option>
-            <option value="others">Others</option>
-          </select>
-
+        {/* 🔍 Search 
+        <div className="w-full md:w-[48%] lg:w-[30%]">
+          <Searchinput
+            icon={searchIcon}
+            para="Search by Invoice no or client Name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
+       
+       
 
+        {/* 🧾 Type Dropdown 
+        <div className="border border-[#00000033] rounded-md w-full md:w-[48%] lg:w-[15%] h-[50px] flex items-center px-2">
+          <Dropdown
+            selected={type}
+            setSelected={setType}
+            icon={filterIcon}
+            open={openDropdown === "type"}
+            setOpen={(val) => setOpenDropdown(val ? "type" : null)}
+            options={[
+              { label: "Type", value: "" },
+              { label: "Internship", value: "internship" },
+              { label: "Product", value: "product" },
+              { label: "Service", value: "service" },
+              { label: "Others", value: "others" },
+            ]}
+          />
+        </div>
+
+        {/* 📊 Status Dropdown 
+        <div className="border border-[#00000033] rounded-md w-full md:w-[48%] lg:w-[15%] h-[50px] flex items-center px-2">
+          <Dropdown
+            selected={status}
+            setSelected={setStatus}
+            icon={statusIcon}
+            open={openDropdown === "status"}
+            setOpen={(val) => setOpenDropdown(val ? "status" : null)}
+            options={[
+              { label: "Status", value: "" },
+              { label: "Paid", value: "paid" },
+              { label: "Pending", value: "pending" },
+              { label: "Over Due", value: "overdue" },
+            ]}
+          />
+        </div>
 
       
-        {/* <div className="flex items-center gap-2 border border-[#00000033] rounded-md px-7 py-2 w-1/6 h-[50px]">
-          <img src={statusIcon} className="w-4 h-4" />
-          <select
-            className="bg-transparent outline-none w-full font-iceberg text-[18px]"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option  className="font-sanchez text-sm" value="">Status</option>
-            <option  className="font-sanchez text-sm" value="paid">Paid</option>
-            <option  className="font-sanchez text-sm" value="pending">Pending</option>
-            <option  className="font-sanchez text-sm" value="overdue">Over Due</option>
-          </select>
-        </div> */}
-
-        <div className="relative flex items-center justify-between border border-[#00000033] rounded-md px-4 py-2 w-1/6 h-[50px]">
-
-          {/* Left section */}
-          <div className="flex items-center gap-2 z-10 relative">
-            <img src={statusIcon} className="w-4 h-4" />
-            <span className="font-iceberg text-[18px]">
-              {status ? formatLabel(status) : "Status"}
+        {/* Start Date 
+        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-[48%] lg:w-[30%]">
+        <div className="relative w-full" onClick={() => fromRef.current?.showPicker()}>
+          {!fromDate && !isFromFocused && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black text-lg font-iceberg pointer-events-none">
+              Start Date
             </span>
-          </div>
-
-          {/* Right dropdown arrow */}
-          <span className="z-10 relative">
-            <img className="w-3 h-auto" src={dropdownIcon} alt="Dropdown" />
-          </span>
-
-          {/* Hidden Select */}
-          <select
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Status</option>
-            <option value="paid">Paid</option>
-            <option value="pending">Pending</option>
-            <option value="overdue">Over Due</option>
-          </select>
-
-        </div>
-
-
-        <div className="flex gap-3 w-2/6">
-         
+          )}
           <input
+            ref={fromRef}
             type="date"
             value={fromDate || ""}
             onChange={(e) => setFromDate(e.target.value)}
-            placeholder="Start date"
-            className="font-iceberg text-lg border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
+            onFocus={() => setIsFromFocused(true)}
+            onBlur={() => setIsFromFocused(false)}
+            className={`font-iceberg text-sm md:text-lg border border-[#00000033] rounded-md px-3 py-2 w-full h-[50px]
+            ${!fromDate && !isFromFocused ? "text-transparent" : "text-black"}`}
           />
+        </div>
 
+        {/* End Date 
+        <div className="relative w-full" onClick={() => toRef.current?.showPicker()}>
+          {!toDate && !isToFocused && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black text-lg font-iceberg pointer-events-none">
+              End Date
+            </span>
+          )}
           <input
+            ref={toRef}
             type="date"
             value={toDate || ""}
             onChange={(e) => setToDate(e.target.value)}
-            placeholder="End date"
-            className="font-iceberg text-lg border border-[#00000033] rounded-md px-3 py-2 w-1/2 h-[50px]"
+            onFocus={() => setIsToFocused(true)}
+            onBlur={() => setIsToFocused(false)}
+            className={`font-iceberg text-sm md:text-lg border border-[#00000033] rounded-md px-3 py-2 w-full h-[50px] bg-transparent
+            ${!toDate && !isToFocused ? "text-transparent" : "text-black"}`}
           />
+        </div>
+        </div>
+      </div> */}
+      <div className="grid grid-cols-4 xl:grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 lg:gap-1 xl:gap-4 xl:px-4 m-3 mb-5 text-sm lg:text-lg">
 
+        {/* 🔍 Search - full width on mobile/tablet */}
+        <div className="col-span-4 xl:col-span-1 ">
+          <Searchinput
+            icon={searchIcon}
+            para="Search by Invoice no or client Name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        {/* 🧾 Type Dropdown */}
+        <div className="border border-[#00000033] rounded-md flex items-center">
+          <Dropdown
+            selected={type}
+            setSelected={setType}
+            icon={filterIcon}
+            open={openDropdown === "type"}
+            setOpen={(val) => setOpenDropdown(val ? "type" : null)}
+            options={[
+              { label: "Type", value: "" },
+              { label: "Internship", value: "internship" },
+              { label: "Product", value: "product" },
+              { label: "Service", value: "service" },
+              { label: "Others", value: "others" },
+            ]}
+          />
+        </div>
+
+        {/* 📊 Status Dropdown */}
+        <div className="border border-[#00000033] rounded-md flex items-center">
+          <Dropdown
+            selected={status}
+            setSelected={setStatus}
+            icon={statusIcon}
+            open={openDropdown === "status"}
+            setOpen={(val) => setOpenDropdown(val ? "status" : null)}
+            options={[
+              { label: "Status", value: "" },
+              { label: "Paid", value: "paid" },
+              { label: "Pending", value: "pending" },
+              { label: "Over Due", value: "overdue" },
+            ]}
+          />
+        </div>
+
+        {/* 📅 Start Date */}
+        <div className="relative w-full" onClick={() => fromRef.current?.showPicker()}>
+          {!fromDate && !isFromFocused && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black text-lg lg:text-lg font-iceberg pointer-events-none">
+              Start Date
+            </span>
+          )}
+          <input
+            ref={fromRef}
+            type="date"
+            value={fromDate || ""}
+            onChange={(e) => setFromDate(e.target.value)}
+            onFocus={() => setIsFromFocused(true)}
+            onBlur={() => setIsFromFocused(false)}
+            className={`font-iceberg text-sm border border-[#00000033] rounded-md px-3 py-2 w-full h-full bg-transparent
+                ${!fromDate && !isFromFocused ? "text-transparent" : "text-black"}`}
+          />
+        </div>
+
+        {/* 📅 End Date */}
+        <div className="relative w-full" onClick={() => toRef.current?.showPicker()}>
+          {!toDate && !isToFocused && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black text-lg lg:text-lg font-iceberg pointer-events-none">
+              End Date
+            </span>
+          )}
+          <input
+            ref={toRef}
+            type="date"
+            value={toDate || ""}
+            onChange={(e) => setToDate(e.target.value)}
+            onFocus={() => setIsToFocused(true)}
+            onBlur={() => setIsToFocused(false)}
+            className={`font-iceberg text-sm border border-[#00000033] rounded-md px-3 py-2 w-full h-full bg-transparent
+                ${!toDate && !isToFocused ? "text-transparent" : "text-black"}`}
+          />
         </div>
 
       </div>
-
-      <div className="m-3 ms-10">
-        <h1 className="text-[32px] font-iceberg">Invoice Details</h1>
-      </div>
-      
-
 
       {/* ✅ Pass filtered data */}
       <div className="w-full flex justify-center">

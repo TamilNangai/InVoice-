@@ -15,7 +15,7 @@ const Revenue = ({ data }: RevenueProps) => {
     if (data === undefined) return <div>Loading...</div>;
     return (
         <div 
- className="w-[100%] h-[330px]  flex flex-col  p-5 gap-7 rounded-[12px] border-[2px] border-[#000000] shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
+ className=" h-[330px]  flex flex-col m-5 p-5 gap-7 rounded-[12px] border-[2px] border-[#000000] shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
             <h1 className="text-[24px] text-[#000000] leading-[100%] iceberg-regular">Revenue by Type</h1>
             {/* product */}
             <div>
