@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import searchIcon from "@/assets/filter/search.svg";
 import Searchinput from "../Filter/Searchinput";
 import { getInvoices } from "@/utils/getInvoice";
+import { formatLabel } from "@/utils/formatLabel";
 
 export interface Invoice {
   uniqueId: string;
@@ -152,7 +153,7 @@ const RecentInvoices: React.FC = () => {
                     >
 
                       <td className="p-3 border">{invoice.invoiceId}</td>
-                      <td className="p-3 border">{invoice.type}</td>
+                      <td className="p-3 border">{formatLabel(invoice.type)}</td>
                       <td className="p-3 border">{invoice.client}</td>
                       <td className="p-3 border"> {invoice.date}</td>
                       <td className="p-3 border">

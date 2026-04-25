@@ -11,7 +11,8 @@ const Products = () => {
       <div className="w-full h-screen ">
         <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
         <Header h1="Products & Inverntory"
-          para="Manage Your product catalog and service offerings." />
+            para="Manage Your product catalog and service offerings." // onMenuClick={() => setMobileOpen(true)} 
+             />
         <div className="">
           <Add
             h1="Add Products"

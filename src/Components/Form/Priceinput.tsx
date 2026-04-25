@@ -43,7 +43,11 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         required={required}
         onBlur={onBlur}
+<<<<<<< HEAD
         className="w-full pl-3 py-2 outline-none border-2 border-black rounded-md font-sanchez text-sm sm:text-[10px]"
+=======
+        className="w-full px-3 py-2 outline-none border-2 border-black rounded-md font-sanchez text-sm"
+>>>>>>> 7c1068ae6f74f53c0fa1a821f7ab1fd16ac51ef5
       />
 
     </div>

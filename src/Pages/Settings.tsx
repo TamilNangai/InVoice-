@@ -40,6 +40,7 @@ const Settings = () => {
         <Header
           h1="Settings"
           para="Manage your product catalog and service offerings."
+          // onMenuClick={() => setMobileOpen(true)}
         />
 
         <div className="">

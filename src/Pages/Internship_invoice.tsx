@@ -277,7 +277,7 @@ const Internship_invoice = () => {
         <p className="text-lg font-semibold">Loading...</p>
       </div>
     );
-
+  // const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="w-full h-screen ">
@@ -286,6 +286,7 @@ const Internship_invoice = () => {
           <Header
             h1="New Internship Invoice"
             para={`#${invoiceId}`}
+            // onMenuClick={() => setMobileOpen(true)}
           />
           <div className="">
             <button

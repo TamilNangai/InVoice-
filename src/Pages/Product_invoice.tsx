@@ -251,9 +251,8 @@ const Product_invoice = () => {
   return (
     <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
-       
-        <Header h1="Product Invoice"
-          para={`#${invoiceId}`} />
+        <Header h1="Product Invoice" para={`#${invoiceId}`} // onMenuClick={() => setMobileOpen(true)} 
+         />
 
         <div className="">
           <button
