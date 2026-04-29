@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     window.electron?.on("main-process-message", (data) => {
-      console.log(data)
+      
     })
   }, [])
 

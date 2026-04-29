@@ -91,7 +91,7 @@ export const getInvoices = async (): Promise<Invoice[]> => {
 
       status: data.status ||"Pending",
 
-      rawData: data,
+      rawData: data, // Store full data for later use
       paymentHistory: history,
     };
 

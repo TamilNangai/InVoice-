@@ -1,19 +1,28 @@
 import { Invoice } from "@/utils/getInvoice"
 
-
 export const reportAnalytics = (
     invoices: Invoice[],
     mode: "monthly" | "yearly" = "monthly",
     filter: "overall" | "internship" | "product" | "service" | "other" = "overall"
-    
 ) => {
-
-    
-
 
     const now = new Date()
 
-    // ✅ FILTER BY TIME
+    /* ================= SAFE STATUS ================= */
+
+    const getStatus = (inv: Invoice) => {
+        const today = new Date()
+        const due = new Date(inv.dueDate)
+
+        const pending = Number(inv.pending || 0)
+
+        if (pending <= 0) return "paid"
+        if (due < today) return "overdue"
+        return "pending"
+    }
+
+    /* ================= FILTER BY TIME ================= */
+
     const filteredByTime = invoices.filter(inv => {
         const d = new Date(inv.date)
 
@@ -31,9 +40,11 @@ export const reportAnalytics = (
         return true
     })
 
-    // ✅ FILTER BY TYPE (Radiogroup)
+    /* ================= FILTER BY TYPE ================= */
+
     const finalInvoices = filteredByTime.filter(inv => {
         const type = (inv.type || "").toLowerCase()
+
         if (filter === "overall") return true
         if (filter === "internship") return type === "internship"
         if (filter === "product") return type === "product"
@@ -42,60 +53,50 @@ export const reportAnalytics = (
 
         return true
     })
-    // 👉 USE THIS instead of invoices
+
     const data = finalInvoices
 
+    /* ================= TOTAL REVENUE (ACTUAL RECEIVED) ================= */
 
-//     /* ================= TOTAL REVENUE ================= */
-
-   
     const totalRevenue = data.reduce(
-        (sum, inv) => sum + Number(inv.amount || 0),
+        (sum, inv) => sum + (Number(inv.amount) - Number(inv.pending || 0)),
         0
     )
 
-    /* ================= INVOICE ISSUED ================= */
-
     const totalInvoices = data.length
 
+    /* ================= PAID ================= */
 
-//     /* ================= PAID ================= */
-
-    const paidInvoices = data.filter(
-        inv => inv.status === "paid"
-    )
+    const paidInvoices = data.filter(inv => getStatus(inv) === "paid")
 
     const paidCount = paidInvoices.length
 
-
+    const paidAmountTotal = data.reduce(
+        (sum, inv) => sum + (Number(inv.amount) - Number(inv.pending || 0)),
+        0
+    )
 
     /* ================= PENDING ================= */
 
-    const pendingInvoices = data.filter(
-        inv => inv.status === "pending"
-    )
+    const pendingInvoices = data.filter(inv => getStatus(inv) === "pending")
 
     const pendingAmount = pendingInvoices.reduce(
-        (sum, inv) => sum + inv.amount,
+        (sum, inv) => sum + Number(inv.pending),
         0
     )
 
     const pendingCount = pendingInvoices.length
 
+    /* ================= OVERDUE ================= */
 
-//     /* ================= OVERDUE ================= */
-
-    const overdueInvoices = data.filter(
-        inv => inv.status === "overdue"
-    )
+    const overdueInvoices = data.filter(inv => getStatus(inv) === "overdue")
 
     const overdueAmount = overdueInvoices.reduce(
-        (sum, inv) => sum + inv.amount,
+        (sum, inv) => sum + Number(inv.pending || 0),
         0
     )
 
     const overdueCount = overdueInvoices.length
-
 
     /* ================= CLIENTS ================= */
 
@@ -103,17 +104,13 @@ export const reportAnalytics = (
         data.map(inv => inv.client)
     ).size
 
-
-//     /* ================= COLLECTION RATE ================= */
+    /* ================= COLLECTION RATE ================= */
 
     const collectionRate = data.length
         ? Math.round((paidCount / data.length) * 100)
         : 0
 
-
-//     /* ================= MONTHLY GROWTH ================= */
-
-    
+    /* ================= MONTHLY GROWTH (BASED ON PAID) ================= */
 
     const currentMonth = now.getMonth()
     const currentYear = now.getFullYear()
@@ -126,7 +123,8 @@ export const reportAnalytics = (
             const d = new Date(inv.date)
             return (
                 d.getMonth() === currentMonth &&
-                d.getFullYear() === currentYear
+                d.getFullYear() === currentYear &&
+                inv.status === "paid"
             )
         })
         .reduce((sum, inv) => sum + inv.amount, 0)
@@ -136,69 +134,52 @@ export const reportAnalytics = (
             const d = new Date(inv.date)
             return (
                 d.getMonth() === lastMonth &&
-                d.getFullYear() === lastMonthYear
+                d.getFullYear() === lastMonthYear &&
+                inv.status === "paid"
             )
         })
         .reduce((sum, inv) => sum + inv.amount, 0)
 
-    
-
-
     const growthValue =
-        !isNaN(thisMonthRevenue) && !isNaN(lastMonthRevenue) && lastMonthRevenue !== 0
+        !isNaN(thisMonthRevenue) &&
+        !isNaN(lastMonthRevenue) &&
+        lastMonthRevenue !== 0
             ? ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
             : 0
 
-    
-    
-
-
-
-//     /* ================= REVENUE BY TYPE ================= */
+    /* ================= REVENUE BY TYPE (PAID ONLY) ================= */
 
     const product = data
-        .filter(inv => inv.type.toLowerCase() === "product")
+        .filter(inv => inv.status === "paid" && inv.type.toLowerCase() === "product")
         .reduce((sum, inv) => sum + inv.amount, 0)
 
     const service = data
-        .filter(inv => inv.type.toLowerCase() === "service")
+        .filter(inv => inv.status === "paid" && inv.type.toLowerCase() === "service")
         .reduce((sum, inv) => sum + inv.amount, 0)
 
     const internship = data
-        .filter(inv => inv.type.toLowerCase() === "internship")
+        .filter(inv => inv.status === "paid" && inv.type.toLowerCase() === "internship")
         .reduce((sum, inv) => sum + inv.amount, 0)
 
- 
     const totalType = product + service + internship
 
-    const productPercent = totalType
-        ? (product / totalType) * 100
-        : 0
-
-    const servicePercent = totalType
-        ? (service / totalType) * 100
-        : 0
-
-    const internshipPercent = totalType
-        ? (internship / totalType) * 100
-        : 0
-
-
-
+    const productPercent = totalType ? (product / totalType) * 100 : 0
+    const servicePercent = totalType ? (service / totalType) * 100 : 0
+    const internshipPercent = totalType ? (internship / totalType) * 100 : 0
 
     /* ================= RETURN ================= */
 
     return {
-
-        // Dashboard Cards
+        // Dashboard
         totalRevenue,
         totalInvoices,
         pendingAmount,
         pendingCount,
         uniqueClients,
 
-        // Report Cards
+        // Reports
         paidCount,
+        paidAmountTotal,
         overdueAmount,
         overdueCount,
         collectionRate,
@@ -206,7 +187,7 @@ export const reportAnalytics = (
         // Growth
         growth: growthValue.toFixed(0),
 
-        // Revenue Bars
+        // Charts
         productPercent,
         servicePercent,
         internshipPercent,

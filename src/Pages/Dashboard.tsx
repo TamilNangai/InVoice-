@@ -20,12 +20,12 @@ function Dashboard() {
                 const loadData = async () => {
 
                         const invoices = await getInvoices()
-                        console.log("STATUS:", invoices.map(i => i.status))
+                       invoices.map(i => i.status)
                         const formatted: Invoice[] = invoices.map(inv => ({
                                 ...inv,
                                 status: inv.status.toLowerCase() as "paid" | "pending" | "overdue"
                         }))
-                        console.log("STATUS FIXED:", formatted.map(i => i.status))
+                         formatted.map(i => i.status)
                         const result = reportAnalytics(formatted, "monthly", "overall")
 
                         setReport(result)
@@ -55,18 +55,13 @@ function Dashboard() {
                                                 para1="Choose the type of invoice you want to create. "
                                                 para6="This will customize the form fields for your needs. "
                                                 h2="Student Internship"
-                                                para2="Internship fees, training
-programs, certifications"
+                                                para2="Internship fees, training programs, certifications"
                                                 h3="Product Invoice"
-                                                para3="Physical or digital product
-billing and shipping"
+                                                para3="Physical or digital product billing and shipping"
                                                 h4="Service Invoice"
-
-                                                para4="Physical or digital product
-billing and shipping"
+                                                para4="Physical or digital product billing and shipping"
                                                 h5="Other Invoice"
-                                                para5="Customer or miscellaneous
-service billing"
+                                                para5="Customer or miscellaneous service billing"
                                                 h6="Create Invoice" />
                                 </div>
                         </div>

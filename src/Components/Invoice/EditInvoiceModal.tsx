@@ -85,18 +85,14 @@ if (updatedPending === 0) {
 
             const ref = doc(db, "invoices", invoice.uniqueId);
             await updateDoc(ref, updatedData);
-            console.log("Invoice updated successfully", updatedData);
+          
 
             onClose();
         } catch (err) {
             console.error("Update failed", err);
         }
     };
-console.log("STATUS DEBUG:", {
-    updatedPending,
-    dueDateFromInvoice,
-    status
-});
+
 
     return (
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">

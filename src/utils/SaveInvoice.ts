@@ -72,7 +72,7 @@ export const saveInvoice = async (data: SaveInvoiceData) => {
       createdAt: new Date()
     })
 
-    console.log("Invoice saved successfully")
+
 
   } catch (error) {
 

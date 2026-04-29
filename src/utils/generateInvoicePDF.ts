@@ -242,7 +242,7 @@ if (inv.type.toLowerCase() === "internship") {
         : price.due || (inv.pending || 0);
     // const gst = data.invoiceType == 'internship'
     //             ? (data.fees.tax) : (data.gst)
-    console.log(data.gst)
+   
     drawTotalRow("Subtotal", subtotal);
     drawTotalRow("Discount", fees.discount || 0);
     drawTotalRow(`GST (${gstPercent}%)`, gstAmount);
