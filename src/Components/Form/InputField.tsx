@@ -29,22 +29,19 @@ const InputField: React.FC<InputFieldProps> = ({
   pattern
 }) => {
 
-  
-
   return (
 
     <div className="mb-4">
 
       <label className="block mb-1">
-        {label}  {name == "gst" && <span className="text-gray-500">(optional)</span>} {name == "trainer" && <span className="text-gray-500">(optional)</span>}
+        {label}  {name == "gst" && <span className="text-gray-500">(optional)</span>}
+                 {name == "trainer" && <span className="text-gray-500">(optional)</span>}
       </label>
      
-
       <input
         type={type}
         name={name}
         value={value}
-
         placeholder={placeholder}
         onChange={onChange}
         onBlur={onBlur}
@@ -52,13 +49,10 @@ const InputField: React.FC<InputFieldProps> = ({
         disabled={disabled}
         pattern={pattern}
         required={required}
-        className="border-b border-black outline-none w-full bg-transparent text-[15px] font-sanchez"
-
+        className="border-b border-black outline-none w-full bg-transparent xl:text-[15px] sm:text-[10px]  font-sanchez
+        sm:placeholder:text-[10px] xl:placeholder:text-[15px]"
       />
-
-
     </div>
-
   )
 }
 

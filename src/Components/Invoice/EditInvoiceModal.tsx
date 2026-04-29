@@ -15,9 +15,22 @@ const EditInvoiceModal: React.FC<Props> = ({ invoice, onClose }) => {
     const totalAmount = Math.round(invoice.amount ?? 0);
     const paid = Math.round(invoice.paidAmount ?? 0);
     const initialPending = Math.round(invoice.pending ?? 0);
-    const parseDate = (dateStr: string) => {
-    const [day, month, year] = dateStr.split("-").map(Number);
-    return new Date(year, month - 1, day);
+const parseDate = (dateStr?: string) => {
+    if (!dateStr) return;
+
+    // ISO format
+    if (dateStr.includes("-") && dateStr.split("-")[0].length === 4) {
+        return new Date(dateStr);
+    }
+
+    // dd-mm-yyyy fallback
+    const parts = dateStr.split("-");
+    if (parts.length === 3) {
+        const [day, month, year] = parts.map(Number);
+        return new Date(year, month - 1, day);
+    }
+
+    return null;
 };
 const dueDateFromInvoice = invoice.dueDate;
 
@@ -28,23 +41,32 @@ const dueDateFromInvoice = invoice.dueDate;
     const updatedPending = Math.max(initialPending - dueAmount, 0);
     const now = new Date();
 
-    const dueDate = `${String(now.getDate()).padStart(2, "0")}-${String(
+    const TodayDate = `${String(now.getDate()).padStart(2, "0")}-${String(
         now.getMonth() + 1
     ).padStart(2, "0")}-${now.getFullYear()}`;
 
-    console.log(dueDate);
-  let status = "pending";
+let status: "paid" | "pending" | "overdue" = "pending";
 
 if (updatedPending === 0) {
     status = "paid";
-} else if (dueDateFromInvoice) {
-    const today = new Date();
+} else {
     const dueDateObj = parseDate(dueDateFromInvoice);
 
-    if (today > dueDateObj) {
-        status = "overdue";
+    if (dueDateObj) {
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+        dueDateObj.setHours(0, 0, 0, 0);
+
+        if (today > dueDateObj) {
+            status = "overdue";
+        } else {
+            status = "pending";
+        }
     }
 }
+
+
     const handleSave = async () => {
         try {
             const updatedData = {
@@ -52,7 +74,7 @@ if (updatedPending === 0) {
                     ...(invoice.paymentHistory || []),
                     {
                         pending: updatedPending,
-                        DueDate: dueDate,
+                        DueDate: TodayDate,
                         paid: updatedPaid,
                         due: dueAmount,
                     }
@@ -63,7 +85,7 @@ if (updatedPending === 0) {
 
             const ref = doc(db, "invoices", invoice.uniqueId);
             await updateDoc(ref, updatedData);
-            console.log("Invoice updated successfully", updatedData);
+          
 
             onClose();
         } catch (err) {

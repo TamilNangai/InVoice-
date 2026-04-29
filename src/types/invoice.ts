@@ -6,7 +6,7 @@ export type Invoice = {
     date: string;
     amount: number;
     status: "paid" | "pending" | "overdue";
-    pending?: number;
+    pending: number;
     sub?: string;
     email?: string;
     phone?: string;
@@ -27,9 +27,10 @@ export type Invoice = {
     subtotal?: number;
     discount?: number;
     gstRate?: number;
-    paidAmount?: number;
+    paidAmount: number;
     startDate?: string;
     endDate?: string;
+    latestPaymentDate?: string;
     rawData?: any;
 };
 

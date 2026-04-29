@@ -13,39 +13,35 @@ import { getInvoices } from "@/utils/getInvoice"
 import { Invoice } from "@/utils/getInvoice"
 
 function Dashboard() {
-   
-    const [report, setReport] = useState<any>(null)
 
-    useEffect(() => {
-        const loadData = async () => {
+        const [report, setReport] = useState<any>(null)
 
-            const invoices = await getInvoices()
-            const formatted: Invoice[] = invoices.map(inv => ({
-                ...inv,
-                status: inv.status.toLowerCase() as "paid" | "pending" | "overdue"
-            }))
-            const result = reportAnalytics(formatted, "monthly", "overall")
+        useEffect(() => {
+                const loadData = async () => {
 
-            setReport(result)
-        }
+                        const invoices = await getInvoices()
+                       invoices.map(i => i.status)
+                        const formatted: Invoice[] = invoices.map(inv => ({
+                                ...inv,
+                                status: inv.status.toLowerCase() as "paid" | "pending" | "overdue"
+                        }))
+                         formatted.map(i => i.status)
+                        const result = reportAnalytics(formatted, "monthly", "overall")
 
-        loadData()
-    }, [])
+                        setReport(result)
+                }
 
-        if (report === null)
+                loadData()
+        }, [])
 
-                return (
-                        <div className="flex items-center justify-center min-h-screen min-w-screen">
-                                <p className="text-lg font-semibold">Loading...</p>
-                        </div>
-                );
+        if (!report) return <div>Loading...</div>
 
         return (
 
-                <div className="w-full h-screen ">
+                <div className="">
                         <div className="w-full h-20 bg-[#DFDFDF99]  flex items-center justify-between px-4">
-                                <div className=" ">
-                                        <h1 className="text-black font-iceberg text-3xl font-extralight ">Dashboard</h1>
+                                <div className="w-full ">
+                                        <h1 className="text-black font-iceberg xl:text-3xl md:text-3xl sm:text-2xl font-extralight ">Dashboard</h1>
                                 </div>
                                 <div className="">
                                         <Create popup1={Popup1}
@@ -59,29 +55,51 @@ function Dashboard() {
                                                 para1="Choose the type of invoice you want to create. "
                                                 para6="This will customize the form fields for your needs. "
                                                 h2="Student Internship"
-                                                para2="Internship fees, training
-programs, certifications"
+                                                para2="Internship fees, training programs, certifications"
                                                 h3="Product Invoice"
-                                                para3="Physical or digital product
-billing and shipping"
+                                                para3="Physical or digital product billing and shipping"
                                                 h4="Service Invoice"
-
-                                                para4="Physical or digital product
-billing and shipping"
+                                                para4="Physical or digital product billing and shipping"
                                                 h5="Other Invoice"
-                                                para5="Customer or miscellaneous
-service billing"
+                                                para5="Customer or miscellaneous service billing"
                                                 h6="Create Invoice" />
                                 </div>
                         </div>
 
-                        <div className="w-full max-h-40 flex justify-center gap-5 items-center mt-5 px-5 ">
-                                
-                    < Cards head="Total Revenue" symbol="₹" amount={report.totalRevenue || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                    < Cards head="Invoice Issued" amount={report.totalInvoices || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
-                    < Cards head="Pending Payments" symbol="₹" amount={report.pendingAmount || 0}
-                        para={`- ${report.pendingCount || 0} Invoice Pending`} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" cardpara="text-[16px] text-[#000000]  " />
-                    < Cards head="Clients" amount={report.uniqueClients || 0} cardhead="sanchez-regular text-[#000000]" cardamount="text-[32px]" />
+                       
+                        <div className=" w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5 px-4 sm:px-5">
+
+                                <Cards 
+                                        head="Total Revenue"
+                                        symbol="₹"
+                                        amount={report.totalRevenue || 0}
+                                        cardhead="sanchez-regular "
+                                        cardamount="text-2xl sm:text-3xl "
+                                />
+
+                                <Cards
+                                        head="Invoice Issued"
+                                        amount={report.totalInvoices || 0}
+                                        cardhead="sanchez-regular"
+                                        cardamount="text-2xl sm:text-3xl"
+                                />
+
+                                <Cards
+                                        head="Pending"
+                                        symbol="₹"
+                                        amount={report.pendingAmount || 0}
+                                        para={`- ${report.pendingCount || 0} Invoice Pending`}
+                                        cardhead="sanchez-regular xl:mt-2"
+                                        cardamount="text-2xl sm:text-3xl"
+                                        cardpara="text-sm sm:text-xs"
+                                />
+
+                                <Cards
+                                        head="Clients"
+                                        amount={report.uniqueClients || 0}
+                                        cardhead="sanchez-regular "
+                                        cardamount="text-2xl sm:text-3xl"
+                                />
 
                         </div>
                         <div className="w-full h-full px-5">

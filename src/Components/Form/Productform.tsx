@@ -1,5 +1,3 @@
-import React,{useState} from "react"
-
 type Product = {
   productName: string
   sub?: string
@@ -30,238 +28,150 @@ const ProductForm: React.FC<Props> = ({
     field: keyof Product,
     value: string | number
   ) => {
-
     const updated = [...data]
-
-    updated[index] = {
-      ...updated[index],
-      [field]: value
-    }
-
+    updated[index] = { ...updated[index], [field]: value }
     setData(updated)
   }
 
   const addRow = () => {
-
     setData([
       ...data,
-      {
-        productName: "",
-        sub: "",
-        price: 0,
-        tax: 0
-      }
+      { productName: "", sub: "", price: 0, tax: 0 }
     ])
   }
 
   const deleteRow = (index: number) => {
-
-    // Prevent deleting last row
     if (data.length === 1) return
-
-    const updated = data.filter((_, i) => i !== index)
-
-    setData(updated)
-  }
-
-
-  const [errors, setErrors] = useState<any>({});
-
-  const validate = (name: string, value: string, index: number) => {
-
-    let message = "";
-
-    if (!value) {
-      message = "This field is required";
-    }
-
-    if (name === "price") {
-      const num = Number(value);
-
-      if (num < 0) {
-        message = "Price cannot be negative";
-      }
-    }
-
-    if (name === "tax") {
-      const num = Number(value);
-
-      if (num < 0) {
-        message = "Tax cannot be negative";
-      }
-
-      if (num > 100) {
-        message = "Tax cannot exceed 100%";
-      }
-    }
-
-    setErrors((prev: any) => ({
-      ...prev,
-      [`${name}-${index}`]: message
-    }));
-  };
-
-  const handleBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>,
-    index: number
-  ) => {
-
-    const { name, value } = e.target
-
-    validate(name, value, index)
-
+    setData(data.filter((_, i) => i !== index))
   }
 
 
   return (
+    <div className="p-3 sm:p-4 md:p-5 xl:p-6 
+    rounded-xl md:rounded-2xl 
+    border border-black 
+    shadow-md md:shadow-lg 
+    bg-white">
 
-    <div className="p-6 rounded-2xl border border-black shadow-[5px_5px_15px_rgba(0,0,0,0.2)] bg-white">
-
-      <h2 className="text-xl font-iceberg mb-6 font-bold pl-2">
+      <h2 className="pl-8 text-sm sm:text-base md:text-lg xl:text-xl 
+      font-iceberg font-bold mb-4 md:mb-6">
         {title}
       </h2>
 
-      {/* Header */}
+      <div className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} 
+      gap-2 md:gap-3 
+      text-[11px] sm:text-xs md:text-sm xl:text-base 
+      font-iceberg`}>
 
-      <div className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} gap-3 font-iceberg text-lg`}>
+        <div className="col-span-5">{nameLabel}</div>
 
-        <div className="col-span-5">
-          {nameLabel}
-        </div>
+        {showSub && <div className="col-span-2">Sub</div>}
 
-        {showSub && (
-          <div className="col-span-2">
-            Sub
-          </div>
-        )}
-
-        <div className="col-span-2">
-          Price
-        </div>
-
-        <div className="col-span-2">
-          Tax %
-        </div>
-
+        <div className="col-span-2">Price</div>
+        <div className="col-span-2">Tax %</div>
         <div className="col-span-1"></div>
-
       </div>
-
-      {/* Rows */}
 
       {data.map((row, index) => (
         <div key={index}>
-
-        <div
-          
-          className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} items-center gap-3 mt-3 font-sanchez text-sm`}
-        >
-          {/* productName*/}
-
-          <input
-            name="productName"
-            placeholder={nameLabel}
-            value={row.productName}
-            required
-            onChange={(e) =>
-              handleChange(index, "productName", e.target.value)
-            }
-            onBlur={(e) => handleBlur(e, index)}
-            className="col-span-5 border-2 border-black rounded-md px-3 py-2"
-          />
-         
-
-          {/* Subscription column only for product */}
-
-          {showSub && (
-
-            <select
-              value={row.sub || ""}
-              required
-              name="sub"
-              onBlur={(e) => handleBlur(e, index)}
-              onChange={(e) =>
-                handleChange(index, "sub", e.target.value)
-              }
-              className="col-span-2 border-2 border-black rounded-md px-2 py-2"
-            >
-              <option value="">Select</option>
-              <option value="1M">1M</option>
-              <option value="2M">2M</option>
-              <option value="6M">6M</option>
-              <option value="1Y">1Y</option>
-            </select>
-
-          )}
-
-          {/* Price */}
-
-         
-
-          <input
-            name="price"
-            type="number"
-            placeholder="10000"
-            value={row.price}
-            required
-            onChange={(e) =>
-              handleChange(index, "price", Number(e.target.value))
-            }
-            onBlur={(e) => handleBlur(e, index)}
-            className="col-span-2 border-2 border-black rounded-md px-3 py-2"
-          />
-          
-          {/* Tax */}
-
-          
-                                
-
-          <input
-            name="tax"
-            type="number"
-            placeholder="18"
-            value={row.tax}
-            required
-            onChange={(e) =>
-              handleChange(index, "tax", Number(e.target.value))
-            }
-            onBlur={(e) => handleBlur(e, index)}
-            className="col-span-2 border-2 border-black rounded-md px-3 py-2"
-          />
-                                 
-
-
-
-          {/* Delete */}
-
-          <button
-            type="button"
-            onClick={() => deleteRow(index)}
-            disabled={data.length === 1}
-            className={`col-span-1 text-white rounded-md py-2
-            ${data.length === 1
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-orange-500"
-              }`}
+          <div
+            className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} 
+            items-center gap-2 md:gap-3 mt-2 md:mt-3 
+            text-[11px] sm:text-xs md:text-sm`}
           >
-            ✕
-          </button>
+            <input
+              name="productName"
+              value={row.productName}
+              placeholder={nameLabel}
+              required
+              onChange={(e) => handleChange(index, "productName", e.target.value)}
+              className="col-span-5 border border-black 
+              rounded-md px-2 py-1 md:px-3 md:py-2"
+            />
 
+            {showSub && (
+              <select
+                value={row.sub || ""}
+                name="sub"
+                onChange={(e) => handleChange(index, "sub", e.target.value)}
+                required
+                className="col-span-2 border border-black 
+                rounded-md px-2 md:px-2 py-1 md:py-2"
+              >
+                <option value="">Select</option>
+                <option value="1M">1M</option>
+                <option value="2M">2M</option>
+                <option value="6M">6M</option>
+                <option value="1Y">1Y</option>
+              </select>
+            )}
+
+            <input
+              name="price"
+              type="number"
+              value={row.price}
+              required
+              onChange={(e) => handleChange(index, "price", Number(e.target.value))}
+              className="col-span-2 border border-black 
+              rounded-md px-2 py-1 md:px-3 md:py-2"
+            />
+
+            <input
+              name="tax"
+              type="number"
+              value={row.tax}
+              required
+              onChange={(e) => handleChange(index, "tax", Number(e.target.value))}
+              className="col-span-2 border border-black 
+              rounded-md px-2 py-1 md:px-3 md:py-2"
+            />
+
+            <button
+              type="button"
+              onClick={() => deleteRow(index)}
+              disabled={data.length === 1}
+              className={`col-span-1 rounded-md 
+              text-white text-xs md:text-sm 
+              py-1 md:py-2
+              ${data.length === 1
+                  ? "bg-gray-400"
+                  : "bg-orange-500 hover:bg-orange-600"
+                }`}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} gap-2 md:gap-3`}>
+            <div className="col-span-5">
+            </div>
+
+            {showSub && <div className="col-span-2">
+            </div>}
+
+            <div className="col-span-2">
+            </div>
+
+            <div className="col-span-2">
+            </div>
+
+            <div className="col-span-1"></div>
+          </div>
         </div>
-         </div>
-
       ))}
-
-      {/* Add Row */}
 
       <button
         type="button"
         onClick={addRow}
-        className="mt-6 w-full border-2 border-black rounded-md py-2 bg-gray-200 font-medium font-sanchez"
+        className="mt-4 md:mt-6 w-full 
+        border border-black 
+        rounded-md 
+        py-1.5 md:py-2 
+        text-xs sm:text-sm md:text-base 
+        bg-gray-200 hover:bg-gray-300"
       >
         {addButton}
       </button>
-
     </div>
   )
 }

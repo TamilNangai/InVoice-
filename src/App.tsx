@@ -8,22 +8,31 @@ import Reports from "./Pages/Reports"
 import Internship_invoice from "./Pages/Internship_invoice"
 import Service_invoice from "./Pages/Service_invoice"
 import Sidebar from "./Components/Nav/Sidebar"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
 
   useEffect(() => {
     window.electron?.on("main-process-message", (data) => {
-      console.log(data)
+      
     })
   }, [])
 
+  // const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
       <HashRouter>
         <section className="w-screen min-h-screen max-h-screen flex">
           {/* <div className="min-w-screen min-h-screen flex"> */}
+
+          
+        
+{/* 
+            <Sidebar
+              mobileOpen={mobileOpen}
+              onMobileClose={() => setMobileOpen(false)}
+            /> */}
           <Sidebar />
           <main className="flex-1 h-screen overflow-auto no-scrollbar">
             <Routes>

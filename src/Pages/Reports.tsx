@@ -122,6 +122,7 @@ const Reports = () => {
         <Header
           h1="Products & Inventory"
           para="Manage Your product catalog and service offerings."
+          // onMenuClick={() => setMobileOpen(true)}
         />
 
         <button
@@ -136,49 +137,27 @@ const Reports = () => {
         </button>
       </div>
 
-      <div className="w-full pl-10">
+      <div className="w-full">
         <Radiogroup selected={selected} setSelected={setSelected} />
 
-        <div className="w-full flex justify-center items-center">
-          <div className="w-[50%] h-[10%] m-5 grid grid-cols-2 gap-[30px] place-items-center font-sanchez">
+        <div className="w-full flex flex-wrap xl:flex-nowrap justify-center items-center">
+          <div className="w-full  h-[10%] m-5 grid grid-cols-2 gap-[30px] place-items-center font-sanchez">
             <Cards head="Total Revenue" amount={report?.totalRevenue ?? 0} para={`${report?.growth ?? 0}% from last month`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
             <Cards head="Paid Invoice" amount={report?.paidCount ?? 0} para={`${report?.collectionRate ?? 0}% Collection rate`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
             <Cards head="Pending Amount" amount={report?.pendingAmount ?? 0} para={`${report?.pendingCount ?? 0} Invoice pending`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FFCC00]" />
             <Cards head="Overdue" amount={report?.overdueAmount ?? 0} para={`${report?.overdueCount ?? 0} invoice overdue`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FF383C]" />
           </div>
 
-          <div className="w-[50%] mr-10 pl-3">
+          <div className="w-full ">
             <Revenue data={report} />
           </div>
         </div>
 
-        <div className="pr-5">
+        <div className="w-full ">
           <Reporttable />
         </div>
 
-        <div
-          ref={captureRef}
-          style={{ display: "none", position: "absolute", left: "-9999px", top: 0, width: "1000px", background: "#fff", padding: "30px" }}
-        >
-          {/* {allReports.map((section, i) => (
-            <div key={i} className="mb-10 font-iceberg"> */}
-          {allReports.map((section, i) => (
-            <div key={i} className="mb-10 font-iceberg pdf-section">
-              <h2 className="text-2xl font-bold mb-4">{section.title}</h2>
-              {/* <div className="grid grid-cols-2 gap-[30px] place-items-center font-sanchez w-[40%] h-[10%]"> */}
-              <div className="grid grid-cols-2 gap-[30px] w-full">
-                <Cards head="Total Revenue" amount={section.data?.totalRevenue ?? 0} para={`${section.data?.growth ?? 0}% from last month`} cardhead="iceberg-regular text-[#666666] text-[15px]" cardamount="text-[25px] " cardpara="text-[10px] text-[#34C759]" />
-                <Cards head="Paid Invoice" amount={section.data?.paidCount ?? 0} para={`${section.data?.collectionRate ?? 0}% Collection rate`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#34C759]" />
-                <Cards head="Pending Amount" amount={section.data?.pendingAmount ?? 0} para={`${section.data?.pendingCount ?? 0} Invoice pending`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FFCC00]" />
-                <Cards head="Overdue" amount={section.data?.overdueAmount ?? 0} para={`${section.data?.overdueCount ?? 0} invoice overdue`} cardhead="iceberg-regular text-[#666666]" cardamount="text-[30px]" cardpara="text-[14px] text-[#FF383C]" />
-              </div>
-            </div>
-          ))}
-          <div className="mt-10 pdf-section">
-            <h2 className="text-2xl font-bold mb-4 font-iceberg">Revenue by Type</h2>
-            <Revenue data={report} />
-          </div>
-        </div>
+       
       </div>
     </div>
   )

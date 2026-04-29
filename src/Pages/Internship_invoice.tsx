@@ -9,10 +9,9 @@ import Buttons from '@/Components/Button/Buttons'
 import vectora from "@/assets/Vectora.png"
 import PriceForm from "@/Components/Form/Priceform"
 import { getSettings } from "@/utils/getSettings"
-import { validateForm } from "@/utils/useInvoiceValidation"
+import { validateForm, validateInternshipInvoice } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
-import { showError, showSuccess, showConfirm } from "@/utils/alert";
-
+import { showSuccess, showConfirm } from "@/utils/alert";
 
 type InvoiceData = {
   student: {
@@ -47,37 +46,26 @@ type InvoiceData = {
   };
 };
 
+// ✅ Load draft
+const getInitialInvoiceData = (): InvoiceData => {
+  const saved = localStorage.getItem("internship_invoice_data")
+  if (saved) return JSON.parse(saved)
+
+  return {
+    student: { studentName: "", email: "", phone: "", college: "" },
+    program: { internship: "", batch: "", start: "", trainer: "", enddate: "" },
+    fees: { training: 0, certificate: 0, tax: 0, internship: 0, discount: 0 },
+    price: { total: 0, due: 0, paid: 0, duedate: "", paymentMethod: "" }
+  }
+}
+
 const Internship_invoice = () => {
-  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-    student: {
-      studentName: "",
-      email: "",
-      phone: "",
-      college: "",
-    },
-    program: {
-      internship: "",
-      batch: "",
-      start: "",
-      trainer: "",
-      enddate: "",
-    },
-    fees: {
-      training: 0,
-      certificate: 0,
-      tax: 0,
-      internship: 0,
-      discount: 0,
-    },
-    price: {
-      total: 0,
-      due: 0,
-      paid: 0,
-      duedate: "",
-      paymentMethod: ""
-    }
+  // ✅ Load invoice ID from draft
+  const [invoiceId, setInvoiceId] = useState(() => {
+    return localStorage.getItem("internship_invoice_id") || generateInvoiceId()
   })
+
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(getInitialInvoiceData)
 
   const subtotal =
     Number(invoiceData.fees.training || 0) +
@@ -95,6 +83,34 @@ const Internship_invoice = () => {
 
   const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
+  // ✅ Save draft automatically
+  useEffect(() => {
+    localStorage.setItem("internship_invoice_data", JSON.stringify(invoiceData))
+    localStorage.setItem("internship_invoice_id", invoiceId)
+  }, [invoiceData, invoiceId])
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const hasData =
+        invoiceData.student.studentName ||
+        invoiceData.student.email ||
+        invoiceData.student.phone ||
+        invoiceData.student.college ||
+        invoiceData.program.internship ||
+        invoiceData.price.paid > 0;
+
+      if (!hasData) return;
+
+      e.preventDefault();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [invoiceData]);
+
   useEffect(() => {
     setInvoiceData(prev => ({
       ...prev,
@@ -106,101 +122,29 @@ const Internship_invoice = () => {
     }))
   }, [totalAmount, dueAmount])
 
-
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
+
+  // ✅ Clear draft
+  const handleClearDraft = () => {
+    localStorage.removeItem("internship_invoice_data")
+    localStorage.removeItem("internship_invoice_id")
+
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData(getInitialInvoiceData())
+  }
 
   const handlePrintAndSave = async () => {
     if (!validateForm(formRef.current)) return
 
-    const { studentName, email, phone, college } = invoiceData.student
-
-    if (!studentName || !email || !phone || !college) {
-      await showError("Please fill all student details.")
-      return
-    }
-
-
-
-    if (!/^[0-9]{10}$/.test(phone)) {
-      await showError("Phone number must be 10 digits")
-      return
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
-
-    if (!emailRegex.test(email)) {
-      await showError("Please enter a valid email address")
-      return
-    }
-
-    const { internship, batch, start, enddate } = invoiceData.program
-
-    if (!internship || !batch || !start || !enddate) {
-      await showError("Please fill all program details.")
-      return
-    }
-
-    if (new Date(enddate) <= new Date(start)) {
-      await showError("End date must be after start date")
-      return
-    }
-
-    const { training, internship: internshipFee, certificate, tax, discount } = invoiceData.fees
-
-    if (training <= 0 || internshipFee <= 0 || certificate <= 0) {
-      await showError("Please fill Fees details correctly.")
-      return
-    }
-
-    if (tax <= 0 || tax > 100) {
-      await showError("Tax rate must be between 0 and 100")
-      return
-    }
-
-
-    // const subtotal =
-    //   Number(training) +
-    //   Number(certificate) +
-    //   Number(internshipFee)
-    console.log({
+    const valid = await validateInternshipInvoice(
+      invoiceData,
       subtotal,
-      gstTotal,
-      totalAmount,
-      paidAmount,
-      dueAmount
-    });
+      totalAmount
+    )
 
-    if (discount < 0 || discount > subtotal) {
-      await showError("Discount cannot be greater than subtotal")
-      return
-    }
+    if (!valid) return
 
-    const { paid, duedate, paymentMethod } = invoiceData.price
-
-    if (!paymentMethod) {
-      await showError("Please select payment method")
-      return
-    }
-    if (paid < 0 || paid > totalAmount) {
-      await showError("Invalid paid amount")
-      return
-    }
-
-    const today = new Date().toISOString().split("T")[0]
-
-    if (!duedate || duedate <= today) {
-      await showError("Due date must be a future date")
-      return
-    }
-    if (paid > totalAmount) {
-      await showError("Paid amount cannot exceed total amount")
-      return
-    }
-
-
-
-    // ✅ CONFIRMATION BEFORE SAVE
     const confirm = await showConfirm("Do you want to save this invoice?");
     if (!confirm.isConfirmed) return;
 
@@ -217,19 +161,16 @@ const Internship_invoice = () => {
           due: dueAmount
         }
       },
-
     )
 
     await showSuccess("Invoice saved successfully");
 
-    // Reset form after successful save
+    // ✅ clear draft after save
+    localStorage.removeItem("internship_invoice_data")
+    localStorage.removeItem("internship_invoice_id")
+
     setInvoiceId(generateInvoiceId())
-    setInvoiceData({
-      student: { studentName: "", email: "", phone: "", college: "" },
-      program: { internship: "", batch: "", start: "", trainer: "", enddate: "" },
-      fees: { training: 0, certificate: 0, tax: 0, internship: 0, discount: 0 },
-      price: { total: 0, due: 0, paid: 0, duedate: "", paymentMethod: "" }
-    })
+    setInvoiceData(getInitialInvoiceData())
     formRef.current?.reset()
   }
 
@@ -243,17 +184,12 @@ const Internship_invoice = () => {
     fetchCompany();
   }, []);
 
-
-
-
   if (company === null)
-
     return (
       <div className="flex items-center justify-center min-h-screen min-w-screen">
         <p className="text-lg font-semibold">Loading...</p>
       </div>
     );
-
 
   return (
     <div className="w-full h-screen ">
@@ -264,106 +200,104 @@ const Internship_invoice = () => {
             para={`#${invoiceId}`}
           />
 
-          <div className="">
-            <button
-              type="button"
+          <div className="flex items-end">
+            {/* ✅ Clear Draft Button */}
+            <div onClick={handleClearDraft} className="px-4 py-2 text-black rounded-md ml-2">
+              <Buttons h1="Clear Draft" variant="secondary" />
+            </div>
 
-              className="px-4 py-2 text-black rounded-md ml-2"
-            >
+            {/* Existing Button */}
+            <div className="px-4 py-2 text-black rounded-md ml-2">
               <Buttons
                 h1="Issue Invoice"
-                h2="Save Draft"
+                variant="secondary"
                 src2={vectora}
-                src1=""
               />
-            </button>
+            </div>
           </div>
         </div>
 
-        <form
-          className="w-full h-fit grid grid-cols-2"
-          ref={formRef}
-          onSubmit={(e) => {
-            e.preventDefault()
+        <section>
+          <form
+            className="w-full h-fit grid grid-cols-2 "
+            ref={formRef}
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <div className="w-[90%] space-y-7 p-4 grid ">
+              <Stdform
+                data={invoiceData.student}
+                setData={(data) =>
+                  setInvoiceData(prev => ({ ...prev, student: data }))
+                }
+              />
 
-          }}
-        >
+              <Programform
+                data={invoiceData.program}
+                setData={(data) =>
+                  setInvoiceData(prev => ({ ...prev, program: data }))
+                }
+              />
 
-          <div className="w-full space-y-7 p-4 grid ">
-            <Stdform
-              data={invoiceData.student}
-              setData={(data) =>
-                setInvoiceData(prev => ({ ...prev, student: data }))
-              }
-            />
+              <Feeform
+                data={invoiceData.fees}
+                setData={(data) =>
+                  setInvoiceData(prev => ({ ...prev, fees: data }))
+                }
+              />
 
-            <Programform
-              data={invoiceData.program}
-              setData={(data) =>
-                setInvoiceData(prev => ({ ...prev, program: data }))
-              }
-            />
+              <PriceForm
+                data={invoiceData.price}
+                setData={(data) =>
+                  setInvoiceData(prev => ({ ...prev, price: data }))
+                }
+              />
+            </div>
 
-            <Feeform
-              data={invoiceData.fees}
-              setData={(data) =>
-                setInvoiceData(prev => ({ ...prev, fees: data }))
-              }
-            />
-
-            <PriceForm
-              data={invoiceData.price}
-              setData={(data) =>
-                setInvoiceData(prev => ({ ...prev, price: data }))
-              }
-            />
-          </div>
-
-          <div className="w-full h-fit p-4 grid ">
-            <Bill
-              ref={billRef}
-              type="internship"
-              data={invoiceData}
-              onPrint={handlePrintAndSave}
-              button={<Buttons src1="" src2="" h1="Internship Invoice" h2="" />}
-              name={invoiceData.student.studentName}
-              email={invoiceData.student.email}
-              phone={Number(invoiceData.student.phone)}
-              college={invoiceData.student.college}
-              invoiceid={invoiceId}
-              date={new Date().toLocaleDateString()}
-              duedate={invoiceData.price.duedate}
-              companyName={company?.companyName}
-              companyEmail={company?.companyEmail}
-              companyPhone={company?.companyPhone}
-              companyAddress={company?.companyAddress}
-              boxhead="Program Enrolled"
-              boxprogram={invoiceData.program.internship}
-              batch={`Batch: ${invoiceData.program.batch}`}
-              duration={`Duration: ${invoiceData.program.start} - ${invoiceData.program.enddate}`}
-              detailhead="Program Enrolled"
-              head11="Training Program Fee"
-              head12="Core Curriculum Access and mentorship"
-              amount1={invoiceData.fees.training}
-              head21="Internship Administrative Fee"
-              head22="Project allocation and assessment"
-              amount2={invoiceData.fees.internship}
-              head31="Certification Issuance"
-              head32="Digital and physical certificate"
-              amount3={invoiceData.fees.certificate}
-              subamount11={subtotal}
-              subamount12={invoiceData.fees.discount}
-              subamount13={gstTotal}
-              subamount21={totalAmount}
-              subamount22={paidAmount}
-              subamount23={dueAmount}
-              taxPercent={invoiceData.fees.tax}
-              paymentMethod={invoiceData.price.paymentMethod}
-              conditionPara="Payment is due within 7 days..."
-            />
-          </div>
-
-        </form>
+            <div className="w-[110%] h-full grid p-4 sm:-ml-12">
+              <Bill
+                ref={billRef}
+                type="internship"
+                data={invoiceData}
+                onPrint={handlePrintAndSave}
+                button={<Buttons h1="Internship Invoice" variant="primary" />}
+                name={invoiceData.student.studentName}
+                email={invoiceData.student.email}
+                phone={Number(invoiceData.student.phone)}
+                college={invoiceData.student.college}
+                invoiceid={invoiceId}
+                date={new Date().toLocaleDateString()}
+                duedate={invoiceData.price.duedate}
+                companyName={company?.companyName}
+                companyEmail={company?.companyEmail}
+                companyPhone={company?.companyPhone}
+                companyAddress={company?.companyAddress}
+                boxhead="Program Enrolled"
+                boxprogram={invoiceData.program.internship}
+                batch={`Batch: ${invoiceData.program.batch}`}
+                duration={`Duration: ${invoiceData.program.start} - ${invoiceData.program.enddate}`}
+                detailhead="Program Enrolled"
+                head11="Training Program Fee"
+                head12="Core Curriculum Access and mentorship"
+                amount1={invoiceData.fees.training}
+                head21="Internship Administrative Fee"
+                head22="Project allocation and assessment"
+                amount2={invoiceData.fees.internship}
+                head31="Certification Issuance"
+                head32="Digital and physical certificate"
+                amount3={invoiceData.fees.certificate}
+                subamount11={subtotal}
+                subamount12={invoiceData.fees.discount}
+                subamount13={gstTotal}
+                subamount21={totalAmount}
+                subamount22={paidAmount}
+                subamount23={dueAmount}
+                taxPercent={invoiceData.fees.tax}
+                paymentMethod={invoiceData.price.paymentMethod}
+                conditionPara="Payment is due within 7 days..."
+              />
+            </div>
+          </form>
+        </section>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 import jsPDF from "jspdf";
 import { Invoice } from "@/types/invoice";
-import { getSettings } from "./getSettings";
+
 
 export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     const doc = new jsPDF("p", "mm", "a4");
-    const settings = await getSettings();
+  
     const data = inv.rawData || {};
 
     let y = 20;
@@ -31,7 +31,7 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     doc.setFont("courier", "bold");  // Changed font family here
     doc.setFontSize(28);
     doc.setTextColor("#000");
-    const companyTitle = settings?.companyName || "Your Company";
+    const companyTitle = "DesFlyer";
     doc.text(companyTitle, margin, y);
 
     // --- TYPE BADGE (matches table UI) ---
@@ -81,7 +81,7 @@ export const generateInvoicePDF = async (inv: Invoice): Promise<jsPDF> => {
     doc.setTextColor('#000');
     doc.text(inv.email || "", margin, y);
     doc.setTextColor('#000');
-    doc.text(`Date: ${inv.date}`, margin + (contentWidth / 2) + 10, y);
+    doc.text(`Date: ${inv?.latestPaymentDate || inv.date}`, margin + (contentWidth / 2) + 10, y);
 
     y += 6;
     doc.text(inv.phone || "", margin, y);
@@ -242,7 +242,7 @@ if (inv.type.toLowerCase() === "internship") {
         : price.due || (inv.pending || 0);
     // const gst = data.invoiceType == 'internship'
     //             ? (data.fees.tax) : (data.gst)
-    console.log(data.gst)
+   
     drawTotalRow("Subtotal", subtotal);
     drawTotalRow("Discount", fees.discount || 0);
     drawTotalRow(`GST (${gstPercent}%)`, gstAmount);

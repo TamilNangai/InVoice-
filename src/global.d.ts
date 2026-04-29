@@ -37,3 +37,4 @@ interface Window {
     sendInvoicePDF: (data: { to: string; subject: string; body: string; pdfBase64: string; filename: string }) => Promise<{ success: boolean; error?: string }>;
   };
 }
+

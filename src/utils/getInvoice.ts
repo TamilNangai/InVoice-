@@ -72,7 +72,9 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       date: getFormattedDate(data.createdAt),
 
       // ✅ USE latest payment history
-      dueDate: latestPayment?.DueDate || data.price?.duedate || "",
+      latestPaymentDate: latestPayment?.DueDate || data.price?.duedate || "",
+
+      dueDate:data.price?.duedate || "",
 
       amount: data.price?.total ?? data.amount ?? 0,
 
@@ -87,15 +89,9 @@ export const getInvoices = async (): Promise<Invoice[]> => {
       startDate: data.program?.start || "",
       endDate: data.program?.enddate || "",
 
-      status:
-        latestPayment?.due === 0
-          ? "paid"
-          : latestPayment?.due > 0
-            ? "pending"
-            : data.status ||
-            (data.price?.due && data.price.due > 0 ? "pending" : "paid"),
+      status: data.status ||"Pending",
 
-      rawData: data,
+      rawData: data, // Store full data for later use
       paymentHistory: history,
     };
 

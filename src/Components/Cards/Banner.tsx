@@ -19,8 +19,8 @@ function Banner(props: Bannerprops) {
   return (
     <section >
       <div className="border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)] mx-10 rounded-xl p-6">
-        <h1 className="text-2xl font-iceberg">{props.h1}</h1>
-        <p className="font-sanchez">{props.para1}</p>
+        <h1 className="xl:text-2xl sm:text-[20px] font-iceberg">{props.h1}</h1>
+        <p className="font-sanchez xl:text-[15px] sm:text-[13px]">{props.para1}</p>
         <div className="space-y-6 mt-5 ">
 
           <aside className=" flex justify-between border-2 border-black  h-20 rounded-lg p-6 mx-2">
@@ -28,17 +28,17 @@ function Banner(props: Bannerprops) {
               <img className="w-8 h-7" src={props.src1} />
 
               <div className="space-y-1 -mt-3 pl-5">
-                <h1 className="text-xl font-iceberg">{props.h2}</h1>
-                <p className="text-md font-sanchez">{props.para2}</p>
+                <h1 className="xl:text-xl sm:text-[17px] font-iceberg">{props.h2}</h1>
+                <p className="xl:text-[14px] sm:text-[11px] font-sanchez">{props.para2}</p>
               </div>
            </div>
-           <main className="flex gap-5">
-              <div className="border-2 border-black w-44 h-10 rounded-lg -mt-1">
-                <h1 className="font-sanchez m-2"> {props.h5}</h1>
+           <main className="flex gap-5 ">
+              <div className="border-2 border-black xl:w-44 sm:w-[45%] sm:h-8 xl:h-10 rounded-lg -mt-1">
+                <h1 className="font-sanchez xl:text-[14px] sm:text-[8px] m-2"> {props.h5}</h1>
               </div>
               <div className="">
                 <label className="flex items-center space-x-3 cursor-pointer">
-                  <span className="font-sanchez">Enable</span>
+                  <span className="font-sanchez xl:text-[16px] sm:text-[13px]">Enable</span>
                   <input type="checkbox" className="sr-only peer" />
                   <div className="w-12 h-6 bg-gray-300 rounded-full 
               peer-checked:bg-green-500 
@@ -61,18 +61,18 @@ function Banner(props: Bannerprops) {
               <img className="w-8 h-7" src={props.src2} />
 
               <div className="space-y-1 -mt-3 pl-5">
-                <h1 className="text-xl font-iceberg">{props.h3}</h1>
-                <p className="text-md font-sanchez">{props.para3}</p>
+                <h1 className="xl:text-xl sm:text-[17px] font-iceberg">{props.h3}</h1>
+                <p className="xl:text-[14px] sm:text-[11px] font-sanchez">{props.para3}</p>
               </div>
               </div>
             
             <main className="flex gap-5">
-              <div className="border-2 border-black w-44 h-10 rounded-lg -mt-1">
-                <h1 className="font-sanchez m-2"> {props.h5}</h1>
+              <div className="border-2 border-black xl:w-44 sm:w-[45%] sm:h-8 xl:h-10 rounded-lg -mt-1">
+                <h1 className="font-sanchez xl:text-[14px] sm:text-[8px] m-2"> {props.h5}</h1>
               </div>
               <div className="">
                 <label className="flex items-center space-x-3 cursor-pointer">
-                  <span className="font-sanchez">Enable</span>
+                  <span className="font-sanchez xl:text-[16px] sm:text-[13px]">Enable</span>
                   <input type="checkbox" className="sr-only peer" />
                   <div className="w-12 h-6 bg-gray-300 rounded-full 
               peer-checked:bg-green-500 
@@ -95,17 +95,17 @@ function Banner(props: Bannerprops) {
             <img className="w-8 h-7" src={props.src3} />
 
             <div className="space-y-1 -mt-3 pl-5">
-              <h1 className="text-xl font-iceberg">{props.h4}</h1>
-              <p className="text-md font-sanchez">{props.para4}</p>
+              <h1 className="xl:text-xl sm:text-[17px] font-iceberg">{props.h4}</h1>
+              <p className="xl:text-[14px] sm:text-[11px] font-sanchez">{props.para4}</p>
             </div>
             </div>
             <main className="flex gap-5">
-            <div className=" border-2 border-black w-44 h-10 rounded-lg -mt-1">
-              <h1 className="font-sanchez m-2"> {props.h5}</h1>
+            <div className=" border-2 border-black xl:w-44 xl:h-10 sm:w-[45%] sm:h-8 rounded-lg -mt-1">
+              <h1 className="font-sanchez xl:text-[14px] sm:text-[8px] m-2"> {props.h5}</h1>
             </div>
             <div className="">
               <label className="flex items-center space-x-3 cursor-pointer">
-                <span className="font-sanchez">Enable</span>
+                <span className="font-sanchez xl:text-[16px] sm:text-[13px]">Enable</span>
                 <input type="checkbox" className="sr-only peer" />
                 <div className="w-12 h-6 bg-gray-300 rounded-full 
               peer-checked:bg-green-500 
