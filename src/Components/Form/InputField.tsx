@@ -49,7 +49,8 @@ const InputField: React.FC<InputFieldProps> = ({
         disabled={disabled}
         pattern={pattern}
         required={required}
-        className="border-b border-black outline-none w-full bg-transparent xl:text-[15px] sm:text-[10px]  font-sanchez"
+        className="border-b border-black outline-none w-full bg-transparent xl:text-[15px] sm:text-[10px]  font-sanchez
+        sm:placeholder:text-[10px] xl:placeholder:text-[15px]"
       />
     </div>
   )

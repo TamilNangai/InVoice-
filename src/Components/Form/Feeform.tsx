@@ -1,5 +1,3 @@
-
-import React, { useState } from "react";
 import InputField from "@/Components/Form/InputField";
 
 type Props = {
@@ -9,33 +7,6 @@ type Props = {
 
 const FeeForm = ({ data, setData }: Props) => {
 
-  const [errors, setErrors] = useState<any>({});
-
-  const validate = (name: string, value: string) => {
-
-    let message = "";
-
-    if (!value) {
-      message = "Required";
-    }
-
-    const num = Number(value);
-
-    if (num < 0) {
-      message = "Value cannot be negative";
-    }
-
-    if (name === "tax") {
-      if (num > 100) {
-        message = "Tax cannot exceed 100%";
-      }
-    }
-
-    setErrors((prev: any) => ({
-      ...prev,
-      [name]: message
-    }));
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -49,9 +20,7 @@ const FeeForm = ({ data, setData }: Props) => {
   }
 
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    validate(e.target.name, e.target.value);
-  };
+ 
 
   return (
     <main className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_15px_rgba(0,0,0,0.2)]">
@@ -68,7 +37,6 @@ const FeeForm = ({ data, setData }: Props) => {
             type="number"
             value={data.training}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
 
@@ -78,7 +46,6 @@ const FeeForm = ({ data, setData }: Props) => {
             type="number"
             value={data.certificate}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
 
@@ -88,7 +55,6 @@ const FeeForm = ({ data, setData }: Props) => {
             type="number"
             value={data.tax}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
 
@@ -102,7 +68,6 @@ const FeeForm = ({ data, setData }: Props) => {
             type="number"
             value={data.internship}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
 
@@ -112,7 +77,6 @@ const FeeForm = ({ data, setData }: Props) => {
             type="number"
             value={data.discount}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
 

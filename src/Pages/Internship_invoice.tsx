@@ -5,18 +5,13 @@ import Header from "@/Components/Nav/Header"
 import Feeform from "@/Components/Form/Feeform"
 import Programform from "@/Components/Form/Programform"
 import Stdform from "@/Components/Form/Stdform"
-import BillButton from '@/Components/Button/BillButton'
 import Buttons from '@/Components/Button/Buttons'
-
 import vectora from "@/assets/Vectora.png"
 import PriceForm from "@/Components/Form/Priceform"
 import { getSettings } from "@/utils/getSettings"
-import { validateForm } from "@/utils/useInvoiceValidation"
+import { validateForm, validateInternshipInvoice } from "@/utils/useInvoiceValidation"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
-import { showError, showSuccess, showConfirm } from "@/utils/alert";
-import { useNavigate } from "react-router-dom";
-
-
+import { showSuccess, showConfirm } from "@/utils/alert";
 
 type InvoiceData = {
   student: {
@@ -51,37 +46,26 @@ type InvoiceData = {
   };
 };
 
+// ✅ Load draft
+const getInitialInvoiceData = (): InvoiceData => {
+  const saved = localStorage.getItem("internship_invoice_data")
+  if (saved) return JSON.parse(saved)
+
+  return {
+    student: { studentName: "", email: "", phone: "", college: "" },
+    program: { internship: "", batch: "", start: "", trainer: "", enddate: "" },
+    fees: { training: 0, certificate: 0, tax: 0, internship: 0, discount: 0 },
+    price: { total: 0, due: 0, paid: 0, duedate: "", paymentMethod: "" }
+  }
+}
+
 const Internship_invoice = () => {
-  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-    student: {
-      studentName: "",
-      email: "",
-      phone: "",
-      college: "",
-    },
-    program: {
-      internship: "",
-      batch: "",
-      start: "",
-      trainer: "",
-      enddate: "",
-    },
-    fees: {
-      training: 0,
-      certificate: 0,
-      tax: 0,
-      internship: 0,
-      discount: 0,
-    },
-    price: {
-      total: 0,
-      due: 0,
-      paid: 0,
-      duedate: "",
-      paymentMethod: ""
-    }
+  // ✅ Load invoice ID from draft
+  const [invoiceId, setInvoiceId] = useState(() => {
+    return localStorage.getItem("internship_invoice_id") || generateInvoiceId()
   })
+
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(getInitialInvoiceData)
 
   const subtotal =
     Number(invoiceData.fees.training || 0) +
@@ -98,6 +82,13 @@ const Internship_invoice = () => {
   const paidAmount = Number(invoiceData.price.paid || 0)
 
   const dueAmount = Math.max(totalAmount - paidAmount, 0)
+
+  // ✅ Save draft automatically
+  useEffect(() => {
+    localStorage.setItem("internship_invoice_data", JSON.stringify(invoiceData))
+    localStorage.setItem("internship_invoice_id", invoiceId)
+  }, [invoiceData, invoiceId])
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const hasData =
@@ -111,7 +102,6 @@ const Internship_invoice = () => {
       if (!hasData) return;
 
       e.preventDefault();
-      e.returnValue = ""; // required for Chrome
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -132,99 +122,28 @@ const Internship_invoice = () => {
     }))
   }, [totalAmount, dueAmount])
 
-
   const billRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null)
+
+  // ✅ Clear draft
+  const handleClearDraft = () => {
+    localStorage.removeItem("internship_invoice_data")
+    localStorage.removeItem("internship_invoice_id")
+
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData(getInitialInvoiceData())
+  }
 
   const handlePrintAndSave = async () => {
     if (!validateForm(formRef.current)) return
 
-    const { studentName, email, phone, college } = invoiceData.student
-
-    if (!studentName || !email || !phone || !college) {
-      await showError("Please fill all student details.")
-      return
-    }
-
-
-
-    if (!/^[0-9]{10}$/.test(phone)) {
-      await showError("Phone number must be 10 digits")
-      return
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
-
-    if (!emailRegex.test(email)) {
-      await showError("Please enter a valid email address")
-      return
-    }
-
-    const { internship, batch, start, enddate } = invoiceData.program
-
-    if (!internship || !batch || !start || !enddate) {
-      await showError("Please fill all program details.")
-      return
-    }
-
-    if (new Date(enddate) <= new Date(start)) {
-      await showError("End date must be after start date")
-      return
-    }
-
-    const { training, internship: internshipFee, certificate, tax, discount } = invoiceData.fees
-
-    if (training <= 0 || internshipFee <= 0 || certificate <= 0) {
-      await showError("Please fill Fees details correctly.")
-      return
-    }
-
-    if (tax <= 0 || tax > 100) {
-      await showError("Tax rate must be between 0 and 100")
-      return
-    }
-
-
-    // const subtotal =
-    //   Number(training) +
-    //   Number(certificate) +
-    //   Number(internshipFee)
-    console.log({
+    const valid = await validateInternshipInvoice(
+      invoiceData,
       subtotal,
-      gstTotal,
-      totalAmount,
-      paidAmount,
-      dueAmount
-    });
+      totalAmount
+    )
 
-    if (discount < 0 || discount > subtotal) {
-      await showError("Discount cannot be greater than subtotal")
-      return
-    }
-
-    const { paid, duedate, paymentMethod } = invoiceData.price
-
-    if (!paymentMethod) {
-      await showError("Please select payment method")
-      return
-    }
-    if (paid < 0 || paid > totalAmount) {
-      await showError("Invalid paid amount")
-      return
-    }
-
-    const today = new Date().toISOString().split("T")[0]
-
-    if (!duedate || duedate <= today) {
-      await showError("Due date must be a future date")
-      return
-    }
-    if (paid > totalAmount) {
-      await showError("Paid amount cannot exceed total amount")
-      return
-    }
-
-
+    if (!valid) return
 
     const confirm = await showConfirm("Do you want to save this invoice?");
     if (!confirm.isConfirmed) return;
@@ -242,19 +161,16 @@ const Internship_invoice = () => {
           due: dueAmount
         }
       },
-
     )
 
     await showSuccess("Invoice saved successfully");
 
-    // Reset form after successful save
+    // ✅ clear draft after save
+    localStorage.removeItem("internship_invoice_data")
+    localStorage.removeItem("internship_invoice_id")
+
     setInvoiceId(generateInvoiceId())
-    setInvoiceData({
-      student: { studentName: "", email: "", phone: "", college: "" },
-      program: { internship: "", batch: "", start: "", trainer: "", enddate: "" },
-      fees: { training: 0, certificate: 0, tax: 0, internship: 0, discount: 0 },
-      price: { total: 0, due: 0, paid: 0, duedate: "", paymentMethod: "" }
-    })
+    setInvoiceData(getInitialInvoiceData())
     formRef.current?.reset()
   }
 
@@ -268,16 +184,12 @@ const Internship_invoice = () => {
     fetchCompany();
   }, []);
 
-
-
   if (company === null)
-
     return (
       <div className="flex items-center justify-center min-h-screen min-w-screen">
         <p className="text-lg font-semibold">Loading...</p>
       </div>
     );
-  // const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="w-full h-screen ">
@@ -286,29 +198,30 @@ const Internship_invoice = () => {
           <Header
             h1="New Internship Invoice"
             para={`#${invoiceId}`}
-            // onMenuClick={() => setMobileOpen(true)}
           />
-          <div className="">
-            <button
-              type="button"
 
-              className="px-4 py-2 text-black rounded-md ml-2"
-            >
-              <Buttons 
-               h1="Issue Invoice" variant="secondary" src2={vectora}
+          <div className="flex items-end">
+            {/* ✅ Clear Draft Button */}
+            <div onClick={handleClearDraft} className="px-4 py-2 text-black rounded-md ml-2">
+              <Buttons h1="Clear Draft" variant="secondary" />
+            </div>
+
+            {/* Existing Button */}
+            <div className="px-4 py-2 text-black rounded-md ml-2">
+              <Buttons
+                h1="Issue Invoice"
+                variant="secondary"
+                src2={vectora}
               />
-            </button>
+            </div>
           </div>
         </div>
-        <section className="">
 
+        <section>
           <form
             className="w-full h-fit grid grid-cols-2 "
             ref={formRef}
-            onSubmit={(e) => {
-              e.preventDefault()
-
-            }}
+            onSubmit={(e) => e.preventDefault()}
           >
             <div className="w-[90%] space-y-7 p-4 grid ">
               <Stdform

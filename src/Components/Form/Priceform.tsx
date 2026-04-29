@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import InputField from "./Priceinput";
 
 type Props = {
@@ -14,85 +13,14 @@ type Props = {
 
 const PriceForm = ({ data, setData }: Props) => {
 
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const { name, value } = e.target
 
-  const [setErrors] = useState<any>({})
-
-  const validate = (name: string, value: string) => {
-
-    let message = ""
-
-    if (!value) {
-      message = "This field is required"
-    }
-
-    if (name === "paid") {
-
-      const num = Number(value)
-
-      if (num < 0) {
-        message = "Paid amount cannot be negative"
-      }
-
-      if (num > data.total) {
-        message = "Paid cannot exceed total amount"
-      }
-
-    }
-
-    setErrors((prev: any) => ({
-      ...prev,
-      [name]: message
-    }))
-
-  }
-
-  const handleBlur = (
-    e: React.FocusEvent<HTMLInputElement>
-  ) => {
-
-    const { name, value } = e.target
-
-    validate(name, value)
-
-  }
-
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-
-    const { name, value } = e.target
-
-    if (name === "paid") {
-
-      const total = Math.round(Number(data.total))
-
-      let paid = Math.round(Number(value))
-
-      // prevent negative
-      if (paid < 0) paid = 0
-
-      // prevent paid > total
-      if (paid > total) paid = total
-
-
-
-      setData({
-        ...data,
-        paid: paid,
-        due: total - paid,
-      })
-      return
-    }
-
-    setData({
-      ...data,
-      [name]: value
-    })
-  }
-
-
-
+  setData({
+    ...data,
+    [name]: value
+  })
+}
   return (
 
     <div className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)] ">
@@ -132,7 +60,6 @@ const PriceForm = ({ data, setData }: Props) => {
               value={data.paid}
               required
               onChange={handleChange}
-              onBlur={handleBlur}
             />
 
 
@@ -144,7 +71,6 @@ const PriceForm = ({ data, setData }: Props) => {
               name="duedate"
               value={data.duedate}
               onChange={handleChange}
-              onBlur={handleBlur}
 
             />
 
@@ -165,7 +91,6 @@ const PriceForm = ({ data, setData }: Props) => {
               name="paymentMethod"
               value={data.paymentMethod}
               onChange={handleChange}
-              onBlur={(e) => validate(e.target.name, e.target.value)}
               className="py-2 px-3 sm:py-3 border-2 border-black rounded-md"
 
             >

@@ -1,7 +1,3 @@
-
-
-import React, { useState } from "react"
-
 type Product = {
   productName: string
   sub?: string
@@ -49,35 +45,6 @@ const ProductForm: React.FC<Props> = ({
     setData(data.filter((_, i) => i !== index))
   }
 
-  const [errors, setErrors] = useState<any>({})
-
-  const validate = (name: string, value: string, index: number) => {
-    let message = ""
-
-    if (!value) message = "Required"
-
-    if (name === "price" && Number(value) < 0) {
-      message = "Invalid"
-    }
-
-    if (name === "tax") {
-      const num = Number(value)
-      if (num < 0 || num > 100) message = "0–100 only"
-    }
-
-    setErrors((prev: any) => ({
-      ...prev,
-      [`${name}-${index}`]: message
-    }))
-  }
-
-  const handleBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>,
-    index: number
-  ) => {
-    const { name, value } = e.target
-    validate(name, value, index)
-  }
 
   return (
     <div className="p-3 sm:p-4 md:p-5 xl:p-6 
@@ -116,8 +83,8 @@ const ProductForm: React.FC<Props> = ({
               name="productName"
               value={row.productName}
               placeholder={nameLabel}
+              required
               onChange={(e) => handleChange(index, "productName", e.target.value)}
-              onBlur={(e) => handleBlur(e, index)}
               className="col-span-5 border border-black 
               rounded-md px-2 py-1 md:px-3 md:py-2"
             />
@@ -127,7 +94,7 @@ const ProductForm: React.FC<Props> = ({
                 value={row.sub || ""}
                 name="sub"
                 onChange={(e) => handleChange(index, "sub", e.target.value)}
-                onBlur={(e) => handleBlur(e, index)}
+                required
                 className="col-span-2 border border-black 
                 rounded-md px-2 md:px-2 py-1 md:py-2"
               >
@@ -143,8 +110,8 @@ const ProductForm: React.FC<Props> = ({
               name="price"
               type="number"
               value={row.price}
+              required
               onChange={(e) => handleChange(index, "price", Number(e.target.value))}
-              onBlur={(e) => handleBlur(e, index)}
               className="col-span-2 border border-black 
               rounded-md px-2 py-1 md:px-3 md:py-2"
             />
@@ -153,8 +120,8 @@ const ProductForm: React.FC<Props> = ({
               name="tax"
               type="number"
               value={row.tax}
+              required
               onChange={(e) => handleChange(index, "tax", Number(e.target.value))}
-              onBlur={(e) => handleBlur(e, index)}
               className="col-span-2 border border-black 
               rounded-md px-2 py-1 md:px-3 md:py-2"
             />
@@ -177,19 +144,15 @@ const ProductForm: React.FC<Props> = ({
 
           <div className={`grid ${showSub ? "grid-cols-12" : "grid-cols-10"} gap-2 md:gap-3`}>
             <div className="col-span-5">
-              {errors[`productName-${index}`] && <span className="text-red-500 text-xs">{errors[`productName-${index}`]}</span>}
             </div>
 
             {showSub && <div className="col-span-2">
-              {errors[`sub-${index}`] && <span className="text-red-500 text-xs">{errors[`sub-${index}`]}</span>}
             </div>}
 
             <div className="col-span-2">
-              {errors[`price-${index}`] && <span className="text-red-500 text-xs">{errors[`price-${index}`]}</span>}
             </div>
 
             <div className="col-span-2">
-              {errors[`tax-${index}`] && <span className="text-red-500 text-xs">{errors[`tax-${index}`]}</span>}
             </div>
 
             <div className="col-span-1"></div>

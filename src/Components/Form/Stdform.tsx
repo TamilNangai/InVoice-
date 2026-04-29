@@ -1,5 +1,3 @@
-
-import React, { useState } from "react";
 import InputField from "@/Components/Form/InputField";
 
 type StudentData = {
@@ -16,37 +14,7 @@ type Props = {
 
 const StudentForm: React.FC<Props> = ({ data, setData }) => {
 
-  
-  const [ setErrors] = useState<any>({})
-  const [ setTouched] = useState<any>({})
-
-
-  const validate = (name: string, value: string) => {
-
-    let message = ""
-
-    if (!value.trim()) {
-      message = "This field is required"
-    }
-
-    if (name === "phone" && value) {
-      if (!/^\d{10}$/.test(value)) {
-        message = "Phone number must be 10 digits"
-      }
-    }
-
-    if (name === "email" && value) {
-      if (!value.includes("@gmail.com")) {
-        message = "Email must include @gmail.com"
-      }
-    }
-
-    setErrors((prev: any) => ({
-      ...prev,
-      [name]: message
-    }))
-  }
-
+ 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -58,17 +26,7 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
     });
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 
-    const { name, value } = e.target
-
-    setTouched((prev: any) => ({
-      ...prev,
-      [name]: true
-    }))
-
-    validate(name, value)
-  }
 
 
   return (
@@ -87,7 +45,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             name="studentName"
             value={data.studentName}
             onChange={handleChange}
-            onBlur={handleBlur}
             placeholder="Swetha"
             required
           />
@@ -97,7 +54,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             name="college"
             value={data.college}
             onChange={handleChange}
-            onBlur={handleBlur}
             placeholder="Kings College of Engineering"
             required
           />
@@ -112,7 +68,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             name="phone"
             value={data.phone}
             onChange={handleChange}
-            onBlur={handleBlur}
             placeholder="9876543210"
             maxLength={10}
             required
@@ -124,7 +79,6 @@ const StudentForm: React.FC<Props> = ({ data, setData }) => {
             name="email"
             value={data.email}
             onChange={handleChange}
-            onBlur={handleBlur}
             placeholder="swetha@gmail.com"
             required
           />

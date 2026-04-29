@@ -7,13 +7,10 @@ import PriceForm from "@/Components/Form/Priceform"
 import Buttons from "@/Components/Button/Buttons"
 import vectora from "@/assets/Vectora.png"
 import { generateInvoiceId } from "@/utils/generateInvoiceId"
-import { validateForm } from "@/utils/useInvoiceValidation"
+import { validateForm, validateServiceInvoice } from "@/utils/useInvoiceValidation"
 import { saveAndPrint } from "@/utils/saveAndPrint"
 import { getSettings } from "@/utils/getSettings"
-import { showError, showSuccess, showConfirm } from "@/utils/alert";
-import { useNavigate } from "react-router-dom";
-
-
+import { showSuccess, showConfirm } from "@/utils/alert";
 
 type Service = {
   serviceName: string
@@ -44,13 +41,12 @@ type InvoiceData = {
   discount: number
 }
 
-const Service_invoice = () => {
+/* ✅ Load draft */
+const getInitialInvoiceData = (): InvoiceData => {
+  const saved = localStorage.getItem("service_invoice_data")
+  if (saved) return JSON.parse(saved)
 
-  const [invoiceId, setInvoiceId] = useState(generateInvoiceId())
-
-  const [company, setCompany] = useState<any>(null)
-
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>({
+  return {
     customer: {
       customer: "",
       email: "",
@@ -59,7 +55,6 @@ const Service_invoice = () => {
       phone: "",
       address: ""
     },
-
     service: [
       {
         serviceName: "",
@@ -67,7 +62,6 @@ const Service_invoice = () => {
         tax: 0
       }
     ],
-
     price: {
       total: 0,
       due: 0,
@@ -75,48 +69,57 @@ const Service_invoice = () => {
       duedate: "",
       paymentMethod: ""
     },
-
     discount: 0
+  }
+}
+
+const Service_invoice = () => {
+
+  /* ✅ Load invoice ID */
+  const [invoiceId, setInvoiceId] = useState(() => {
+    return localStorage.getItem("service_invoice_id") || generateInvoiceId()
   })
 
+  const [company, setCompany] = useState<any>(null)
+
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(getInitialInvoiceData)
+
+  /* ✅ Auto save draft */
+  useEffect(() => {
+    localStorage.setItem("service_invoice_data", JSON.stringify(invoiceData))
+    localStorage.setItem("service_invoice_id", invoiceId)
+  }, [invoiceData, invoiceId])
 
   /* ================= FETCH COMPANY ================= */
 
   useEffect(() => {
-
     const fetchCompany = async () => {
-
       const data = await getSettings()
-
-
       setCompany(data)
-
     }
-
     fetchCompany()
-
   }, [])
 
+  /* ================= CLEAR DRAFT ================= */
 
+  const handleClearDraft = () => {
+    localStorage.removeItem("service_invoice_data")
+    localStorage.removeItem("service_invoice_id")
 
-  /* ================= SUBTOTAL ================= */
+    setInvoiceId(generateInvoiceId())
+    setInvoiceData(getInitialInvoiceData())
+  }
+
+  /* ================= CALCULATIONS ================= */
 
   const subtotal = invoiceData.service.reduce((acc, item) => {
     return acc + (Number(item.price) || 0)
   }, 0)
 
-
-  /* ================= GST ================= */
-
   const gstTotal = invoiceData.service.reduce((acc, item) => {
-
     const price = Number(item.price) || 0
     const tax = Number(item.tax) || 0
-
-    const gst = (price * tax) / 100
-
-    return acc + gst
-
+    return acc + (price * tax) / 100
   }, 0)
 
   const effectiveTaxPercent =
@@ -130,89 +133,28 @@ const Service_invoice = () => {
 
   const dueAmount = Math.max(totalAmount - paidAmount, 0)
 
-
   /* ================= SAVE + PRINT ================= */
 
   const billRef = useRef<HTMLDivElement>(null);
-
   const formRef = useRef<HTMLFormElement>(null)
 
   const handlePrintAndSave = async () => {
-
-    if (!validateForm(formRef.current)) return
-
-    const { customer, email, office, phone, address } = invoiceData.customer
-
-    if (!/^[0-9]{10}$/.test(phone)) {
-      await showError("Phone number must be 10 digits")
-      return
-    }
-
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
-
-    if (!emailRegex.test(invoiceData.customer.email)) {
-      await showError("Please enter a valid email address")
-      return
-    }
-
-    const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/
-
-    const gst = invoiceData.customer.gst
-
-    if (gst?.trim() && !gstRegex.test(gst)) {
-      await showError("Invalid GST number")
-      return
-    }
-
-
-
-
-    if (!customer || !email || !office || !phone || !address) {
-      await showError("Please fill all customer details.")
-      return
-    }
-
-    const invalidService = invoiceData.service.some(
-      s =>
-        !s.serviceName ||
-        s.price <= 0 ||
-        isNaN(s.price) ||
-        s.tax < 0 ||
-        s.tax > 100 ||
-        isNaN(s.tax)
-    )
-
-    if (invalidService) {
-      await showError("Please fill all service details correctly.")
-      return
-    }
 
     const validServices = invoiceData.service.filter(
       s => s.serviceName && s.price > 0
     )
 
-    const { paid, duedate, paymentMethod } = invoiceData.price
-
-    if (!duedate || !paymentMethod || !paid || isNaN(paid)) {
-      await showError("Please fill all price details correctly.")
-      return
-    }
-    if (paid <= 0) {
-      await showError("Please fill the paid Amount correctly.")
-      return
-    }
-    const today = new Date().toISOString().split("T")[0]
-
-    if (duedate <= today) {
-      await showError("Due date must be a future date")
-      return
-    }
-
     const confirm = await showConfirm("Do you want to save this invoice?");
-
     if (!confirm.isConfirmed) return;
 
+    if (!validateForm(formRef.current)) return
+
+    const valid = await validateServiceInvoice(
+      invoiceData,
+      totalAmount
+    )
+
+    if (!valid) return
 
     await saveAndPrint({
       invoiceId,
@@ -224,93 +166,57 @@ const Service_invoice = () => {
         total: totalAmount,
         due: dueAmount
       }
-    }
-
-
-
-    );
+    });
 
     await showSuccess("Invoice saved successfully");
 
-    // Reset form after successful save
+    /* ✅ Clear draft after save */
+    localStorage.removeItem("service_invoice_data")
+    localStorage.removeItem("service_invoice_id")
+
     setInvoiceId(generateInvoiceId())
-    setInvoiceData({
-      customer: {
-        customer: "",
-        email: "",
-        office: "",
-        gst: "",
-        phone: "",
-        address: ""
-      },
-      service: [
-        {
-          serviceName: "",
-          price: 0,
-          tax: 0
-        }
-      ],
-      price: {
-        total: 0,
-        due: 0,
-        paid: 0,
-        duedate: "",
-        paymentMethod: ""
-      },
-      discount: 0
-    })
+    setInvoiceData(getInitialInvoiceData())
     formRef.current?.reset()
   }
 
-
   if (company === null)
-
     return (
       <div className="flex items-center justify-center min-h-screen min-w-screen">
         <p className="text-lg font-semibold">Loading...</p>
       </div>
     );
 
-
-
   return (
-
     <div className="w-full h-screen ">
       <div className="flex items-center justify-between bg-[#DFDFDF99] px-4">
 
         <Header
           h1=" Service Invoice"
           para={`#${invoiceId}`}
-         // onMenuClick={() => setMobileOpen(true)}
         />
 
+        <div className="flex items-end">
+          {/* ✅ Clear Draft Button */}
+          <div onClick={handleClearDraft} className="px-4 py-2 text-black rounded-md ml-2">
+            <Buttons h1="Clear Draft" variant="secondary" />
+          </div>
 
-        <div>
-          <button
-            type="button"
-
-            className="px-4 py-2 text-black rounded-md ml-2"
-          >
+          <div className="px-4 py-2 text-black rounded-md ml-2">
             <Buttons
-              h1="Issue Invoice" variant="secondary" src2={vectora}
-
+              h1="Issue Invoice"
+              variant="secondary"
+              src2={vectora}
             />
-          </button>
+          </div>
         </div>
       </div>
-
-
 
       <form
         className="grid grid-cols-2 w-full h-full"
         ref={formRef}
-
       >
 
-
-
         {/* LEFT SIDE */}
-
         <div className="w-[100%] space-y-7 p-4 grid">
 
           <CustomerForm
@@ -349,7 +255,6 @@ const Service_invoice = () => {
               total: totalAmount,
               due: dueAmount
             }}
-
             setData={(data) =>
               setInvoiceData(prev => ({ ...prev, price: data }))
             }
@@ -357,10 +262,7 @@ const Service_invoice = () => {
 
         </div>
 
-
-
         {/* RIGHT SIDE BILL */}
-
         <div className="w-[100%] h-full grid p-4">
 
           <Bill
@@ -377,7 +279,6 @@ const Service_invoice = () => {
               subtitle: "Service",
               amount: item.price
             }))}
-
 
             boxdate={new Date().toLocaleDateString()}
             boxduedate={invoiceData.price.duedate}
@@ -409,17 +310,13 @@ const Service_invoice = () => {
             conditionPara="Thank you for your business. Please remit payment within 30 days."
 
             onPrint={handlePrintAndSave}
-
           />
 
         </div>
 
       </form>
-
     </div>
-
   )
-
 }
 
 export default Service_invoice

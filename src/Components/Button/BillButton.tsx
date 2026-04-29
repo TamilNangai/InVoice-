@@ -1,4 +1,4 @@
-import React from 'react'
+
 type Button={
     h1:string
 }

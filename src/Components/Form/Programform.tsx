@@ -1,5 +1,3 @@
-
-import React, { useState } from "react";
 import InputField from "@/Components/Form/InputField";
 
 type Props = {
@@ -15,28 +13,7 @@ type Props = {
 
 const ProgramForm = ({ data, setData }: Props) => {
 
-  const [errors, setErrors] = useState<any>({});
-
-  const validate = (name: string, value: string) => {
-
-    let message = "";
-
-    if (!value) {
-      message = "This field is required";
-    }
-
-    if (name === "enddate" && data.start) {
-      if (value < data.start) {
-        message = "End date must be after start date";
-      }
-    }
-
-    setErrors((prev: any) => ({
-      ...prev,
-      [name]: message
-    }));
-  };
-
+ 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     const { name, value } = e.target;
@@ -47,10 +24,7 @@ const ProgramForm = ({ data, setData }: Props) => {
     });
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    validate(e.target.name, e.target.value);
-  };
-
+ 
   return (
     <main className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_15px_rgba(0,0,0,0.2)] ">
 
@@ -65,7 +39,6 @@ const ProgramForm = ({ data, setData }: Props) => {
             name="internship"
             value={data.internship}
             onChange={handleChange}
-            onBlur={handleBlur}
             placeholder="Web Development Internship"
             required
           />
@@ -75,7 +48,6 @@ const ProgramForm = ({ data, setData }: Props) => {
             name="batch"
             value={data.batch}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
          
@@ -85,7 +57,6 @@ const ProgramForm = ({ data, setData }: Props) => {
             name="start"
             value={data.start}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
           
@@ -98,7 +69,6 @@ const ProgramForm = ({ data, setData }: Props) => {
             name="trainer"
             value={data.trainer}
             onChange={handleChange}
-            onBlur={handleBlur}
             placeholder="Hariharan"
           />
          
@@ -108,7 +78,6 @@ const ProgramForm = ({ data, setData }: Props) => {
             name="enddate"
             value={data.enddate}
             onChange={handleChange}
-            onBlur={handleBlur}
             required
           />
          

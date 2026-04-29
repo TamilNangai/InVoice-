@@ -1,5 +1,3 @@
-
-import React, { useState} from "react"
 import InputField from "@/Components/Form/InputField"
 
 type CustomerData = {
@@ -17,78 +15,18 @@ type Props = {
   onEmailChange?: (email: string) => void // <-- new prop to pass email up
 }
 
-const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
+const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
-  const [errors, setErrors] = useState<Partial<CustomerData>>({})
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target
 
-    const { name, value } = e.target
-
-    // phone numbers only
-    if (name === "phone" && !/^\d*$/.test(value)) return
-
-    if (name === "email") {
-      let error;
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
-
-      if (!emailRegex.test(value)) {
-        error = "Please enter a valid email address"
-      }
-
-      // Pass email to parent if callback exists
-      if (onEmailChange) {
-        onEmailChange(value)
-      }
-    }
-
-    // GST uppercase + limit to 15 chars
-    if (name === "gst") {
-      const gstValue = value.toUpperCase().slice(0, 15)
-      setData({
-        ...data,
-        [name]: gstValue
-      })
-      return
-    }
-
-    setData({
-      ...data,
-      [name]: value
-    })
-  }
-
-  const validateField = (name: string, value: string) => {
-
-    let error = ""
-
-    if (name === "customer" && !value.trim())
-      error = "Customer name is required"
-
-    if (name === "email" && !value.includes("@gmail.com"))
-      error = "Email must include @gmail.com"
-
-    if (name === "office" && !value.trim())
-      error = "Office name is required"
-
-    if (name === "address" && !value.trim())
-      error = "Address is required"
-
-    if (name === "phone" && !/^\d{10}$/.test(value))
-      error = "Phone must be 10 digits"
-
-    if (name === "gst") {
-      const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$/
-      if (value && !gstRegex.test(value)) {
-        error = "Enter a valid GST number"
-      }
-    }
-
-    setErrors(prev => ({
-      ...prev,
-      [name]: error
-    }))
-  }
+  setData({
+    ...data,
+    [name]: value
+  })
+}
 
   return (
 
@@ -108,7 +46,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
             placeholder="Swetha"
             value={data.customer || ""}
             onChange={handleChange}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
 
@@ -119,7 +56,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
             placeholder="swetha@gmail.com"
             value={data.email || ""}
             onChange={handleChange}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
             pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
           />
@@ -130,7 +66,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
             placeholder="Kings College of Engineering"
             value={data.office || ""}
             onChange={handleChange}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
 
@@ -140,7 +75,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
             placeholder="33ABCDE1234F1Z5"
             value={data.gst || ""}
             onChange={handleChange}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
             maxLength={15}
             pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$"
           />
@@ -156,7 +90,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
             placeholder="9876543210"
             value={data.phone || ""}
             onChange={handleChange}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
             maxLength={10}
             required
           />
@@ -167,7 +100,6 @@ const CustomerForm: React.FC<Props> = ({ data, setData, onEmailChange }) => {
             placeholder="Chennai, Tamil Nadu"
             value={data.address || ""}
             onChange={handleChange}
-            onBlur={(e) => validateField(e.target.name, e.target.value)}
             required
           />
 

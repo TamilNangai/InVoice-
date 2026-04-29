@@ -60,10 +60,12 @@ const RecentInvoices: React.FC = () => {
       (item.client?.toLowerCase() || "").includes(searchText) ||
       (item.type?.toLowerCase() || "").includes(searchText);
 
-    const matchStatus =
-      filter === "all"
-        ? true
-        : item.status === filter;
+  const matchStatus =
+  filter === "all"
+    ? true
+    : filter === "pending"
+    ? item.status === "pending" || item.status === "overdue"
+    : item.status === filter;
 
     return matchSearch && matchStatus;
 
@@ -157,7 +159,7 @@ const RecentInvoices: React.FC = () => {
                       <td className="p-3 border">{invoice.client}</td>
                       <td className="p-3 border"> {invoice.date}</td>
                       <td className="p-3 border">
-                        ${invoice.amount.toFixed(2)}
+                        ₹ {invoice.amount.toFixed(2)}
                       </td>
 
                       <td className="p-3 border">
