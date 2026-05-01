@@ -7,15 +7,16 @@ import Radiogroup from "@/Components/Nav/Radiogroup"
 import Cards from "@/Components/Cards/Cards"
 import Revenue from "@/Components/Cards/Revenue"
 import ex from "@/assets/ex.png"
-import { Invoice, getInvoices } from "@/utils/getInvoice"
+import { getInvoices } from "@/utils/getInvoice"
 import Reporttable from "@/Components/Table/Reporttable"
 import { reportAnalytics } from "@/utils/reportAnalytics"
+import { Invoice } from "@/types/invoice"
 
 const Reports = () => {
   const captureRef = useRef<HTMLDivElement>(null)
   const [report, setReport] = useState<any>({})
   const [loading, setLoading] = useState(false)
-  const [allReports, setAllReports] = useState<any[]>([])
+  const [, setAllReports] = useState<any[]>([])
   const [selected, setSelected] = useState("Overall Revenue")
 
   const mapFilter = (label: string) => {
@@ -72,7 +73,7 @@ const Reports = () => {
       )
 
       const imgWidth = 210
-      const pageHeight = 297
+      // const pageHeight = 297
 
       for (let i = 0; i < sections.length; i += 2) {
         const pageDiv = document.createElement("div")
@@ -128,9 +129,17 @@ const Reports = () => {
         <button
           onClick={handleExport}
           disabled={loading}
-          className={`flex items-center gap-2 font-iceberg text-2xl px-5 py-2 rounded-lg border-2 border-black
-    ${loading ? "bg-gray-300 cursor-not-allowed" : "text-black hover:bg-[#fffdfd99]"}
-  `}
+          className={`w-max p-2 md:py-3
+                      flex items-center justify-center gap-2
+                      bg-[#136CEDCC]
+                      font-iceberg
+                      text-base sm:text-lg md:text-xl
+                      text-white
+                      rounded-md
+                      md:rounded-lg
+                      whitespace-nowrap
+                        ${loading ? "bg-gray-300 cursor-not-allowed" : "text-black hover:bg-[#fffdfd99]"}
+                      `}
         >
           <img className="h-8" src={ex} />
           {loading ? "Exporting..." : "Export Data"}

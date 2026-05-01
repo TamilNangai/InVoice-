@@ -328,10 +328,15 @@ function Add(props: AddProps) {
                  <div>
                     <button
                         onClick={() => setShow(true)}
-                        className="flex items-center bg-[#136CEDCC] font-iceberg 
-                        text-base sm:text-lg md:text-xl
-                        mt-1 rounded-lg text-white 
-                        px-3 py-2 sm:px-4 sm:py-2.5"
+                        className=" w-max p-2 md:py-3
+                                    flex items-center justify-center gap-2
+                                    bg-[#136CEDCC]
+                                    font-iceberg
+                                    text-base sm:text-lg md:text-xl
+                                    text-white
+                                    rounded-md
+                                    md:rounded-lg
+                                    whitespace-nowrap"
                     >
                         <img
                             className="h-5 w-5 mr-2"

@@ -10,7 +10,8 @@ import Invoicetable from "@/Components/Table/Invoicetable"
 import { reportAnalytics } from "@/utils/reportAnalytics"
 import { useEffect, useState } from "react"
 import { getInvoices } from "@/utils/getInvoice"
-import { Invoice } from "@/utils/getInvoice"
+import { Invoice } from "@/types/invoice"
+
 
 function Dashboard() {
 
@@ -87,7 +88,7 @@ function Dashboard() {
                                 <Cards
                                         head="Pending"
                                         symbol="₹"
-                                        amount={report.pendingAmount || 0}
+                                        amount={report.pendingAmount ||report.overdueAmount|| 0}
                                         para={`- ${report.pendingCount || 0} Invoice Pending`}
                                         cardhead="sanchez-regular xl:mt-2"
                                         cardamount="text-2xl sm:text-3xl"

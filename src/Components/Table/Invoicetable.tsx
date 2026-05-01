@@ -20,6 +20,22 @@ const RecentInvoices: React.FC = () => {
   const [filter, setFilter] = useState<"all" | "paid" | "pending" | "type">("all");
   const [search, setSearch] = useState("");
 
+   const parseDate = (dateStr?: string) => {
+    if (!dateStr) return null;
+
+    if (dateStr.includes("-")) {
+      const parts = dateStr.split("-");
+      if (parts[0].length === 4) {
+        return new Date(dateStr); // YYYY-MM-DD
+      } else {
+        const [day, month, year] = parts.map(Number);
+        return new Date(year, month - 1, day); // DD-MM-YYYY
+      }
+    }
+
+    return new Date(dateStr);
+  };
+
 
   useEffect(() => {
 
@@ -27,19 +43,28 @@ const RecentInvoices: React.FC = () => {
 
       const data = await getInvoices();
 
-      const formattedData: Invoice[] = data.map((item: any) => ({
-        uniqueId: item.uniqueId,
-        invoiceId: item.invoiceId,
-        type: item.type,
-        client: item.client,
-        amount: item.amount,
+     const formattedData: Invoice[] = data.map((item: any) => {
+  const total = Math.round(item.amount ?? 0);
+  const pending = Math.round(item.pending ?? 0);
 
-        // ✅ FIX STATUS
-        status: item.status.toLowerCase() as "paid" | "pending" | "overdue",
+  const dueDate = parseDate(item.dueDate);
+  const today = new Date();
 
-        date: item.date,
-      }));
+  let displayStatus: "paid" | "pending" | "overdue" = "pending";
 
+  if (pending === 0) displayStatus = "paid";
+  else if (dueDate && today > dueDate) displayStatus = "overdue";
+
+  return {
+    uniqueId: item.uniqueId,
+    invoiceId: item.invoiceId,
+    type: item.type,
+    client: item.client,
+    amount: total,
+    status: displayStatus, // 👈 use computed status
+    date: item.date,
+  };
+});
 
       setInvoices(formattedData);
 
@@ -49,10 +74,8 @@ const RecentInvoices: React.FC = () => {
 
   }, []);
 
+   
   const searchText = search.toLowerCase();
-
-
-
   const filteredInvoices = invoices.filter((item) => {
 
     const matchSearch =
@@ -70,6 +93,8 @@ const RecentInvoices: React.FC = () => {
     return matchSearch && matchStatus;
 
   });
+
+  
 
   return (
 
@@ -148,8 +173,10 @@ const RecentInvoices: React.FC = () => {
 
               <tbody>
 
+
                 {filteredInvoices.length > 0 ? (
                   filteredInvoices.slice(0, 6).map((invoice) => (
+
                     <tr key={invoice.invoiceId}
                       className="hover:bg-gray-50 grid grid-cols-6 md:text-sm sm:text-[15px] xl:text-[17px]"
                     >

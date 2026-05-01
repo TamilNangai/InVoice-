@@ -537,11 +537,11 @@ const Product_invoice = () => {
         <Header h1="Product Invoice" para={`#${invoiceId}`} />
          <div className="flex items-end ">
           <div onClick={handleClearDraft} className="px-4 py-2 text-black rounded-md ml-2">
-          <Buttons h1="Clear Draft" variant="secondary" />
+          <Buttons h1="Clear Draft" variant="primary" />
           </div>
         
         <div  className="px-4 py-2 text-black rounded-md ml-2">
-          <Buttons h1="Issue Invoice" variant="secondary" src2={vectora} />
+          <Buttons h1="Issue Invoice" variant="primary" src2={vectora} />
         </div>
       </div>
 </div>

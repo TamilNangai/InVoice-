@@ -91,7 +91,7 @@ const PriceForm = ({ data, setData }: Props) => {
               name="paymentMethod"
               value={data.paymentMethod}
               onChange={handleChange}
-              className="py-2 px-3 sm:py-3 border-2 border-black rounded-md"
+              className="py-2 px-3 sm:py-3 border-2 border-black rounded-md sm:text-sm"
 
             >
 

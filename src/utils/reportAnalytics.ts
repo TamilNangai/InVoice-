@@ -1,4 +1,5 @@
-import { Invoice } from "@/utils/getInvoice"
+import { Invoice } from "@/types/invoice"
+
 
 export const reportAnalytics = (
     invoices: Invoice[],

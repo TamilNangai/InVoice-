@@ -542,7 +542,7 @@ const Bill = forwardRef<HTMLDivElement, BillProps>((props, ref) => {
 
                     <button
                         onClick={onPrint}
-                        className="bg-[#136CEDCC] text-white font-iceberg px-6 py-2 rounded-md text-[20px] sm:text-[14px]"
+                        className="bg-[#136CEDCC] text-white font-iceberg px-6 py-2 rounded-md sm:text-[20px] text-[14px]"
                         type="button"
                     >
                         Print

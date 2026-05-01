@@ -32,7 +32,7 @@ const parseDate = (dateStr?: string) => {
 
     return null;
 };
-const dueDateFromInvoice = invoice.dueDate;
+
 
     const [dueAmount, setDueAmount] = useState(0);
 
@@ -45,26 +45,20 @@ const dueDateFromInvoice = invoice.dueDate;
         now.getMonth() + 1
     ).padStart(2, "0")}-${now.getFullYear()}`;
 
-let status: "paid" | "pending" | "overdue" = "pending";
+    let status: "paid" | "pending" | "overdue" = "pending";
 
-if (updatedPending === 0) {
+    const dueDateObj = parseDate(invoice.dueDate);
+
+    if (updatedPending === 0) {
     status = "paid";
-} else {
-    const dueDateObj = parseDate(dueDateFromInvoice);
+    } else if (dueDateObj) {
+    const today = new Date();
 
-    if (dueDateObj) {
-        const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dueDateObj.setHours(0, 0, 0, 0);
 
-        today.setHours(0, 0, 0, 0);
-        dueDateObj.setHours(0, 0, 0, 0);
-
-        if (today > dueDateObj) {
-            status = "overdue";
-        } else {
-            status = "pending";
-        }
+    status = today > dueDateObj ? "overdue" : "pending";
     }
-}
 
 
     const handleSave = async () => {

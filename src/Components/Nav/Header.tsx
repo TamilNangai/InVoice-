@@ -24,7 +24,7 @@ type Headerprops = {
   onMenuClick?: () => void
 }
 
-function Header({ h1, para, onMenuClick }: Headerprops) {
+function Header({ h1, para }: Headerprops) {
   return (
     <div className="h-20 flex items-center px-4 md:px-10 gap-3">
 

@@ -70,8 +70,9 @@
 
 
 import React, { useState, useEffect } from "react"
-import { getInvoices, Invoice } from "@/utils/getInvoice"
+import { getInvoices } from "@/utils/getInvoice"
 import { formatLabel } from "@/utils/formatLabel"
+import { Invoice } from "@/types/invoice"
 
 const RecentInvoices: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([])

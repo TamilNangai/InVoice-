@@ -32,11 +32,11 @@ const CustomerForm: React.FC<Props> = ({ data, setData }) => {
 
     <div className="p-6 font-iceberg rounded-xl border border-black shadow-[5px_5px_10px_rgba(0,0,0,0.2)]">
 
-      <h2 className="text-xl font-bold mb-4 pl-8 sm:text-[16px]">
+      <h2 className="md:text-xl font-bold mb-4 pl-8 sm:text-[16px]">
         Customer Details
       </h2>
 
-      <section className="grid grid-cols-2 gap-10 font-iceberg text-md w-full sm:text-[14px]">
+      <section className="grid grid-cols-2 gap-10 font-iceberg md:text-lg w-full sm:text-[14px]">
 
         <div>
 

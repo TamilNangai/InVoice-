@@ -197,19 +197,18 @@ function Create(props: CreateProps) {
       <button
         onClick={() => setShow(true)}
         className="
-        flex items-center justify-center
-        w-full sm:w-auto
+        w-max p-2 md:py-3
+        flex items-center justify-center gap-2
         bg-[#136CEDCC]
         font-iceberg
         text-base sm:text-lg md:text-xl
         text-white
-        xl:px-4 sm:px-4 md:px-6
-        xl:py-2 sm:py-1
-        rounded-lg
+        rounded-md
+        md:rounded-lg
         whitespace-nowrap
       "
       >
-        <img className=" xl:mr-2 md:mr-2 sm:mr-1 sm:h-3" src={props.src1} />
+        <img className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6" src={props.src1} />
         {props.h6}
       </button>
       {show && (

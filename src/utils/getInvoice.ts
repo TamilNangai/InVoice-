@@ -1,23 +1,24 @@
 import { db } from "@/firebase";
+import { Invoice } from "@/types/invoice";
 import { collection, getDocs } from "firebase/firestore";
 
-export type Invoice = {
-  uniqueId: string;
-  invoiceId: string;
-  type: string;
-  client: string;
-  date: string;
-  dueDate: string;
-  amount: number;
-  status: "paid" | "pending" | "overdue";
-  pending: number;
-  sub: string;
-  email?: string;
-  phone?: string;
-  gst?: number;
-  payment?: string;
-  rawData?: any; // 🔹 Add rawData to store full database record
-};
+// export type Invoice = {
+//   uniqueId: string;
+//   invoiceId: string;
+//   type: string;
+//   client: string;
+//   date: string;
+//   dueDate: string;
+//   amount: number;
+//   status: "paid" | "pending" | "overdue";
+//   pending: number;
+//   sub: string;
+//   email?: string;
+//   phone?: string;
+//   gst?: number;
+//   payment?: string;
+//   rawData?: any; // 🔹 Add rawData to store full database record
+// };
 
 
 export const getInvoices = async (): Promise<Invoice[]> => {
