@@ -17,19 +17,19 @@ import { getInvoices } from "@/utils/getInvoice";
 import Dropdown from "@/Components/Dropdown/Dropdown";
 
 
-const parseDate = (dateStr?: string) => {
+const parseDate = (dateStr?: string): Date | null => {
   if (!dateStr) return null;
 
-  // yyyy-mm-dd (ISO)
+  // yyyy-mm-dd
   if (dateStr.includes("-") && dateStr.split("-")[0].length === 4) {
-    return new Date(dateStr).setHours(0, 0, 0, 0);
+    return new Date(dateStr);
   }
 
   // dd-mm-yyyy
   const parts = dateStr.split("-");
   if (parts.length === 3) {
     const [day, month, year] = parts.map(Number);
-    return new Date(year, month - 1, day).setHours(0, 0, 0, 0);
+    return new Date(year, month - 1, day);
   }
 
   return null;
@@ -57,8 +57,27 @@ const InvoicePage = () => {
     fetchData();
   }, []);
 
+  const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const invoicesWithStatus = invoices.map((item) => {
+      const dueDate = parseDate(item.dueDate);
+
+      let computedStatus: "paid" | "pending" | "overdue" = item.status;
+
+      if (item.status !== "paid") {
+        if (dueDate) {
+          dueDate.setHours(0, 0, 0, 0);
+          computedStatus = today >= dueDate ? "overdue" : "pending";
+        } else {
+          computedStatus = "pending";
+        }
+      }
+
+      return { ...item, status: computedStatus };
+    });
   //  Filtering
-  const filteredInvoices = invoices.filter((item) => {
+  const filteredInvoices = invoicesWithStatus.filter((item) => {
   // Match search term
   const matchSearch =
     item.invoiceId.toLowerCase().includes(search.toLowerCase()) ||
@@ -68,17 +87,17 @@ const InvoicePage = () => {
   const matchType = type ? item.type === type : true;
 
   // Match status dropdown (calculate status here)
-  const today = new Date().setHours(0, 0, 0, 0);
-  const dueDateObj = parseDate(item.dueDate);
-  let computedStatus = item.status;
+  // const today = new Date().setHours(0, 0, 0, 0);
+  // const dueDateObj = parseDate(item.dueDate);
+  // let computedStatus = item.status;
   // console.log(computedStatus)
 
-  if (item.status !== "paid") {
-    computedStatus = dueDateObj && today > dueDateObj ? "overdue" : "pending";
-  }
+  // if (item.status !== "paid") {
+  //   computedStatus = dueDateObj && today > dueDateObj ? "overdue" : "pending";
+  // }
 
 
-  const matchStatus = status ? computedStatus === status : true;
+  const matchStatus = status ? item.status === status : true;
 
   // Date range filter (unchanged)
   const matchDate = (() => {
